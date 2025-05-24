@@ -13,5 +13,13 @@
 - Cargar y validar el funcionamiento del procesador ante diversos eventos.
 - Evaluar el rendimiento del procesador en programas representativos de varios sectores.
 
+```c
+#include <stdio.h>
+
+int main() {
+    printf("Hola desde C\n");
+    return 0;
+}
+```
 
 Hola de nuevo, aquí ya no se ejecuta código.
