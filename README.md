@@ -1,4 +1,4 @@
-# **Desing and implementation of a pipeline and scalar RISCV processor in FPGA**
+# Desing and implementation of a pipeline and scalar RISCV processor in FPGA
 
   This project have like principal objective, the creation and evaluation of a pipeline and Scalar RISCV processor. Aditionally, it will be tested in various task in the automotive and antificially intelligence fields.
 
