@@ -9,7 +9,7 @@ module data_memory (
     reg [31:0] memory [0:255];
 
     initial begin
-        $readmemh("data.mem", memory);  // Carga la memoria con data.mem
+        $readmemh("test/data.mem", memory);  // Carga la memoria con data.mem
     end
 
     always @(posedge clk) begin

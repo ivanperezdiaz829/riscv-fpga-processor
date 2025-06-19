@@ -6,7 +6,7 @@ module instruction_memory (
 
     initial begin
         // Cargar instrucciones desde archivo
-        $readmemh("program.mem", memory);
+        $readmemh("test/program.mem", memory);
     end
 
     assign instruction = memory[addr[9:2]]; // Alineado a 4 bytes

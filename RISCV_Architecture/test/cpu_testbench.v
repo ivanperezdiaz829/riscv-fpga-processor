@@ -21,7 +21,7 @@ module cpu_testbench;
 
     // Inicialización de señales y estímulo
     initial begin
-        $display("Inicio de simulación");
+        $display("==== Inicio de simulacion ====");
 
         // Inicializar memoria con instrucciones de prueba
         $readmemh("test/program.mem", uut.imem.memory); // instrucciones
