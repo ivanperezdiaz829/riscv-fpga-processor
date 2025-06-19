@@ -13,6 +13,15 @@ module reg_file (
         assign data1 = registers[rs1];
         assign data2 = registers[rs2];
 
+        integer i;
+
+        initial begin
+            for (i = 0; i < 32; i = i + 1) begin
+                registers[i] = 0;
+            end
+        end
+
+
         always @(posedge clk) begin
             if (reg_write && rd != 0)
                 registers[rd] <= rd_data;
