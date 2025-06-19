@@ -36,15 +36,11 @@ module cpu_testbench;
 
         // Mostrar contenido de registros
         $display("===== REGISTROS ====");
-        for (i = 0; i < 32; i = i + 1) begin
-            $display("x%0d = %0d", i, uut.rf.registers[i]);
-        end
+        uut.rf.print_registers();
 
         // Mostrar contenido de memoria
         $display("===== MEMORIA DE DATOS ====");
-        for (i = 0; i < 16; i = i + 1) begin
-            $display("mem[%0d] = %0d", i*4, uut.dmem.memory[i]);
-        end
+        uut.dmem.print_memory();
 
         $finish;
     end

@@ -8,14 +8,24 @@ module reg_file (
     output [31:0] data1,    // Salida del registro fuente 1
     output [31:0] data2     // Salida del registro fuente 2
 );
-    reg [31:0] regs[0:31];  // Banco de registros de 32 registros de 32 bits
-
-    assign data1 = regs[rs1];
-    assign data2 = regs[rs2];
-
-    always @(posedge clk) begin
-        if (reg_write && rd != 0) begin
-            regs[rd] <= rd_data;
+    reg [31:0] registers[0:31];
+    
+        assign data1 = registers[rs1];
+        assign data2 = registers[rs2];
+    
+        always @(posedge clk) begin
+            if (reg_write && rd != 0)
+                registers[rd] <= rd_data;
         end
-    end
-endmodule
+    
+        // Task para imprimir los registros (solo para simulación)
+        task print_registers;
+            integer j;
+            begin
+                $display("==== REGISTROS ====");
+                for (j = 0; j < 32; j = j + 1) begin
+                    $display("x%0d = %0d", j, registers[j]);
+                end
+            end
+        endtask
+    endmodule

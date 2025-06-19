@@ -25,4 +25,16 @@ module data_memory (
             read_data = 32'b0;
         end
     end
+
+    // Tarea para imprimir el contenido de la memoria (primeros 64 bytes)
+    task print_memory;
+        integer i;
+        begin
+            $display("Contenido memoria de datos:");
+            for (i = 0; i < 16; i = i + 1) begin
+                $display("mem[%0d] = %0d", i*4, memory[i]);
+            end
+        end
+    endtask
+
 endmodule
