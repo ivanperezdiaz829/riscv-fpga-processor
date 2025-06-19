@@ -5,6 +5,8 @@ module cpu_testbench;
     reg clk;       // Señal de reloj
     reg reset;     // Señal de reset
 
+    integer i;     // Contador para bucles
+
     // Instancia de la CPU
     cpu uut (
         .clk(clk),
@@ -34,13 +36,13 @@ module cpu_testbench;
 
         // Mostrar contenido de registros
         $display("===== REGISTROS ====");
-        for (int i = 0; i < 32; i = i + 1) begin
+        for (i = 0; i < 32; i = i + 1) begin
             $display("x%0d = %0d", i, uut.rf.registers[i]);
         end
 
         // Mostrar contenido de memoria
         $display("===== MEMORIA DE DATOS ====");
-        for (int i = 0; i < 16; i = i + 1) begin
+        for (i = 0; i < 16; i = i + 1) begin
             $display("mem[%0d] = %0d", i*4, uut.dmem.memory[i]);
         end
 
