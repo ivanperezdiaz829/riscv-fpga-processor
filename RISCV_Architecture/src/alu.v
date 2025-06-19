@@ -7,9 +7,14 @@ module alu {
 
     always @(*) begin
         case (alu_ctrl)
-            4'b0010: result = a + b;    // ADD
-            4'b0110: result = a - b;    // SUB
-            default: result = 0;        // Por defecto = 0
+            4'b0000: result = a + b;        // add
+            4'b0001: result = a - b;        // sub
+            4'b0010: result = a & b;        // and
+            4'b0011: result = a | b;        // or
+            4'b0100: result = a ^ b;        // xor
+            4'b0101: result = a << b[4:0];  // sll
+            4'b0110: result = a >> b[4:0];  // srl
+            default: result = 0;
         endcase
     end
 endmodule
