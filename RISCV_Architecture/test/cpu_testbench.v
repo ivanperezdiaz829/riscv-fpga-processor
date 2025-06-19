@@ -1,26 +1,49 @@
 `timescale 1ns/1ps // 1ns time unit, 1ps time precision
 
-module cpu_testbench {
-    reg clk = 0;        // Reloj inicializado a 0
-    reg reset = 1;      // Reset activado inicialmente
-};
+module cpu_testbench;
 
-    // Instancia del procesador
+    reg clk;       // Señal de reloj
+    reg reset;     // Señal de reset
+
+    // Instancia de la CPU
     cpu uut (
         .clk(clk),
         .reset(reset)
     );
 
-    // Generador del reloj: periodo de 10 ns (100 MHz)
-    always #5 clk = ~clk;
-
+    // Generar el reloj
     initial begin
-        // Configuración para la simulación
-        $dumpfile("sim/waveform.vcd");      // Archivo de volcado de señales
-        $dumpvars(0, cpu_testbench);        // Dump de todas las señales del módulo
+        clk = 0;
+        forever #5 clk = ~clk; // Reloj con periodo de 10ns
+    end
 
-        // Secuencia de simulación
-        #10 reset = 0;        // Desactivar reset después de 10 ns
-        #100 finish;          // Terminar la simulación tras 100 ns
+    // Inicialización de señales y estímulo
+    initial begin
+        $display("Inicio de simulación");
+
+        // Inicializar memoria con instrucciones de prueba
+        $readmemh("program.mem", uut.imem.memory); // instrucciones
+        $readmemh("data.mem", uut.dmem.memory);     // datos iniciales
+
+        reset = 1;
+        #20;
+        reset = 0;
+
+        // Simular durante cierto tiempo
+        #500;
+
+        // Mostrar contenido de registros
+        $display("===== REGISTROS ====");
+        for (int i = 0; i < 32; i = i + 1) begin
+            $display("x%0d = %0d", i, uut.rf.registers[i]);
+        end
+
+        // Mostrar contenido de memoria
+        $display("===== MEMORIA DE DATOS ====");
+        for (int i = 0; i < 16; i = i + 1) begin
+            $display("mem[%0d] = %0d", i*4, uut.dmem.memory[i]);
+        end
+
+        $finish;
     end
 endmodule

@@ -4,14 +4,25 @@ module data_memory (
     input [31:0] write_data,
     input mem_read,
     input mem_write,
-    output [31:0] read_data
+    output reg [31:0] read_data
 );
     reg [31:0] memory [0:255];
 
-    always @(posedge clk) begin
-        if (mem_write)
-            memory[addr[9:2]] <= write_data;
+    initial begin
+        $readmemh("data.mem", memory);  // Carga la memoria con data.mem
     end
 
-    assign read_data = mem_read ? memory[addr[9:2]] : 32'b0;
+    always @(posedge clk) begin
+        if (mem_write) begin
+            memory[addr[9:2]] <= write_data;  // Escritura en memoria por palabra
+        end
+    end
+
+    always @(*) begin
+        if (mem_read) begin
+            read_data = memory[addr[9:2]];    // Lectura por palabra
+        end else begin
+            read_data = 32'b0;
+        end
+    end
 endmodule
