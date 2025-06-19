@@ -1,3 +1,5 @@
+<!-- @import "style.css" -->
+
 # **Diseño e Implementación de un Procesador RISC-V Escalar y Segmentado en FPGA**
 
 ## Introducción
