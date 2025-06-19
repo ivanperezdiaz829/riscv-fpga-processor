@@ -1,9 +1,9 @@
-module alu {
+module alu (
     input [31:0] a,             // Operando A
     input [31:0] b,             // Operando B
     input [3:0] alu_ctrl,       // Control para determinar la operacion
     output reg [31:0] result    // Resultado
-};
+);
 
     always @(*) begin
         case (alu_ctrl)
