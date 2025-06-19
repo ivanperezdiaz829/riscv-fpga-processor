@@ -9,20 +9,20 @@ module reg_file (
     output [31:0] data2     // Salida del registro fuente 2
 );
     reg [31:0] registers[0:31];
-    
+
         assign data1 = registers[rs1];
         assign data2 = registers[rs2];
-    
+
         always @(posedge clk) begin
             if (reg_write && rd != 0)
                 registers[rd] <= rd_data;
         end
-    
+
         // Task para imprimir los registros (solo para simulación)
         task print_registers;
             integer j;
             begin
-                $display("==== REGISTROS ====");
+                $display("Contenido del banco de registros:");
                 for (j = 0; j < 32; j = j + 1) begin
                     $display("x%0d = %0d", j, registers[j]);
                 end

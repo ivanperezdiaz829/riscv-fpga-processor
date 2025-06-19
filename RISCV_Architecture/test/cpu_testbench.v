@@ -24,8 +24,8 @@ module cpu_testbench;
         $display("Inicio de simulación");
 
         // Inicializar memoria con instrucciones de prueba
-        $readmemh("program.mem", uut.imem.memory); // instrucciones
-        $readmemh("data.mem", uut.dmem.memory);     // datos iniciales
+        $readmemh("test/program.mem", uut.imem.memory); // instrucciones
+        $readmemh("test/data.mem", uut.dmem.memory);    // datos iniciales
 
         reset = 1;
         #20;
