@@ -82,6 +82,10 @@ module cpu (
         .imm(imm)
     );
 
+    // Offsets para salto y ramas (simple: ambos usan el mismo inmediato)
+    wire [31:0] branch_offset = imm;
+    wire [31:0] jump_offset = imm;
+
     // Unidad de control: genera señales de control a partir de la instrucción
     wire alu_src, mem_read, mem_write, reg_write, mem_to_reg;
     wire [3:0] alu_ctrl;
