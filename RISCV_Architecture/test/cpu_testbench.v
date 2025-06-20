@@ -1,47 +1,42 @@
-`timescale 1ns/1ps // 1ns time unit, 1ps time precision
+`timescale 1ns / 1ps
 
 module cpu_testbench;
 
-    reg clk;       // Señal de reloj
-    reg reset;     // Señal de reset
+    // Señales de testbench
+    reg clk;
+    reg reset;
 
-    integer i;     // Contador para bucles
-
-    // Instancia de la CPU
+    // Instancia del DUT (Device Under Test)
     cpu uut (
         .clk(clk),
         .reset(reset)
     );
 
-    // Generar el reloj
-    initial begin
-        clk = 0;
-        forever #5 clk = ~clk; // Reloj con periodo de 10ns
+    // Generador de reloj: periodo de 10 ns
+    always begin
+        #5 clk = ~clk;
     end
 
-    // Inicialización de señales y estímulo
+    // Proceso principal de prueba
     initial begin
-        $display("\n==== INICIO DE SIMULACION ====");
-
-        // Inicializar memoria con instrucciones de prueba
-        $readmemh("test/program.mem", uut.imem.memory); // instrucciones
-        $readmemh("test/data.mem", uut.dmem.memory);    // datos iniciales
-
+        // Inicialización
+        clk = 0;
         reset = 1;
+
+        // Espera un par de ciclos con reset activo
         #20;
         reset = 0;
 
-        // Simular durante cierto tiempo
-        #500;
+        // Espera suficiente para que se ejecuten instrucciones
+        #5000000;
 
-        // Mostrar contenido de registros
-        $display("\n===== REGISTROS ====");
-        uut.rf.print_registers();
+        // Imprime registros y memoria
+        $display("\n==== ESTADO FINAL DEL PROCESADOR ====");
+        uut.rf.print_registers();     // Banco de registros
+        uut.dmem.print_memory();      // Memoria de datos
 
-        // Mostrar contenido de memoria
-        $display("\n===== MEMORIA DE DATOS ====");
-        uut.dmem.print_memory();
-
+        // Finaliza la simulación
         $finish;
     end
+
 endmodule
