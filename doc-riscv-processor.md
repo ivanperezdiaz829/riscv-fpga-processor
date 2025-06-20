@@ -2,41 +2,43 @@
 
 # **Diseño e Implementación de un Procesador RISC-V Escalar y Segmentado en FPGA**
 
-## Introducción
+# Introducción
 
 <p style="text-indent: 2em;">El presente trabajo de investigación consiste en al creación de un procesador escalar y segmentado con una microarquitectura RISC-V, dicha creación será propuesta y representada en el documento desde el punto de vista teórico. El principal objetico del presente trabajo de investigación consiste en la evaluación del funcionamiento y comportamiento del procesador creado en tareas representativas en el campo de la automoción y la inteligencia artificial.</p>
 
-## Objetivos
+# Objetivos
 
 - Diseñar la microarquitectura de un procesador RISC-V
-- Simular el funcionamiento del procesador con diferentes programas.
+- Simular el funcionamiento del procesador con diferentes programas (testbench).
 - Sintetizar e implementar en el procesador una FPGA para emular RISC-V
 - Cargar y validar el funcionamiento del procesador ante diversos eventos.
 - Evaluar el rendimiento del procesador en programas representativos de varios sectores.
 
-## Diseño de la microarquitectura del procesador RISC-V
+# Diseño de la microarquitectura del procesador RISC-V
 
 <p style="text-indent: 2em;">Para la creación y desarrollo del diseño del procesador RISC-V se ha utilizado Verilog, compilando un testbench de la CPU mediante iVerilog (Icarus Verilog).
 
 <p style="text-indent: 2em;">La estructura de los ficheros del proyecto que define la arquitectura del procesador y que se encuentran dentro de la carpeta ubicada en ./RISCV_Architecture/ es la siguiente:
 
 ```c
->/.RISCV_Architecture
-    >/src
-        >alu.v
-        >control_unit.v
-        >cpu.v
-        >data_memory.v
-        >immediate_generator.v
-        >instruction_memory.v
-        >reg_file.v
-    >/test
-        >cpu_testbench.v
-        >data.mem
-        >program.mem
-    >run.sh
+        >/.RISCV_Architecture
+            >/src
+                >alu.v
+                >control_unit.v
+                >cpu.v
+                >data_memory.v
+                >immediate_generator.v
+                >instruction_memory.v
+                >reg_file.v
+            >/test
+                >cpu_testbench.v
+                >data.mem
+                >program.mem
+            >run.sh
+
 ```
 
+## **Fichero alu.v**
 <p style="text-indent: 2em;">Los ficheros con formato .v que se encuentran dentro de la carpeta /scr (source) son los encargados del funcionamiento y arquitectura propia del procesador RISC-V. En alu.v (la ALU del procesador) se han definido las entradas por el cana A y B, además del control que determina la operación a realizar y el resultado a devolver, adicionalmente, se ha determinado el funcionamiento de la ALU para las instrucciones: add, sub, and, or, xor, sll y srl (en caso de no ser ninguna de las anteriores la ALU devuelve 0).
 
 alu.v:
@@ -63,6 +65,7 @@ module alu (
 endmodule
 ```
 
+## **Fichero control_unit.v**
 <p style="text-indent: 2em;">En la control_unit.v (Unidad de control) se ha definido el código de operación, la función de 3 bits y la de 7 bits (por los diferentes formatos de instrucción), la selección del operando B de la entrada a la ALU y las señales de habilitación de lectura y escritura en memoria, la escritura en registro y la selección del dato a desplazar en la etapa WB (Write Back) además del control de operación de la ALU.
 
 <p style="text-indent: 2em;">Cómo instrucciones se ha optado por la creación de las que vienen dada por el repertorio RISC-V32I (instrucciones básicas), entre las que se encuentran: addi, lw, sw, beq y jal (el resto de las operaciónes son mandadas a la ALU para su resolución).
@@ -80,6 +83,7 @@ module control_unit (
     output reg mem_to_reg,      // Selección escribir en registro (WB)
     output reg [3:0] alu_ctrl   // Control de la operación de la ALU
 );
+
     always @(*) begin
         alu_src = 0;
         mem_read = 0;
@@ -122,6 +126,11 @@ module control_unit (
 endmodule
 ```
 
+### **Repertorio de instrucciones de RISC-V:**
+
+<img src="design/RISC-V_Instruction_set.jpg" alt="Instruction_set">
+
+## **Fichero cpu.v**
 <p style="text-indent: 2em;">La cpu.v (Central Unit Process) especifica las etapas que se desarrollan al realizar cada instrucción además del clk (señal de reloj) y del reset (señal de reinicio). El diseño de la arquitectura del procesador creado es la de un procesador segmentado de 5 etapas (IF, ID, EX, MEM, WB) que busca 1 instrucción por ciclo.
 
 cpu.v -> Definición del módulo:
@@ -141,13 +150,13 @@ cpu.v -> IF STAGE:
     // ============================================================
     reg [31:0] pc;          // Contador de programa
     wire [31:0] instr;      // instrucción obtenida de memoria
-    
+
     // Instancia de la memoria de instrucciones
     instruction_memory imem (
         .addr(pc),              // Dirección de la instrucción = PC
         .instruction(instr)     // Instrucción leída
     );
-    
+
     // IF/ID registro de pipeline (entre IF e ID)
     reg [31:0] ifid_pc, ifid_instr;
 ```
@@ -345,4 +354,291 @@ cpu.v -> EX y WB STAGE:
 endmodule
 ```
 
+## **Fichero data_memory.v**
+<p style="text-indent: 2em;">La data_memory.v (memoria de datos) es un fichero que define la cantidad de palabras que almacena la memoria de datos, en este caso, se ha optado por una memoria de 1KB total, es decir, 256 palabras. Para usar el módulo, es necesaria la señal de reloj, así cómo la dirección, el dato a escribir, la señal de escritura y lectura en memoria y una variable en donde almacenar el dato leído. Los datos de memoria vienen dados por un archivo exadecimal (test/data.mem) que contiene 1KB de palabras a 0.
+
+<p style="text-indent: 2em;">En el caso de que la señal de escritura en memoria esté activa, se escribe el dato en cuestión y en caso de que la señal de lecutar esté activa, se lee el dato que ocupa la dirección de memoria dada y si hay información, devuelve la lectura de todo 0. Cómo última adición a este fichero, hay una tarea que se encarga de mostrar las primeras 16 palabras (64 bytes), esto con el objetivo de mostrar los resultados en pruebas futuras.
+
+data_memory.v:
+```verilog
+module data_memory (
+    input clk,
+    input [31:0] addr,
+    input [31:0] write_data,
+    input mem_read,
+    input mem_write,
+    output reg [31:0] read_data
+);
+    // Memoria de 256 palabras de 32 bits (1 KB total)
+    reg [31:0] memory [0:255];
+
+    // Carga inicial desde archivo hexadecimal
+    initial begin
+        $readmemh("test/data.mem", memory);
+    end
+
+    // Escritura en flanco de subida si mem_write está activo
+    always @(posedge clk) begin
+        if (mem_write) begin
+            memory[addr[9:2]] <= write_data;  // Dirección alineada por palabra
+        end
+    end
+
+    // Lectura combinacional si mem_read está activo
+    always @(*) begin
+        if (mem_read) begin
+            read_data = memory[addr[9:2]];
+        end else begin
+            read_data = 32'b0;
+        end
+    end
+
+    // Tarea para imprimir los primeros 16 valores (64 bytes)
+    task print_memory;
+        integer i;
+        begin
+            $display("==== Contenido de la memoria de datos ====");
+            for (i = 0; i < 16; i = i + 1) begin
+                $display("mem[0x%0h] = %0d (0x%08x)", i * 4, memory[i], memory[i]);
+            end
+        end
+    endtask
+endmodule
+```
+
+## **Fichero immediate_generator.v**
+<p style="text-indent: 2em;">El fichero immediate_generator (generador de inmediatos) contiene un módulo al que se le pasa una instrucción de 32 bits, se extrae el código de operación y dependiendo del mismo, se clasifica por tipo de instrucción (I, S, B, J).
+
+immediate_generator.v:
+```verilog
+module immediate_generator (
+    input [31:0] instr,     // Instrucción de 32 bits
+    output reg [31:0] imm   // Valor inmediato
+);
+    wire [6:0] opcode = instr[6:0]; // Extraer el opcode de la instrucción
+
+    always @(*) begin
+        case (opcode)
+            // I-type
+            7'b0000011, 7'b0010011:    
+                imm = {{20{instr[31]}}, instr[31:20]};
+            // S-type
+            7'b0100011:                 
+                imm = {{20{instr[31]}}, instr[31:25], instr[11:7]};
+            // B-type
+            7'b1100011: 
+                imm = {{19{instr[31]}}, instr[31], instr[7], instr[30:25], instr[11:8], 1'b0};
+            // J-type
+            7'b1101111: 
+                imm = {{11{instr[31]}}, instr[31], instr[19:12], instr[20], instr[30:21], 1'b0};
+            default:
+                imm = 32'b0;
+        endcase
+    end
+endmodule
+```
+
+## **Fichero instruction_memory.v**
+<p style="text-indent: 2em;">Este fichero contiene la memoria de instrucciones, para el uso de su módulo es necesaria la dirección de la instrucción a leer y una variable para almacenar dicha instrucción una vez se obtenga. El tamaño de la memoria de instrucciones, de manera similar a la memoria de datos, es de 1KB, es decir, 256 palabras, las instrucciones vienen dadas por el fichero con nombre (test/program.mem) en donde las primeras líneas tienen lo siguiente:
+
+program.mem:
+```bash
+00a00093    // addi x1, x0, 10     ; x1 = 10
+01400113    // addi x2, x0, 20     ; x2 = 20
+0020813    // add x3, x1, x2      ; x3 = x1 + x2 = 30
+00312023    // sw x3, 0(x2)        ; mem[20] = x3
+00012183    // lw x3, 0(x2)        ; x3 = mem[20]
+0000006f    // jal x0, 0           ; bucle infinito
+00000013
+...
+00000013
+```
+
+<p style="text-indent: 2em;">Una vez obtenida la instrucción, se muestran por orden las 3 primeras instrucciones cómo depuración de que el procesador lee correctamente las mismas. Por último se alinea a 4 bytes la memoria.
+
+instruction_memory.v:
+```verilog
+module instruction_memory (
+    input  [31:0] addr,         // Dirección de la instrucción
+    output [31:0] instruction   // instrucción leída
+);
+    reg [31:0] memory [0:255];  // Memoria de inst. de 256 palabras
+
+    initial begin
+        $readmemh("test/program.mem", memory);
+        $display("\n==== INSTRUCCIONES CARGADAS ====");
+        $display("0: %h", memory[0], " -> addi x1, x0, 10");
+        $display("1: %h", memory[1], " -> addi x2, x0, 20");
+        $display("2: %h", memory[2], " -> add x3, x1, x2");
+    end
+
+    assign instruction = memory[addr[9:2]]; // Alineado a 4 bytes
+endmodule
+```
+
+## **Fichero reg_file.v**
+<p style="text-indent: 2em;">El fichero reg_file.v se encarga de obtener las salidas registros pertenecientes a la fuente 1 y 2 del banco de registros, para ello es necesario pasarle dos parámetros para guardar la salida de los registros, así cómo los registros fuentes (dirección) y el destino y una señal de activación de escritura en registro. Por último, se realiza una tarea para imprimir los primero registros de la simulación a método de depuración del correcto funcionamiento del procesador.
+
+reg_file.v:
+```verilog
+module reg_file (
+    input clk,              // Reloj del sistema
+    input [4:0] rs1,        // Registro fuente 1
+    input [4:0] rs2,        // Registro fuente 2
+    input [4:0] rd,         // Registro destino
+    input [31:0] rd_data,   // Dato a escribir en el registro destino
+    input reg_write,        // Habilita la escritura en el registro destino
+    output [31:0] data1,    // Salida del registro fuente 1
+    output [31:0] data2     // Salida del registro fuente 2
+);
+
+    reg [31:0] registers[0:31];
+
+    assign data1 = registers[rs1];
+    assign data2 = registers[rs2];
+
+    integer i;
+    initial begin
+        for (i = 0; i < 32; i = i + 1) begin
+            registers[i] = 0;
+        end
+    end
+
+    always @(posedge clk) begin
+        if (reg_write && rd != 0)
+            registers[rd] <= rd_data;
+    end
+
+    // Task para imprimir los registros en la simulación
+    task print_registers;
+        integer j;
+        begin
+            $display("==== Banco de registros ====");
+            for (j = 0; j < 16; j = j + 1) begin
+                $display("x%0d = %0d", j, registers[j]);
+            end
+        end
+    endtask
+endmodule
+```
+
+## **Fichero cpu_testbench.v**
+<p style="text-indent: 2em;">Este fichero ejecuta una prueba del procesador, para ello, se define una escala de tiempo de 1ns/1ps además de instanciar el DUT (Device Under Test) con su propio clk y su reset, el reloj se inicializa con un periodo de 10ns y el proceso principal de prueba consiste en ejecutar el programa y tras esperar a que acaben de ejecutarse las instrucciones, el programa imprime un mensaje de estado final del procesador y llama a las tareas creadas en instruction_memory.v y data_memory.v para mostrar su estado.
+
+cpu_testbench.v:
+```verilog
+`timescale 1ns / 1ps
+
+module cpu_testbench;
+
+    // Señales de testbench
+    reg clk;
+    reg reset;
+
+    // Instancia del DUT (Device Under Test)
+    cpu uut (
+        .clk(clk),
+        .reset(reset)
+    );
+
+    // Generador de reloj: periodo de 10 ns
+    always begin
+        #5 clk = ~clk;
+    end
+
+    // Proceso principal de prueba
+    initial begin
+        // Inicialización
+        clk = 0;
+        reset = 1;
+
+        // Espera un par de ciclos con reset activo
+        #20;
+        reset = 0;
+
+        // Espera suficiente para que se ejecuten instrucciones
+        #5000000;
+
+        // Imprime registros y memoria
+        $display("\n==== ESTADO FINAL DEL PROCESADOR ====");
+        uut.rf.print_registers();     // Banco de registros
+        uut.dmem.print_memory();      // Memoria de datos
+
+        // Finaliza la simulación
+        $finish;
+    end
+
+endmodule
+```
+
+### **Diagrama del procesador RISC-V creado**:
+
+<img src="design/RISC-V_Diagram.jpg" alt="Diagram">
+
+Para ejecutar las pruebas del procesador, sólo se ha decargar el proyecto y realizar los pasos siguientes:
+
+```bash
+# Locate in the project directory
+cd ./RISCV_Architecture
+
+# Project compilation
+iverilog -o cpu_testbench.vvp src/*.v test/cpu_testbench.v
+
+# Simulate
+vvp cpu_testbench.vvp
+```
+
+Dichos pasos están recogidos dentro del fichero run.sh y el resultado de dicha ejecución debe verse tal que:
+
+# Programa de prueba del procesador RISC-V creado
+
+### **Ejecución del cpu_testbench:**
+```bash
+==== INSTRUCCIONES CARGADAS ====
+0: 00a00093 -> addi x1, x0, 10
+1: 01400113 -> addi x2, x0, 20
+2: 002081b3 -> add x3, x1, x2
+
+==== ESTADO FINAL DEL PROCESADOR ====
+
+==== BANCO DE REGISTROS ====
+x0 = 0
+x1 = 10
+x2 = 20
+x3 = 30
+x4 = 0
+x5 = 0
+x6 = 0
+x7 = 0
+x8 = 0
+x9 = 0
+x10 = 0
+x11 = 0
+x12 = 0
+x13 = 0
+x14 = 0
+x15 = 0
+
+==== CONTENIDO DE LA MEMORIA DE DATOS ====
+mem[0x0] = 0 (0x00000000)
+mem[0x4] = 0 (0x00000000)
+mem[0x8] = 0 (0x00000000)
+mem[0xc] = 0 (0x00000000)
+mem[0x10] = 0 (0x00000000)
+mem[0x14] = 0 (0x00000000)
+mem[0x18] = 0 (0x00000000)
+mem[0x1c] = 0 (0x00000000)
+mem[0x20] = 0 (0x00000000)
+mem[0x24] = 0 (0x00000000)
+mem[0x28] = 0 (0x00000000)
+mem[0x2c] = 0 (0x00000000)
+mem[0x30] = 0 (0x00000000)
+mem[0x34] = 0 (0x00000000)
+mem[0x38] = 0 (0x00000000)
+mem[0x3c] = 0 (0x00000000)
+
+test/cpu_testbench.v:39: $finish called at 5000020000 (1ps)
+```
+
+# Implementación y emulación de una FPGA del procesador RISC-V
 

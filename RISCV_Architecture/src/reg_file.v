@@ -32,7 +32,7 @@ module reg_file (
         integer j;
         begin
             $display("==== Banco de registros ====");
-            for (j = 0; j < 32; j = j + 1) begin
+            for (j = 0; j < 16; j = j + 1) begin
                 $display("x%0d = %0d", j, registers[j]);
             end
         end

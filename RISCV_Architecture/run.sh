@@ -1,8 +1,11 @@
+# Locate in the project directory
+cd ./RISCV_Architecture
+
 # Project compilation
-iverilog -o cpu_testbench.out cpu_testbench.v cpu.v
+iverilog -o cpu_testbench.vvp src/*.v test/cpu_testbench.v
 
 # Simulate
-vvp cpu_testbench.out
+vvp cpu_testbench.vvp
 
 # Look Waves (using $dumpfile)
 gtkwave waveform.vcd
