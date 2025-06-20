@@ -21,7 +21,7 @@ module cpu_testbench;
 
     // Inicialización de señales y estímulo
     initial begin
-        $display("==== Inicio de simulacion ====");
+        $display("\n==== INICIO DE SIMULACION ====");
 
         // Inicializar memoria con instrucciones de prueba
         $readmemh("test/program.mem", uut.imem.memory); // instrucciones
@@ -35,11 +35,11 @@ module cpu_testbench;
         #500;
 
         // Mostrar contenido de registros
-        $display("===== REGISTROS ====");
+        $display("\n===== REGISTROS ====");
         uut.rf.print_registers();
 
         // Mostrar contenido de memoria
-        $display("===== MEMORIA DE DATOS ====");
+        $display("\n===== MEMORIA DE DATOS ====");
         uut.dmem.print_memory();
 
         $finish;
