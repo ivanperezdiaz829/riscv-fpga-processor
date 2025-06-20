@@ -139,7 +139,7 @@ module cpu (
         .result(alu_result)
     );
 
-    // EX/MEM registrode pipeline (entre EX y MEM)
+    // EX/MEM registro de pipeline (entre EX y MEM)
     reg [31:0] exmem_result, exmem_reg_data2;
     reg        exmem_mem_read, exmem_mem_write, exmem_reg_write, exmem_mem_to_reg;
     reg [4:0]  exmem_rd;
@@ -155,7 +155,7 @@ module cpu (
     end
 
     // ============================================================
-    // MEM (Memory Access) stage
+    // MEM (Memory Access) stage y WB (Write Back) stage
     // ============================================================
     wire [31:0] mem_data_out;
 
