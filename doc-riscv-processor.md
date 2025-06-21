@@ -21,20 +21,20 @@
 <p style="text-indent: 2em;">La estructura de los ficheros del proyecto que define la arquitectura del procesador y que se encuentran dentro de la carpeta ubicada en ./RISCV_Architecture/ es la siguiente:
 
 ```c
-        >/.RISCV_Architecture
-            >/src
-                >alu.v
-                >control_unit.v
-                >cpu.v
-                >data_memory.v
-                >immediate_generator.v
-                >instruction_memory.v
-                >reg_file.v
-            >/test
-                >cpu_testbench.v
-                >data.mem
-                >program.mem
-            >run.sh
+                        >/.RISCV_Architecture
+                            >/src
+                                >alu.v
+                                >control_unit.v
+                                >cpu.v
+                                >data_memory.v
+                                >immediate_generator.v
+                                >instruction_memory.v
+                                >reg_file.v
+                            >/test
+                                >cpu_testbench.v
+                                >data.mem
+                                >program.mem
+                            >run.sh
 
 ```
 
@@ -80,10 +80,9 @@ module control_unit (
     output reg mem_read,        // Señal de lectura de memoria
     output reg mem_write,       // Señal de escritura de memoria
     output reg reg_write,       // Señal de escritura en registros
-    output reg mem_to_reg,      // Selección escribir en registro (WB)
+    output reg mem_to_reg,      // Selección para escribir en registro (WB)
     output reg [3:0] alu_ctrl   // Control de la operación de la ALU
 );
-
     always @(*) begin
         alu_src = 0;
         mem_read = 0;
@@ -93,6 +92,21 @@ module control_unit (
         alu_ctrl = 4'b0000;
 
         case (opcode)
+            7'b0110011: begin       // Tipo R
+                alu_src = 0;
+                reg_write = 1;
+                mem_to_reg = 0;
+                case ({funct7, funct3})
+                    10'b0000000000: alu_ctrl = 4'b0000; // add
+                    10'b0100000000: alu_ctrl = 4'b0001; // sub
+                    10'b0000000111: alu_ctrl = 4'b0010; // and
+                    10'b0000000110: alu_ctrl = 4'b0011; // or
+                    10'b0000000100: alu_ctrl = 4'b0100; // xor
+                    10'b0000000001: alu_ctrl = 4'b0101; // sll
+                    10'b0000000101: alu_ctrl = 4'b0110; // srl
+                    default:        alu_ctrl = 4'b1111;
+                endcase
+            end
             7'b0010011: begin       // addi
                 alu_src = 1;
                 reg_write = 1;
@@ -103,12 +117,12 @@ module control_unit (
                 mem_read = 1;
                 reg_write = 1;
                 mem_to_reg = 1;
-                alu_ctrl = 4'b0000; // add
+                alu_ctrl = 4'b0000;
             end
             7'b0100011: begin       // sw
                 alu_src = 1;
                 mem_write = 1;
-                alu_ctrl = 4'b0000; // add
+                alu_ctrl = 4'b0000;
             end
             7'b1100011: begin       // beq
                 alu_src = 0;
@@ -118,7 +132,7 @@ module control_unit (
                 alu_src = 0;
                 reg_write = 1;
                 mem_to_reg = 0;
-                alu_ctrl = 4'b0000; // (irrelevante, salto)
+                alu_ctrl = 4'b0000; // opcional
             end
             default: ;
         endcase
@@ -168,7 +182,6 @@ cpu.v -> ID STAGE (Primera Parte):
     // ============================================================
     // ID (Instruction Decode) stage
     // ============================================================
-    // Campos de la instrucción (formato R/I/S/B/J)
     wire [6:0] opcode = ifid_instr[6:0];
     wire [4:0] rs1 = ifid_instr[19:15];
     wire [4:0] rs2 = ifid_instr[24:20];
@@ -176,19 +189,18 @@ cpu.v -> ID STAGE (Primera Parte):
     wire [2:0] funct3 = ifid_instr[14:12];
     wire [6:0] funct7 = ifid_instr[31:25];
 
-    // Salida del banco de registros
     wire [31:0] reg_data1, reg_data2;
 
-    // Banco de registros: lectura de rs1 y rs2, escritura en rd
+    // Obtener los registros a utilizar y el destino
     reg_file rf (
-        .clk(clk),
+        .clk(clk),                      // Señal de reloj
         .rs1(rs1),                      // Registro fuente 1
         .rs2(rs2),                      // Registro fuente 2       
         .rd(memwb_rd),                  // Registro destino
-        .rd_data(memwb_result),         // Dato a escribir en rd (dedse WB)
-        .reg_write(memwb_reg_write),    // Habilita la escritura
-        .data1(reg_data1),              // Salida de rs1
-        .data2(reg_data2)               // Salida de rs2
+        .rd_data(memwb_result),         // Dato a escribir en el destino
+        .reg_write(memwb_reg_write),    // Señal de escritura    
+        .data1(reg_data1),              // Salida del dato de la fuente 1
+        .data2(reg_data2)               // Salida del dato de la fuente 2
     );
 ```
 
@@ -196,28 +208,29 @@ cpu.v -> ID STAGE (Primera Parte):
 
 cpu.v -> ID STAGE (Segunda Parte):
 ```verilog
-    // Lógica de salto
-    wire is_branch = (opcode == 7'b1100011); // beq
-    wire is_jump   = (opcode == 7'b1101111); // jal
+    // Lógica de saltos
+    wire is_branch = (opcode == 7'b1100011);
+    wire is_jump   = (opcode == 7'b1101111);
+
+    // Comprobar si el salto es o no tomado
     wire branch_taken = (is_branch && reg_data1 == reg_data2);
     wire insert_bubble = (branch_taken || is_jump);
 
-    // Registro de IF/ID con burbuja en saltos
+    // Registro de IF/ID con burbujas de salto
     always @(posedge clk or posedge reset) begin
         if (reset) begin
             pc <= 0;
             ifid_pc <= 0;
             ifid_instr <= 32'b0;
         end else begin
-            // Actualiza el PC según el tipo de instrucción
             if (branch_taken) begin
                 pc <= pc + branch_offset;
                 ifid_pc <= 0;
-                ifid_instr <= 32'b0;    // NOP (burbuja por salto)
+                ifid_instr <= 32'b0;
             end else if (is_jump) begin
                 pc <= pc + jump_offset;
                 ifid_pc <= 0;
-                ifid_instr <= 32'b0;    // NOP (burbuja por salto)
+                ifid_instr <= 32'b0;
             end else begin
                 pc <= pc + 4;
                 ifid_pc <= pc;
@@ -238,7 +251,7 @@ cpu.v -> ID STAGE (Tercera Parte):
         .imm(imm)
     );
 
-    // Offsets para salto y ramas (simple: ambos usan el mismo inmediato)
+    // Offsets para salto y ramas (ambos usan el mismo)
     wire [31:0] branch_offset = imm;
     wire [31:0] jump_offset = imm;
 ```
@@ -251,6 +264,7 @@ cpu.v -> ID STAGE (Última Parte):
     wire alu_src, mem_read, mem_write, reg_write, mem_to_reg;
     wire [3:0] alu_ctrl;
 
+    // Llamada a la unidad de control
     control_unit ctrl (
         .opcode(opcode),            // Código de operación
         .funct3(funct3),            // Función 3bits
@@ -266,8 +280,8 @@ cpu.v -> ID STAGE (Última Parte):
     // ID/EX registros de pipeline (entre ID y EX)
     reg [31:0] idex_pc, idex_reg_data1, idex_reg_data2, idex_imm;
     reg [3:0]  idex_alu_ctrl;
-    reg        idex_alu_src, idex_mem_read, idex_mem_write, idex_reg_write, idex_mem_to_reg;
-    reg [4:0]  idex_rd;
+    reg idex_alu_src, idex_mem_read, idex_mem_write, idex_reg_write, idex_mem_to_reg;
+    reg [4:0]  idex_rd, idex_rs1, idex_rs2;
 
     always @(posedge clk) begin
         idex_pc         <= ifid_pc;
@@ -281,38 +295,53 @@ cpu.v -> ID STAGE (Última Parte):
         idex_reg_write  <= reg_write;
         idex_mem_to_reg <= mem_to_reg;
         idex_rd         <= rd;
+        idex_rs1        <= rs1;
+        idex_rs2        <= rs2;
     end
 ```
 
-<p style="text-indent: 2em;">En la etapa de EX (EXecute) se selecciona el segundo opreando de la ALU dependiendo si es un registro o un inmediato y se define el resultado de 32 bits de dicha operación, tras esto, se llama al fichero alu.v (ALU del procesador) para pasarle por parámetro los registros (o inmediato) a utilizar para los cálculos de la unidad, por último se realiza el registro de pipeline entre las etapas EX y MEM (MEMory) para pasar a la misma.
+<p style="text-indent: 2em;">En la etapa de EX (EXecute) se selecciona el segundo opreando de la ALU dependiendo si es un registro o un inmediato y se define el resultado de 32 bits de dicha operación, tras esto, se llama al fichero alu.v (ALU del procesador) para pasarle por parámetro los registros (o inmediato) a utilizar para los cálculos de la unidad, por último se realiza el registro de pipeline entre las etapas EX y MEM (MEMory) para pasar a la misma. De manera adicional, se ha implementado un sistema de forwarding (anticipación), para poder usar los resultados de las operaciones anteriores que generen dependencias.
 
 cpu.v -> EX STAGE:
 ```verilog
     // ============================================================
-    // EX (Execute) stage
+    // EX (Execute) stage con FORWARDING
     // ============================================================
-    // Selección del segundo operando de la ALU (reg o inm)
-    wire [31:0] alu_in2 = idex_alu_src ? idex_imm : idex_reg_data2;
+    // Aplicar la técnica de forwarding (anticipación)
+    wire forward_a_exmem = (exmem_reg_write && exmem_rd != 0 && exmem_rd == idex_rs1);
+    wire forward_b_exmem = (exmem_reg_write && exmem_rd != 0 && exmem_rd == idex_rs2);
 
-    // Resultado de la ALU
+    wire forward_a_memwb = (memwb_reg_write && memwb_rd != 0 && memwb_rd == idex_rs1);
+    wire forward_b_memwb = (memwb_reg_write && memwb_rd != 0 && memwb_rd == idex_rs2);
+
+    wire [31:0] forward_a = forward_a_exmem ? exmem_result :
+                            forward_a_memwb ? memwb_result :
+                            idex_reg_data1;
+
+    wire [31:0] forward_b_reg = forward_b_exmem ? exmem_result :
+                                forward_b_memwb ? memwb_result :
+                                idex_reg_data2;
+
+    wire [31:0] alu_in2 = idex_alu_src ? idex_imm : forward_b_reg;
+
     wire [31:0] alu_result;
 
-    // Instancia de la ALU
+    // Uso de la ALU
     alu alu_inst (
-        .a(idex_reg_data1),
+        .a(forward_a),
         .b(alu_in2),
         .alu_ctrl(idex_alu_ctrl),
         .result(alu_result)
     );
 
-    // EX/MEM registro de pipeline (entre EX y MEM)
     reg [31:0] exmem_result, exmem_reg_data2;
-    reg        exmem_mem_read, exmem_mem_write, exmem_reg_write, exmem_mem_to_reg;
+    reg exmem_mem_read, exmem_mem_write, exmem_reg_write, exmem_mem_to_reg;
     reg [4:0]  exmem_rd;
 
+    // EX/MEM registro de pipeline (entre EX y MEM)
     always @(posedge clk) begin
         exmem_result     <= alu_result;
-        exmem_reg_data2  <= idex_reg_data2;
+        exmem_reg_data2  <= forward_b_reg; // ya aplicado forwarding
         exmem_mem_read   <= idex_mem_read;
         exmem_mem_write  <= idex_mem_write;
         exmem_reg_write  <= idex_reg_write;
@@ -326,11 +355,10 @@ cpu.v -> EX STAGE:
 cpu.v -> EX y WB STAGE:
 ```verilog
     // ============================================================
-    // MEM (Memory Access) stage y WB (Write Back) stage
+    // MEM y WB
     // ============================================================
     wire [31:0] mem_data_out;
 
-    // Acceso a la memoria de datos
     data_memory dmem (
         .clk(clk),
         .addr(exmem_result),            // Dirección calculada por la ALU
@@ -342,7 +370,7 @@ cpu.v -> EX y WB STAGE:
 
     // MEM/WB registro de pipeline (entre MEM y WB)
     reg [31:0] memwb_result;
-    reg        memwb_reg_write;
+    reg memwb_reg_write;
     reg [4:0]  memwb_rd;
 
     always @(posedge clk) begin
@@ -445,13 +473,13 @@ program.mem:
 ```bash
 00a00093    // addi x1, x0, 10     ; x1 = 10
 01400113    // addi x2, x0, 20     ; x2 = 20
-0020813    // add x3, x1, x2      ; x3 = x1 + x2 = 30
+0020813     // add x3, x1, x2      ; x3 = x1 + x2 = 30
 00312023    // sw x3, 0(x2)        ; mem[20] = x3
 00012183    // lw x3, 0(x2)        ; x3 = mem[20]
 0000006f    // jal x0, 0           ; bucle infinito
-00000013
+00000013    // nop
 ...
-00000013
+00000013    // nop
 ```
 
 <p style="text-indent: 2em;">Una vez obtenida la instrucción, se muestran por orden las 3 primeras instrucciones cómo depuración de que el procesador lee correctamente las mismas. Por último se alinea a 4 bytes la memoria.
@@ -465,14 +493,21 @@ module instruction_memory (
     reg [31:0] memory [0:255];  // Memoria de inst. de 256 palabras
 
     initial begin
+        // Obtener las instrucciones de memoria y realizar prints de depuración
+     initial begin
         $readmemh("test/program.mem", memory);
         $display("\n==== INSTRUCCIONES CARGADAS ====");
         $display("0: %h", memory[0], " -> addi x1, x0, 10");
         $display("1: %h", memory[1], " -> addi x2, x0, 20");
         $display("2: %h", memory[2], " -> add x3, x1, x2");
+        $display("3: %h", memory[3], " -> sw x3, 0(x2)");
+        $display("4: %h", memory[4], " -> lw x3, 0(x2)");
+        $display("5: %h", memory[5], " -> jal x0, 0");
+        $display("6: %h", memory[6], " -> nop");
     end
 
-    assign instruction = memory[addr[9:2]]; // Alineado a 4 bytes
+    // Realizar un alineado de 4 bytes
+    assign instruction = memory[addr[9:2]];
 endmodule
 ```
 
@@ -494,6 +529,7 @@ module reg_file (
 
     reg [31:0] registers[0:31];
 
+    // Asignación de los datos a los registros fuente
     assign data1 = registers[rs1];
     assign data2 = registers[rs2];
 
@@ -567,7 +603,6 @@ module cpu_testbench;
         // Finaliza la simulación
         $finish;
     end
-
 endmodule
 ```
 
@@ -576,6 +611,14 @@ endmodule
 <img src="design/RISC-V_Diagram.jpg" alt="Diagram">
 
 Para ejecutar las pruebas del procesador, sólo se ha decargar el proyecto y realizar los pasos siguientes:
+
+```shell
+cd ./RISCV_Architecture
+iverilog -o cpu_testbench.vvp src/*.v test/cpu_testbench.v
+vvp cpu_testbench.vvp
+```
+
+Dichos pasos están recogidos dentro del fichero run.sh que posee la siguiente información:
 
 ```bash
 # Locate in the project directory
@@ -586,11 +629,14 @@ iverilog -o cpu_testbench.vvp src/*.v test/cpu_testbench.v
 
 # Simulate
 vvp cpu_testbench.vvp
+
+# Look Waves (using $dumpfile)
+gtkwave waveform.vcd
 ```
 
-Dichos pasos están recogidos dentro del fichero run.sh y el resultado de dicha ejecución debe verse tal que:
-
 # Programa de prueba del procesador RISC-V creado
+
+<p style="text-indent: 2em;">Para comprobar que efectivamente el procesador funciona correctamente, se carga el programa del fichero cpu_testbench.v. Para ejecutar dicho programa de prueba, se lleva a cabo cualesquiera de los métodos anteriores (correr el run.sh o manualmente por el terminal). El resultado de dicha ejecución se ve a continuación:
 
 ### **Ejecución del cpu_testbench:**
 ```bash
@@ -598,6 +644,10 @@ Dichos pasos están recogidos dentro del fichero run.sh y el resultado de dicha 
 0: 00a00093 -> addi x1, x0, 10
 1: 01400113 -> addi x2, x0, 20
 2: 002081b3 -> add x3, x1, x2
+3: 00312023 -> sw x3, 0(x2)
+4: 00012183 -> lw x3, 0(x2)
+5: 0000006f -> jal x0, 0
+6: 00000013 -> nop
 
 ==== ESTADO FINAL DEL PROCESADOR ====
 
@@ -625,7 +675,7 @@ mem[0x4] = 0 (0x00000000)
 mem[0x8] = 0 (0x00000000)
 mem[0xc] = 0 (0x00000000)
 mem[0x10] = 0 (0x00000000)
-mem[0x14] = 0 (0x00000000)
+mem[0x14] = 30 (0x0000001e)
 mem[0x18] = 0 (0x00000000)
 mem[0x1c] = 0 (0x00000000)
 mem[0x20] = 0 (0x00000000)
