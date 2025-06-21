@@ -11,7 +11,7 @@
 - Diseñar la microarquitectura de un procesador RISC-V
 - Simular el funcionamiento del procesador con diferentes programas (testbench).
 - Sintetizar e implementar en el procesador una FPGA para emular RISC-V
-- Cargar y validar el funcionamiento del procesador ante diversos eventos.
+- Cargar y validar el funcionamiento de un programa en código C sobre la FPGA.
 - Evaluar el rendimiento del procesador en programas representativos de varios sectores.
 
 # Diseño de la microarquitectura del procesador RISC-V
