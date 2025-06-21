@@ -18,6 +18,21 @@ module control_unit (
         alu_ctrl = 4'b0000;
 
         case (opcode)
+            7'b0110011: begin       // Tipo R
+                alu_src = 0;
+                reg_write = 1;
+                mem_to_reg = 0;
+                case ({funct7, funct3})
+                    10'b0000000000: alu_ctrl = 4'b0000; // add
+                    10'b0100000000: alu_ctrl = 4'b0001; // sub
+                    10'b0000000111: alu_ctrl = 4'b0010; // and
+                    10'b0000000110: alu_ctrl = 4'b0011; // or
+                    10'b0000000100: alu_ctrl = 4'b0100; // xor
+                    10'b0000000001: alu_ctrl = 4'b0101; // sll
+                    10'b0000000101: alu_ctrl = 4'b0110; // srl
+                    default:        alu_ctrl = 4'b1111;
+                endcase
+            end
             7'b0010011: begin       // addi
                 alu_src = 1;
                 reg_write = 1;
@@ -28,12 +43,12 @@ module control_unit (
                 mem_read = 1;
                 reg_write = 1;
                 mem_to_reg = 1;
-                alu_ctrl = 4'b0000; // add
+                alu_ctrl = 4'b0000;
             end
             7'b0100011: begin       // sw
                 alu_src = 1;
                 mem_write = 1;
-                alu_ctrl = 4'b0000; // add
+                alu_ctrl = 4'b0000;
             end
             7'b1100011: begin       // beq
                 alu_src = 0;
@@ -43,7 +58,7 @@ module control_unit (
                 alu_src = 0;
                 reg_write = 1;
                 mem_to_reg = 0;
-                alu_ctrl = 4'b0000; // (irrelevante, salto)
+                alu_ctrl = 4'b0000; // opcional
             end
             default: ;
         endcase
