@@ -1,0 +1,17 @@
+vendor_name = ModelSim
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/program.mem
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/data.mem
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/cpu_testbench.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/reg_file.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/instruction_memory.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/immediate_generator.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/data_memory.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/cpu.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/control_unit.v
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/src/alu.v
+source_file = 1, C:/Altera/13.1/db/riscv-project.cbx.xml
+source_file = 1, C:/Altera/13.1/test/program.mem
+source_file = 1, C:/Altera/13.1/test/data.mem
+design_name = cpu
+instance = comp, \clk~input , clk~input, cpu, 1
+instance = comp, \reset~input , reset~input, cpu, 1
