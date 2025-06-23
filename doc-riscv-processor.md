@@ -692,3 +692,32 @@ test/cpu_testbench.v:39: $finish called at 5000020000 (1ps)
 
 # Implementación y emulación de una FPGA del procesador RISC-V
 
+<p style="text-indent: 2em;">Se va a implementar la arquitectura del procesador creado anteriormente (arquitectura simplificada del RISC-V, segmentado y con 5 etapas de ejecución), dentro de la FPGA de Terasic llamada DE0-Nano, que utiliza la familia Cyclone IV de Altera (ahora Intel). Para dicha implementación se va a utilizar el software proporcionado por Intel llamado Quartus II, en la versión 13.1 Web edition (última versión con soporte para la FPGA mencionada).
+
+### **FPGA DE0-Nano:**
+
+<img src="design/DE0-Nano.jpg" alt="De0-nano">
+
+<p style="text-indent: 2em;">Para llevar a cabo el proyecto es de necesario conocimiento saber el código de la FPGA a utilizar, en el caso de la DE0-Nano con el Altera Cyclone IV, se va a utilizar el EP4CE22F17C6, cuyo único cambio respecto a la FPGA física es que no posee el sufijo N, dado sufijo indica que es sin plomo, así que no afecta al flujo normal de trabajo que se va a realizar para cargar el programa en la FPGA ni cambia sun funcionamiento.
+
+El dispositivo en cuestión posee las siguientes características:
+
+- **Familia:** Ciclone IV E.
+- **Lógica:** 22.320 LEs.
+- **Encapsulado:** FBGA 256 F17 (17x17mm).
+- **Ritmo:** Grado de ritmo "6".
+
+<p style="text-indent: 2em;">Ya conocida la nano-board a utilizar y sus características, para llevar a cabo el proyecto, se han utilizado los ficheros Verilog creados anteriormente, indicando el fichero cpu.v cómo el Top-module del proyecto, es decir, el main del mismo.
+
+<p style="text-indent: 2em;">Una vez se hayan puesto los ficheros Verilog que designan la arquitectura y funcionamiento del procesador y se haya configurado el cpu.v cómo Top-module, se ha de configurar la señal de reloj y la de reset a uno de los pines físicos de la placa DE0-Nano que estén configurados para su funcionamiento, los pines elegidos son los siguientes:
+
+- **Señal de Reloj:** Se ha asignado al pin físico "R8" cuyo nombre en la placa es "CLOCK_50", posee una entrada de reloj principal a 50MHz y una señal digital de entrada con tolerancia de 3.3V LVCMOS.
+
+- **Señal de Reset:** Se ha asignado al pin físico "P15" cuyo nombre en la placa es "KEY[0]", posee una seña activa baja, es decir, sin pulsar está a 1 y al pulsarlo, su nivel lógico pasa a 0. Su uso reinicio el sistema o los módulos lógicos cómo FSMs y/o contadores.
+
+<p style="text-indent: 2em;">Para la modificación de los pines de manera manual dentro de al FPGA, y utilizando el software de Intel anteriormente mencionado, se ha accedido a la ventana del PinPlanner proporcionada por el programa, eliginedo las señales definidas en el proyecto creado (clk y reset, respectivamente) y buscando en la lista los pines en cuestión (alternativamente, se puede pinchar sobre los pines mirando el esquema lógico de la placa).
+
+## **Utilidad PinPlanner tras la asignación de pines:**
+
+<img src="design/RISC-V_PinPlanner.jpg" alt="PinPlanner">
+
