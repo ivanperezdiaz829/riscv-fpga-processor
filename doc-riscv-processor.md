@@ -772,7 +772,7 @@ El dispositivo en cuestión posee las siguientes características:
 
 <p style="text-indent: 2em;">Cómo comprobación del correcto funcionamiento y carga de la arquitectura RISC-V creada en anteriores puntos, se va a hacer uso de un programa simple escrito en C cuyo funcionamiento y estructura es idéntica al cargado por la placa en el testbench de prueba creado con anterioridad. El código consiste en una asignación de dos valores a dos variables diferentes, y tras esto, sumar dichos valores y almacenar el resultado en otra variable, por último, se deja un bucle infinito del tipo while 1.
 
-<p style="text-indent: 2em;">Para compilar el código creado, en un terminal se debe realizar lo siguiente:
+<p style="text-indent: 2em;">Para compilar el código creado, se ha de acceder a un terminal, siturase en la carpeta donde está el proyecto y tras lo anterior, se debe ejecutar el fichero en donde se encuentra el compilador de C para risc-v con los ficheros a utilizar (el linker para las pruebas no es obligatorio), el código C y el .elf del programa.
 
 ```bash
 riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -T linker.ld -o program.elf ./riscv-fpga-processor/test.c
