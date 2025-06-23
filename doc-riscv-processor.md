@@ -694,7 +694,7 @@ test/cpu_testbench.v:39: $finish called at 5000020000 (1ps)
 
 <p style="text-indent: 2em;">Se va a implementar la arquitectura del procesador creado anteriormente (arquitectura simplificada del RISC-V, segmentado y con 5 etapas de ejecución), dentro de la FPGA de Terasic llamada DE0-Nano, que utiliza la familia Cyclone IV de Altera (ahora Intel). Para dicha implementación se va a utilizar el software proporcionado por Intel llamado Quartus II, en la versión 13.1 Web edition (última versión con soporte para la FPGA mencionada).
 
-### **FPGA DE0-Nano:**
+### **Placa utilizada: FPGA DE0-Nano:**
 
 <img src="design/DE0-Nano.jpg" alt="De0-nano">
 
@@ -715,10 +715,83 @@ El dispositivo en cuestión posee las siguientes características:
 
 - **Señal de Reset:** Se ha asignado al pin físico "P15" cuyo nombre en la placa es "KEY[0]", posee una seña activa baja, es decir, sin pulsar está a 1 y al pulsarlo, su nivel lógico pasa a 0. Su uso reinicio el sistema o los módulos lógicos cómo FSMs y/o contadores.
 
-<p style="text-indent: 2em;">Para la modificación de los pines de manera manual dentro de al FPGA, y utilizando el software de Intel anteriormente mencionado, se ha accedido a la ventana del PinPlanner proporcionada por el programa, eliginedo las señales definidas en el proyecto creado (clk y reset, respectivamente) y buscando en la lista los pines en cuestión (alternativamente, se puede pinchar sobre los pines mirando el esquema lógico de la placa).
+<p style="text-indent: 2em;">Para la modificación de los pines de manera manual dentro de al FPGA, y utilizando el software de Intel anteriormente mencionado, se ha accedido a la ventana del "PinPlanner" proporcionada por el programa, eliginedo las señales definidas en el proyecto creado (clk y reset, respectivamente) y buscando en la lista los pines en cuestión (alternativamente, se puede pinchar sobre los pines mirando el esquema lógico de la placa).
 
-## **Utilidad PinPlanner tras la asignación de pines:**
+### **Utilidad "PinPlanner" tras la asignación de pines:**
 
 <img src="design/RISC-V_PinPlanner.jpg" alt="PinPlanner">
 
-<p style="text-indent: 2em;">Ya configurados los pines físicos del proyecto a los pines de la placa, se ha de comprobar el acceso a la placa en sí, es decir, comprobar que se puede conectar mediante el USB-Blaster, para ello, y cómo tarea para evitar errores futuros, se ha de comprobar si dicho USB 
+<p style="text-indent: 2em;">Ya configurados los pines físicos del proyecto a los pines de la placa, se ha de comprobar el acceso a la placa en sí, es decir, comprobar que se puede conectar mediante el USB-Blaster, para ello, se ha de entrar en la utilidad proporcionada por el programa llamada "Programmer" y en la pestaña "Hardware Setup", una vez dentro, en el apartado llamado "Currently selected hardware" buscar la opción "USB-Blaster [USB-x]".
+
+<p style="text-indent: 2em;">En caso de que no aparezca la opción "USB-Blaster [USB-x]", se ha de comprobar si dicho USB es reconocido y tiene el driver instalado en el dispositivo, para ello (en caso de estar utilizando un SO de windows), se ha de acceder al administrador de dispositivos y comprobar si se reconoce el dispositivo en el apartado de "Otros dispositivos" o "USB devices" cómo "USB-Blaster" o "unknown device". Realizadas las comprobaciones, y con objetivo de actualizar el driver, al realizar la instalación completa del software de Intel, debe existir una ruta tal que: C:\Altera\13.1\quartus\drivers y dentro, deberían haber dos carpetas, una para los drivers del USB-Blaster I y otros para el USB-Blaster II. Instalar los controladores pertinentes.
+
+<p style="text-indent: 2em;">Con los controladores instalados, probar a conectar otra vez el el "USB-Blaster [USB-x]" dentro de la pestaña "Hardware Setup". Si todo se ha realizado correctamente, marcar la opción de "Auto-detect" dentro de la utilidad "Programmer" del software, una vez realizado, ya debe estar correctamente configurado y listo para cargar.
+
+### **Utilidad "Programmer" tras la configuración:**
+
+<img src="design/RISC-V_Programmer.jpg" alt="Programmer">
+
+<p style="text-indent: 2em;">El proyecto está ubicado dentro de una carpeta llamada "RISCV_FPGA_Project" que contiene todo lo necesario para la ejecución del mismo, contiene lo siguiente:
+
+```c
+                        >/.RISCV_FPGA_Project
+                            >/output_files
+                            >/simulation
+                            >/test
+                                >cpu_testbench.v
+                                >data.mem
+                                >program.mem
+                            >riscv-project.qpf
+                            >riscv-project.qsf
+                            >riscv-project.qws
+```
+
+<p style="text-indent: 2em;">Con todo configurado correctamente, y con el USB-Blaster conectado al dispositivo y a la placa (DE0-Nano), se va a proceder a la carga de la arquitectura del procesador creado dentro de la propia FPGA mencionada, para ello, hay que acceder al apartado de "Processing" y pulsar "Start compilation", si se ha realizado todo correctamente, no debería saltar ningún error en el log de la compilación.
+
+### **Compilación del proyecto en el Intel Quartus II:**
+
+<img src="design/RISC-V_FPGA_Charged.jpg" alt="Compilation">
+
+<p style="text-indent: 2em;">Una vez compilado el proyecto de manera exitosa, deben aparecer en la carpeta llamada "output_files", los siguientes ficheros:
+
+- **Archivo.sof:** Es la imagen de la RAM de la FPGA, sirve para programar temporalmente la misma.
+
+- **Archivo.pof:** Es la imagen de la Flash (no volátil), sirve cómo configuración permanente (si hay Flash).
+
+- **Archivo.map.rpt:** Es el informe de síntesis que verifica la lógica creada.
+
+- **Archivo.fit.rpt:** Es el informe de asignación física y verifica el uso de recursos.
+
+- **Archivo.sta.rpt:** Es el informe del timing que verifica que se cumplan las restricciones del reloj.
+
+- **Archivo.pin:** Es la lista de pines, sirve para asignar correctamente los switches y LEDs.
+
+- **Archivo.qsf:** Es la configuración del proyecto, guarda pines, clocks, entre otros.
+
+# Carga y validación de un código C en la FPGA
+
+<p style="text-indent: 2em;">Cómo comprobación del correcto funcionamiento y carga de la arquitectura RISC-V creada en anteriores puntos, se va a hacer uso de un programa simple escrito en C cuyo funcionamiento y estructura es idéntica al cargado por la placa en el testbench de prueba creado con anterioridad. El código consiste en una asignación de dos valores a dos variables diferentes, y tras esto, sumar dichos valores y almacenar el resultado en otra variable, por último, se deja un bucle infinito del tipo while 1.
+
+<p style="text-indent: 2em;">Para compilar el código creado, en un terminal se debe realizar lo siguiente:
+
+```bash
+riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -T linker.ld -o program.elf ./riscv-fpga-processor/test.c
+```
+
+El resultado de la ejecución se puede ver dentro del ModelSim incorporado en Quartus II ======== CAMBIAR ========.
+
+**Código de test.c:**
+```c
+/// Inicio del programa (no devuelve nada)
+void _start() {
+    int a = 5;      // Asignar a una variable el valor 5
+    int b = 7;      // Asignar a una variable el valor 7
+    int c = a + b;  // Almacenar suma en otra variable
+    while (1);      // Bucle infinito para que el programa no termine
+}
+```
+
+<img src="design/whitespace.jpg">
+
+---
+<img src="design/Firma_Proyecto.jpg" alt="Firma">
