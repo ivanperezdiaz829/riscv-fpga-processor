@@ -721,3 +721,4 @@ El dispositivo en cuestión posee las siguientes características:
 
 <img src="design/RISC-V_PinPlanner.jpg" alt="PinPlanner">
 
+<p style="text-indent: 2em;">Ya configurados los pines físicos del proyecto a los pines de la placa, se ha de comprobar el acceso a la placa en sí, es decir, comprobar que se puede conectar mediante el USB-Blaster, para ello, y cómo tarea para evitar errores futuros, se ha de comprobar si dicho USB 
