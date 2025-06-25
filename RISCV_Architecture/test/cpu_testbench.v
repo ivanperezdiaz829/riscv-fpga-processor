@@ -28,15 +28,12 @@ module cpu_testbench;
         reset = 0;
 
         // Espera suficiente para que se ejecuten instrucciones
-        #5000000;
+        #50000;
 
         // Imprime registros y memoria
-        $display("\n==== ESTADO FINAL DEL PROCESADOR ====");
-        uut.rf.print_registers();     // Banco de registros
-        uut.dmem.print_memory();      // Memoria de datos
-
+        uut.imem.print_test();
+        $display("\n==== MENSAJES DE CODIGO (UART) ====");
         // Finaliza la simulación
         $finish;
     end
-
 endmodule

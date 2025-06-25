@@ -1,8 +1,7 @@
-/* hello_uart.c  – mensaje fijo por UART
- *
- * UART mapeada a 0x2000_0000. 8N1, 115200 Bd.
- * Se asume que basta escribir un byte para transmitirlo.
- */
+// =========================================================
+// UART mapeada a 0x2000_0000. 8N1, 115200 Bd.
+// Se asume que basta escribir un byte para transmitirlo.
+// ==========================================================
 
 #define UART_ADDR  ((volatile unsigned char *)0x20000000u)
 
