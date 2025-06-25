@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>    
+<device schemaVersion="1.1" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:noNamespaceSchemaLocation="CMSIS-SVD_Schema_1_1.xsd" >
+  <peripherals>
+   <peripheral>
+      <name>altera_trace_printf_monitor</name>
+      <baseAddress>0x00000000</baseAddress> 
+      <addressBlock>
+        <offset>0x0</offset>
+        <usage>registers</usage>
+        <!-- Next four fields are defaults for registers -->
+		<size>32</size>
+        <access>read-write</access>
+        <resetValue>0x00000000</resetValue>
+        <resetMask>0xFFFFFFFF</resetMask>
+      </addressBlock>
+      <registers>
+        <register>
+         <name>SEND</name>  
+         <displayName>User data0</displayName>
+         <addressOffset>0x0</addressOffset>
+         <access>write-only</access>
+		 <size>16</size>
+        </register>
+        <register>
+         <name>USER0</name>  
+         <displayName>User data0</displayName>
+         <addressOffset>0x4</addressOffset>
+         <access>write-only</access>
+        </register>
+        <register>
+         <name>USER1</name>  
+         <displayName>User data 1</displayName>
+         <addressOffset>0x8</addressOffset>
+         <access>write-only</access>
+        </register>
+    </registers>
+   </peripheral>
+  </peripherals>
+</device> 

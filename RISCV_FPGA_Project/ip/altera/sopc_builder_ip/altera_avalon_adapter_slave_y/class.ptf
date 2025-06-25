@@ -1,0 +1,69 @@
+CLASS altera_avalon_adapter_slave_y
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program       = "";
+    Edit_Program      = "";
+    Generator_Program = "mk_altera_avalon_adapter_slave_y.pl";
+    Adapter_Program = "altera_avalon_adapter_slave_y.SlaveYAdapter";
+  }
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_adapter_slave_y";
+    class_version = "7.08131";
+
+    SLAVE a_upstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Well_Behaved_Waitrequest = "1";
+        Read_Wait_States = "peripheral_controlled";
+        Write_Wait_States = "peripheral_controlled";
+        Clock_Source = "";
+      }
+    }
+    SLAVE b_upstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Well_Behaved_Waitrequest = "1";
+        Maximum_Pending_Read_Transactions = "1";
+        Read_Wait_States = "peripheral_controlled";
+        Write_Wait_States = "peripheral_controlled";
+        Clock_Source = "";
+      }
+    }
+    MASTER downstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+      }
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      Is_Adapter = "1";
+      Instantiate_In_System_Module = "1";
+      Is_Enabled                   = "1";
+      Has_Clock = "0";
+      Rank_Order = "80";
+      Maximum_Pending_Read_Transactions_Addend = "1";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      komodo_debug = "0";
+      do_sim_wave = "0";
+    }
+  }
+
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+       name="Avalon Slave Y Adapter";
+       description = "Address-decode Adapter";
+       license = "full";
+       technology = "Special";
+       Is_Visible = "0";
+    }
+  }
+}

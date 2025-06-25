@@ -1,0 +1,18 @@
+[Interfaces|Transceiver PHY]
+Custom PHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_xcvr_custom_phy_hw.tcl" --wizard:altera_xcvr_custom_phy --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V | Cyclone V | Arria V GZ"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Custom PHY</ALIAS>
+<ALIAS>Custom PHY v10.0</ALIAS>
+<ALIAS>Custom PHY v10.1</ALIAS>
+<ALIAS>Custom PHY v11.0</ALIAS>
+<ALIAS>Custom PHY v11.1</ALIAS>
+<ALIAS>Custom PHY v12.0</ALIAS>
+<ALIAS>Custom PHY v12.1</ALIAS>
+<ALIAS>Custom PHY v13.0</ALIAS>
+</INFO>

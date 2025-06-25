@@ -1,0 +1,207 @@
+@@ proc terp_write { hdl } {
+@@  global terp_out
+${hdl}
+@@ }
+@@ if { ${GEN_VHDL} == 0 } {
+@@     proc create_signal {name direction width} {
+@@         global comma
+@@         uplevel "terp_write {                     ${comma}${direction} wire \[${width}-1:0\] ${name}}"
+@@         set comma ,
+@@     }
+@@    
+@@     proc assign_signal {a b} {
+@@         uplevel "terp_write {       assign $a = $b;}"
+@@     }
+@@    
+@@     proc assign_inout_module {a b width_a width_b} {
+@@         uplevel "terp_write {       altera_inout #(}"
+@@         uplevel "terp_write {           .WIDTH_A($width_a),}"
+@@         uplevel "terp_write {           .WIDTH_B($width_b)}"
+@@         uplevel "terp_write {       ) ${a}_inout_module (}"
+@@         uplevel "terp_write {           .a(${a}),}"
+@@         uplevel "terp_write {           .b(${b})}"
+@@         uplevel "terp_write {       );}"
+@@     }                         
+@@ } else {
+@@
+@@     proc create_signal {name direction width} {
+@@         global buffer
+@@         if { ${direction} == "output" } {
+@@            lappend buffer "    ${name} : out std_logic_vector (${width}-1 downto 0)"
+@@         } elseif { ${direction} == "input" } {
+@@            lappend buffer "    ${name} : in std_logic_vector (${width}-1 downto 0)"
+@@         } else {
+@@           set zee ""
+@@           for { set i 0 } { $i < ${width} } { incr i } {
+@@             set zee "${zee}Z"
+@@           }
+@@           lappend buffer "    ${name} : inout std_logic_vector (${width}-1 downto 0) := \"${zee}\""
+@@         }
+@@     }
+@@    
+@@     proc assign_signal {a b} {
+@@         uplevel "terp_write {    $a <= $b;}"
+@@     }
+@@    
+@@     proc assign_inout_module {a b width_a width_b} {
+@@         uplevel "terp_write {       ${a}_inout_module : altera_inout}"
+@@         uplevel "terp_write {         generic map (}"
+@@         uplevel "terp_write {           WIDTH_A => $width_a,}"
+@@         uplevel "terp_write {           WIDTH_B => $width_b}"
+@@         uplevel "terp_write {         )}"
+@@         uplevel "terp_write {         port map (}"
+@@         uplevel "terp_write {           a => ${a},}"
+@@         uplevel "terp_write {           b => ${b}}"
+@@         uplevel "terp_write {         );}"
+@@     }
+@@   
+@@ }
+@@ 
+@@ if { ${GEN_VHDL} == 0 } {
+@@
+
+`timescale 1 ns / 1 ns			    
+
+module ${OUTPUT_NAME} (
+@@
+@@ } else {
+@@
+library IEEE;
+use IEEE.std_logic_1164.all;
+
+entity ${OUTPUT_NAME} is 
+  port (
+@@ }                       
+@@
+@@ global comma
+@@ set comma ""
+@@ 
+@@ global buffer
+@@ set buffer ""
+@@
+@@ set derived_lists(module_origin_list) $MODULE_ORIGIN_LIST
+@@ set derived_lists(signal_origin_list) $SIGNAL_ORIGIN_LIST
+@@ set derived_lists(signal_origin_type) $SIGNAL_ORIGIN_TYPE
+@@ set derived_lists(signal_origin_width) $SIGNAL_ORIGIN_WIDTH
+@@
+@@ set create_output_action {
+@@     create_signal ${SLAVE_NAME}_$role input $width
+@@     create_signal ${role} output $width
+@@ }
+@@ set create_input_action {
+@@     create_signal ${SLAVE_NAME}_${role} output $width
+@@     create_signal ${role} input $width
+@@ } 
+@@ set create_bidir_action {
+@@     create_signal ${SLAVE_NAME}_${role} inout $width
+@@     create_signal ${role} inout $width
+@@ }
+@@ set create_tristatable_action {
+@@     create_signal ${SLAVE_NAME}_$role input $width
+@@     create_signal ${role} output $width
+@@ }
+@@ set assign_output_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${role}
+@@ }
+@@ set assign_input_action {
+@@     assign_signal ${SLAVE_NAME}_${role} ${role}
+@@ } 
+@@ set assign_bidir_action {
+@@     assign_inout_module ${role} ${SLAVE_NAME}_${role} $width $width
+@@ }
+@@ set assign_tristatable_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${role}
+@@ }
+@@
+@@ set create_includes {
+@@     create_output_action
+@@     create_input_action
+@@     create_bidir_action
+@@     create_tristatable_action
+@@     declared_roles
+@@     SLAVE_NAME
+@@ }
+@@ set assign_includes {
+@@     assign_output_action
+@@     assign_input_action
+@@     assign_bidir_action
+@@     assign_tristatable_action
+@@     declared_roles
+@@     SLAVE_NAME
+@@ }
+@@ 
+@@ set declared_roles "request grant"
+@@ iterate_through_listinfo \
+@@     $derived_lists(module_origin_list) \
+@@     $derived_lists(signal_origin_list) \
+@@     $derived_lists(signal_origin_type) \
+@@     $derived_lists(signal_origin_width) \
+@@     {} {} {} {} \
+@@     {
+@@         if { [lsearch $declared_roles $role] == -1 } {
+@@             set ta_includes { role width SLAVE_NAME }
+@@             type_action $type \
+@@                 ${create_output_action} \
+@@                 ${create_input_action} \
+@@                 ${create_bidir_action} \
+@@                 ${create_tristatable_action} \
+@@                 $ta_includes
+@@             lappend declared_roles $role
+@@         }
+@@     } $create_includes
+@@
+@@ if { ${GEN_VHDL} == 0 } {
+		);
+@@ } else {
+@@     for { set i 0 } { $i < [llength $buffer] } { incr i } {
+@@          set entry [lindex $buffer $i]
+@@         if { $i != [expr [llength $buffer] - 1] } {
+@@             terp_write "$entry;\n";
+@@         } else {
+@@             terp_write "$entry\n";
+@@         }
+@@     }
+  );
+end ${OUTPUT_NAME};
+
+  architecture rtl of ${OUTPUT_NAME} is
+
+    component altera_inout
+      generic (
+	WIDTH_A : POSITIVE;
+	WIDTH_B : POSITIVE;
+	CHAIN_LENGTH : POSITIVE := ${CHAIN_LENGTH}
+      );
+      port (
+	a : INOUT STD_LOGIC_VECTOR(WIDTH_A-1 downto 0);
+	b : INOUT STD_LOGIC_VECTOR(WIDTH_B-1 downto 0)
+      );
+    end component;
+
+    begin -- rtl
+@@ }
+@@ set declared_roles "request grant"
+@@ iterate_through_listinfo \
+@@     $derived_lists(module_origin_list) \
+@@     $derived_lists(signal_origin_list) \
+@@     $derived_lists(signal_origin_type) \
+@@     $derived_lists(signal_origin_width) \
+@@     {} {} {} {} \
+@@     {
+@@         if { [lsearch $declared_roles $role] == -1 } {
+@@             set ta_includes { role width SLAVE_NAME }
+@@             type_action $type \
+@@                 ${assign_output_action} \
+@@                 ${assign_input_action} \
+@@                 ${assign_bidir_action} \
+@@                 ${assign_tristatable_action} \
+@@                 $ta_includes
+@@             lappend declared_roles $role
+@@         }
+@@     } $assign_includes
+@@
+@@ if { ${GEN_VHDL} == 0 } {
+endmodule
+@@ } else {
+  end rtl;
+@@ }

@@ -1,0 +1,153 @@
+CLASS altera_avalon_pci_compiler
+{
+  CALIFORNIA
+  {
+    Is_Hidden = "1";
+  }
+  ASSOCIATED_FILES
+  {
+    Add_Program = "core_add_program.pl";
+    Edit_Program = "core_add_program.pl";
+    Generator_Program = "core_generate_program.pl";
+    Validator_Program = "pci_avalon_sopc.VirtualMasterValidator";
+    Jar_File = "pci_avalon_sopc.jar";
+  }
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+      name = "PCI Compiler - Altera Corporation";
+      technology = "PCI";
+      license = "full";
+      vendor = "Altera Corporation";
+      
+    }
+  }
+  MODULE_DEFAULTS
+  {
+    class = "altera_avalon_pci_compiler";
+    class_version = "13.1";
+
+
+	CONNECTOR bar_0_virtual_master
+
+                {
+
+                  SYSTEM_BUILDER_INFO 
+
+                  {
+
+                    Maps_To  = "Prefetchable";
+                    Is_Enabled = "0";
+                    direction = "input";
+
+                  }
+
+                }
+
+                CONNECTOR bar_1_virtual_master
+
+                {
+
+                  SYSTEM_BUILDER_INFO 
+
+                  {
+
+                    Maps_To  = "Prefetchable";
+                    Is_Enabled = "0";
+                    direction = "input";
+
+                  }
+
+                }
+
+                CONNECTOR bar_2_virtual_master
+
+                {
+
+                  SYSTEM_BUILDER_INFO 
+
+                  {
+
+                    Maps_To  = "Prefetchable";
+                    Is_Enabled = "0";
+                    direction = "input";
+
+                  }
+
+                }
+
+                CONNECTOR bar_3_virtual_master
+
+                {
+
+                  SYSTEM_BUILDER_INFO 
+
+                  {
+
+                    Maps_To  = "Prefetchable";
+                    Is_Enabled = "0";
+                    direction = "input";
+
+                  }
+
+                }
+
+                CONNECTOR bar_4_virtual_master
+
+                {
+
+                  SYSTEM_BUILDER_INFO 
+
+                  {
+
+                    Maps_To  = "Prefetchable";
+                    Is_Enabled = "0";
+                    direction = "input";
+
+                  }
+                  
+                  
+                }
+                
+		CONNECTOR bar_5_virtual_master
+
+		{
+
+		  SYSTEM_BUILDER_INFO 
+
+		  {
+
+		    Maps_To  = "Prefetchable";
+		    Is_Enabled = "0";
+		    direction = "input";
+
+  		   }
+  		}
+
+
+     PORT_WIRING 
+     {
+	PORT AvlClk_i
+	{
+	   type = "clk";
+	   direction = "input";
+	   width = "1";
+	}
+	PORT rstn
+	{
+	   type = "export";
+	   direction = "input";
+	   width = "1";
+	}
+     }
+    SYSTEM_BUILDER_INFO
+    {
+      Instantiate_In_System_Module = "1";
+      Is_Enabled = "1";
+      Inhibit_Global_Reset="1";
+      Pins_Assigned_Automatically = "1";
+     
+    }
+  }
+}

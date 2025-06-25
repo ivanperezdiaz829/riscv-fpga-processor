@@ -1,0 +1,99 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this
+-- file for any purpose do so at their own risk, and are responsible for
+-- the results of such use.  Altera Corporation does not guarantee that
+-- this file is complete, correct, or fit for any particular purpose.
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information I/O standard for the all supported devices
+-- It will describe:
+--  - which pin will get an assignment
+--  - name mapping for some pins
+--  - width of buses
+-- It will be used by the constraint script to apply all constraints to each
+-- pin and any logic related to that pin.
+-- -------------------------------------------------------------------------
+
+-- $Revision: #1 $
+
+
+-- *************************************************************************
+--
+--                             PLEASE DO NOT EDIT
+--
+-- *************************************************************************
+list 	fast_output_reg_pin_list 		=	address_0_pin_name bank_address_0_pin_name cs_n_0_pin_name write_enable_n_0_pin_name ref_n_0_pin_name
+list 	fast_output_reg_1_pin_list 		=	address_1_pin_name bank_address_1_pin_name cs_n_1_pin_name write_enable_n_1_pin_name ref_n_1_pin_name
+list 	hstl_pin_list				=	address_0_pin_name bank_address_0_pin_name cs_n_0_pin_name write_enable_n_0_pin_name ref_n_0_pin_name qvld_pin_name
+list 	hstl_pin_1_list				=	address_1_pin_name bank_address_1_pin_name cs_n_1_pin_name write_enable_n_1_pin_name ref_n_1_pin_name
+list 	hstl_dm_pin_list			=	dm_pin_name
+list 	sio_hstl_pin_list 			=	address_0_pin_name bank_address_0_pin_name dm_pin_name qvld_pin_name cs_n_0_pin_name ref_n_0_pin_name write_enable_n_0_pin_name
+list 	sio_hstl_pin_1_list 			=	address_1_pin_name bank_address_1_pin_name cs_n_1_pin_name ref_n_1_pin_name write_enable_n_1_pin_name
+list    dqs_hstl_pin_list                       =       dqs_pin_name
+list    fb_clk_pin_list                         =       clockfeedback_in_pin_name
+list    cio_pin_list                            =       dq_pin_name
+list    sio_pin_list                            =       d_pin_name q_pin_name
+list 	clk_hstl_pin_list 			=	clock_pos_pin_name clock_neg_pin_name
+list 	diff_clk_hstl_pin_list 			=	clock_pos_pin_name
+list 	diff_neg_clk_hstl_pin_list 		=	diff_clock_neg_pin_name
+list 	cio_dq_output_pin_cap_load_list		= 	dq_pin_name
+list 	sio_dq_output_pin_cap_load_list		= 	d_pin_name
+list 	dm_output_pin_cap_load_list		= 	dm_pin_name
+list 	cmd_output_pin_cap_load_list		= 	write_enable_n_0_pin_name address_0_pin_name bank_address_0_pin_name cs_n_0_pin_name ref_n_0_pin_name
+list 	cmd_output_pin_1_cap_load_list		= 	write_enable_n_1_pin_name address_1_pin_name bank_address_1_pin_name cs_n_1_pin_name ref_n_1_pin_name
+list 	clk_output_pin_cap_load_list		= 	clock_pos_pin_name clock_neg_pin_name
+list    prot_plan_output_1_addr_cmd_pin_list	=	address_0_pin_name bank_address_0_pin_name cs_n_0_pin_name write_enable_n_0_pin_name ref_n_0_pin_name
+list    prot_plan_output_2_addr_cmd_pin_list	=	address_0_pin_name bank_address_0_pin_name address_1_pin_name bank_address_1_pin_name cs_n_0_pin_name cs_n_1_pin_name write_enable_n_0_pin_name write_enable_n_1_pin_name ref_n_0_pin_name ref_n_1_pin_name
+list    prot_plan_dm_output_pin_list 		= 	dm_pin_name
+list    prot_plan_ddio_clk_output_pin_list	=	clock_pos_pin_name clock_neg_pin_name
+list	prot_plan_dedicated_clk_output_pin_list	=	diff_clock_neg_pin_name
+list    prot_plan_bidirectional_pin_list	= 	dq_pin_name
+list    prot_plan_sio_output_pin_list		= 	d_pin_name
+list    prot_plan_sio_input_pin_list		= 	q_pin_name
+list    prot_plan_dqs_bidirectional_pin_list	=	dqs_pin_name
+list    prot_plan_fbclk_pin_list		=	clockfeedback_in_pin_name
+list 	prot_plan_qvld_input_pin_list		=	qvld_pin_name
+list    prot_plan_clk_output_pin_list		=	clock_pos_pin_name clock_neg_pin_name
+list    prot_plan_diff_clk_output_pin_list	=	clock_pos_pin_name
+
+width 	address_0_pin_name 			= 	mem_addr_bits
+width 	bank_address_0_pin_name			= 	3
+width 	address_1_pin_name 			= 	mem_addr_bits
+width 	bank_address_1_pin_name			= 	3
+width	dq_pin_name				= 	memory_width
+width	d_pin_name				= 	memory_width
+width	q_pin_name				= 	memory_width
+width	dqs_pin_name				= 	memory_width / mem_dq_per_dqs
+width 	dm_pin_name 				= 	number_memory_devices
+width   qvld_pin_name 				=	number_memory_devices
+width 	clock_pos_pin_name 			= 	num_output_clocks
+width 	clock_neg_pin_name			= 	num_output_clocks
+width 	diff_clock_neg_pin_name			= 	num_output_clocks
+
+map_name address_0_pin_name 			= 	a_0
+map_name bank_address_0_pin_name		= 	ba_0
+map_name cs_n_0_pin_name 			= 	cs_n_0
+map_name write_enable_n_0_pin_name 		= 	we_n_0
+map_name ref_n_0_pin_name 			= 	ref_n_0
+map_name address_1_pin_name 			= 	a_1
+map_name bank_address_1_pin_name		= 	ba_1
+map_name cs_n_1_pin_name 			= 	cs_n_1
+map_name write_enable_n_1_pin_name 		= 	we_n_1
+map_name ref_n_1_pin_name 			= 	ref_n_1
+map_name dq_pin_name 				= 	dq
+map_name d_pin_name 				= 	d
+map_name q_pin_name 				= 	q
+map_name dqs_pin_name 				= 	qk
+map_name dm_pin_name 				= 	dm
+map_name clock_pos_pin_name 			= 	clk
+map_name clock_neg_pin_name 			= 	clk_n
+map_name diff_clock_neg_pin_name 		= 	clk
+map_name clockfeedback_in_pin_name		= 	fb_clk_in
+map_name qvld_pin_name				=	qvld
+
+
+

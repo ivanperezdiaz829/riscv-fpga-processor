@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="12.1">
+  <preset
+     name="LineSide"
+     kind="altera_xcvr_10gkr_a10"
+     version="13.1"
+     description="lineside without 1588 configuration">
+   <parameter name="sel_backplane_lineside" value="1Gb/10Gb Ethernet" />
+   <parameter name="SYNTH_MII" value="0" />
+   <parameter name="OPTIONAL_RXPMA_CLK" value="1" />
+   <parameter name="REF_CLK_FREQ_10G" value="644.53125" />
+   <parameter name="SYNTH_FEC" value="0" />
+   <parameter name="PHY_IDENTIFIER" value="0" />
+   <parameter name="OPTIONAL_RX_DIV33CLK" value="0" />
+   <parameter name="SYNTH_SEQ" value="1" />
+   <parameter name="OPTIONAL_RX_CLKOUT" value="0" />
+   <parameter name="SYNTH_RCFG" value="1" />
+   <parameter name="SYNTH_GIGE" value="1" />
+   <parameter name="phy_mgmt_clk_freq" value="125.00" />
+   <parameter name="OPTIONAL_TX_DIV33CLK" value="0" />
+   <parameter name="SYNTH_1588_ALL" value="0" />
+   <parameter name="LINK_TIMER_KR" value="504.00" />
+   <parameter name="OPTIONAL_10G" value="1" />
+   <parameter name="SYNTH_AN" value="0" />
+   <parameter name="OPTIONAL_TXPMA_CLK" value="1" />
+   <parameter name="SYNTH_LT" value="0" />
+   <parameter name="DEV_VERSION" value="0" />
+   <parameter name="OPTIONAL_TX_CLKOUT" value="0" />
+   <parameter name="LINK_TIMER_KX" value="48.00" />
+   <parameter name="INI_DATAPATH" value="10G" />
+  </preset>
+ </presets>
+</ip>

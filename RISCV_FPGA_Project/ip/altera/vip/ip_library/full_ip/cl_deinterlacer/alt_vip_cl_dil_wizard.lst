@@ -1,0 +1,9 @@
+[DSP|Video and Image Processing]
+Deinterlacer II (with Sobel based HQ mode) v13.1 = "%t" "%w/../../../../common/lib/megawizard.pl" --wizard_file:"%w/alt_vip_cl_dil_hw.tcl" --wizard:alt_vip_cl_dil --cusp_ip:true --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix V | Stratix IV | Stratix III | Arria II GX | Arria II GZ | Arria V | Arria V GZ | Cyclone V | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Deinterlacer II (with Sobel based HQ mode) v13.0</ALIAS>
+</INFO>

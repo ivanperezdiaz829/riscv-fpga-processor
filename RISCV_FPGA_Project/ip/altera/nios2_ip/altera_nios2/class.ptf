@@ -1,0 +1,3898 @@
+CLASS altera_nios2
+{
+    SDK_GENERATION 
+    {
+        CPU 
+        {
+           gnu_tools_prefix = "nios2-elf";
+           sdk_directory_suffix = "sdk";
+           program_prefix_file = "nios2_jumptostart.s.o";
+           gnu_as_line_comment_character = "#";
+           test_code_prefix_file = "nios2_jumptostart.s.o";
+        }
+        SDK_FILES 
+        {
+           cpu_architecture = "always";
+           c_structure_type = "void *";
+           c_header_file = "sdk/nios_struct.h";
+           asm_header_file = "sdk/nios_struct.s";
+           sdk_files_dir = "sdk";
+           printf_txchar_routine = "nr_jtag_txchar";
+           printf_rxchar_routine = "nr_jtag_rxchar";
+        }
+    }
+    ASSOCIATED_FILES 
+    {
+        Add_Program = "nios_wizard_ui";
+        Edit_Program = "nios_wizard_ui";
+        Bind_Program = "bind";
+        Generator_Program = "cpu_core_select.pl";
+        Jar_File = "nios2-wizard.jar";
+    }
+    MODULE_DEFAULTS 
+    {
+        class = "altera_nios2";
+        class_version = "7.08131";
+        iss_model_name = "altera_nios2";
+        HDL_INFO 
+        {
+            # The list of files associated with this module (for synthesis
+            # and other purposes) depends on the users' wizard-choices.
+            # This section will be filled-in by the Generator_Program
+            # after the module logic has been created and the
+            # various filenames are known.
+        }
+        MASTER instruction_master
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Is_Instruction_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "0";
+                Address_Group = "0";
+
+                # This is only for hbreak test bench, not for human consumption
+                Has_IRQ = "0";
+                Irq_Scheme = "individual_requests";
+                Interrupt_Range = "0-0"; 
+                Is_Enabled = "1";
+                Is_Big_Endian = "0";
+
+                # Burst parameters.  Only used if I-cache present.
+                Maximum_Burst_Size = "1";
+                Burst_On_Burst_Boundaries_Only = "0";
+                Linewrap_Bursts = "1";
+                Interleave_Bursts = "0";
+                Always_Burst_Max_Burst = "1";
+            }
+        }
+        MASTER tightly_coupled_instruction_master_0
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Is_Instruction_Master = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_instruction_master_1
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Instruction_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "0";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_instruction_master_2
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Instruction_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "0";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_instruction_master_3
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Instruction_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "0";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER data_master
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "1";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "1";
+                Irq_Scheme = "individual_requests";
+                Interrupt_Range = "0-31"; 
+                Is_Enabled = "1";
+                Is_Big_Endian = "0";
+
+                # Burst parameters.  Only used if D-cache present.
+                Maximum_Burst_Size = "1";
+                Burst_On_Burst_Boundaries_Only = "1";
+            }
+        }
+        MASTER data_master2
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "1";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+            }
+        }
+        MASTER tightly_coupled_data_master_0
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_data_master_1
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_data_master_2
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER tightly_coupled_data_master_3
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Register_Incoming_Signals = "0";
+                Bus_Type = "avalon";
+                Data_Width = "32";
+                Max_Address_Width = "31";
+                Address_Width = "8";
+                Address_Group = "0";
+                Is_Data_Master = "1";
+                Is_Readable = "1";
+                Is_Writeable = "1";
+                Has_IRQ = "0";
+                Is_Enabled = "0";
+                Is_Big_Endian = "0";
+                Connection_Limit = "1";
+                Is_Channel = "1";
+            }
+        }
+        MASTER custom_instruction_master
+        {
+            PORT_WIRING 
+            {
+                # The number and kind of ports that appear on this module
+                # depends on the user's wizard-choices.
+                # This section will be filled-in by the Generator_Program after
+                # the module logic has been created and the ports are known.
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+                Bus_Type = "nios_custom_instruction";
+                Data_Width = "32";
+                Address_Width = "8";
+                Max_Address_Width = "8";
+                Base_Address = "N/A";
+                Is_Visible = "0";
+                Is_Custom_Instruction = "0";
+                Is_Enabled = "0";
+            }
+        }
+        SLAVE jtag_debug_module
+        {
+          PORT_WIRING 
+          {
+              # The number and kind of ports that appear on this module
+              # depends on the user's wizard-choices.
+              # This section will be filled-in by the Generator_Program after
+              # the module logic has been created and the ports are known.
+          }
+          SYSTEM_BUILDER_INFO 
+          {
+              Read_Wait_States = "peripheral_controlled";
+              Write_Wait_States = "peripheral_controlled";
+              Bus_Type = "avalon";
+              Data_Width = "32";
+              Address_Width = "9";
+              Accepts_Internal_Connections = "1";
+              Requires_Internal_Connections = "instruction_master,data_master";
+              Accepts_External_Connections = "0"; # only self-component-mastered
+              Is_Enabled = "1";
+              Address_Alignment = "dynamic";
+              Base_Address = "";
+              Is_Memory_Device = "1";
+              Is_Readable = "1";
+              Is_Writeable = "1";
+              Is_Printable_Device = "0";
+              Is_Big_Endian = "0";      # This is always little even if the CPU is big.
+              Uses_Tri_State_Data_Bus = "0";
+              Has_IRQ = "0";
+
+              # JTAG_Hub_Base_ID is :
+              #   (Node_Ver << 19) +
+              #   (0x22 << 11) +        # Node ID
+              #   (0x46 << 0 )          # Mfg_ID
+              #
+              # For Nios II 1.0:
+              #   Node_Ver = 0, JTAG_Hub_Base_ID = 0x011046 = 69702
+              # For Nios II 1.01 and 1.1:
+              #   Node_Ver = 1, JTAG_Hub_Base_ID = 0x091046 = 593990
+              # For Nios II 5.0:
+              #   Node_Ver = 2, JTAG_Hub_Base_ID = 0x111046 = 1118278
+              #
+              # If you update this value, you must also change the value
+              # assigned in enforce_jtag_base_id_replacement later in this
+              # PTF file.
+              JTAG_Hub_Base_Id = "1118278";
+
+              JTAG_Hub_Instance_Id = "0";
+          }
+        }
+        PORT_WIRING
+        {
+            PORT jtag_debug_trigout
+            {
+                width = "1";
+                direction = "output";
+                Is_Enabled = "0";
+            }
+            PORT jtag_debug_offchip_trace_clk
+            {
+                width = "1";
+                direction = "output";
+                Is_Enabled = "0";
+            }
+            PORT jtag_debug_offchip_trace_data
+            {
+                width = "18";
+                direction = "output";
+                Is_Enabled = "0";
+            }
+            PORT clkx2
+            {
+                width = "1";
+                direction = "input";
+                Is_Enabled = "0";
+                visible = "0";
+            }
+        }
+        WIZARD_SCRIPT_ARGUMENTS 
+        {
+            CPU_Architecture            = "nios2";  # CONSTANT
+
+            # User Settings
+            cpu_selection               = "f";     # {e, s, f} (used by GUI)
+            CPU_Implementation          = "fast";   # {tiny, small, fast}
+
+            # Caches / Tightly Coupled Memories page
+            gui_include_tightly_coupled_instruction_masters = "0";  # {0, 1}
+            gui_num_tightly_coupled_instruction_masters = "1";  # {1,2,3,4}
+            gui_omit_avalon_data_master = "0";  # {0, 1}
+            gui_include_tightly_coupled_data_masters        = "0";  # {0, 1}
+            gui_num_tightly_coupled_data_masters            = "1";  # {1,2,3,4}
+            num_tightly_coupled_instruction_masters = "0";  # {0, 1, 2, 3, 4}
+            num_tightly_coupled_data_masters = "0"; # {0, 1, 2, 3, 4}
+            cache_has_dcache            = "1";      # {0, 1}
+            cache_has_icache            = "1";      # {0, 1}
+            cache_dcache_size           = "2048";   # {0, 512, 1024, ... 65536}
+            cache_icache_size           = "4096";   # {0, 512, 1024, ... 65536}
+            cache_dcache_line_size      = "4";      # {4, 16, 32}
+            cache_icache_line_size      = "32";     # {32}
+            cache_dcache_bursts         = "0";      # {0, 1}
+            cache_icache_bursts         = "0";      # {0, 1}
+            cache_icache_burst_type     = "none";   # {none, sequential, interleaved}
+            cache_dcache_ram_block_type = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K, MLAB}
+            cache_icache_ram_block_type = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K}
+
+            include_oci                 = "1";      # {0, 1}. must be 0 if "include_third_party_debug_port" is 1.
+            include_third_party_debug_port = "0";   # {0, 1}. must be 0 if "include_oci" is 1.
+            debug_level                 = "2";      # {1, 2, 3, 4, 5} (used by GUI)
+            oci_offchip_trace           = "0";      # {0, 1} Support off-chip trace signals (FS2 box required)
+            oci_onchip_trace            = "0";      # {0, 1} Support On-chip trace memory
+            oci_data_trace              = "0";      # {0, 1} Support data trace
+            oci_trace_addr_width        = "7";      # {7 ... 16}
+            oci_num_xbrk                = "0";      # {0, 1, 4} Number of instruction hw breakpoints
+            oci_num_dbrk                = "0";      # {0, 2, 4} Number of data hw watchpoints
+            oci_sync_depth              = "2";      # {0 ... 8 } Number of synchronizer stages for tck->sysclk clock crossing
+            oci_dbrk_trace              = "0";      # {0, 1} Enable watchpoints to trigger trace
+            oci_dbrk_pairs              = "0";      # {0, 1} Enable watchpoints to work in pairs
+            oci_num_pm                  = "0";      # {0, 1, 2} Number of performance monitors
+            oci_pm_width                = "40";     # {32..65} Number of bits in performance monitor counter
+            oci_debugreq_signals        = "0";      # (Leave as 0 because no one seems to use it.)
+            oci_trigger_arming          = "1";      # {0, 1} Enable trigger states for trigger arming
+            oci_embedded_pll            = "1";      # {0, 1} For Cyclone example design.
+            oci_assign_jtag_instance_id = "0";      # {0, 1} Assign jtag instance id for debug core manually
+            oci_jtag_instance_id        = "0";      # {0 ... 255} jtag instance id value for debug core
+			avalon_debug_port_present   = "0";      # {0, 1}
+            hardware_multiply_present   = "1";      # {0, 1}
+            hardware_divide_present     = "0";      # {0, 1}
+            hardware_divide_impl        = "variable_latency";   # {variable_latency,srt2}
+
+            # If hardware_multiply_present, then these are interesting.
+            gui_hardware_multiply_setting = "";
+            hardware_multiply_omits_msw = "0";      # {0, 1}
+            # Enumerated type is defined with the definitions below.
+            hardware_multiply_impl      = "";
+
+            # RAM Block
+	    register_file_ram_type      = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K, MLAB}
+	    mmu_ram_type                = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K, MLAB}
+	    bht_ram_type                = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K, MLAB}
+	    oci_mem_ram_type            = "AUTO";   # {AUTO, M4K, M-RAM, M9K, M10K, M20K, M144K, MLAB}
+
+            gui_hardware_divide_setting = "";       # {0, 1} (or "" to force
+                                                    #         initialization)
+
+            # Advanced features (some may be hidden)
+            cpu_reset                   = "0";      # {0, 1}
+            export_pcb                  = "0";      # {0, 1}
+            big_endian                  = "0";      # {0, 1}
+
+            # Device information
+            dsp_block_supports_shift    = "0";      # {0, 1}
+            address_stall_present       = "0";      # {0, 1}
+            mrams_present               = "0";      # {0, 1}
+
+            #     $OCI_SBI/Is_Enabled   = {0, 1}
+
+            # Binding Page
+            reset_slave                 = "";       # Binding
+            reset_offset                = "0x0";    # Binding
+            exc_slave                   = "";       # Binding
+            exc_offset                  = "0x0";    # Binding
+            break_slave                 = "";       # Binding
+            break_offset                = "0x20";   # Binding
+            break_slave_override        = "";       # Binding
+            break_offset_override       = "0x20";   # Binding
+            legacy_sdk_support          = "0";      # Binding
+
+            # This flag controls whether unreleased features are displayed
+            # in the Nios II component wizard.
+            altera_show_unreleased_features = "0";  # {0, 1}
+
+            # This flag controls whether unpublished features are displayed
+            # in the Nios II component wizard.
+            altera_show_unpublished_features = "0";  # {0, 1}
+
+            # This flag controls whether test features are displayed
+            # in the Nios II component wizard.
+            altera_internal_test        = "0";      # {0, 1}
+
+            # Alt_log required system information
+            alt_log_port_base           = "";
+            alt_log_port_type           = "";
+
+            # CPUID information
+            # If this flag is set to "1", then whatever values in
+            # cpuid_sz and cpuid_value will be used to create
+            # the CPUID register.
+            dont_overwrite_cpuid        = "0";
+            cpuid_value                 = "0";
+            cpuid_sz                    = "1";      # {0 to 32}
+
+            # Width of instruction/data physical addresses in bits.
+            # If not provided, they will be computed.
+            inst_addr_width             = "";
+            data_addr_width             = "";
+
+            # Altera Unreleased Features Settings
+            full_waveform_signals       = "0";      # {0, 1}
+            gui_branch_prediction_type  = "Automatic";
+            branch_prediction_type      = "";
+            bht_ptr_sz                  = "8";      # {8, 9, 10, 11}
+            bht_index_pc_only           = "0";      # {0, 1}
+            shift_rot_impl              = "";
+            gui_mmu_present             = "0";      # {0, 1}
+            mmu_present                 = "0";      # {0, 1}
+            process_id_num_bits         = "10";     # {8 to 14}
+            tlb_ptr_sz                  = "7";      # {7, 8, 9, 10}
+            tlb_num_ways                = "16";     # {8,16}
+            udtlb_num_entries           = "6";      # {2,4,6,8}
+            uitlb_num_entries           = "4";      # {2,4,6,8}
+            fast_tlb_miss_exc_slave     = "";       # Binding
+            fast_tlb_miss_exc_offset    = "0x0";    # Binding 
+            gui_illegal_instructions_trap = "0";    # {0, 1}
+            illegal_instructions_trap   = "0";      # {0, 1}
+
+            # Advanced exception features
+            advanced_exc                = "0";      # {0,1}
+            illegal_mem_exc             = "0";      # {0,1}
+            slave_access_error_exc      = "0";      # {0,1}
+            division_error_exc          = "0";      # {0,1}
+            extra_exc_info              = "0";      # {0,1}
+
+            # MPU
+            mpu_present                 = "0";      # {0,1}
+            mpu_num_inst_regions        = "8";      # {2-32}
+            mpu_num_data_regions        = "8";      # {2-32}
+            mpu_min_inst_region_size_log2 = "12";   # {6-20}
+            mpu_min_data_region_size_log2 = "12";   # {6-20}
+            mpu_use_limit               = "0";      # {0,1}
+
+            # EIC
+            eic_present                 = "0";      # {0,1}
+
+            # Shadow registers
+            num_shadow_reg_sets         = "0";      # {0-62}
+
+            # Imprecise exceptions
+            gui_illegal_memory_access_detection = "0";  # {0, 1}
+            illegal_memory_access_detection = "0";  # {0, 1}
+
+            # Features that are supported now, but related unreleased-features
+            # settings are ignored and generate warnings in this release.
+            # When we omit the warnings, we can delete these settings.
+            cache_omit_dcache           = "0";      # {0, 1}
+            cache_omit_icache           = "0";      # {0, 1}
+            omit_instruction_master     = "0";      # {0, 1}
+            omit_data_master            = "0";      # {0, 1}
+
+            # Altera Internal Test Settings
+            performance_counters_present= "0";      # {0, 1}
+            performance_counters_width  = "32";     # {16, 24, 32}
+            ras_ptr_sz                  = "4";      # {3, 4, 5}
+            jtb_ptr_sz                  = "5";      # {5, 6, 7, 8}
+            ibuf_ptr_sz                 = "4";      # {2, 3, 4, 5}
+            always_encrypt              = "1";      # {0, 1}
+            debug_simgen                = "0";      # {0, 1}
+            activate_model_checker      = "0";      # {0, 1}
+            activate_monitors           = "1";      # {0, 1}
+            activate_test_end_checker   = "0";      # {0, 1}
+            activate_trace              = "1";      # {0, 1}
+            clear_x_bits_ld_non_bypass  = "1";      # {0, 1}
+            bit_31_bypass_dcache        = "1";      # {0, 1}
+            always_bypass_dcache        = "0";      # {0, 1}
+            hdl_sim_caches_cleared      = "1";      # {0, 1}
+            hbreak_test                 = "0";      # {0, 1}
+            allow_full_address_range    = "0";      # {0, 1}
+            allow_legacy_sdk            = "0";      # {0, 1}
+
+            # ISS options
+            iss_trace_on                              = "0";
+            iss_trace_warning                         = "1";
+            iss_trace_info                            = "1";
+            iss_trace_disassembly                     = "0";
+            iss_trace_registers                       = "0";
+            iss_trace_instr_count                     = "0";
+            iss_software_debug                        = "0";
+            iss_software_debug_port                   = "9996";
+            iss_memory_dump_start                     = "";
+            iss_memory_dump_end                       = "";
+
+            # Assignments associated with the flash and EPCS boot copiers.
+            Boot_Copier                  = "boot_loader_cfi.srec";
+            Boot_Copier_EPCS             = "boot_loader_epcs.srec";
+            Boot_Copier_EPCS_SII_SIII_CIII    = "boot_loader_epcs_sii_siii_ciii.srec";
+            Boot_Copier_BE               = "boot_loader_cfi_be.srec";
+            Boot_Copier_EPCS_BE          = "boot_loader_epcs_be.srec";
+            Boot_Copier_EPCS_SII_SIII_CIII_BE = "boot_loader_epcs_sii_siii_ciii_be.srec";
+
+            CONSTANTS 
+            {
+                CONSTANT __nios_catch_irqs__
+                {
+                    value = "1";
+                    comment = "Include panic handler for all irqs (needs uart)";
+                }
+                CONSTANT __nios_use_constructors__
+                {
+                    value = "1";
+                    comment = "Call c++ static constructors";
+                }
+                CONSTANT __nios_use_small_printf__
+                {
+                    value = "1";
+                    comment = "Smaller non-ANSI printf, with no floating point";
+                }
+                CONSTANT nasys_has_icache
+                {
+                   value = "0";
+                   comment = "True if instruction cache present";
+                }
+                CONSTANT nasys_icache_size
+                {
+                   value = "0";
+                   comment = "Size in bytes of instruction cache";
+                }
+                CONSTANT nasys_icache_line_size
+                {
+                   value = "32";
+                   comment = "Size in bytes of each icache line";
+                }
+                CONSTANT nasys_icache_line_size_log2
+                {
+                   value = "5";
+                   comment = "Log2 size in bytes of each icache line";
+                }
+                CONSTANT nasys_has_dcache
+                {
+                   value = "0";
+                   comment = "True if instruction cache present";
+                }
+                CONSTANT nasys_dcache_size
+                {
+                   value = "0";
+                   comment = "Size in bytes of data cache";
+                }
+                CONSTANT nasys_dcache_line_size
+                {
+                   value = "4";
+                   comment = "Size in bytes of each dcache line";
+                }
+                CONSTANT nasys_dcache_line_size_log2
+                {
+                   value = "2";
+                   comment = "Log2 size in bytes of each dcache line";
+                }
+            }
+        }
+        SYSTEM_BUILDER_INFO 
+        {
+            Parameters_Signature = "";
+            Is_CPU = "1";
+            Is_Enabled = "1";
+            Instantiate_In_System_Module = "1";
+            Required_Device_Family =
+            "STRATIX,STRATIXGX,STRATIXII,STRATIXIIGX,STRATIXIIGXLITE,STRATIXIII,STRATIXIV,STRATIXV,CYCLONE,CYCLONEII,CYCLONEIII,CYCLONEIVE,CYCLONEV,HARDCOPYIII,ARRIAII,ARRIAIIGZ,ARRIAV,TARPON,HARDCOPYIV,STINGRAY";
+
+            # Controls the prefix of the default instance name chosen
+            # by SOPC builder (it adds a unique numeric suffix).
+            Default_Module_Name = "cpu";
+            Top_Level_Ports_Are_Enumerated = "1";
+        }
+    }
+    USER_INTERFACE 
+    {
+        USER_LABELS 
+        {
+            name = "Nios II Processor - Altera Corporation";
+            description = "Nios II processor core with separate Avalon master ports for instructions & data";
+        }
+        LINKS
+        {
+            LINK help
+            {
+                title="Data Sheet";
+                url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51004.pdf";
+            }
+            LINK hw_handbook
+            {
+                title="Processor Reference Handbook";
+                url="http://www.altera.com/literature/hb/nios2/n2cpu_nii5v1.pdf";
+            }
+            LINK sw_handbook
+            {
+                title="Software Developer's Handbook";
+                url="http://www.altera.com/literature/hb/nios2/n2sw_nii5v2.pdf";
+            }
+        }
+        WIZARD_UI nios_wizard_ui
+        {
+            java = "nios2_wizard.nios2_wizard"; 
+            title = "Altera Nios II - {{ $MOD }}";
+            align = "left";
+
+            CONTEXT 
+            {
+                WSA = "WIZARD_SCRIPT_ARGUMENTS";
+                SBI = "SYSTEM_BUILDER_INFO";
+                CONSTANTS = "WIZARD_SCRIPT_ARGUMENTS/CONSTANTS";
+                IM_SBI = "MASTER instruction_master/SYSTEM_BUILDER_INFO";
+                DM_SBI = "MASTER data_master/SYSTEM_BUILDER_INFO";
+                DM2_SBI = "MASTER data_master2/SYSTEM_BUILDER_INFO";
+                TCIM0_SBI = "MASTER tightly_coupled_instruction_master_0/SYSTEM_BUILDER_INFO";
+                TCIM1_SBI = "MASTER tightly_coupled_instruction_master_1/SYSTEM_BUILDER_INFO";
+                TCIM2_SBI = "MASTER tightly_coupled_instruction_master_2/SYSTEM_BUILDER_INFO";
+                TCIM3_SBI = "MASTER tightly_coupled_instruction_master_3/SYSTEM_BUILDER_INFO";
+                TCDM0_SBI = "MASTER tightly_coupled_data_master_0/SYSTEM_BUILDER_INFO";
+                TCDM1_SBI = "MASTER tightly_coupled_data_master_1/SYSTEM_BUILDER_INFO";
+                TCDM2_SBI = "MASTER tightly_coupled_data_master_2/SYSTEM_BUILDER_INFO";
+                TCDM3_SBI = "MASTER tightly_coupled_data_master_3/SYSTEM_BUILDER_INFO";
+                OCI_SBI = "SLAVE jtag_debug_module/SYSTEM_BUILDER_INFO";
+            }
+            
+            ACTION initialize
+            {
+                # Copied from the bind program.Changed register offset (from base address) to a define, also removed the 'u' for unsigned after each hex mask define for usage in assembly files.
+                update_mul_shift = "{{ 
+                    if ($SYS/device_family_id == 'CYCLONE')
+                    {
+                        if ($WSA/gui_hardware_multiply_setting == '')
+                        {
+                            $WSA/gui_hardware_multiply_setting =
+                                'no_mul_small_le_shift';
+                        }
+                        else
+                        {
+                            if (startswith($WSA/gui_hardware_multiply_setting,
+                                           'dsp_mul') ||
+                                startswith($WSA/gui_hardware_multiply_setting,
+                                           'embedded_mul'))
+                            {
+                                $WSA/gui_hardware_multiply_setting =
+                                    'le_mul_fast_le_shift';
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (startswith($SYS/device_family_id, 'CYCLONEII'))
+                        {
+                            if ($WSA/gui_hardware_multiply_setting == '')
+                            {
+                                $WSA/gui_hardware_multiply_setting =
+                                    'embedded_mul_fast_le_shift';
+                            }
+                            else
+                            {
+                                if (startswith($WSA/gui_hardware_multiply_setting,
+                                           'dsp_mul'))
+                                {
+                                    $WSA/gui_hardware_multiply_setting =
+                                        'embedded_mul_fast_le_shift';
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (startswith($SYS/device_family_id,'STRATIX'))
+                            {
+                                if ($WSA/gui_hardware_multiply_setting == '')
+                                {
+                                    $WSA/gui_hardware_multiply_setting =
+                                        'dsp_mul_dsp_shift';
+                                }
+                                else
+                                {
+                                  if (startswith($WSA/gui_hardware_multiply_setting,
+                                                 'embedded_mul'))
+                                  {
+                                    $WSA/gui_hardware_multiply_setting =
+                                      'dsp_mul_dsp_shift';
+                                  }
+                                }
+                            }
+                        }
+                    }
+                }}";
+
+                # Sometimes we need to rename a gui setting.
+                # Copy the old setting to the new setting, here.
+                initialize_new_gui_variables = "{{ 
+                    if ($WSA/gui_hardware_divide_setting == '')
+                    {
+                        $WSA/gui_hardware_divide_setting =
+                            $WSA/hardware_divide_present;
+                    }
+                }}";
+
+                # Logic to get the supported memory block type
+                $$has_M4K  = "{{ device_info('has_M4K') }}";
+                $$has_MRAM = "{{ device_info('has_MRAM') }}";
+                $$has_M9K = "{{ device_info('has_M9K') }}";
+                $$has_M10K = "{{ device_info('has_M10K') }}";
+                $$has_M20K = "{{ device_info('has_M20K') }}";
+                $$has_M144K = "{{ device_info('has_M144K') }}";
+                $$has_MLAB = "{{ device_info('has_MLAB') }}";
+            }
+            ACTION wizard_finish
+            {
+                # Enable trace ports if offchip trace is enabled
+                $MOD/PORT_WIRING/PORT jtag_debug_trigout/Is_Enabled = "{{ ($WSA/include_oci && $WSA/oci_offchip_trace) }}";
+                $MOD/PORT_WIRING/PORT jtag_debug_offchip_trace_clk/Is_Enabled = "{{ ($WSA/include_oci && $WSA/oci_offchip_trace) }}";
+                $MOD/PORT_WIRING/PORT jtag_debug_offchip_trace_data/Is_Enabled = "{{ ($WSA/include_oci && $WSA/oci_offchip_trace) }}";
+                $MOD/PORT_WIRING/PORT clkx2/Is_Enabled = "{{ ($WSA/include_oci && $WSA/oci_offchip_trace && !$WSA/oci_embedded_pll) }}";
+                
+                # Enable or disable caches based on core capabilities and
+                # the GUI settings.
+                enable_or_disable_caches = "{{
+                    if ($WSA/CPU_Implementation == 'tiny')
+                    {
+                        $WSA/cache_has_icache = 0;
+                        $WSA/cache_has_dcache = 0;
+                    }
+                    else
+                    {
+                        if ($WSA/CPU_Implementation == 'small')
+                        {
+                            $WSA/cache_has_icache = ($WSA/cache_icache_size != 0);
+                            $WSA/cache_has_dcache = 0;
+                        }
+                        else
+                        {
+                            if ($WSA/CPU_Implementation == 'fast')
+                            {
+                                $WSA/cache_has_icache = ($WSA/cache_icache_size != 0);
+                                $WSA/cache_has_dcache = ($WSA/cache_dcache_size != '0');
+                            }
+                            else
+                            {
+                                if ($WSA/CPU_Implementation == 'x4')
+                                {
+                                    $WSA/cache_has_icache = ($WSA/cache_icache_size != 0);
+                                    $WSA/cache_has_dcache = 0;
+                                }
+                                else
+                                {
+                                    0;
+                                }
+                            }
+                        }
+                    }
+                }}";
+
+                # Enable or disable tightly coupled masters based on core
+                # capabilities and the GUI settings.
+                tightly_coupled_instruction_masters = "{{
+                    if (($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'x4') && $WSA/gui_include_tightly_coupled_instruction_masters)
+                    {
+                        $WSA/num_tightly_coupled_instruction_masters = $WSA/gui_num_tightly_coupled_instruction_masters;
+                    }
+                    else
+                    {
+                        $WSA/num_tightly_coupled_instruction_masters = 0;
+                    }
+                }}";
+    
+                tightly_coupled_data_masters = "{{
+                    if ($WSA/CPU_Implementation == 'fast' && $WSA/gui_include_tightly_coupled_data_masters)
+                    {
+                        $WSA/num_tightly_coupled_data_masters = $WSA/gui_num_tightly_coupled_data_masters;
+                    }
+                    else
+                    {
+                        $WSA/num_tightly_coupled_data_masters = 0;
+                    }
+                }}";
+
+                # Update instruction_master SBI parameters.
+                update_imaster = "{{
+                    if ($WSA/cache_has_icache && $WSA/cache_icache_bursts) {
+                        $WSA/cache_icache_burst_type = 'sequential';
+                        $IM_SBI/Maximum_Burst_Size = $WSA/cache_icache_line_size / 4;
+                        $IM_SBI/Burst_On_Burst_Boundaries_Only = '0';
+                        $IM_SBI/Linewrap_Bursts = '1';
+                        $IM_SBI/Interleave_Bursts = '0';
+                        $IM_SBI/Always_Burst_Max_Burst = '1';
+                    } else {
+                        $WSA/cache_icache_burst_type = 'none';
+                        $IM_SBI/Maximum_Burst_Size = '1';
+                        $IM_SBI/Burst_On_Burst_Boundaries_Only = '';
+                        $IM_SBI/Linewrap_Bursts = '';
+                        $IM_SBI/Interleave_Bursts = '';
+                        $IM_SBI/Always_Burst_Max_Burst = '';
+                    }
+                    $IM_SBI/Has_IRQ = $WSA/hbreak_test;
+                }}";
+
+                # Update data_master SBI parameters.
+                # Avalon doesn't currently support registered
+                # incoming signals and latency aware reads.
+                update_dmaster = "{{
+                    if ($WSA/cache_has_dcache) {
+                        if ($WSA/cache_dcache_line_size > 4) {
+                            if ($WSA/cache_dcache_bursts) {
+                                $DM_SBI/Maximum_Burst_Size = $WSA/cache_dcache_line_size / 4;
+                                $DM_SBI/Burst_On_Burst_Boundaries_Only = '1';
+                            } else {
+                                $DM_SBI/Maximum_Burst_Size = '1';
+                                $DM_SBI/Burst_On_Burst_Boundaries_Only = '';
+                            }
+                            $DM_SBI/Register_Incoming_Signals = '0';
+                        } else {
+                            $DM_SBI/Maximum_Burst_Size = '1';
+                            $DM_SBI/Burst_On_Burst_Boundaries_Only = '';
+                            $DM_SBI/Register_Incoming_Signals = '1';
+                        }
+                    } else {
+                        if (($WSA/CPU_Implementation == 'fast' && $WSA/cache_dcache_size != '0' && !$WSA/gui_omit_avalon_data_master)) {
+                            $DM_SBI/Register_Incoming_Signals = '0';
+                        } else {
+                            $DM_SBI/Register_Incoming_Signals = '1';
+                        }
+
+                        $DM_SBI/Maximum_Burst_Size = '1';
+                        $DM_SBI/Burst_On_Burst_Boundaries_Only = '';
+                    }
+                }}";
+
+                $CONSTANTS/CONSTANT nasys_has_icache/value = "{{ $WSA/cache_has_icache }}";
+                $CONSTANTS/CONSTANT nasys_icache_size/value = "{{ $WSA/cache_icache_size }}";
+                $CONSTANTS/CONSTANT nasys_icache_line_size/value = "{{ $WSA/cache_icache_line_size }}";
+                $CONSTANTS/CONSTANT nasys_icache_line_size_log2/value = "{{ log2($WSA/cache_icache_line_size); }}";
+                $CONSTANTS/CONSTANT nasys_has_dcache/value = "{{ $WSA/cache_has_dcache }}";
+                $CONSTANTS/CONSTANT nasys_dcache_size/value = "{{ $WSA/cache_dcache_size }}";
+                $CONSTANTS/CONSTANT nasys_dcache_line_size/value = "{{ $WSA/cache_dcache_line_size }}";
+                $CONSTANTS/CONSTANT nasys_dcache_line_size_log2/value = "{{ log2($WSA/cache_dcache_line_size); }}";
+                remove_oci_base_address = "{{ if ($OCI_SBI/Is_Enabled == 0) $OCI_SBI/Base_Address = ''; }}";
+
+                # enable or disable masters
+                $IM_SBI/Is_Enabled = "{{ ($WSA/CPU_Implementation == 'tiny' || $WSA/cache_icache_size != 0) }}";
+                $DM_SBI/Is_Enabled = "{{ ($WSA/CPU_Implementation != 'fast' || $WSA/cache_dcache_size != 0 || !$WSA/gui_omit_avalon_data_master) }}";
+                $TCIM0_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_instruction_masters > 0) }}";
+                $TCIM1_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_instruction_masters > 1) }}";
+                $TCIM2_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_instruction_masters > 2) }}";
+                $TCIM3_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_instruction_masters > 3) }}";
+                $TCDM0_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_data_masters > 0) }}";
+                $TCDM1_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_data_masters > 1) }}";
+                $TCDM2_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_data_masters > 2) }}";
+                $TCDM3_SBI/Is_Enabled = "{{ ($WSA/num_tightly_coupled_data_masters > 3) }}";
+
+                # Set endianness on all masters and slaves to match CPU endianness
+                $IM_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $DM_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $DM2_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCIM0_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCIM1_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCIM2_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCIM3_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCDM0_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCDM1_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCDM2_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $TCDM3_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+                $OCI_SBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+            }
+
+            $WSA/branch_prediction_type = 
+            "{{
+              if ($WSA/gui_branch_prediction_type == 'Automatic') {
+                 if ($WSA/CPU_Implementation == 'small') {
+                    'Static';
+                 } else {
+                    'Dynamic';
+                 }
+              } else {
+                 $WSA/gui_branch_prediction_type; 
+              }
+            }}";
+
+            MENU
+            {
+                # this is only here as a workaround for SPR:181605.
+                ITEM
+                {
+                    title = "";
+                    value = "";
+                }
+            }
+
+
+            PAGES main
+            {
+                PAGE 1
+                {
+                    title = "Core";
+                    icon = "nios2-icon.gif";
+                    indent = "15";
+                    GROUP 
+                    {
+                        spacing = 4;
+                        TEXT
+                        {
+                            title = "Select a Nios II core:";
+                        }
+                        SELECTOR
+                        {
+                            id = "core";
+                            java = "nios2_wizard.nios2_ui_selector";
+                            title = "Nios II Core Implementation Selector";
+                            SECTION labels
+                            {
+                               ITEM { title = ""; }
+                               ITEM { title = "<html><center><font size=\"+2\"><b>Nios II</b></font><br>Selector Guide<br><table><tr><td align=right>Family:</td><td>{{ device_info('title'); }}</td></tr><tr><td align=right>f<sub>system:</sub></td><td>{{ sopc_get_clock_freq($MOD) / 1e6 }} MHz</td></tr></table></center>"; }
+                               ITEM { title = "Performance at {{ sopc_get_clock_freq($MOD) / 1e6 }} MHz"; }
+                               ITEM { title = "Logic Usage"; }
+                               ITEM { title = "Memory Usage"; }
+                            }
+                            SECTION e
+                            {
+                                ITEM { title = "<html><font size=\"+1\">Nios II/e</font>"; }
+                                ITEM { title = "<html><b>RISC</b><br><b>32-bit</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION e/perf_at_fsystem"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION e/le_count"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION e/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/cpu_selection = "e";
+                                    $WSA/CPU_Implementation = "tiny";
+                                    # disable debugging more powerful than software breakpoints
+                                    # when selecting a "tiny" cpu implementation.
+                                    # these settings are copied from the debug selector.
+                                    # $WSA/debug_level = "{{ if (($WSA/debug_level > 1) && ($WSA/debug_level < 6)) '2'; }}";
+                                    $WSA/oci_num_xbrk = "0";
+                                    $WSA/oci_num_dbrk = "0";
+                                    $WSA/oci_dbrk_trace = "0";
+                                    $WSA/oci_dbrk_pairs = "0";
+                                    $WSA/oci_onchip_trace = "0";
+                                    $WSA/oci_offchip_trace = "0";
+                                    $WSA/oci_data_trace = "0";
+                                    $WSA/oci_num_pm = "0";
+                                    $DM2_SBI/Is_Enabled = "0";
+                                }                           
+                            }
+                            SECTION s
+                            {
+                                ITEM { title = "<html><font size=\"+1\">Nios II/s</font>"; }
+                                ITEM { title = "<html>RISC<br>32-bit<br><b>Instruction Cache</b><br><b>Branch Prediction</b><br><b>Hardware Multiply</b><br><b>Hardware Divide</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION s/perf_at_fsystem"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION s/le_count"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION s/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/cpu_selection = "s";
+                                    $WSA/CPU_Implementation = "small";
+                                    $DM2_SBI/Is_Enabled = "0";
+                                }
+                            }
+                            SECTION f
+                            {
+                                ITEM { title = "<html><font size=\"+1\">Nios II/f</font>"; }
+                                ITEM { title = "<html>RISC<br>32-bit<br>Instruction Cache<br>Branch Prediction<br>Hardware Multiply<br>Hardware Divide<br><b>Barrel Shifter</b><br><b>Data Cache</b><br><b>Dynamic Branch Prediction</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION f/perf_at_fsystem"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION f/le_count"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION f/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/cpu_selection = "f";
+                                    $WSA/CPU_Implementation = "fast";
+                                    $DM2_SBI/Is_Enabled = "0";
+                                }
+                            }
+                            SECTION x4
+                            {
+                                visible = "{{ $WSA/altera_internal_test; }}";
+                                ITEM { title = "<html><font size=\"+1\">Nios II/x4</font>"; }
+                                ITEM { title = "<html>RISC<br>32-bit<br>Instruction Cache<br>Branch Prediction<br>Hardware Multiply<br>Barrel Shifter<br>Data Cache<br>Dynamic Branch Prediction<br><b>Hardware Divide (optional)</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION x4/perf_at_fsystem"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION x4/le_count"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION x4/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/cpu_selection = "x4";
+                                    $WSA/CPU_Implementation = "x4";
+                                    $DM2_SBI/Is_Enabled = "1";
+                                }
+                            }
+                            VALUES
+                            {
+                                # Numbers from Jarrod's spreadsheet, SPR 167314.
+                                FAMILY STRATIX
+                                {
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.154 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "600-700 LEs";
+                                        memory_usage    = "Two M4Ks (or equiv.)";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.131 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1400-1800 LEs";
+                                        memory_usage    = "Three M4Ks + cache";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                }
+                                FAMILY STRATIXGX
+                                {
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.154 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "600-700 LEs";
+                                        memory_usage    = "Two M4Ks (or equiv.)";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.131 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1400-1800 LEs";
+                                        memory_usage    = "Three M4Ks + cache";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                }
+                                FAMILY STRATIXII
+                                {
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.154 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.131 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                }
+                                FAMILY STRATIXIIGX
+                                {
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.154 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.131 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                }
+                                FAMILY STRATIXIIGXLITE
+                                {
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.154 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.131 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.640 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "";
+                                        memory_usage    = "";
+                                    }
+                                }
+                                FAMILY CYCLONE
+                                {
+                                    # Off-chip memory.
+
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.099 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "600-700 LEs";
+                                        memory_usage    = "Two M4Ks";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.434 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.971 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1400-1800 LEs";
+                                        memory_usage    = "Three M4Ks + cache";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.431 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                }
+                                FAMILY CYCLONEII
+                                {
+                                    # Off-chip memory.
+                                    # TODO: Verify numbers. Copied from Cyclone.
+
+                                    SECTION e
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.091 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "600-700 LEs";
+                                        memory_usage    = "Two M4Ks";
+                                    }
+                                    SECTION s
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.498 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                    SECTION f
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 1.015 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1400-1800 LEs";
+                                        memory_usage    = "Three M4Ks + cache";
+                                    }
+                                    SECTION x4
+                                    {
+                                        perf_at_fsystem = "Up to {{ int(sopc_get_clock_freq($MOD) * 0.431 / 1e6 + 0.5) }} DMIPS";
+                                        le_count        = "1200-1400 LEs";
+                                        memory_usage    = "Two M4Ks + cache";
+                                    }
+                                }
+                            }
+                        }
+
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            spacing = "0";
+
+                            COMBO 
+                            {
+                                id = "hw_mul_shift";
+                                enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast') }}";
+                                title = "{{ if ($WSA/altera_show_unreleased_features) { 'Multiplier (Shifter):' } else { 'Hardware Multiply:' } }}";
+                                width = "50";
+
+                                ITEM
+                                {
+                                    title = "{{ if ($WSA/altera_show_unreleased_features) { 'DSP Block (DSP shift) *' } else { 'DSP Block' } }}";
+                                    visible = "{{ startswith($SYS/device_family_id,'STRATIX') }}";
+                                    value = "dsp_mul_dsp_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "{{ if ($WSA/altera_show_unreleased_features) { 'Embedded Multipliers (Fast LE shift) *' } else { 'Embedded Multipliers' } }}";
+                                    visible = "{{ startswith($SYS/device_family_id, 'CYCLONEII') }}";
+                                    value = "embedded_mul_fast_le_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "Embedded Multipliers (Small LE shift)";
+                                    visible = "{{ ($WSA/altera_show_unreleased_features && startswith($SYS/device_family_id, 'CYCLONEII')) }}";
+                                    value = "embedded_mul_small_le_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "{{ if ($WSA/altera_show_unreleased_features) { 'Logic Elements (Fast LE shift) *' } else { 'Logic Elements' } }}";
+                                    value = "le_mul_fast_le_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "Logic Elements (Small LE shift)";
+                                    visible = "{{ $WSA/altera_show_unreleased_features }}";
+                                    value = "le_mul_small_le_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "None (Fast LE shift)";
+                                    visible = "{{ $WSA/altera_show_unreleased_features }}";
+                                    value = "no_mul_fast_le_shift";
+                                }
+                                ITEM
+                                {
+                                    title = "{{ if ($WSA/altera_show_unreleased_features) { 'None (Small LE shift) *' } else { 'None' } }}";
+                                    value = "no_mul_small_le_shift";
+                                }
+                                DATA 
+                                {
+                                    $WSA/gui_hardware_multiply_setting = "$";
+                                }
+                            }
+
+                            CHECK 
+                            {
+                                id = "hw_div";
+                                title = "Hardware Divide";
+                                enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast') }}";
+                                DATA 
+                                {
+                                    $WSA/gui_hardware_divide_setting = "$";
+                                }
+                            }
+                        }
+                    }
+                }
+                PAGE 2
+                {
+                    title = "Caches & Tightly Coupled Memories";
+
+                    GROUP 
+                    {
+                        layout = "horizontal";
+
+                        GROUP
+                        {
+                            title = "Instruction Bus";
+
+                            COMBO icache_bytes
+                            {
+                                id = "icache_bytes";
+                                title = "Instruction Cache:";
+                                enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'x4') }}";
+                                tooltip = "Selecting 'None' also omits the instruction master port.";
+
+                                ITEM
+                                {
+                                    title = "None";
+                                    value = 0;
+                                }
+                                ITEM
+                                {
+                                    title = "512 Bytes";
+                                    value = 512;
+                                }
+                                ITEM
+                                {
+                                    title = "1 Kbytes";
+                                    value = 1024;
+                                }
+                                ITEM
+                                {
+                                    title = "2 Kbytes";
+                                    value = 2048;
+                                }
+                                ITEM
+                                {
+                                    title = "4 Kbytes";
+                                    value = 4096;
+                                }
+                                ITEM
+                                {
+                                    title = "8 Kbytes";
+                                    value = 8192;
+                                }
+                                ITEM
+                                {
+                                    title = "16 Kbytes";
+                                    value = 16384;
+                                }
+                                ITEM
+                                {
+                                    title = "32 Kbytes";
+                                    value = 32768;
+                                }
+                                ITEM
+                                {
+                                    title = "64 Kbytes";
+                                    value = 65536;
+                                }
+                                DATA 
+                                {
+                                    $WSA/cache_icache_size = "$";
+                                }
+                            }
+
+                            CHECK icache_burst_type
+                            {
+                                id = "icache_burst_type";
+                                title = "Enable burst transfers";
+                                DATA 
+                                {
+                                    $WSA/cache_icache_bursts = "$";
+                                }
+                            }
+
+                            COMBO icache_ram_block_type
+                            {
+                                id = "icache_ram_block_type";
+                                title = "Instruction Cache RAM Block Type";
+                                visible = "{{ $WSA/altera_show_unreleased_features; }}";
+                                ITEM
+                                {
+                                    title = "Automatic";
+                                    value = "AUTO";
+                                }
+                                ITEM
+                                {
+                                    title = "M4K";
+                                    value = "M4K";
+                                    visible="{{ $$has_M4K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M-RAM";
+                                    value = "M-RAM";
+                                    visible="{{ $$has_MRAM }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M9K";
+                                    value = "M9K";
+                                    visible="{{ $$has_M9K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M10K";
+                                    value = "M10K";
+                                    visible="{{ $$has_M10K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M20K";
+                                    value = "M20K";
+                                    visible="{{ $$has_M20K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M144K";
+                                    value = "M144K";
+                                    visible="{{ $$has_M144K }}";
+                                }
+                                DATA 
+                                {
+                                    $WSA/cache_icache_ram_block_type = "$";
+                                }
+                            }
+
+                            GROUP 
+                            {
+                                width = "1";
+                                height = "58";
+                            }
+
+                            GROUP 
+                            {
+                                indent = "1";
+ 
+                                CHECK 
+                                {
+                                    id = "tcim_enable";
+                                    title = "Include tightly coupled instruction master port(s).";
+                                    enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'x4') }}";
+                                    DATA 
+                                    {
+                                        $WSA/gui_include_tightly_coupled_instruction_masters = "$";
+                                    }
+
+                                    indent = "22";
+
+                                    GROUP
+                                    {
+                                        # equalize line-to-line spacing
+                                        width = "1";
+                                        height = "1";
+                                    }
+
+                                    COMBO
+                                    {
+                                        id = "tcim_count";
+                                        title = "Number of ports:";
+
+                                        ITEM
+                                        {
+                                            title = "1";
+                                            value = 1;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "2";
+                                            value = 2;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "3";
+                                            value = 3;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "4";
+                                            value = 4;
+                                        }
+                                        DATA 
+                                        {
+                                            gui_num_tightly_coupled_instruction_masters = "$";
+                                        }
+                                    }
+
+                                    GROUP
+                                    {
+                                        # equalize line-to-line spacing
+                                        width = "1";
+                                        height = "6";
+                                    }
+
+                                    TEXT
+                                    {
+                                        title = "You must connect each port to exactly one memory";
+                                    }
+                                    TEXT
+                                    {
+                                        title = "in the SOPC Builder connection panel.";
+                                    }
+                                }
+                            }
+
+                            GROUP
+                            {
+                                # prevent vertical distribution of controls
+                                width = "1";
+                                height = "76";
+                            }
+
+                            message = "{{
+                                if ($WSA/cache_icache_size == 0)
+                                    '<b>Disabling instruction cache omits Avalon instruction master port.</b>';
+                            }}";
+
+                            error = "{{
+                                if (($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'x4') && ($WSA/cache_icache_size == 0) && !$WSA/gui_include_tightly_coupled_instruction_masters) 
+                                '<b>Must include instruction cache or a tightly coupled instruction master port.</b>';
+                            }}";
+                        }
+
+                        GROUP
+                        {
+                            title = "Data Bus";
+
+                            GROUP
+                            {
+                                layout = "grid";
+                                rows = "1";
+                                columns = "2";
+
+                                COMBO dcache_bytes
+                                {
+                                    id = "dcache_bytes";
+                                    title = "Data Cache:";
+                                    enable = "{{ ($WSA/CPU_Implementation == 'fast') }}";
+        
+                                    ITEM
+                                    {
+                                        title = "None";
+                                        value = 0;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "512 Bytes";
+                                        value = 512;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "1 Kbytes";
+                                        value = 1024;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "2 Kbytes";
+                                        value = 2048;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "4 Kbytes";
+                                        value = 4096;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "8 Kbytes";
+                                        value = 8192;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "16 Kbytes";
+                                        value = 16384;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "32 Kbytes";
+                                        value = 32768;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "64 Kbytes";
+                                        value = 65536;
+                                    }
+                                    DATA 
+                                    {
+                                        $WSA/cache_dcache_size = "$";
+                                    }
+                                }
+
+                                CHECK 
+                                {
+                                    id = "dm_enable";
+                                    title = "Omit data master port";
+                                    tooltip = "Nios II/f cores with tightly coupled<br>data memories and no data cache<br>can omit their data master port.<br>(Access to peripherals such as<br>UARTs and PIOs will be impossible.)";
+                                    enable = "{{ ($WSA/CPU_Implementation == 'fast' && $WSA/cache_dcache_size == '0') }}";
+
+                                    DATA 
+                                    {
+                                        $WSA/gui_omit_avalon_data_master = "$";
+                                    }
+                                }
+                            }
+
+                            GROUP
+                            {
+                                indent = "22";
+
+                                COMBO dcache_line_size
+                                {
+                                    id = "dcache_line_size";
+                                    title = "Data Cache Line Size:";
+                                    enable = "{{ ($WSA/CPU_Implementation == 'fast' && $WSA/cache_dcache_size != '0') }}";
+                                    width = "50";
+                                    ITEM
+                                    {
+                                        title = "4 Bytes";
+                                        value = 4;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "16 Bytes";
+                                        value = 16;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "32 Bytes";
+                                        value = 32;
+                                    }
+                                    DATA 
+                                    {
+                                        cache_dcache_line_size = "$";
+                                    }
+                                }
+                            }
+
+                            CHECK 
+                            {
+                                id = "dcache_bursts";
+                                title = "Enable burst transfers";
+                                enable = "{{ ($WSA/cache_dcache_line_size > 4) }}";
+                                DATA 
+                                {
+                                    $WSA/cache_dcache_bursts = "$";
+                                }
+                            }
+
+                            COMBO dcache_ram_block_type
+                            {
+                                id = "dcache_ram_block_type";
+                                title = "Data Cache RAM Block Type";
+                                visible = "{{ $WSA/altera_show_unreleased_features; }}";
+                                enable = "{{ ($WSA/cache_dcache_line_size > 4) }}";
+                                ITEM
+                                {
+                                    title = "Automatic";
+                                    value = "AUTO";
+                                }
+                                ITEM
+                                {
+                                    title = "M4K";
+                                    value = "M4K";
+                                    visible="{{ $$has_M4K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M-RAM";
+                                    value = "M-RAM";
+                                    visible="{{ $$has_MRAM }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M9K";
+                                    value = "M9K";
+                                    visible="{{ $$has_M9K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M10K";
+                                    value = "M10K";
+                                    visible="{{ $$has_M10K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M20K";
+                                    value = "M20K";
+                                    visible="{{ $$has_M20K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "M144K";
+                                    value = "M144K";
+                                    visible="{{ $$has_M144K }}";
+                                }
+                                ITEM
+                                {
+                                    title = "MLAB";
+                                    value = "MLAB";
+                                    visible="{{ $$has_MLAB }}";
+                                }
+                                DATA 
+                                {
+                                    $WSA/cache_dcache_ram_block_type = "$";
+                                }
+                            }
+
+                            GROUP 
+                            {
+                                # skip one line
+                                width = "1";
+                                height = "35";
+                            }
+
+                            GROUP 
+                            {
+                                indent = "1";
+ 
+                                CHECK 
+                                {
+                                    id = "tcdm_enable";
+                                    title = "Include tightly coupled data master port(s).";
+                                    enable = "{{ ($WSA/CPU_Implementation == 'fast') }}";
+                                    DATA 
+                                    {
+                                        $WSA/gui_include_tightly_coupled_data_masters = "$";
+                                    }
+
+                                    indent = "22";
+
+                                    GROUP
+                                    {
+                                        # equalize line-to-line spacing
+                                        width = "1";
+                                        height = "1";
+                                    }
+
+                                    COMBO
+                                    {
+                                        id = "tcdm_count";
+                                        title = "Number of ports:";
+
+                                        ITEM
+                                        {
+                                            title = "1";
+                                            value = 1;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "2";
+                                            value = 2;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "3";
+                                            value = 3;
+                                        }
+                                        ITEM
+                                        {
+                                            title = "4";
+                                            value = 4;
+                                        }
+                                        DATA 
+                                        {
+                                            gui_num_tightly_coupled_data_masters = "$";
+                                        }
+                                    }
+
+                                    GROUP
+                                    {
+                                        # equalize line-to-line spacing
+                                        width = "1";
+                                        height = "6";
+                                    }
+
+                                    TEXT
+                                    {
+                                        title = "You must connect each port to exactly one memory";
+                                    }
+                                    TEXT
+                                    {
+                                        title = "in the SOPC Builder connection panel.";
+                                    }
+                                }
+                            }
+
+                            GROUP
+                            {
+                                # prevent vertical distribution of controls
+                                width = "1";
+                                height = "76";
+                            }
+                        }
+
+                        error = "{{
+                            if ($WSA/CPU_Implementation == 'fast' && $WSA/cache_dcache_size == 0 && $WSA/gui_omit_avalon_data_master && !$WSA/gui_include_tightly_coupled_data_masters) 
+                            '<b>Must include at least one data master port.</b>';
+                        }}";
+                    }
+                }
+                PAGE 3
+                {
+                    title = "Advanced Features";
+
+                    CHECK 
+                    {
+                        enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'tiny') }}";
+                        indent = "28";
+                        id = "cpu_reset";
+                        title = "Include cpu_resetrequest and cpu_resettaken signals";
+                        DATA 
+                        {
+                            $WSA/cpu_reset = "$";
+                        }
+                        TEXT
+                        {
+                            title = "These signals appear on the top-level SOPC Builer system.\nYou must manually connect these signals to logic external to the SOPC Builder system.";
+                        }
+                    }
+
+                    CHECK 
+                    {
+                        enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'tiny') }}";
+                        visible = "{{ $WSA/altera_show_unpublished_features; }}";
+                        indent = "28";
+                        id = "export_pcb";
+                        title = "Export CPU Program Counter (PC)";
+                        TEXT
+                        {
+                            title = "{{ if ($WSA/altera_show_unpublished_features) 'Adds pc and pc_valid output signals to allow the byte-aligned PC to be visible.\nThese signals appear on the top-level SOPC Builer system.\nYou must manually connect these signals to logic external to the SOPC Builder system.'; else ''; }}";
+                        }
+                        DATA 
+                        {
+                            $WSA/export_pcb = "$";
+                        }
+                    }
+
+                    CHECK 
+                    {
+                        enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast' || $WSA/CPU_Implementation == 'tiny') }}";
+                        visible = "{{ $WSA/altera_show_unpublished_features; }}";
+                        indent = "28";
+                        id = "big_endian";
+                        title = "Big Endian";
+                        TEXT
+                        {
+                            title = "{{ if ($WSA/altera_show_unpublished_features) 'Nios II operates in big-endian mode instead of little-endian mode.'; else ''; }}";
+                        }
+                        DATA 
+                        {
+                            $WSA/big_endian = "$";
+                        }
+                    }
+
+                    GROUP
+                    {
+                        # prevent vertical distribution of controls
+                        width = "1";
+                        height = "50";
+                    }
+                }
+                PAGE 4
+                {
+                    title = "JTAG Debug Module";
+                    help = "datasheet";
+                    warning = "{{
+                        if ((int($WSA/debug_level) == 1)) 
+                        '<b>No Debugger. You will not be able to download or debug programs.</b>';
+                    }}";
+
+                    message = "{{
+                        if ((int($WSA/oci_offchip_trace) == 1)) 
+                        '<b>You must use an ISA-Nios/T device from FS2 to take advantage of off-chip trace.</b>';
+                    }}";
+                    $$quote = "\"";  # The only way to get a " in a GUI string.
+                    message = "{{
+                        if ((int($WSA/oci_offchip_trace) == 1) && (int($WSA/oci_embedded_pll) == 1))
+                        '<b>Off-chip trace instantiates a PLL inside the Nios II core.  For more information, see the chapter<br>'+$$quote+'Implementing the Nios II Processor in SOPC Builder'+$$quote+' in the Nios II Processor Reference Handbook.</b>';
+                    }}";
+                    # the below warning should really be given only if 
+                    #  Section 5 (below) is selected. 
+                    warning = "{{
+                        if ((int($WSA/oci_data_trace) == 1)) 
+                        '<b>The features of this design require an advanced license from FS2.</b>';
+                    }}";
+                    GROUP
+                    {
+                        spacing = 4;
+                        TEXT
+                        {
+                            title = "Select a debugging level:";
+                        }
+                        SELECTOR
+                        {
+                            id = "debug";
+                            java = "nios2_wizard.nios2_ui_selector";
+                            SECTION 1
+                            {
+                                ITEM { title = "<html><b>No Debugger</b>"; }
+                                ITEM { title = ""; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 1/le_cost"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 1/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/debug_level = "1";
+                                    $WSA/include_oci = "0";
+                                    $OCI_SBI/Is_Enabled = "0";
+                                    $WSA/oci_num_xbrk = "0";
+                                    $WSA/oci_num_dbrk = "0";
+                                    $WSA/oci_dbrk_trace = "0";
+                                    $WSA/oci_dbrk_pairs = "0";
+                                    $WSA/oci_onchip_trace = "0";
+                                    $WSA/oci_offchip_trace = "0";
+                                    $WSA/oci_data_trace = "0";
+                                    $WSA/include_third_party_debug_port = "0";
+                                }
+                            }
+                            SECTION 2
+                            {
+                                ITEM { title = "<html><b>Level 1</b>"; }
+                                ITEM { title = "<html><b>JTAG Target Connection</b><br><b>Download Software</b><br><b>Software Breakpoints</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 2/le_cost"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 2/memory_usage"; }
+                                DATA 
+                                {
+                                    # if these values change, they will also need to be 
+                                    # updated in the nios ii implementation selector
+                                    # for the "tiny" cpu implementation, which requires
+                                    # non-hardware breakpoints.
+                                    $WSA/debug_level = "2";
+                                    $WSA/include_oci = "1";
+                                    $OCI_SBI/Is_Enabled = "1";
+                                    $WSA/oci_num_xbrk = "0";
+                                    $WSA/oci_num_dbrk = "0";
+                                    $WSA/oci_dbrk_trace = "0";
+                                    $WSA/oci_dbrk_pairs = "0";
+                                    $WSA/oci_onchip_trace = "0";
+                                    $WSA/oci_offchip_trace = "0";
+                                    $WSA/oci_data_trace = "0";
+                                    $WSA/include_third_party_debug_port = "0";
+                                }
+                            }
+                            SECTION 3
+                            {
+                                enable = "{{ $WSA/CPU_Implementation != 'tiny'; }}";
+                                ITEM { title = "<html><b>Level 2</b>"; }
+                                ITEM { title = "<html>JTAG Target Connection<br>Download Software<br>Software Breakpoints<br><b>2 Hardware Breakpoints</b><br><b>2 Data Triggers</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 3/le_cost"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 3/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/debug_level = "3";
+                                    $WSA/include_oci = "1";
+                                    $OCI_SBI/Is_Enabled = "1";
+                                    $WSA/oci_num_xbrk = "2";
+                                    $WSA/oci_num_dbrk = "2";
+                                    $WSA/oci_dbrk_trace = "0";
+                                    $WSA/oci_dbrk_pairs = "1";
+                                    $WSA/oci_onchip_trace = "0";
+                                    $WSA/oci_offchip_trace = "0";
+                                    $WSA/oci_data_trace = "0";
+                                    $WSA/include_third_party_debug_port = "0";
+                                }
+                            }
+                            SECTION 4
+                            {
+                                enable = "{{ $WSA/CPU_Implementation != 'tiny'; }}";
+                                ITEM { title = "<html><b>Level 3</b>"; }
+                                ITEM { title = "<html>JTAG Target Connection<br>Download Software<br>Software Breakpoints<br>2 Hardware Breakpoints<br>2 Data Triggers<br><b>Instruction Trace</b><br><br><b>On-Chip Trace</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 4/le_cost"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 4/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/debug_level = "4";
+                                    $WSA/include_oci = "1";
+                                    $OCI_SBI/Is_Enabled = "1";
+                                    $WSA/oci_num_xbrk = "2";
+                                    $WSA/oci_num_dbrk = "2";
+                                    $WSA/oci_dbrk_trace = "1";
+                                    $WSA/oci_dbrk_pairs = "1";
+                                    $WSA/oci_onchip_trace = "1";
+                                    $WSA/oci_offchip_trace = "0";
+                                    $WSA/oci_data_trace = "0";
+                                    $WSA/include_third_party_debug_port = "0";
+                                }
+                            }
+                            SECTION 5
+                            {
+                                enable = "{{ $WSA/CPU_Implementation != 'tiny'; }}";
+                                ITEM { title = "<html><b>Level 4</b>"; }
+                                ITEM { title = "<html>JTAG Target Connection<br>Download Software<br>Software Breakpoints<br><b>4 Hardware Breakpoints</b><br><b>4 Data Triggers</b><br>Instruction Trace<br><b>Data Trace</b><br>On-Chip Trace<br><b>Off-Chip Trace</b>"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 5/le_cost"; }
+                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 5/memory_usage"; }
+                                DATA 
+                                {
+                                    $WSA/debug_level = "5";
+                                    $WSA/include_oci = "1";
+                                    $OCI_SBI/Is_Enabled = "1";
+                                    $WSA/oci_num_xbrk = "4";
+                                    $WSA/oci_num_dbrk = "4";
+                                    $WSA/oci_dbrk_trace = "1";
+                                    $WSA/oci_dbrk_pairs = "1";
+                                    $WSA/oci_onchip_trace = "1";
+                                    $WSA/oci_offchip_trace = "1";
+                                    $WSA/oci_data_trace = "1";
+                                    $WSA/include_third_party_debug_port = "0";
+                                }
+                            }
+#                            SECTION 6
+#                            {
+#                                ITEM { title = "<html><b>Third Party Debug Port</b>"; }
+#                                ITEM { title = "<html>For now, this is<br>the option<br>you would choose<br>to get a bunch of signals<br>popping out the top<br>of SOPC Builder."; }
+#                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 6/le_cost"; }
+#                                ITEM { value = "VALUES/FAMILY {{ $SYS/device_family_id }}/SECTION 6/memory_usage"; }
+#                                DATA 
+#                                {
+#                                    $WSA/debug_level = "6";
+#                                    $WSA/include_oci = "0";
+#                                    $OCI_SBI/Is_Enabled = "0";
+#                                    $WSA/include_third_party_debug_port = "1";
+#                                    $WSA/oci_num_xbrk = "0";
+#                                    $WSA/oci_num_dbrk = "0";
+#                                    $WSA/oci_dbrk_trace = "0";
+#                                    $WSA/oci_dbrk_pairs = "0";
+#                                    $WSA/oci_onchip_trace = "0";
+#                                    $WSA/oci_offchip_trace = "0";
+#                                    $WSA/oci_data_trace = "0";
+#                                }
+#                            }
+                            VALUES
+                            {
+                                FAMILY STRATIX
+                                {
+                                    SECTION 1
+                                    {
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "300-400 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "800-900 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "2400-2700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "3100-3700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                }
+                                FAMILY STRATIXGX
+                                {
+                                    SECTION 1
+                                    {
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "300-400 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "800-900 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "2400-2700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "3100-3700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                }
+                                FAMILY STRATIXII
+                                {
+                                    SECTION 1
+                                    {
+                                        # When values are available, these two should be
+                                        # "No LEs" and "No M4Ks", just like the other
+                                        # families.
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                }
+                                FAMILY STRATIXIIGX
+                                {
+                                    SECTION 1
+                                    {
+                                        # When values are available, these two should be
+                                        # "No LEs" and "No M4Ks", just like the other
+                                        # families.
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                }
+                                FAMILY STRATIXIIGXLITE
+                                {
+                                    SECTION 1
+                                    {
+                                        # When values are available, these two should be
+                                        # "No LEs" and "No M4Ks", just like the other
+                                        # families.
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "-";
+                                        memory_usage = "-";
+                                    }
+                                }
+                                FAMILY CYCLONE
+                                {
+                                    SECTION 1
+                                    {
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "300-400 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "800-900 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "2400-2700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "3100-3700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                }
+                                FAMILY CYCLONEII
+                                {
+                                    # TODO: Verify. Copied from Cyclone.
+                                    SECTION 1
+                                    {
+                                        le_cost = "No LEs";
+                                        memory_usage = "No M4Ks";
+                                    }
+                                    SECTION 2
+                                    {
+                                        le_cost = "300-400 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 3
+                                    {
+                                        le_cost = "800-900 LEs";
+                                        memory_usage = "Two M4Ks";
+                                    }
+                                    SECTION 4
+                                    {
+                                        le_cost = "2400-2700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                    SECTION 5
+                                    {
+                                        le_cost = "3100-3700 LEs";
+                                        memory_usage = "Four M4Ks";
+                                    }
+                                }
+                            }
+
+                        }
+                        GROUP
+                        {
+                            align = "center";
+                            layout = "horizontal";
+                            rows = "1";
+                            columns = "1";
+                            spacing = "0";
+
+                            #CHECK 
+                            #{
+                            #    title = "Include CPU Performance Monitor Logic";
+                            #    enable = "{{ ((($WSA/debug_level) > 1) && ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast'))}}";
+                            #    tooltip = "Includes performance monitor logic in your system.<br>Two counters are used to sample and measure system behavior.<br>This monitoring can be controlled and displayed in Nios II IDE.<br>";
+                            #    DATA 
+                            #    {
+                            #        $$oci_pm_enable = "$";
+                            #    }
+                            #}
+                            GROUP
+                            {
+                                layout = "horizontal";
+                                align = "left";
+                                TEXT 
+                                {
+                                    title = "Advanced debug licenses can be purchased from FS2.";
+                                }
+                                TEXT 
+                                {
+                                    title = "http://www.fs2.com/";
+                                    url = "http://www.fs2.com/";
+                                }
+                            }
+
+                            COMBO 
+                            {
+                                id = "trace_addr_width";
+                                enable = "{{ $WSA/oci_onchip_trace; }}";
+                                title = "On-Chip Trace Buffer: ";
+                                width = "100";
+                                tooltip = "Maximum number of frames of trace that may be stored in onchip trace.<br>Actual number of frames used depends on your current license.";
+                                ITEM
+                                {
+                                    title = "128 Frames";
+                                    value = 7;
+                                }
+                                ITEM
+                                {
+                                    title = "256 Frames";
+                                    value = 8;
+                                }
+                                ITEM
+                                {
+                                    title = "512 Frames";
+                                    value = 9;
+                                }
+                                ITEM
+                                {
+                                    title = "1K Frames";
+                                    value = 10;
+                                }
+                                ITEM
+                                {
+                                    title = "2K Frames";
+                                    value = 11;
+                                }
+                                ITEM
+                                {
+                                    title = "4K Frames";
+                                    value = 12;
+                                }
+                                ITEM
+                                {
+                                    title = "8K Frames";
+                                    value = 13;
+                                }
+                                ITEM
+                                {
+                                    title = "16K Frames";
+                                    value = 14;
+                                }
+                                
+                                {
+                                    title = "32K Frames";
+                                    value = 15;
+                                }
+                                ITEM
+                                {
+                                    title = "64K Frames";
+                                    value = 16;
+                                }
+                                DATA 
+                                {
+                                    oci_trace_addr_width = "$";
+                                }
+                            }
+                        }
+                    }
+                }
+                PAGE 5
+                {
+                    title = "Custom Instructions";
+                    align = "left";
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        spacing = "5";
+                        glue = "0";
+                        GROUP pool # Custom Instruction pool & related UI
+                        {
+                            width = "180";
+                            height = "194";
+                            align = "center";
+                            spacing = "5";
+                            glue = "0";
+                            POOL ci_pool
+                            {
+                                java = "nios2_wizard.sopc_ci_pool";
+                                title = "Select a custom instruction.";
+                                width = "128";
+                                height = "500";
+                            }
+                            GROUP buttons
+                            {
+                                layout = "horizontal";
+                                BUTTON 
+                                {
+                                    title = "Add...";
+                                    key = "A";
+                                    action = "instruction_add";
+                                }
+                                spacing = "10";
+                                BUTTON 
+                                {
+                                    title = "Import...";
+                                    key = "I";
+                                    action = "instruction_import";
+                                }
+                            }
+                            GROUP 
+                            {
+                                # Just for spacing
+                            }
+                        }
+                        GROUP table
+                        {
+                            width = "260";
+                            height = "194";
+                            align = "center";
+                            spacing = "5";
+                            glue = "0";
+                            CI_TABLE 
+                            {
+                                width = "320";
+                                height = "500";
+                                java = "nios2_wizard.sopc_ci_table";
+                            }
+                            GROUP cntrls
+                            {
+                                layout = "horizontal";
+                                align = "center";
+                                spacing = "8";
+                                BUTTON 
+                                {
+                                    title = "Edit...";
+                                    key = "E";
+                                    action = "instruction_edit";
+                                }
+                                BUTTON 
+                                {
+                                    title = "Delete";
+                                    action = "instruction_clear";
+                                }
+                                BUTTON 
+                                {
+                                    title = "Move Up";
+                                    action = "instruction_up";
+                                }
+                                BUTTON 
+                                {
+                                    title = "Move Down";
+                                    action = "instruction_down";
+                                }
+                            }
+                            GROUP space
+                            {
+                                # Just for spacing
+                            }
+                        }
+                    }
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        # set this to visible when we have good custom instruction doc links!
+                        visible = "0";
+                        align = "left";
+                        spacing = 0;
+                        TEXT 
+                        {
+                            title = "See ";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = "custom_instruction_readme.txt";
+                            url = "custom_instruction_readme.txt";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = ", ";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = "Application Note 188";
+                            url = "http://www.altera.com/literature/an/an188.pdf";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = ", and the ";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = "Custom Instructions Tutorial";
+                            url = "http://www.altera.com/literature/tt/tt_nios_ci.pdf";
+                            glue = 0;
+                        }
+                        TEXT 
+                        {
+                            title = ".";
+                        }
+                    }
+                }
+                PAGE 6
+                {
+                    title = "Unreleased Features";
+                    visible = "{{ $WSA/altera_show_unreleased_features; }}";
+
+                    TEXT 
+                    {
+                        title = "Use these options only on the advice of Altera Support.";
+                    }
+
+                    GROUP 
+                    {
+                        title = "Miscellaneous";
+                        align = "left";
+                        layout = "horizontal";
+
+                        CHECK 
+                        {
+                            title = "Full Modelsim Signals in Waveforms";
+                            tooltip = "<p>When checked, the w command in modelsim will display a full set of signals.  Otherwise, a minimal set of signals will be displayed.</p>";
+                            DATA 
+                            {
+                                $WSA/full_waveform_signals = "$";
+                            }
+                        }
+                        CHECK 
+                        {
+                            title = "Trap on illegal instructions";
+                            tooltip = "<p>Extra logic is added so that illegal instruction opcodes will trap when executed.";
+                            DATA 
+                            {
+                                $WSA/gui_illegal_instructions_trap = "$";
+                            }
+                        }
+                        CHECK 
+                        {
+                            enable = "{{ $WSA/CPU_Implementation == 'fast' }}";
+                            title = "Detect illegal memory accesses";
+                            tooltip = "<p>Extra logic is added so that illegal memory accesses cause a non-precise exception.<br>Illegal memory accesses are accesses to empty memory locations, writes to read-only memory, or misaligned memory accesses.";
+                            DATA 
+                            {
+                                $WSA/gui_illegal_memory_access_detection = "$";
+                            }
+                        }
+                    }
+                    GROUP branch_prediction
+                    {
+                        enable = "{{ ($WSA/CPU_Implementation == 'small' || $WSA/CPU_Implementation == 'fast') }}";
+                        title = "Branch Prediction";
+
+                        COMBO 
+                        {
+                            title = "Branch Prediction Type";
+                            ITEM
+                            {
+                                title = "Automatic";
+                                value = "Automatic";
+                            }
+                            ITEM
+                            {
+                                title = "Static";
+                                value = "Static";
+                            }
+                            ITEM
+                            {
+                                title = "Dynamic";
+                                value = "Dynamic";
+                            }
+                            DATA 
+                            {
+                                $WSA/gui_branch_prediction_type = "$";
+                            }
+                        }
+
+                        GROUP bht
+                        {
+                            layout = "grid";
+                            rows = "1";
+                            columns = "2";
+                            enable = "{{ $WSA/branch_prediction_type == 'Dynamic' }}";
+                            title = "Branch History Table";
+                            TEXT
+                            {
+                                title = "Used to predict whether conditional branches are taken or untaken.<br>Larger tables consume more RAMs but increase branch prediction accuracy.<br>Each entry is 2-bits wide, and so 256 entries will consume one M512 RAM;<br>2048 entries will consume one M4K RAM.";
+                            }
+                            GROUP
+                            {
+                                layout = "grid";
+                                rows = "2";
+                                columns = "1";
+                                COMBO 
+                                {
+                                    title = "Number of Entries : ";
+                                    width = "25";
+                                    ITEM
+                                    {
+                                        title = "256";
+                                        value = 8;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "512";
+                                        value = 9;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "1024";
+                                        value = 10;
+                                    }
+                                    ITEM
+                                    {
+                                        title = "2048";
+                                        value = 11;
+                                    }
+                                    DATA 
+                                    {
+                                        bht_ptr_sz = "$";
+                                    }
+                                }
+                                GROUP index
+                                {
+                                    align = "left";
+                                    title = "Index calculation";
+                                    #spacing = "5";
+                                    RADIO 
+                                    {
+                                        title = "PC xor global branch history (default)";
+                                        key = "X";
+                                        DATA 
+                                        {
+                                            $WSA/bht_index_pc_only = "0";
+                                        }
+                                    }
+                                    RADIO 
+                                    {
+                                        title = "PC only";
+                                        key = "P";
+                                        DATA 
+                                        {
+                                            $WSA/bht_index_pc_only = "1";
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    GROUP 
+                    {
+                        title = "MMU";
+                        layout = "grid";
+                        enable = "{{ $WSA/CPU_Implementation == 'fast' }}";
+                        CHECK 
+                        {
+                            title = "MMU Present";
+                            tooltip = "<p>Adds an MMU";
+                            DATA 
+                            {
+                                $WSA/gui_mmu_present = "$";
+                            }
+                        }
+                        COMBO 
+                        {
+                            title = "Process ID (PID) Bits";
+                            width = "25";
+                            enable = "{{ $WSA/gui_mmu_present }}";
+                            ITEM
+                            {
+                                title = "8";
+                                value = 8;
+                            }
+                            ITEM
+                            {
+                                title = "9";
+                                value = 9;
+                            }
+                            ITEM
+                            {
+                                title = "10";
+                                value = 10;
+                            }
+                            ITEM
+                            {
+                                title = "11";
+                                value = 11;
+                            }
+                            ITEM
+                            {
+                                title = "12";
+                                value = 12;
+                            }
+                            ITEM
+                            {
+                                title = "13";
+                                value = 13;
+                            }
+                            ITEM
+                            {
+                                title = "14";
+                                value = 14;
+                            }
+                            DATA 
+                            {
+                                $WSA/process_id_num_bits = "$";
+                            }
+                        }
+                        COMBO 
+                        {
+                            title = "TLB Entries";
+                            width = "25";
+                            enable = "{{ $WSA/gui_mmu_present }}";
+                            ITEM
+                            {
+                                title = "128";
+                                value = 7;
+                            }
+                            ITEM
+                            {
+                                title = "256";
+                                value = 8;
+                            }
+                            ITEM
+                            {
+                                title = "512";
+                                value = 9;
+                            }
+                            ITEM
+                            {
+                                title = "1024";
+                                value = 10;
+                            }
+                            DATA 
+                            {
+                                $WSA/tlb_ptr_sz = "$";
+                            }
+                        }
+                        COMBO 
+                        {
+                            title = "TLB Set-Associativity (Ways)";
+                            width = "25";
+                            enable = "{{ $WSA/gui_mmu_present }}";
+                            ITEM
+                            {
+                                title = "8";
+                                value = 8;
+                            }
+                            ITEM
+                            {
+                                title = "16";
+                                value = 16;
+                            }
+                            DATA 
+                            {
+                                $WSA/tlb_num_ways = "$";
+                            }
+                        }
+                        COMBO 
+                        {
+                            title = "Micro DTLB Entries";
+                            width = "25";
+                            enable = "{{ $WSA/gui_mmu_present }}";
+                            ITEM
+                            {
+                                title = "2";
+                                value = 2;
+                            }
+                            ITEM
+                            {
+                                title = "4";
+                                value = 4;
+                            }
+                            ITEM
+                            {
+                                title = "6";
+                                value = 6;
+                            }
+                            ITEM
+                            {
+                                title = "8";
+                                value = 8;
+                            }
+                            DATA 
+                            {
+                                $WSA/udtlb_num_entries = "$";
+                            }
+                        }
+                        COMBO 
+                        {
+                            title = "Micro ITLB Entries";
+                            width = "25";
+                            enable = "{{ $WSA/gui_mmu_present }}";
+                            ITEM
+                            {
+                                title = "2";
+                                value = 2;
+                            }
+                            ITEM
+                            {
+                                title = "4";
+                                value = 4;
+                            }
+                            ITEM
+                            {
+                                title = "6";
+                                value = 6;
+                            }
+                            ITEM
+                            {
+                                title = "8";
+                                value = 8;
+                            }
+                            DATA 
+                            {
+                                $WSA/uitlb_num_entries = "$";
+                            }
+                        }
+                    }
+                }
+               PAGE 7
+               {
+                   title = "Altera Internal Test";
+                   visible = "{{ $WSA/altera_internal_test; }}";
+                   GROUP perf_counters
+                   {
+                      enable = "{{ $WSA/CPU_Implementation != 'tiny'; }}";
+                      title = "Performance Counters";
+                      spacing = "8";
+                      GROUP perf_opts
+                      {
+                          CHECK 
+                          {
+                             title = "Enable Performance Counters";
+                             tooltip = "<p>When checked, performance counters are added to the design.</p>";
+                             DATA 
+                             {
+                                 $WSA/performance_counters_present = "$";
+                             }
+                          }
+                          COMBO 
+                          {
+                             enable = 
+                               "{{ $WSA/performance_counters_present; }}";
+                             title = "Performance Counter Width";
+                             tooltip = "<p>Width of each performance counterin bits.</p>";
+
+                             width = "50";
+                             ITEM
+                             {
+                                title = "16 bits";
+                                value = 16;
+                             }
+                             ITEM
+                             {
+                                title = "24 bits";
+                                value = 24;
+                             }
+                             ITEM
+                             {
+                                title = "32 bits";
+                                value = 32;
+                             }
+                             DATA 
+                             {
+                                 $WSA/performance_counters_width = "$";
+                             }
+                          }
+                      }
+                   }
+                   GROUP 
+                   {
+                       title = "Test Options";
+                       layout = "grid";
+                       GROUP 
+                       {
+                           align = "left";
+                           layout = "grid";
+                           rows = "4";
+                           CHECK 
+                           {
+                               title = "Always Encrypt";
+                               tooltip = "Always uses eperl to generate HDL.";
+                               DATA 
+                               {
+                                   $WSA/always_encrypt = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Debug Simgen";
+                               tooltip = "Generates plaintext but still creates simgen model.  Must have plaintext license and<br>probably should set always_encrypt to ensure eperl is used.";
+                               DATA 
+                               {
+                                   $WSA/debug_simgen = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Activate PLI Model Checker";
+                               tooltip = "Adds PLI Nios II checker (Verilog)";
+                               DATA 
+                               {
+                                   $WSA/activate_model_checker = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Activate Monitors";
+                               tooltip = "Adds 'X' signal checkers";
+                               DATA 
+                               {
+                                   $WSA/activate_monitors = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Activate Test End Checker";
+                               tooltip = "Adds test end detector (infinite loop with interrupts off)";
+                               DATA 
+                               {
+                                   $WSA/activate_test_end_checker = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Activate Trace";
+                               tooltip = "Adds trace generation";
+                               DATA 
+                               {
+                                   $WSA/activate_trace = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Clear X data bits";
+                               tooltip = "Forces X data bits to be cleared for non-bypass Dcache load instructions";
+                               DATA 
+                               {
+                                   $WSA/clear_x_bits_ld_non_bypass = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               enable = "{{ $WSA/cache_has_dcache }}";
+                               title = "Bit 31 D-cache bypass";
+                               tooltip = "Bit 31 of data address bypasses D-cache";
+                               DATA 
+                               {
+                                   $WSA/bit_31_bypass_dcache = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               enable = "{{ $WSA/cache_has_dcache }}";
+                               title = "Disable D-cache";
+                               tooltip = "Forces every ld/st instruction to behave as a ldio/stio instruction";
+                               DATA 
+                               {
+                                   $WSA/always_bypass_dcache = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               enable = "{{ ($WSA/cache_has_dcache || $WSA/cache_has_icache) }}";
+                               title = "HDL Simulation Caches Cleared";
+                               tooltip = "Forces initial contents of caches to be empty for HDL simulations";
+                               DATA 
+                               {
+                                   $WSA/hdl_sim_caches_cleared = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Hardware break test";
+                               tooltip = "Adds extra input port to CPU to allow hardware break to be tested (OCI must be disabled)";
+                               DATA 
+                               {
+                                   $WSA/hbreak_test = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Allow full address range";
+                               tooltip = "Prevents SOPC Builder from limiting address range to 28 bits";
+                               DATA 
+                               {
+                                   $WSA/allow_full_address_range = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Allow legacy SDK";
+                               tooltip = "Allows you to enable legacy SDK generation";
+                               DATA 
+                               {
+                                   $WSA/allow_legacy_sdk = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Show unreleased features";
+                               DATA 
+                               {
+                                   $WSA/altera_show_unreleased_features = "$";
+                               }
+                           }
+                           CHECK 
+                           {
+                               title = "Show unpublished features";
+                               DATA 
+                               {
+                                   $WSA/altera_show_unpublished_features = "$";
+                               }
+                           }
+                           EDIT 
+                           {
+                               title = "Alt_log_port_base";
+                               tooltip = "Name of the uart/jtag uart port to be used for alt_log outputs";
+                               DATA 
+                               {
+                                   $WSA/alt_log_port_base = "";
+                               }
+                           }
+                           EDIT 
+                           {
+                               title = "Alt_log_port_type";
+                               tooltip = "Type of port, ALTERA_AVALON_JTAG_UART or ALTERA_AVALON_UART expected";
+                               DATA 
+                               {
+                                   $WSA/alt_log_port_type = "";
+                               }
+                           }
+                       }
+                   }
+                }
+            }
+        }
+# This UI binds the Nios2 to other peripherals,
+# mostly for software purposes (but things like
+# reset slave, vector table affect the hardware as well).
+        WIZARD_UI bind
+        {
+            CONTEXT 
+            {
+                WSA = "WIZARD_SCRIPT_ARGUMENTS";
+                MOD = "";
+                OCI_SBI = "SLAVE jtag_debug_module/SYSTEM_BUILDER_INFO";
+            }
+            icon = "nios2-icon.gif";
+            $$cpu_align = 32;   # If any core ever has I-cache lines longer
+                                # than 32 bytes, we should consider changing
+                                # this to the max of 32 and the line size.
+            align = "left";
+            spacing = 8;
+
+            # license status messages
+            $$LS = "{{ $WSA/license_status }}";
+            warning = "{{
+                if (startswith($$LS, 'ocp'))
+                {
+                    '<b> '+$MOD+'</b> was generated as a time-limited OpenCore Plus module and will time-out unless compiled in Quartus II with a valid license.'
+                }
+            }}";
+            message = "{{
+                if (startswith($$LS, 'plaintext'))
+                    '<b> '+$MOD+'</b> was generated as plain-text HDL.';
+                else
+                {
+                    if (startswith($$LS, 'encrypt'))
+                        '<b> '+$MOD+'</b> was generated with full capabilities and must be compiled in Quartus II with the same license.';
+                }   
+            }}";
+
+            # global flag indicating whether or not JTAG debug core is enabled
+            $$oci_debug_enabled = "{{ $OCI_SBI/Is_Enabled == 1 }}";
+            $$third_party_debug_enabled = "{{ $WSA/include_third_party_debug_port == 1 }}";
+
+            # in lieu of an update script to do this, clobber whatever
+            # JTAG_Hub_Base_Id is present in system ptf, and replace it with
+            # the one in this file.  Note this is a constant that appears in
+            # both places.
+            enforce_jtag_base_id_replacement = "{{ $OCI_SBI/JTAG_Hub_Base_Id = '1118278'; }}";
+
+            # Debug line of settings summary looks like this:
+            #
+            #   JTAG Debug Module (...)
+            #
+            # where the items in the parentheses are variable, from this set:
+            #
+            #   "SW breakpoints"
+            #   "1 HW breakpoint" or "n HW breakpoints" or nothing
+            #   "1 data trigger" or "n data triggers" or nothing
+            #   "on-chip trace" or "off-chip trace" or nothing
+
+            $$hw_breakpoint_long_info = "{{ if ($WSA/oci_num_xbrk > 0) ', '; else ''; }}{{ if ($WSA/oci_num_xbrk > 0) $WSA/oci_num_xbrk; else ''; }}{{ if ($WSA/oci_num_xbrk > 0) ' HW breakpoint'; else ''; }}{{ if ($WSA/oci_num_xbrk > 1) 's'; else ''; }}";
+
+            $$data_trigger_long_info = "{{ if ($WSA/oci_num_dbrk > 0) ', '; else ''; }}{{ if ($WSA/oci_num_dbrk > 0) $WSA/oci_num_dbrk; else ''; }}{{ if ($WSA/oci_num_dbrk > 0) ' data trigger'; else ''; }}{{ if ($WSA/oci_num_dbrk > 1) 's'; else ''; }}";
+
+            $$trace_long_info       = "{{ if ($WSA/oci_onchip_trace) ', on-chip trace'; else ''; }}{{ if ($WSA/oci_offchip_trace) ', off-chip trace'; else ''; }}";
+
+            $$debug_summary         = "<br>&nbsp;&nbsp;JTAG Debug Module";
+
+            $$debug_long_info       = "{{ $$debug_summary; }} <small>(SW breakpoints{{ $$hw_breakpoint_long_info; }}{{ $$data_trigger_long_info; }}{{ $$trace_long_info; }})</small>";
+
+            # This wizard can omit either cache as a user feature, but an
+            # earlier wizard used cache-omission PTF settings, which now are
+            # being ignored.  Speak up!
+            warning = "{{
+                if ($WSA/cache_omit_icache)
+                {
+                    '<b>'+$MOD+':</b> Ignoring unreleased PTF setting <b>cache_omit_icache</b>. To remove the instruction cache in this release of the Nios II Processor wizard, go to the <b>Caches & Tightly Coupled Memories</b> page, and set the <b>Instruction Cache</b> setting to <b>None</b>. Set <b>cache_omit_icache</b> to <b>0</b> in the system PTF file to disable this warning.'
+                }
+            }}";
+
+            warning = "{{
+                if ($WSA/cache_omit_dcache)
+                {
+                    '<b>'+$MOD+':</b> Ignoring unreleased PTF setting <b>cache_omit_dcache</b>. To remove the data cache in this release of the Nios II Processor wizard, go to the <b>Caches & Tightly Coupled Memories</b> page, and set the <b>Data Cache</b> setting to <b>None</b>. Set <b>cache_omit_dcache</b> to <b>0</b> in the system PTF file to disable this warning.'
+                }
+            }}";
+
+            # This wizard can omit either Avalon master as a user feature, but
+            # an earlier wizard used cache-omission PTF settings, which now are
+            # being ignored.  Speak up!
+            warning = "{{
+                if ($WSA/omit_instruction_master)
+                {
+                    '<b>'+$MOD+':</b> Ignoring unreleased PTF setting <b>omit_instruction_master</b>. To remove the Avalon instruction master in this release of the Nios II Processor wizard, go to the <b>Caches & Tightly Coupled Memories</b> page, and set the <b>Instruction Cache</b> setting to <b>None</b>. Set <b>omit_instruction_master</b> to <b>0</b> in the system PTF file to disable this warning.'
+                }
+            }}";
+
+            warning = "{{
+                if ($WSA/omit_data_master)
+                {
+                    '<b>'+$MOD+':</b> Ignoring unreleased PTF setting <b>omit_data_master</b>. To remove the Avalon data master in this release of the Nios II Processor wizard, go to the <b>Caches & Tightly Coupled Memories</b> page, set the <b>Data Cache</b> setting to <b>None</b>, and check <b>Omit data master port</b>. Set <b>omit_data_master</b> to <b>0</b> in the system PTF file to disable this warning.'
+                }
+            }}";
+
+            # update the settings-summary seen on the System Contents page
+            # (presented as tooltip for module-row)
+            $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary =
+            "Nios II/{{ $WSA/cpu_selection }}
+            {{ if ($WSA/cache_has_icache) $$icache_summary; }}
+            {{ if ($WSA/cache_has_dcache) $$dcache_summary; }}
+            {{ if ($WSA/include_oci)      $$debug_summary;  }}
+            ";
+
+            # turn off legacy_sdk_support flag
+            legacy_status = "{{
+                if ($WSA/legacy_sdk_support == 1 && $WSA/allow_legacy_sdk == 0)
+                {
+                    dialog('legacy_sdk_warning');
+                    $WSA/legacy_sdk_support = '0';
+                }
+            }}";
+
+            # check legacy SDK setting against legacy components
+            warning = "{{
+                if ((sopc_is_component_instantiated('altera_avalon_onchip_memory') +
+                     sopc_is_component_instantiated('amd_avalon_am29lv065d_flash') +
+                     sopc_is_component_instantiated('altera_nios_dev_kit_stratix_edition_sram')) > 0)
+                    '<b> '+$MOD+':</b> Legacy memory components are in-use but Legacy SDK is no longer supported.';
+            }}";
+
+            warning = "{{
+                if ($WSA/legacy_sdk_support == 1)
+                {
+                    '<b>'+$MOD+':</b> Legacy SDK will not be supported for Nios II in version 6.0 and beyond.<br>Please migrate your software to use the HAL System Library.<br>See the Nios II Software Developer&#39;s Handbook.</b>'
+                }
+            }}";
+
+            warning = "{{
+                if ($WSA/legacy_sdk_support == 1 && $WSA/exc_offset == 32)
+                {
+                    '<b>'+$MOD+':</b> The first generation Nios processor defaulted its vector table address to 256 bytes below the top of the associated memory module.<br>To match this behavior for Legacy SDK support, you must manually change the Exception Address Offset on the <b>Nios II More &quot;'+$MOD+'&quot; Settings</b> tab.'
+                }
+            }}";
+
+            # check Break slave/offset values
+            enforce_break_settings = "{{ 
+                if ($$oci_debug_enabled) 
+                {
+                    $WSA/break_slave = $MOD+'/jtag_debug_module'; 
+                    $WSA/break_offset = '0x00000020';
+                }
+                else
+                {
+                    # Don't enforce override if in test mode.
+                    if ($WSA/altera_internal_test == 0)
+                    {
+                        if ($WSA/break_slave_override != '')
+                        {
+                            $WSA/break_slave = $WSA/break_slave_override;
+                            $WSA/break_offset = $WSA/break_offset_override;
+                        }
+                        else
+                        {
+                            if ($$third_party_debug_enabled)
+                            {
+                              # leave them the way they are, specified in the table.
+                            } 
+                            else 
+                            {
+                                $WSA/break_slave = $WSA/reset_slave;
+                                $WSA/break_offset = $WSA/reset_offset;
+                            }
+                        }
+                    }
+                }
+            }}";
+
+
+            # gui_hardware_multiply_setting | Allowed Device Families   |
+            # ------------------------------|---------------------------|
+            # dsp_mul_dsp_shift             | Stratix, Stratix GX,      |
+            #                               | Stratix II, Stratix II GX |
+            # embedded_mul_fast_le_shift    | Cyclone II                |
+            # embedded_mul_small_le_shift   | Cyclone II                |
+            # le_mul_fast_le_shift          | All                       |
+            # le_mul_small_le_shift         | All                       |
+            # no_mul_fast_le_shift          | All                       |
+            # no_mul_small_le_shift         | All                       |
+
+            # Consider when the device family changes, or when someone is
+            # compiling a design for the first time with v1.1 .
+
+            # Also, see the identical copy in the ACTION initialize section of
+            # the Add/Edit_Program, nios_wizard_ui.
+            update_mul_shift = "{{ 
+                if ($SYS/device_family_id == 'CYCLONE')
+                {
+                    if ($WSA/gui_hardware_multiply_setting == '')
+                    {
+                        $WSA/gui_hardware_multiply_setting =
+                            'no_mul_small_le_shift';
+                    }
+                    else
+                    {
+                        if (startswith($WSA/gui_hardware_multiply_setting,
+                                       'dsp_mul') ||
+                            startswith($WSA/gui_hardware_multiply_setting,
+                                       'embedded_mul'))
+                        {
+                            $WSA/gui_hardware_multiply_setting =
+                                'le_mul_fast_le_shift';
+                        }
+                    }
+                }
+                else
+                {
+                    if (startswith($SYS/device_family_id, 'CYCLONEII'))
+                    {
+                        if ($WSA/gui_hardware_multiply_setting == '')
+                        {
+                            $WSA/gui_hardware_multiply_setting =
+                                'embedded_mul_fast_le_shift';
+                        }
+                        else
+                        {
+                            if (startswith($WSA/gui_hardware_multiply_setting,
+                                       'dsp_mul'))
+                            {
+                                $WSA/gui_hardware_multiply_setting =
+                                    'embedded_mul_fast_le_shift';
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (startswith($SYS/device_family_id,'STRATIX'))
+                        {
+                            if ($WSA/gui_hardware_multiply_setting == '')
+                            {
+                                $WSA/gui_hardware_multiply_setting =
+                                    'dsp_mul_dsp_shift';
+                            }
+                            else
+                            {
+                              if (startswith($WSA/gui_hardware_multiply_setting,
+                                             'embedded_mul'))
+                              {
+                                $WSA/gui_hardware_multiply_setting =
+                                  'dsp_mul_dsp_shift';
+                              }
+                            }
+                        }
+                    }
+                }
+            }}";
+
+            $$implementation_not_tiny = "{{ $WSA/CPU_Implementation != 'tiny' }}";
+
+            $WSA/hardware_multiply_present = "{{ ($$implementation_not_tiny && !startswith($WSA/gui_hardware_multiply_setting,'no_mul')) }}";
+
+            $WSA/hardware_multiply_impl = "{{ if (startswith($WSA/gui_hardware_multiply_setting,'dsp_mul')) { 'dsp_mul'; } else { if (startswith($WSA/gui_hardware_multiply_setting,'embedded_mul')) { 'embedded_mul'; } else { if (startswith($WSA/gui_hardware_multiply_setting,'le_mul')) { 'le_mul'; } else { 'no_mul' } } } }}";
+
+            $WSA/hardware_multiply_omits_msw = "{{ if (startswith($WSA/gui_hardware_multiply_setting,'dsp_mul')) { 0; } else { 1; } }}";
+
+            $WSA/hardware_divide_present = "{{ ($$implementation_not_tiny && $WSA/gui_hardware_divide_setting) }}";
+
+            $WSA/shift_rot_impl = "{{ if (endswith($WSA/gui_hardware_multiply_setting,'dsp_shift')) { 'dsp_shift'; } else { if (endswith($WSA/gui_hardware_multiply_setting,'fast_le_shift')) { 'fast_le_shift'; } else { 'small_le_shift'; } } }}";
+
+            GROUP nios_settings
+            {
+                title = "Processor Configuration";
+                align = "left";
+                spacing = 5;
+
+                TEXT
+                {
+                  title = "&nbsp;&nbsp;<b>Nios II/{{ $WSA/cpu_selection }} Core</b>
+                  {{ if ($WSA/cache_has_icache) $$icache_long_info; }}
+                  {{ if ($WSA/cache_has_dcache) $$dcache_long_info; }}
+                  {{ if ($WSA/include_oci)      $$debug_long_info;  }}
+                  <br>
+                  ";
+                }        
+
+                TABLE memory_slaves
+                {
+                    glue = "0";
+                    java = "sopc_builder.sopc_slave_table";
+                    COLUMN name
+                    {
+                        title = "Processor Function";
+                        width = "192";
+                        type = "text";
+                        editable = "0";
+                    }
+                    COLUMN slave
+                    {
+                        title = "Memory Module";
+                        width = "180";
+                        type = "combo";
+                        contents = "slave";
+                    }
+                    COLUMN offset
+                    {
+                        title = "Offset";
+                        width = "75";
+                        type = "hex";
+                        contents = "offset";
+                    }
+                    COLUMN address
+                    {
+                        title = "Address";
+                        width = "75";
+                        type = "hex";
+                        editable = "0";
+                        contents = "addr";
+                    }
+                    ROW 
+                    {
+                        COLUMN name
+                        {
+                            title = "Reset Address";
+                        }
+                        COLUMN slave
+                        {
+                        	id = "reset_slave";
+                            data = "$WSA/reset_slave";
+                            filter = "Is_Memory_Device";
+                            alignment = 1;
+                            preference = "boot";
+                            prohibited = "jtag_debug_module";
+                            code = 1;
+                        }
+                        COLUMN offset
+                        {
+                        	id = "reset_offset";
+                            data = "$WSA/reset_offset";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                    ROW 
+                    {
+                        COLUMN name
+                        {
+                            title = "Exception Address";
+                        }
+                        COLUMN slave
+                        {
+                        	id = "exc_slave";
+                            data = "$WSA/exc_slave";
+                            filter = "Is_Memory_Device";
+                            alignment = 1;
+                            preference = "best";
+                            prohibited = "jtag_debug_module,epcs_control_port";
+                            code = 1;
+                        }
+                        COLUMN offset
+                        {
+                        	id = "exc_offset";
+                            data = "$WSA/exc_offset";
+                            default = "{{ 32 }}";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                    ROW
+                    {
+                        visible = "{{ $WSA/gui_mmu_present }}";
+                        COLUMN name
+                        {
+                            title = "Fast TLB Miss Exception Address";
+                        }
+                        COLUMN slave
+                        {
+                        	id = "tlbm_slave";
+                            data = "$WSA/fast_tlb_miss_exc_slave";
+                            filter = "Is_Memory_Device";
+                            alignment = "{{ $$cpu_align }}";
+                            editable = "{{ $WSA/gui_mmu_present }}";
+                            preference = "best";
+                        }
+                        COLUMN offset
+                        {
+                        	id = "tlbm_offset";
+                            data = "$WSA/fast_tlb_miss_exc_offset";
+                            editable = "{{ $WSA/gui_mmu_present }}";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                    ROW
+                    {
+                        COLUMN name
+                        {
+                            title = "Break Location";
+                        }
+                        COLUMN slave
+                        {
+                        	id = "break_slave";
+                            data = "$WSA/break_slave";
+                            filter = "Is_Memory_Device";
+                            alignment = "{{ $$cpu_align }}";
+                            editable = "{{ ((! $$oci_debug_enabled) && ($WSA/altera_internal_test || (($WSA/break_slave_override == '') && ($$third_party_debug_enabled)))) }}";
+                            preference = "best";
+                            code = 1;
+                        }
+                        COLUMN offset
+                        {
+                        	id = "break_offset";
+                            data = "$WSA/break_offset";
+                            editable = "{{ ((! $$oci_debug_enabled) && ($WSA/altera_internal_test || (($WSA/break_slave_override == '') && ($$third_party_debug_enabled)))) }}";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                }
+                REM
+                {
+                  title = "<br><b>Software Settings</b>";
+                }        
+            }
+            
+            # display error when exception vector is equal to 
+            # or below the reset address
+            error = "{{
+                if (($WSA/exc_slave == $WSA/reset_slave) 
+                && (int($WSA/exc_offset) <= (int($WSA/reset_offset)+31)))
+                '<b> '+$MOD+':</b> Exception Address must be at least 0x20 bytes higher than the Reset Address.'; 
+            }}";
+            
+            # display error when exception or reset address not correctly aligned
+            error = "{{
+                if ((int($WSA/exc_offset) % 32) != 0) 
+                '<b> '+$MOD+':</b> Exception Address must be a multiple of 0x20.'; 
+            }}";
+            error = "{{
+                if ((int($WSA/reset_offset) % 32) != 0) 
+                '<b> '+$MOD+':</b> Reset Address must be a multiple of 0x20.'; 
+            }}";
+
+            # Check whether instruction master's address range
+            # crosses 256-Mbyte boundary.  This situation is not supported in
+            # the toolchain, and when it is supported, it's non-optimal.
+
+            $$boundary = 268435456;     # 0x10000000
+
+            $$first_address_block = "{{ int(sopc_min_addr($MOD, 'instruction_master') / $$boundary); }}";
+
+            $$last_address_block  = "{{ int(sopc_max_addr($MOD, 'instruction_master') / $$boundary); }}";
+
+            $$address_range_error = "<b>{{ $MOD }}:</b> Address range of instruction master crosses a 256-Mbyte boundary.  Not supported by Nios II tool chain.";
+
+            error = "{{ if (($$first_address_block != $$last_address_block) && ($WSA/allow_full_address_range == 0))
+                $$address_range_error; }}";
+
+
+            # Check data cache settings.
+            #
+            # If there is a data cache, assume that each tag has one dirty bit and one valid bit.
+            # In the info message, "tag" includes the dirty and valid bits.
+
+            $$d_addr_width          = "{{ sopc_max_addr_width($MOD, 'data_master'); }}";
+
+            $$d_num_cache_bytes     = "{{ $WSA/cache_dcache_size; }}";
+            $$d_num_cache_words     = "{{ $$d_num_cache_bytes / 4; }}";
+            $$d_line_size           = "{{ $WSA/cache_dcache_line_size; }}";
+            $$d_num_cache_lines     = "{{ $$d_num_cache_bytes / $$d_line_size; }}";
+            $$d_line_addr_width     = "{{ log2($$d_num_cache_lines); }}";
+
+            $$d_tag_width           = "{{ $$d_addr_width -
+                                          $$d_line_addr_width - log2($$d_line_size); }}";
+
+            $$dcache_summary         = "<br>&nbsp;&nbsp;{{ ($WSA/cache_dcache_size / 1024) }}-Kbyte Data Cache";
+
+            $$dcache_long_info       = "{{ $$dcache_summary; }} <small>({{ $$d_num_cache_lines }} lines, {{ $$d_line_size }} bytes/line, {{ $$d_tag_width + 2; }} tag bits/line)</small>";
+
+            $$dcache_error = "<b>{{ $MOD }}:</b> data cache must be smaller than the data-master address space.";
+
+            error = "{{ if ($WSA/cache_has_dcache && $$d_tag_width < 1)
+                $$dcache_error; }}";
+
+
+            # Check instruction cache settings.
+            #
+            # If there is an instruction cache, assume one valid bit per word.
+            # In the info message, "tag" includes the valid bits.
+
+            $$i_addr_width = "{{ sopc_max_addr_width($MOD, 'instruction_master'); }}";
+
+            $$i_num_cache_bytes     = "{{ $WSA/cache_icache_size; }}";
+            $$i_num_cache_words     = "{{ $$i_num_cache_bytes / 4; }}";
+            $$i_line_size           = "{{ $WSA/cache_icache_line_size; }}";
+            $$i_num_cache_lines     = "{{ $$i_num_cache_bytes / $$i_line_size; }}";
+            $$i_line_addr_width     = "{{ log2($$i_num_cache_lines); }}";
+
+            $$i_tag_width           = "{{ $$i_addr_width -
+                                          $$i_line_addr_width - log2($$i_line_size); }}";
+
+            $$icache_summary        = "<br>&nbsp;&nbsp;{{ ($WSA/cache_icache_size / 1024) }}-Kbyte Instruction Cache";
+
+            $$icache_long_info      = "{{ $$icache_summary; }} <small>({{ $$i_num_cache_lines }} lines, {{ $$i_line_size }} bytes/line, {{ $$i_tag_width + $$i_line_size / 4; }} tag bits/line)</small>";
+
+            $$icache_error = "<b>{{ $MOD }}:</b> instruction cache must be smaller than the instruction-master address space.";
+
+            error = "{{ if ($WSA/cache_has_icache && $$i_tag_width < 1)
+                $$icache_error; }}";
+
+                GROUP spacer { height = 5; width = 1; }
+                TEXT
+                {
+                  title = "&nbsp;You can change <b>Nios II software settings</b>, such as data memory, host communication, and<br>&nbsp;debugging communication, in the System Library properties of the Nios II IDE.";
+                }        
+                GROUP spacer { height = 5; width = 1; }
+            CHECK legacy_sdk
+            {
+                id = "legacy_sdk_support";
+                title = "Legacy SDK support. Generate headers, libraries, and memory contents with Nios SDK interfaces.";
+                visible = "{{ $WSA/allow_legacy_sdk }}";
+                DATA { $WSA/legacy_sdk_support = "$"; }
+
+            
+                # check legacy SDK setting against legacy components
+                warning = "{{
+                    if (($WSA/legacy_sdk_support == 0) &&
+                        (sopc_is_component_instantiated('altera_avalon_onchip_memory') +
+                         sopc_is_component_instantiated('amd_avalon_am29lv065d_flash') +
+                         sopc_is_component_instantiated('altera_nios_dev_kit_stratix_edition_sram')) > 0)
+                        '<b> '+$MOD+':</b> Legacy memory components are in-use but Legacy SDK Support is not enabled.';
+                }}";
+              
+                # update the global SDK check-box state (continuously)
+                # if legacy support off, hide checkbox if not needed by others
+                # (when set < 0, that means at least one Nios II needs legacy)
+                update_sdk_checkbox = "{{
+                    if ($WSA/legacy_sdk_support != 1)
+                    {
+                        if ($$hide_sdk_checkbox >= 0)
+                        $$hide_sdk_checkbox = 1;
+                    } else {
+                        $$hide_sdk_checkbox = -1;
+                    }
+                }}";
+                # when legacy support turned-on, turn on the global SDK gen. switch
+                # (happens right after this check-box is turned-on, not continuously)
+                ACTION select
+                {
+                    code = "{{ if ($WSA/legacy_sdk_support != 0) $SYS/generate_sdk=1; }}";
+                }
+                indent = 25;
+            }
+            GROUP spacer { height = 5; width = 1; }
+
+            GROUP legacy_sdk
+            {
+                title = "Legacy SDK Settings";
+                spacing = "5";
+                visible = "{{ $WSA/legacy_sdk_support }}";
+
+                TABLE 
+                {
+                    glue = "0";
+                    java = "sopc_builder.sopc_slave_table";
+                    COLUMN name
+                    {
+                        title = "Function";
+                        width = "256";
+                        type = "text";
+                        editable = "0";
+                    }
+                    COLUMN slave
+                    {
+                        title = "Module";
+                        width = "192";
+                        type = "combo";
+                        contents = "slave";
+                    }
+                    COLUMN address
+                    {
+                        title = "Address";
+                        width = "75";
+                        type = "hex";
+                        editable = "0";
+                        contents = "addr";
+                    }
+                    ROW 
+                    {
+                        COLUMN name
+                        {
+                            title = "Program Memory";
+                        }
+                        COLUMN slave
+                        {
+                            id = "mainmem_slave";
+                            data = "$WSA/mainmem_slave";
+                            filter = "Is_Memory_Device";
+                            preference = "best";
+                            prohibited = "jtag_debug_module";
+                            code = 1;
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                    ROW 
+                    {
+                        COLUMN name
+                        {
+                            title = "Data Memory";
+                        }
+                        COLUMN slave
+                        {
+                            id = "datamem_slave";
+                            data = "$WSA/datamem_slave";
+                            filter = "Is_Memory_Device";
+                            preference = "best";
+                            prohibited = "jtag_debug_module";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                    ROW 
+                    {
+                        COLUMN name
+                        {
+                            title = "Host Communication";
+                        }
+                        COLUMN slave
+                        {
+                            id = "maincomm_slave";
+                            data = "$WSA/maincomm_slave";
+                            filter = "Is_Printable_Device";
+                            required = "0";
+                            none = "(none)";
+                            prohibited = "avalon_jtag_slave";
+                        }
+                        COLUMN address
+                        {
+                        }
+                    }
+                }
+
+                EDIT 
+                {
+                	id = "germs_monitor_id";
+                    title = " System Boot ID:";
+                    key = "I";
+                    suffix = "(40 chars max)";
+                    width = "150";
+                    columns = "15";
+                    max = "40";
+                    DATA 
+                    {
+                        $WSA/germs_monitor_id = "$";
+                    }
+                }
+                GROUP { } # spacing
+            }
+
+            #Always hide sdk generation checkbox and permanently disable sdk generation
+            legacy_status = "{{
+                if ($WSA/legacy_sdk_support == 1 && $WSA/allow_legacy_sdk == 0)
+                {
+            $$hide_sdk_checkbox = 1;
+                    $SYS/generate_sdk = '0';
+                }
+            }}";
+
+            # get any warning messages that had to be built in java
+            NIOS2_MORE_WARNINGS {
+                java = "nios2_wizard.nios2_validator";
+                visible = "0";
+            }
+            
+            # these get merged with the software components table
+            GROUP swc
+            {
+                visible = "{{ $WSA/legacy_sdk_support }}";
+            }
+            
+        }
+        WIZARD_UI sopc_builder
+        {
+            ACTION initialize
+            {
+                $$sopc_kit_nios2 = "{{ sopc_get_kit_dir('sopc_kit_nios2'); }}";
+                $$component_nios2 = "{{ sopc_get_component_dir('altera_nios2'); }}";
+            }
+            MENU
+            {
+                title = "Tools";
+                key = "T";
+                ITEM
+                {
+                    title = "Nios II IDE";
+                    #toolbar = "//Nios II";
+                    key = "S";
+                    icon = "nios2ide16.gif";
+                    enable = "{{ sopc_is_component_instantiated('altera_nios2'); }}";
+                    action = "nios2_run_eclipse";
+                }
+                ITEM
+                {
+                    title = "Nios II Command Shell";
+                    #toolbar = "//Nios II";
+                    key = "l";
+                    icon = "sdkshell.gif";
+                    enable = "{{ sopc_is_component_instantiated('altera_nios2'); }}";
+                    action = "nios2_open_sdk_shell";
+                }
+            }
+            #JRK 2004-Oct-19: SPR 163489. Add a non-queued save PTF command 
+            #                 before going off to launch the IDE.
+            ACTION nios2_run_eclipse
+            {
+                save_command = 
+                    "{{   post_event('!save'); }}";
+                    
+                command = 
+                    "{{ 
+                        exec(
+                            $$component_nios2+'/run_eclipse.pl',
+                            $$quartus_dir+','+$$qbin+','+$$sopc_kit_nios2+','+$$system_directory+','+$$system_name
+                            );
+                    }}";
+            }
+            ACTION nios2_open_sdk_shell
+            {
+                command = 
+                    "{{ 
+                        exec(
+                            $$component_nios2+'/sdk_shell.pl',
+                            $$quartus_dir+','+$$sopc_kit_nios2+','+$$system_directory+','+$$system_name
+                            );
+                    }}";
+            }
+        }
+        WIZARD_UI sopc_builder_1
+        {
+            root = "builder_component_options";
+            GROUP
+            {
+                layout = "flow";
+                visible = "{{ sopc_is_component_instantiated('altera_nios2'); }}";
+                BUTTON
+                {
+                    title = "Run Nios II IDE";
+                    action = "nios2_run_eclipse";
+                    icon = "nios2ide16.gif";
+                    visible = "{{ (sopc_is_component_instantiated('altera_nios2') && ($$hide_sdk_checkbox > 0)); }}";
+                }
+            }
+        }
+        WIZARD_UI sopc_builder_2
+        {
+            root = "PAGES/PAGE generate/GROUP settings/GROUP options/GROUP sim_options/CHECK/BUTTON";
+            visible = "{{ !(sopc_is_component_instantiated('altera_nios2') && ($$hide_sdk_checkbox > 0)) }}";
+        }
+    }
+    ISS_CONFIGURATION_SETTINGS
+    {
+        iss_trace_on = "1";
+        iss_trace_warning = "1";
+        iss_trace_info = "1";
+        iss_trace_trace_file = "";
+    }
+}

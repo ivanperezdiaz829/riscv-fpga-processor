@@ -1,0 +1,400 @@
+# class.ptf for the multi-processor mailbox
+CLASS altera_avalon_mailbox
+{
+    ASSOCIATED_FILES
+    {
+        Add_Program = "default";
+        Edit_Program = "default";
+        Generator_Program = "em_mailbox.pl";
+        Bind_Program = "bind";
+        Jar_File = "altera_avalon_mailbox.jar";
+    }
+    MODULE_DEFAULTS
+    {
+        class = "altera_avalon_mailbox";
+        class_version = "7.08131";
+
+        SLAVE s1
+        {
+           SYSTEM_BUILDER_INFO
+            {
+                Bus_Type = "avalon";
+                Has_IRQ = "0";
+                IRQ_Number = "N/A";
+                Address_Width = "2";
+                Data_Width = "32";
+                Base_Address = "--unknown--";
+                Address_Alignment = "native";
+                Read_Wait_States = "1";
+                Write_Wait_States = "0";
+            }
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Date_Modified = "";
+           Is_Enabled = "1";
+           Instantiate_In_System_Module = "1";
+           Wire_Test_Bench_Values = "1";
+           Top_Level_Ports_Are_Enumerated = "1";
+        }
+        WIZARD_SCRIPT_ARGUMENTS
+        {
+           mailbox_memory_addr = "0x0";
+           mailbox_memory_offset = "0x0";
+           mailbox_memory_size = "0x400";
+        }
+        SIMULATION 
+        {
+           DISPLAY 
+           {
+              SIGNAL a
+              {
+                 name = "chipselect";
+              }
+              SIGNAL b
+              {
+                 name = "address";
+                 radix = "hexadecimal";
+              }
+              SIGNAL c
+              {
+                 name = "write";
+              }
+              SIGNAL d
+              {
+                 name = "data_from_cpu";
+                 radix = "hexadecimal";
+              }
+              SIGNAL e
+              {
+                 name = "read";
+              }
+              SIGNAL f
+              {
+                 name = "data_to_cpu";
+                 radix = "hexadecimal";
+              }
+              SIGNAL g
+              {
+                 name = "reset_reg0";
+                 radix = "hexadecimal";
+              }
+              SIGNAL h
+              {
+                 name = "reset_reg1";
+                 radix = "hexadecimal";
+              }
+              SIGNAL i
+              {
+                 name = "mutex0";
+                 radix = "hexadecimal";
+              }
+              SIGNAL j
+              {
+                 name = "mutex1";
+                 radix = "hexadecimal";
+              }
+           }	# DISPLAY
+        }	# SIMULATION
+    }	#MODULE_DEFAULTS
+    
+    USER_INTERFACE
+    {
+        USER_LABELS
+        {
+            name="Mailbox";
+            description="Avalon Multi-Processor Mailbox Device";
+            license = "full";
+            technology="Other";
+        }
+        LINKS 
+        {
+            LINK help
+            {
+                title = "No Data Sheet Available";
+                url = "http://www.altera.com";
+            }
+        }
+        WIZARD_UI default
+        {
+            title = "Avalon Multi-Processor Mailbox - {{ $MOD }}";
+            
+            ACTION wizard_finish
+            {
+            }
+
+            PAGES main
+            {
+                PAGE 1
+                {
+                	title = "Mailbox";
+					TEXT 
+					{
+						title = "You have added a Mailbox module to the system.<br>
+						Click \"Finish\", and connect the Mailbox slave to the<br>
+						CPUs which need Mailbox messaging.<br>
+						Then click the \"More mailbox settings\" tab to select<br>
+						shared mailbox memory.<br>
+						You must complete these steps before generating the 
+						system HDL.";
+					}
+                    
+	            }	# PAGE 1
+
+	        }	# PAGES main
+     
+	    }	# WIZARD_UI default
+
+		WIZARD_UI bind
+	    {
+			CONTEXT
+			{
+				WSA = "WIZARD_SCRIPT_ARGUMENTS";
+			}
+			
+			# Declare Java functions		
+		    FUNCTION get_slave_range								
+			{														
+				java="altera_avalon_mailbox.get_slave_range";		
+			}														
+
+			# Declare Java functions		
+		    FUNCTION get_cpu_masters_of
+			{
+				java="altera_avalon_mailbox.get_cpu_masters_of";
+			}
+
+		    FUNCTION get_cpu_memory_slaves
+			{
+				java="altera_avalon_mailbox.get_cpu_memory_slaves";
+			}
+
+		    FUNCTION get_slave_base_addr							
+			{														
+				java="altera_avalon_mailbox.get_slave_base_addr";	
+			}														
+
+            ACTION initialize
+            {
+            	$$memory_tooltip =
+            		"Select a message-passing memory to associate with the mailbox.";
+                $$offset_tooltip = 
+	               	"You may define an offset in the 
+                	memory module for the beginning of the mailbox.<br>
+                	The offset is added to the module's base address.";
+                $$size_tooltip =
+                	"Specify the number of bytes for the software to allocate for this mailbox.";
+                $$null = "Unassigned";
+            }
+ 
+			visible = "1";
+
+			GROUP
+			{
+				title = "Purpose";
+				indent = "10";
+				TEXT
+				{
+					title = "In order for software to use the mailbox, 
+						an address for shared memory must be defined.<br>
+						This address will be made available (in a header file) 
+						to the software project for each CPU.<br>
+						In this Wizard, specify a location in an existing memory 
+		            	component, for the mailbox software to use for passing messages.<br>
+			            This memory must be accessable to all 
+		            	processors which will communicate via this 
+		            	mailbox.<br>
+						If a memory or CPU does not appear in the lists below, 
+		            	check the CPU - memory connections.<br>
+		            	Each CPU must master (via a data master) both 
+		            	the mailbox and the shared memory.";
+		        }
+		    }
+
+            GROUP memory_select
+            {
+                title = "Memory Selection";
+                align = "left";
+				indent = "10";
+				$WSA/slave =
+				"{{
+					if ( $WSA/slave == '' )
+						'Unassigned';
+					else
+						$WSA/slave;
+				}}";
+				COMBO
+				{
+					title = "Memory module:";
+                   	tooltip = "{{ $$memory_tooltip; }}";
+					values = 
+					"{{ ',' + $$null + get_cpu_memory_slaves(); 
+					}}";
+					DATA { $WSA/slave = "$"; }
+				}
+                TEXT
+                { 
+                    title = 
+					"{{
+							' ';
+					}}";
+                }
+                TEXT
+                { 
+                    title = "CPUs available with this memory:";
+                }
+                TEXT
+                { 
+                	# Call Java function and display returned 
+                	# list of CPUs
+                    title = 
+                    "{{ 
+                    	if ( $WSA/slave == $$null )
+						{
+							'    (none - no memory assigned)';
+						}
+						else
+						{
+							'    ' + get_cpu_masters_of ( $WSA/slave ); 						
+						}
+                    }}";
+                }
+            }	# GROUP memory_select
+                    
+            GROUP edit_boxes
+            {
+            	title = "Memory Size and Location";
+                layout = "vertical";
+                indent = "20";
+                align = "right";
+
+				code = 
+				"{{ 
+					$$mem_addr = get_slave_base_addr ( $WSA/slave );
+					$$mbox_addr = $$mem_addr + $WSA/mailbox_memory_offset;
+					$$mem_end = $$mem_addr + get_slave_range ( $WSA/slave );
+					$$mbox_max = $$mem_end - $$mbox_addr;
+				}}";
+
+				# Don't display a "maximum mailbox size" if no memory
+				# is selected.  Not sure why we need to test for '';
+				# I thought we took care of that case above.
+				$$hex_mbox_max = 
+				"{{
+					if (( $WSA/slave == $$null ) || ( $WSA/slave == '' ))
+					{
+						'N/A';
+					}
+					else
+					{
+						hex ( $$mbox_max );
+					}
+				}}";
+
+				$WSA/mailbox_memory_addr = 
+				"{{
+					if ( $WSA/slave == $$null )
+						{ ''; }
+					else
+					{
+						hex ( $$mbox_addr );
+					}
+				}}";
+
+				GROUP offset_and_max 
+				{	
+					layout = horizontal; 
+	                EDIT
+	                {
+	                    title = "Shared Mailbox Memory Offset: ";
+	                	indent = "20";
+	                    width   = "1";
+	                    columns  = "8";
+	                    justify = "right";
+	                    #glue = "1";
+	                    #type = "right";
+	                    #suffix = "     ";
+	                   	tooltip = "{{ $$offset_tooltip; }}";
+	                    DATA
+	                    {
+	                        $WSA/mailbox_memory_offset = "$";
+	                    }
+	                }
+
+	                EDIT
+	                {
+	                    title = "Maximum Available Bytes: ";
+	                	indent = "20";
+	                    width   = "1";
+	                    columns  = "8";
+	                    editable = "0";
+	                    justify = "right";
+	                    #glue = "1";
+	                    #type = "right";
+	                    #suffix = "     ";
+	                    DATA
+	                    {
+	                        $$hex_mbox_max = "$";
+	                    }
+	                }
+				} # GROUP offset_and_max                
+                TEXT	# Kludge for vertical strut
+                {
+                	title = " ";
+                }
+                GROUP
+                {
+					layout = horizontal; 
+	                EDIT
+	                {
+	                    title = "Mailbox Size (bytes): ";
+	                    indent = "20";
+	                    width   = "1";
+	                    columns  = "8";
+	                    #glue = "1";
+	                    type = "hex";
+	                    justify = "right";
+	                    #suffix = "  ";
+	                	tooltip = "{{ $$size_tooltip; }}";
+	                    DATA
+	                    {
+	                        $WSA/mailbox_memory_size = "$";
+	                    }
+	                }
+	            }
+            }	# GROUP edit_boxes
+
+			# Save offset in hex, regardless how user entered it.
+			# Compute end of mailbox, for bounds checking.
+			code = 
+			"{{ 
+				$WSA/mailbox_memory_offset = 
+					hex ( $WSA/mailbox_memory_offset ); 
+				$$mbox_end = $$mbox_addr + $WSA/mailbox_memory_size;
+			}}";
+
+			error = 
+			"{{
+				if ( $WSA/slave == $$null )
+				{
+					'Mailbox memory is unassigned.  ' +
+					'The system cannot' +
+					' be generated until you assign a valid mailbox memory.';
+				}
+				else
+				{
+					if ( $$mbox_end > $$mem_end )
+						'Mailbox lies outside memory range.  ' +
+						'The system cannot' +
+						' be generated until you assign a valid offset ' +
+						'and size.';
+						;
+				}
+			}}";
+			
+  		} # WIZARD_UI bind
+
+    }	# USER_INTERFACE
+
+}	# CLASS altera_avalon_mailbox
+

@@ -1,0 +1,135 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains pin placement information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - location of each possible DQ/DQS/DM pin in each group  
+--  - location of the LogicLock region if applicable  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+-- device ep2s90h484c4
+-- 09/22/2005 13:50:13
+
+	 max_pads_per_row  6
+	 max_pads_per_column  3
+	 best_placement_constraint_file  stratixii_0
+
+-------------------------------------------------------------
+
+
+group 13B
+
+	DQS  	DQS 		AA17 	21 	3 -1 	IOBANK_8
+	DM   	DM   	  	AA18 	20 	1 -1 	IOBANK_8
+	DQ0 	DQ0 	  	Y18 	20 	0 0 	IOBANK_8
+	DQ1 	DQ1 	  	Y17 	21 	0 -1 	IOBANK_8
+	DQ2 	DQ2 	  	AB17 	21 	1 -1 	IOBANK_8
+	DQ3 	DQ3 	  	AB18 	21 	2 -1 	IOBANK_8
+
+-------------------------------------------------------------
+
+
+group 11B
+
+	DQS  	DQS 		AA15 	29 	3 -1 	IOBANK_8
+	DM   	DM   	  	AA16 	28 	1 -1 	IOBANK_8
+	DQ0 	DQ0 	  	AB16 	28 	0 0 	IOBANK_8
+	DQ1 	DQ1 	  	Y16 	29 	0 -1 	IOBANK_8
+	DQ2 	DQ2 	  	AB15 	29 	1 -1 	IOBANK_8
+	DQ3 	DQ3 	  	Y15 	29 	2 -1 	IOBANK_8
+
+-------------------------------------------------------------
+
+
+group 9B
+
+	DQS  	DQS 		AA7 	59 	3 -1 	IOBANK_7
+	DM   	DM   	  	AA8 	57 	1 -1 	IOBANK_7
+	DQ0 	DQ0 	  	AB8 	57 	0 0 	IOBANK_7
+	DQ1 	DQ1 	  	Y7 	59 	0 -1 	IOBANK_7
+	DQ2 	DQ2 	  	AB7 	59 	1 -1 	IOBANK_7
+	DQ3 	DQ3 	  	Y8 	59 	2 -1 	IOBANK_7
+
+-------------------------------------------------------------
+
+
+group 7B
+
+	DQS  	DQS 		AA5 	65 	3 -1 	IOBANK_7
+	DM   	DM   	  	AA6 	63 	1 -1 	IOBANK_7
+	DQ0 	DQ0 	  	AB6 	63 	0 0 	IOBANK_7
+	DQ1 	DQ1 	  	Y6 	65 	0 -1 	IOBANK_7
+	DQ2 	DQ2 	  	AB5 	65 	1 -1 	IOBANK_7
+	DQ3 	DQ3 	  	Y5 	65 	2 -1 	IOBANK_7
+
+-------------------------------------------------------------
+
+
+group 7T
+
+	DQS  	DQS 		B5 	65 	0 -1 	IOBANK_4
+	DM   	DM   	  	B6 	63 	0 -1 	IOBANK_4
+	DQ0 	DQ0 	  	C5 	65 	1 0 	IOBANK_4
+	DQ1 	DQ1 	  	A5 	65 	2 -1 	IOBANK_4
+	DQ2 	DQ2 	  	C6 	65 	3 -1 	IOBANK_4
+	DQ3 	DQ3 	  	A6 	63 	1 -1 	IOBANK_4
+
+-------------------------------------------------------------
+
+
+group 9T
+
+	DQS  	DQS 		B7 	59 	0 -1 	IOBANK_4
+	DM   	DM   	  	B8 	57 	0 -1 	IOBANK_4
+	DQ0 	DQ0 	  	C8 	59 	1 0 	IOBANK_4
+	DQ1 	DQ1 	  	A7 	59 	2 -1 	IOBANK_4
+	DQ2 	DQ2 	  	C7 	59 	3 -1 	IOBANK_4
+	DQ3 	DQ3 	  	A8 	57 	1 -1 	IOBANK_4
+
+-------------------------------------------------------------
+
+
+group 11T
+
+	DQS  	DQS 		B15 	29 	0 -1 	IOBANK_3
+	DM   	DM   	  	B16 	28 	0 -1 	IOBANK_3
+	DQ0 	DQ0 	  	C15 	29 	1 0 	IOBANK_3
+	DQ1 	DQ1 	  	A15 	29 	2 -1 	IOBANK_3
+	DQ2 	DQ2 	  	C16 	29 	3 -1 	IOBANK_3
+	DQ3 	DQ3 	  	A16 	28 	1 -1 	IOBANK_3
+
+-------------------------------------------------------------
+
+
+group 13T
+
+	DQS  	DQS 		B17 	21 	0 -1 	IOBANK_3
+	DM   	DM   	  	B18 	20 	0 -1 	IOBANK_3
+	DQ0 	DQ0 	  	A18 	21 	1 0 	IOBANK_3
+	DQ1 	DQ1 	  	A17 	21 	2 -1 	IOBANK_3
+	DQ2 	DQ2 	  	C17 	21 	3 -1 	IOBANK_3
+	DQ3 	DQ3 	  	C18 	20 	1 -1 	IOBANK_3

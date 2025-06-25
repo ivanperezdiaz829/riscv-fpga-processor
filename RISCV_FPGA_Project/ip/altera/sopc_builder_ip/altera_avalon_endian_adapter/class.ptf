@@ -1,0 +1,103 @@
+CLASS altera_avalon_endian_adapter
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program       = "default";
+    Edit_Program      = "default";
+    Generator_Program = "mk_altera_avalon_endian_adapter.pl";
+    Adapter_Program = "altera_avalon_endian_adapter.EndianAdapter";
+  }
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_endian_adapter";
+    class_version = "7.08131";
+
+    SLAVE upstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        # This section is filled in with info appropriate for a 4Kbyte
+        # 32-bit onchip memory at address 0.
+        Address_Alignment = "dynamic";
+        Address_Span = "4096";
+        Address_Width = "12";
+        Base_Address = "0x00000000";
+        Bus_Type = "avalon";
+        Data_Width = "32";
+        Has_IRQ = "0";
+        Is_Channel = "1";
+        Is_Memory_Device = "1";
+        Is_Visible = "0";
+        Is_Writable = "1";
+        Maximum_Pending_Read_Transactions = "1";
+        Read_Wait_States = "peripheral_controlled";
+        Write_Wait_States = "peripheral_controlled";
+      }
+    }
+
+    MASTER downstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type = "avalon";
+        Is_Visible = "0";
+        Data_Width = "32";
+        Max_Address_Width = "30";
+        Address_Width = "12";
+      }
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      Is_Adapter = "1";
+      Rank_Order = "100";
+      Instantiate_In_System_Module = "1";
+      Is_Enabled                   = "1";
+      Clock_Source = "";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      komodo_debug = "0";
+      do_sim_wave = "1";
+    }
+  }
+
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+       name="endian adapter component";
+       technology = "Special";
+       Is_Visible = "0";
+    }
+    WIZARD_UI default
+    {
+      title = "endian adapter component";
+      CONTEXT
+      {
+        WSA="WIZARD_SCRIPT_ARGUMENTS";
+      }
+      PAGES main
+      {
+        select=1;
+        PAGE 1
+        {
+          title = "{{ $MOD }}";
+          GROUP
+          {
+            align = "left";
+            title = "Komodo";
+            spacing=8;
+            CHECK
+            {
+              id ="komodo_enable";
+              title="Enable Komodo Debugging";
+              tooltip = "Enable Komodo Debugging";
+              DATA {  $WSA/komodo_debug = $; }
+            }
+          }
+        }
+      }
+    }
+  }
+}

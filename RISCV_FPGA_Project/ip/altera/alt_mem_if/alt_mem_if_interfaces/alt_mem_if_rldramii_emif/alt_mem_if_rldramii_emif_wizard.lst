@@ -1,0 +1,13 @@
+[Interfaces|External Memory|RLDRAM II]
+RLDRAM II Controller with UniPHY v13.1= "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/alt_mem_if_rldramii_emif_hw.tcl" --wizard:altera_mem_if_rldramii_emif --unencrypted:Verilog --familyParameter:SYS_INFO_DEVICE_FAMILY --early_gen:on --example_variation_file:text --librarian-path:"%w/*_hw.tcl,$" %f %o %h 
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix IV | Stratix III | Stratix V | Arria V | Arria II GZ | Arria V GZ"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>RLDRAM II Controller with UniPHY v13.0</ALIAS>
+<ALIAS>RLDRAM II Controller with UniPHY v12.1</ALIAS>
+<ALIAS>RLDRAM II Controller with UniPHY v12.0</ALIAS>
+<ALIAS>RLDRAM II Controller with UniPHY v11.1</ALIAS>
+</INFO>

@@ -1,0 +1,114 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+module $output_name
+(	
+    input   wire   av_st_din_valid,
+    input   wire   av_st_din_startofpacket,
+    input   wire   av_st_din_endofpacket,
+    input   wire   [$din_data_width - 1 : 0] av_st_din_data,
+@@if {$load_at_runtime == 1} {
+    input   wire   av_st_coeff_valid,
+    input   wire   av_st_coeff_startofpacket,
+    input   wire   av_st_coeff_endofpacket,
+    input   wire   [$coeff_data_width - 1 : 0] av_st_coeff_data,
+@@}
+    input   wire   av_st_cmd_valid,
+    input   wire   av_st_cmd_startofpacket,
+    input   wire   av_st_cmd_endofpacket,
+    input   wire   [$cmd_data_width - 1 : 0] av_st_cmd_data,
+    input   wire   av_st_dout_ready,
+    output  wire   av_st_din_ready,
+@@if {$load_at_runtime == 1} {
+    output  wire   av_st_coeff_ready,
+@@}
+    output  wire   av_st_cmd_ready,
+    output  wire   av_st_dout_valid,
+    output  wire   av_st_dout_startofpacket,
+    output  wire   av_st_dout_endofpacket,
+    output  wire   [$dout_data_width - 1 : 0] av_st_dout_data,
+    input   wire   clock,
+    input   wire   reset
+);
+
+@@if {!($load_at_runtime == 1)} {
+    wire   av_st_coeff_valid;
+    wire   av_st_coeff_startofpacket;
+    wire   av_st_coeff_endofpacket;
+    wire   [$coeff_data_width - 1 : 0] av_st_coeff_data;
+    wire   av_st_coeff_ready;
+@@}
+
+alt_vip_scaler_alg_core # (
+   .NUMBER_OF_COLOR_PLANES		($num_colours),
+   .COLOR_PLANES_ARE_IN_PARALLEL	($colours_are_in_par),
+   .BITS_PER_SYMBOL      		($bits_per_symbol),
+   .IS_422               		($is_422),
+   .MAX_IN_WIDTH         		($max_in_width),
+   .MAX_OUT_WIDTH        		($max_out_width),
+   .ALGORITHM_NAME       		($algorithm),
+   .PARTIAL_LINE_SCALING		($partial_lines),
+   .LEFT_MIRROR                     ($left_mirror),
+   .RIGHT_MIRROR                    ($right_mirror),
+   .H_TAPS               		($h_taps),
+   .V_TAPS               		($v_taps),
+   .H_PHASES             		($h_phases),
+   .V_PHASES             		($v_phases),
+   .V_SIGNED             		($v_signed),
+   .V_INTEGER_BITS       		($v_int_bits),
+   .V_FRACTION_BITS      		($v_frac_bits),
+   .H_SIGNED             		($h_signed),
+   .H_INTEGER_BITS       		($h_int_bits),
+   .H_FRACTION_BITS      		($h_frac_bits),
+   .H_KERNEL_BITS        		($h_kernel_bits),
+   .LOAD_AT_RUNTIME      		($load_at_runtime),
+   .RUNTIME_CONTROL      		($runtime_control),
+   .ARE_IDENTICAL        		($coeffs_shared),
+   .V_BANKS              		($v_banks),
+   .V_SYMMETRIC          		($v_symmetric),
+   .H_BANKS              		($h_banks),
+   .H_SYMMETRIC          		($h_symmetric),
+   .SRC_WIDTH        			($cmd_src_width),
+   .DST_WIDTH        			($cmd_src_width),
+   .CONTEXT_WIDTH        		($cmd_pid_width),
+   .TASK_WIDTH    			($cmd_eid_width),
+   .DOUT_SRC_ADDRESS     		($dout_src_addr),
+   .COEFF_FILE           		($coeff_file),
+   .EXTRA_PIPELINE_REG   		($pipeline),
+   .CYCLONE_STYLE				($cyclone_style)
+) scaler_core_inst (
+   .clock                      (clock),
+   .reset                      (reset),
+   .av_st_din_ready            (av_st_din_ready),
+   .av_st_din_valid            (av_st_din_valid),
+   .av_st_din_startofpacket    (av_st_din_startofpacket),
+   .av_st_din_endofpacket      (av_st_din_endofpacket),
+   .av_st_din_data             (av_st_din_data),
+   .av_st_coeff_ready          (av_st_coeff_ready),
+   .av_st_coeff_valid          (av_st_coeff_valid),
+   .av_st_coeff_startofpacket  (av_st_coeff_startofpacket),
+   .av_st_coeff_endofpacket    (av_st_coeff_endofpacket),
+   .av_st_coeff_data           (av_st_coeff_data),
+   .av_st_cmd_ready            (av_st_cmd_ready),
+   .av_st_cmd_valid            (av_st_cmd_valid),
+   .av_st_cmd_startofpacket    (av_st_cmd_startofpacket),
+   .av_st_cmd_endofpacket      (av_st_cmd_endofpacket),
+   .av_st_cmd_data             (av_st_cmd_data),
+   .av_st_dout_ready           (av_st_dout_ready),
+   .av_st_dout_valid           (av_st_dout_valid),
+   .av_st_dout_startofpacket   (av_st_dout_startofpacket),
+   .av_st_dout_endofpacket     (av_st_dout_endofpacket),
+   .av_st_dout_data            (av_st_dout_data)
+);
+
+endmodule

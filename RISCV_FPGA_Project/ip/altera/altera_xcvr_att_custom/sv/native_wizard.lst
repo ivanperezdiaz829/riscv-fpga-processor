@@ -1,0 +1,11 @@
+[Interfaces|Transceiver PHY]
+Stratix V Custom Native PHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/sv_xcvr_att_custom_hw.tcl" --wizard:sv_xcvr_att_custom --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="OFF"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V "   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" VHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Stratix V Custom Native PHY</ALIAS>
+</INFO>

@@ -1,0 +1,166 @@
+CLASS altera_avalon_performance_counter
+{
+   ASSOCIATED_FILES
+   {
+      Add_Program       ="add_edit_ui";
+      Edit_Program      ="add_edit_ui";
+      Generator_Program ="em_performance_counter.pl";
+   }
+   MODULE_DEFAULTS
+   {
+        class         = "altera_avalon_performance_counter";
+        class_version = "7.08131";
+
+      	HDL_INFO
+      	{
+      	     # The list of files associated with this module (for synthesis
+      	     # and other purposes) depends on the users' wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the
+	     # various filenames are known.
+      	}
+      	PORT_WIRING
+      	{
+      	     # The number and kind of ports that appear on this module
+      	     # depends on the user's wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the ports are known.
+      	     #
+      	}
+        SLAVE control_slave
+        {
+           PORT_WIRING
+           {
+              # The number and kind of ports that appear on this module
+              # depends on the user's wizard-choices.
+    	      # This section will be filled-in by the Generator_Program
+              # after the module logic has been created and the ports are known.
+           }
+           SYSTEM_BUILDER_INFO
+           {
+              Bus_Type                    = "avalon";
+              Has_IRQ                      = "0";
+              IRQ_Number                   = "N/A";
+              Address_Width                = "4";
+              Data_Width                   = "32";
+              Base_Address                 = "--unknown--";
+              Address_Alignment            = "native";
+              Read_Wait_States             = "0";
+              Write_Wait_States            = "0";
+              Read_Latency                 = "1";
+           }
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Date_Modified                = "";
+           Is_Enabled                   = "1";
+           Instantiate_In_System_Module = "1";
+           Top_Level_Ports_Are_Enumerated = "1";
+        }
+        WIZARD_SCRIPT_ARGUMENTS
+        {
+           how_many_sections = "3";
+        }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+         name="Performance Counter Unit";
+         technology = "Other";
+      }
+      LINKS
+      {
+         LINK datasheet
+         {
+            title = "Data Sheet";
+            url = "http://www.altera.com/literature/hb/nios2/qts_qii55001.pdf";
+         }
+      }
+      WIZARD_UI add_edit_ui
+      {
+         title="Performance Counter Unit - {{ $MOD }}";
+         align = "left";
+         indent = "8";
+         spacing = "10";
+         align = "left";
+         CONTEXT 
+         {
+            SBI = "SLAVE control_slave/SYSTEM_BUILDER_INFO";
+            WSA = "WIZARD_SCRIPT_ARGUMENTS";
+         }
+
+         $SBI/Address_Width = "{{ ceil(log2((($WSA/how_many_sections + 1))*4)) }}";
+         
+         COMBO 
+         {
+            editable = "0";
+            title = "Number of simultaneously-measured sections: ";
+            key = "N";
+            DATA { $WSA/how_many_sections = $; }
+            ITEM {title = "1";     }
+            ITEM {title = "2";     }
+            ITEM {title = "3";     }
+            ITEM {title = "4";     }
+            ITEM {title = "5";     }
+            ITEM {title = "6";     }
+            ITEM {title = "7";     }
+         }
+         GROUP description 
+         {
+            title = "Description";
+            indent = "8";
+            TEXT 
+            {
+               title = "This peripheral and associated software macros<br>
+                      	allow minimally-intrusive, real-time hardware<br>
+                        profiling of your software program.<br>
+                        <br>
+                        You can simultaneously measure several <i>sections</i> of<br> 
+                        your program.  Each measured section uses both a<br>
+                        <b>64-bit</b> time-counter and a 32-bit<br> occurrence-counter.<br>  
+                        The time-counter measures the total time >spent in a section<br>
+                        of code with single-clock resolution.<br>
+                        The occurrence-counter measures how many times a section <br>
+                        of code is entered.<br>
+                        <br>
+                        Macros declared in this peripheral's <br>
+                        header-file make it easy to start and stop counters<br>
+                        when entering and exiting sections of C-code.<br>
+                        C library-routines allow you to retrieve and analyze<br>
+                        the results.<br>";
+               
+            }
+            GROUP
+            {
+                layout = "flow";
+                align = "left";
+                spacing = 0;
+                TEXT 
+                {
+                    title = "See ";
+                    glue = 0;
+                }
+                TEXT 
+                {
+                    title = "Performance Counter Core with Avalon Interface";
+                    url = "http://www.altera.com/literature/hb/nios2/qts_qii55001.pdf";
+                    glue = 0;
+                }
+                TEXT 
+                {
+                    title = " for more information.";
+                    glue = 0;
+                }
+            }   
+         }
+      
+      }
+   }
+}
+
+
+
+
+
+

@@ -1,0 +1,116 @@
+CLASS altera_avalon_sysid
+{
+   ASSOCIATED_FILES
+   {
+      Add_Program       ="";
+      Edit_Program      ="default";
+      Generator_Program ="em_sysid.pl";
+   }
+   MODULE_DEFAULTS
+   {
+        class         = "altera_avalon_sysid";
+        class_version = "7.08131";
+
+      	HDL_INFO
+      	{
+      	     # The list of files associated with this module (for synthesis
+      	     # and other purposes) depends on the users' wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the
+             # various filenames are known.
+      	}
+      	PORT_WIRING
+      	{
+      	     # The number and kind of ports that appear on this module
+      	     # depends on the user's wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the ports are known.
+      	     #
+      	}
+        SLAVE control_slave
+        {
+           PORT_WIRING
+           {
+              # The number and kind of ports that appear on this module
+              # depends on the user's wizard-choices.
+              # This section will be filled-in by the Generator_Program
+              # after the module logic has been created and the ports are known.
+           }
+           SYSTEM_BUILDER_INFO
+           {
+              Bus_Type                    = "avalon";
+              Has_IRQ                      = "0";
+              IRQ_Number                   = "N/A";
+              Address_Width                = "1";
+              Data_Width                   = "32";
+              Base_Address                 = "--unknown--";
+              Address_Alignment            = "native";
+              Read_Wait_States             = "1";
+              Write_Wait_States            = "0";
+              Read_Latency                 = "0";
+           }
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Date_Modified                = "";
+           Is_Enabled                   = "1";
+           Instantiate_In_System_Module = "1";
+           Fixed_Module_Name            = "sysid";
+           Top_Level_Ports_Are_Enumerated = "1";
+
+           View 
+           {
+              Settings_Summary = "No system ID yet.  <br> 
+                                  A unique ID is assigned every time <br> 
+                                  the system is generated.";
+           }
+        }
+        WIZARD_SCRIPT_ARGUMENTS
+        {
+           id = "<never-been-generated>";
+           timestamp = "<never-been-generated>";
+        }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+         name       = "System ID Peripheral";
+         technology = "Other";
+      }
+      WIZARD_UI default
+      {
+         title = "System ID Peripheral - {{ $MOD }}";
+         CONTEXT 
+         {
+            MODULE_SBI = "SYSTEM_BUILDER_INFO";
+         }
+
+         PAGES main
+         {
+            PAGE 1
+            {
+               title = "Attributes";
+               TEXT
+               {
+                 title = "{{ $MODULE_SBI/View/Settings_Summary; }}";
+               }
+            }
+         }
+      }
+      LINKS
+      {
+         LINK help
+         {
+            title="Data Sheet";
+            url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51014.pdf";
+         }
+      }
+   }
+}
+
+
+
+
+
+

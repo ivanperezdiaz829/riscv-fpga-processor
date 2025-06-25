@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+   <presets version="13.1">
+      <preset name="DVI 1080p60" kind="alt_vip_itc" version="13.1" description="DVI 1080p60 preset">
+         <parameter name="BPS" value="8" />
+		 <parameter name="COLOUR_PLANES_ARE_IN_PARALLEL" value="1" />
+		 <parameter name="FIFO_DEPTH" value="1920" />
+		 <parameter name="THRESHOLD" value="1919" />
+		 <parameter name="USE_EMBEDDED_SYNCS" value="0" />
+		 <parameter name="CLOCKS_ARE_SAME" value="0" />
+		 <parameter name="USE_CONTROL" value="0" />
+		 <parameter name="V_ACTIVE_LINES" value="1080" />
+		 <parameter name="H_ACTIVE_PIXELS" value="1920" />
+		 <parameter name="NUMBER_OF_COLOUR_PLANES" value="3" />
+		 <parameter name="INTERLACED" value="0" />
+		 <parameter name="V_SYNC_LENGTH" value="5" />
+		 <parameter name="H_SYNC_LENGTH" value="44" />
+		 <parameter name="H_FRONT_PORCH" value="88" />
+		 <parameter name="H_BACK_PORCH" value="148" />
+		 <parameter name="V_FRONT_PORCH" value="4" />
+		 <parameter name="V_BACK_PORCH" value="36" />
+		 <parameter name="V_BLANK" value="0" />
+		 <parameter name="H_BLANK" value="0" />
+		 <parameter name="F_RISING_EDGE" value="0" />
+		 <parameter name="F_FALLING_EDGE" value="0" />
+		 <parameter name="FIELD0_V_RISING_EDGE" value="0" />
+		 <parameter name="FIELD0_V_SYNC_LENGTH" value="0" />
+		 <parameter name="FIELD0_V_FRONT_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BACK_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BLANK" value="0" />
+		 <parameter name="AP_LINE" value="0" />
+		 <parameter name="NO_OF_MODES" value="1" />
+		 <parameter name="ACCEPT_COLOURS_IN_SEQ" value="0" />
+         <parameter name="ANC_LINE" value="0" />
+         <parameter name="FIELD0_ANC_LINE" value="0" />
+      </preset>
+      <preset name="SDI 1080p60" kind="alt_vip_itc" version="13.1" description="SDI 1080p60 preset">
+         <parameter name="BPS" value="10" />
+		 <parameter name="COLOUR_PLANES_ARE_IN_PARALLEL" value="1" />
+		 <parameter name="FIFO_DEPTH" value="1920" />
+		 <parameter name="THRESHOLD" value="1919" />
+		 <parameter name="USE_EMBEDDED_SYNCS" value="1" />
+		 <parameter name="CLOCKS_ARE_SAME" value="0" />
+		 <parameter name="USE_CONTROL" value="0" />
+		 <parameter name="V_ACTIVE_LINES" value="1080" />
+		 <parameter name="H_ACTIVE_PIXELS" value="1920" />
+		 <parameter name="NUMBER_OF_COLOUR_PLANES" value="2" />
+		 <parameter name="INTERLACED" value="0" />
+		 <parameter name="V_SYNC_LENGTH" value="0" />
+		 <parameter name="H_SYNC_LENGTH" value="0" />
+		 <parameter name="H_FRONT_PORCH" value="0" />
+		 <parameter name="H_BACK_PORCH" value="0" />
+		 <parameter name="V_FRONT_PORCH" value="0" />
+		 <parameter name="V_BACK_PORCH" value="0" />
+		 <parameter name="V_BLANK" value="45" />
+		 <parameter name="H_BLANK" value="280" />
+		 <parameter name="F_RISING_EDGE" value="0" />
+		 <parameter name="F_FALLING_EDGE" value="0" />
+		 <parameter name="FIELD0_V_RISING_EDGE" value="0" />
+		 <parameter name="FIELD0_V_SYNC_LENGTH" value="0" />
+		 <parameter name="FIELD0_V_FRONT_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BACK_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BLANK" value="0" />
+		 <parameter name="AP_LINE" value="42" />
+		 <parameter name="NO_OF_MODES" value="1" />
+		 <parameter name="ACCEPT_COLOURS_IN_SEQ" value="0" />
+         <parameter name="ANC_LINE" value="9" />
+         <parameter name="FIELD0_ANC_LINE" value="0" />
+      </preset>
+	  <preset name="SDI 1080i60" kind="alt_vip_itc" version="13.1" description="SDI 1080i60 preset">
+         <parameter name="BPS" value="10" />
+		 <parameter name="COLOUR_PLANES_ARE_IN_PARALLEL" value="1" />
+		 <parameter name="FIFO_DEPTH" value="1920" />
+		 <parameter name="THRESHOLD" value="1919" />
+		 <parameter name="USE_EMBEDDED_SYNCS" value="1" />
+		 <parameter name="CLOCKS_ARE_SAME" value="0" />
+		 <parameter name="USE_CONTROL" value="0" />
+		 <parameter name="V_ACTIVE_LINES" value="1080" />
+		 <parameter name="H_ACTIVE_PIXELS" value="1920" />
+		 <parameter name="NUMBER_OF_COLOUR_PLANES" value="2" />
+		 <parameter name="INTERLACED" value="1" />
+		 <parameter name="V_SYNC_LENGTH" value="0" />
+		 <parameter name="H_SYNC_LENGTH" value="0" />
+		 <parameter name="H_FRONT_PORCH" value="0" />
+		 <parameter name="H_BACK_PORCH" value="0" />
+		 <parameter name="V_FRONT_PORCH" value="0" />
+		 <parameter name="V_BACK_PORCH" value="0" />
+		 <parameter name="V_BLANK" value="22" />
+		 <parameter name="H_BLANK" value="280" />
+		 <parameter name="F_RISING_EDGE" value="564" />
+		 <parameter name="F_FALLING_EDGE" value="1" />
+		 <parameter name="FIELD0_V_RISING_EDGE" value="561" />
+		 <parameter name="FIELD0_V_SYNC_LENGTH" value="0" />
+		 <parameter name="FIELD0_V_FRONT_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BACK_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BLANK" value="23" />
+		 <parameter name="AP_LINE" value="21" />
+		 <parameter name="NO_OF_MODES" value="1" />
+		 <parameter name="ACCEPT_COLOURS_IN_SEQ" value="0" />
+         <parameter name="ANC_LINE" value="9" />
+         <parameter name="FIELD0_ANC_LINE" value="571" />
+      </preset>
+	  <preset name="PAL" kind="alt_vip_itc" version="13.1" description="PAL preset">
+         <parameter name="BPS" value="10" />
+		 <parameter name="COLOUR_PLANES_ARE_IN_PARALLEL" value="0" />
+		 <parameter name="FIFO_DEPTH" value="720" />
+		 <parameter name="THRESHOLD" value="719" />
+		 <parameter name="USE_EMBEDDED_SYNCS" value="1" />
+		 <parameter name="CLOCKS_ARE_SAME" value="0" />
+		 <parameter name="USE_CONTROL" value="0" />
+		 <parameter name="V_ACTIVE_LINES" value="576" />
+		 <parameter name="H_ACTIVE_PIXELS" value="720" />
+		 <parameter name="NUMBER_OF_COLOUR_PLANES" value="2" />
+		 <parameter name="INTERLACED" value="1" />
+		 <parameter name="V_SYNC_LENGTH" value="0" />
+		 <parameter name="H_SYNC_LENGTH" value="0" />
+		 <parameter name="H_FRONT_PORCH" value="0" />
+		 <parameter name="H_BACK_PORCH" value="0" />
+		 <parameter name="V_FRONT_PORCH" value="0" />
+		 <parameter name="V_BACK_PORCH" value="0" />
+		 <parameter name="V_BLANK" value="24" />
+		 <parameter name="H_BLANK" value="144" />
+		 <parameter name="F_RISING_EDGE" value="313" />
+		 <parameter name="F_FALLING_EDGE" value="1" />
+		 <parameter name="FIELD0_V_RISING_EDGE" value="311" />
+		 <parameter name="FIELD0_V_SYNC_LENGTH" value="0" />
+		 <parameter name="FIELD0_V_FRONT_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BACK_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BLANK" value="25" />
+		 <parameter name="AP_LINE" value="23" />
+		 <parameter name="NO_OF_MODES" value="1" />
+		 <parameter name="ACCEPT_COLOURS_IN_SEQ" value="0" />
+         <parameter name="ANC_LINE" value="8" />
+         <parameter name="FIELD0_ANC_LINE" value="321" />
+      </preset>
+	  <preset name="NTSC" kind="alt_vip_itc" version="13.1" description="NTSC preset">
+         <parameter name="BPS" value="10" />
+		 <parameter name="COLOUR_PLANES_ARE_IN_PARALLEL" value="0" />
+		 <parameter name="FIFO_DEPTH" value="720" />
+		 <parameter name="THRESHOLD" value="719" />
+		 <parameter name="USE_EMBEDDED_SYNCS" value="1" />
+		 <parameter name="CLOCKS_ARE_SAME" value="0" />
+		 <parameter name="USE_CONTROL" value="0" />
+		 <parameter name="V_ACTIVE_LINES" value="487" />
+		 <parameter name="H_ACTIVE_PIXELS" value="720" />
+		 <parameter name="NUMBER_OF_COLOUR_PLANES" value="2" />
+		 <parameter name="INTERLACED" value="1" />
+		 <parameter name="V_SYNC_LENGTH" value="0" />
+		 <parameter name="H_SYNC_LENGTH" value="0" />
+		 <parameter name="H_FRONT_PORCH" value="0" />
+		 <parameter name="H_BACK_PORCH" value="0" />
+		 <parameter name="V_FRONT_PORCH" value="0" />
+		 <parameter name="V_BACK_PORCH" value="0" />
+		 <parameter name="V_BLANK" value="19" />
+		 <parameter name="H_BLANK" value="138" />
+		 <parameter name="F_RISING_EDGE" value="266" />
+		 <parameter name="F_FALLING_EDGE" value="4" />
+		 <parameter name="FIELD0_V_RISING_EDGE" value="264" />
+		 <parameter name="FIELD0_V_SYNC_LENGTH" value="0" />
+		 <parameter name="FIELD0_V_FRONT_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BACK_PORCH" value="0" />
+		 <parameter name="FIELD0_V_BLANK" value="19" />
+		 <parameter name="AP_LINE" value="20" />
+		 <parameter name="NO_OF_MODES" value="1" />
+		 <parameter name="ACCEPT_COLOURS_IN_SEQ" value="0" />
+         <parameter name="ANC_LINE" value="12" />
+         <parameter name="FIELD0_ANC_LINE" value="275" />
+      </preset>
+   </presets>
+</ip>
+

@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element $${FILENAME}
+   {
+   }
+   element alt_xcvr_reconfig_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element clk_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element tod.csr
+   {
+      datum baseAddress
+      {
+         value = "4096";
+         type = "String";
+      }
+   }
+   element eth_packet_classifier_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element eth_tse_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element merlin_master_translator_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+   element alt_xcvr_reconfig_0.reconfig_mgmt
+   {
+      datum baseAddress
+      {
+         value = "8192";
+         type = "String";
+      }
+   }
+   element tod
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="device" value="Unknown" />
+ <parameter name="deviceFamily" value="Stratix V" />
+ <parameter name="deviceSpeedGrade" value="Unknown" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="projectName" value="" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="1" />
+ <parameter name="timeStamp" value="1358409716781" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceScript></instanceScript>
+ <interface
+   name="tod_period_clock"
+   internal="tod.period_clock"
+   type="clock"
+   dir="end" />
+ <interface
+   name="tod_period_clock_reset"
+   internal="tod.period_clock_reset"
+   type="reset"
+   dir="end" />
+ <interface name="rx_tod_clock_reset" internal="tod.clock_reset" />
+ <interface name="rx_tod_clock_reset_reset" internal="tod.clock_reset_reset" />
+ <interface
+   name="reconfig_busy"
+   internal="alt_xcvr_reconfig_0.reconfig_busy"
+   type="conduit"
+   dir="end" />
+ <interface name="clk_50" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface name="reset_50" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="avalon_anti_master_0"
+   internal="merlin_master_translator_0.avalon_anti_master_0"
+   type="avalon"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_96b"
+   internal="tod.time_of_day_96b"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_64b"
+   internal="tod.time_of_day_64b"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_reset"
+   internal="eth_packet_classifier_0.clock_reset"
+   type="clock"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_data_sink"
+   internal="eth_packet_classifier_0.data_sink"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_reset_reset"
+   internal="eth_packet_classifier_0.clock_reset_reset"
+   type="reset"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_operation_mode"
+   internal="eth_packet_classifier_0.clock_operation_mode"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_pkt_with_crc"
+   internal="eth_packet_classifier_0.pkt_with_crc"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_tx_egress_timestamp_request_in"
+   internal="eth_packet_classifier_0.tx_egress_timestamp_request_in"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_tx_etstamp_ins_ctrl_in"
+   internal="eth_packet_classifier_0.tx_etstamp_ins_ctrl_in"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_96b_load"
+   internal="tod.time_of_day_96b_load"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_64b_load"
+   internal="tod.time_of_day_64b_load"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="receive_fifo_status_clock_connection"
+   internal="eth_tse_0.receive_fifo_status_clock_connection"
+   type="clock"
+   dir="end" />
+ <interface
+   name="receive_fifo_status"
+   internal="eth_tse_0.receive_fifo_status"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="mac_rx_clock_connection_0"
+   internal="eth_tse_0.mac_rx_clock_connection_0"
+   type="clock"
+   dir="start" />
+ <interface
+   name="mac_tx_clock_connection_0"
+   internal="eth_tse_0.mac_tx_clock_connection_0"
+   type="clock"
+   dir="start" />
+ <interface
+   name="receive_0"
+   internal="eth_tse_0.receive_0"
+   type="avalon_streaming"
+   dir="start" />
+ <interface
+   name="receive_packet_type_0"
+   internal="eth_tse_0.receive_packet_type_0"
+   type="avalon_streaming"
+   dir="start" />
+ <interface
+   name="rx_time_of_day_96b_0"
+   internal="eth_tse_0.rx_time_of_day_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_time_of_day_64b_0"
+   internal="eth_tse_0.rx_time_of_day_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_time_of_day_96b_0"
+   internal="eth_tse_0.tx_time_of_day_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_time_of_day_64b_0"
+   internal="eth_tse_0.tx_time_of_day_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_ingress_timestamp_96b_0"
+   internal="eth_tse_0.rx_ingress_timestamp_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_ingress_timestamp_64b_0"
+   internal="eth_tse_0.rx_ingress_timestamp_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_egress_timestamp_96b_0"
+   internal="eth_tse_0.tx_egress_timestamp_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_egress_timestamp_64b_0"
+   internal="eth_tse_0.tx_egress_timestamp_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="mac_misc_connection_0"
+   internal="eth_tse_0.mac_misc_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pcs_ref_clk_clock_connection"
+   internal="eth_tse_0.pcs_ref_clk_clock_connection"
+   type="clock"
+   dir="end" />
+ <interface
+   name="pcs_phase_measure_clk"
+   internal="eth_tse_0.pcs_phase_measure_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="status_led_connection_0"
+   internal="eth_tse_0.status_led_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="serdes_control_connection_0"
+   internal="eth_tse_0.serdes_control_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="serial_connection_0"
+   internal="eth_tse_0.serial_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="reconfig_to_xcvr"
+   internal="alt_xcvr_reconfig_0.reconfig_to_xcvr"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="reconfig_from_xcvr"
+   internal="alt_xcvr_reconfig_0.reconfig_from_xcvr"
+   type="conduit"
+   dir="end" />
+ <module kind="altera_eth_1588_tod" version="13.0" enabled="1" name="tod">
+  <parameter name="DEFAULT_NSEC_PERIOD" value="8" />
+  <parameter name="DEFAULT_FNSEC_PERIOD" value="0" />
+  <parameter name="DEFAULT_NSEC_ADJPERIOD" value="8" />
+  <parameter name="DEFAULT_FNSEC_ADJPERIOD" value="0" />
+  <parameter name="AUTO_CSR_CLOCK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_PERIOD_CLOCK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Stratix V" />
+ </module>
+ <module
+   kind="alt_xcvr_reconfig"
+   version="13.0"
+   enabled="1"
+   name="alt_xcvr_reconfig_0">
+  <parameter name="device_family" value="Stratix V" />
+  <parameter name="number_of_reconfig_interfaces" value="2" />
+  <parameter name="gui_split_sizes" value="" />
+  <parameter name="enable_offset" value="1" />
+  <parameter name="enable_dcd" value="0" />
+  <parameter name="enable_dcd_power_up" value="1" />
+  <parameter name="enable_analog" value="1" />
+  <parameter name="enable_eyemon" value="0" />
+  <parameter name="enable_dfe" value="0" />
+  <parameter name="enable_adce" value="0" />
+  <parameter name="enable_mif" value="0" />
+  <parameter name="gui_enable_pll" value="0" />
+  <parameter name="gui_cal_status_port" value="false" />
+  <parameter name="AUTO_MGMT_CLK_CLK_CLOCK_RATE" value="50000000" />
+ </module>
+ <module
+   kind="altera_merlin_master_translator"
+   version="13.0"
+   enabled="1"
+   name="merlin_master_translator_0">
+  <parameter name="AV_ADDRESS_W" value="32" />
+  <parameter name="AV_DATA_W" value="32" />
+  <parameter name="AV_BURSTCOUNT_W" value="3" />
+  <parameter name="AV_BYTEENABLE_W" value="4" />
+  <parameter name="UAV_ADDRESS_W" value="32" />
+  <parameter name="UAV_BURSTCOUNT_W" value="3" />
+  <parameter name="AV_READLATENCY" value="0" />
+  <parameter name="AV_WRITE_WAIT" value="0" />
+  <parameter name="AV_READ_WAIT" value="0" />
+  <parameter name="AV_DATA_HOLD" value="0" />
+  <parameter name="AV_SETUP_WAIT" value="0" />
+  <parameter name="USE_READDATA" value="1" />
+  <parameter name="USE_WRITEDATA" value="1" />
+  <parameter name="USE_READ" value="1" />
+  <parameter name="USE_WRITE" value="1" />
+  <parameter name="USE_BEGINBURSTTRANSFER" value="0" />
+  <parameter name="USE_BEGINTRANSFER" value="0" />
+  <parameter name="USE_BYTEENABLE" value="0" />
+  <parameter name="USE_CHIPSELECT" value="0" />
+  <parameter name="USE_ADDRESS" value="1" />
+  <parameter name="USE_BURSTCOUNT" value="0" />
+  <parameter name="USE_DEBUGACCESS" value="0" />
+  <parameter name="USE_CLKEN" value="0" />
+  <parameter name="USE_READDATAVALID" value="0" />
+  <parameter name="USE_WAITREQUEST" value="1" />
+  <parameter name="USE_LOCK" value="0" />
+  <parameter name="AV_SYMBOLS_PER_WORD" value="4" />
+  <parameter name="AV_ADDRESS_SYMBOLS" value="1" />
+  <parameter name="AV_BURSTCOUNT_SYMBOLS" value="1" />
+  <parameter name="AV_CONSTANT_BURST_BEHAVIOR" value="0" />
+  <parameter name="UAV_CONSTANT_BURST_BEHAVIOR" value="0" />
+  <parameter name="AV_LINEWRAPBURSTS" value="0" />
+  <parameter name="AV_MAX_PENDING_READ_TRANSACTIONS" value="64" />
+  <parameter name="AV_BURSTBOUNDARIES" value="0" />
+  <parameter name="AV_INTERLEAVEBURSTS" value="0" />
+  <parameter name="AV_BITS_PER_SYMBOL" value="8" />
+  <parameter name="AV_ISBIGENDIAN" value="0" />
+  <parameter name="AV_ADDRESSGROUP" value="0" />
+  <parameter name="UAV_ADDRESSGROUP" value="0" />
+  <parameter name="AV_REGISTEROUTGOINGSIGNALS" value="0" />
+  <parameter name="AV_REGISTERINCOMINGSIGNALS" value="0" />
+  <parameter name="AV_ALWAYSBURSTMAXBURST" value="0" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Stratix V" />
+ </module>
+ <module kind="clock_source" version="13.0" enabled="1" name="clk_0">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   kind="altera_eth_packet_classifier"
+   version="13.0"
+   enabled="1"
+   name="eth_packet_classifier_0">
+  <parameter name="TSTAMP_FP_WIDTH" value="4" />
+  <parameter name="SYMBOLSPERBEAT" value="1" />
+  <parameter name="BITSPERSYMBOL" value="8" />
+  <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="0" />
+ </module>
+ <module kind="altera_eth_tse" version="13.0" enabled="1" name="eth_tse_0">
+  <parameter name="deviceFamilyName" value="Stratix V" />
+  <parameter name="core_variation" value="MAC_PCS" />
+  <parameter name="ifGMII" value="MII_GMII" />
+  <parameter name="enable_use_internal_fifo" value="false" />
+  <parameter name="max_channels" value="1" />
+  <parameter name="use_misc_ports" value="true" />
+  <parameter name="transceiver_type" value="GXB" />
+  <parameter name="enable_hd_logic" value="false" />
+  <parameter name="enable_gmii_loopback" value="false" />
+  <parameter name="enable_sup_addr" value="false" />
+  <parameter name="stat_cnt_ena" value="true" />
+  <parameter name="ext_stat_cnt_ena" value="false" />
+  <parameter name="ena_hash" value="false" />
+  <parameter name="enable_shift16" value="false" />
+  <parameter name="enable_mac_flow_ctrl" value="false" />
+  <parameter name="enable_mac_vlan" value="false" />
+  <parameter name="enable_magic_detect" value="true" />
+  <parameter name="useMDIO" value="false" />
+  <parameter name="mdio_clk_div" value="40" />
+  <parameter name="enable_ena" value="32" />
+  <parameter name="eg_addr" value="11" />
+  <parameter name="ing_addr" value="11" />
+  <parameter name="phy_identifier" value="0" />
+  <parameter name="enable_sgmii" value="true" />
+  <parameter name="export_pwrdn" value="false" />
+  <parameter name="enable_alt_reconfig" value="false" />
+  <parameter name="starting_channel_number" value="0" />
+  <parameter name="enable_timestamping" value="true" />
+  <parameter name="enable_ptp_1step" value="true" />
+  <parameter name="tstamp_fp_width" value="4" />
+  <parameter name="AUTO_DEVICE" value="Unknown" />
+ </module>
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="merlin_master_translator_0.clk" />
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="alt_xcvr_reconfig_0.mgmt_clk_clk" />
+ <connection kind="clock" version="13.0" start="clk_0.clk" end="tod.csr_clock" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="merlin_master_translator_0.reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="alt_xcvr_reconfig_0.mgmt_rst_reset" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="tod.csr_reset" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="merlin_master_translator_0.avalon_universal_master_0"
+   end="alt_xcvr_reconfig_0.reconfig_mgmt">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x2000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="merlin_master_translator_0.avalon_universal_master_0"
+   end="tod.csr">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x1000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.0"
+   start="clk_0.clk"
+   end="eth_tse_0.control_port_clock_connection" />
+ <connection
+   kind="reset"
+   version="13.0"
+   start="clk_0.clk_reset"
+   end="eth_tse_0.reset_connection" />
+ <connection
+   kind="avalon"
+   version="13.0"
+   start="merlin_master_translator_0.avalon_universal_master_0"
+   end="eth_tse_0.control_port">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon_streaming"
+   version="13.0"
+   start="eth_packet_classifier_0.data_src"
+   end="eth_tse_0.transmit_0" />
+ <connection
+   kind="conduit"
+   version="13.0"
+   start="eth_tse_0.tx_egress_timestamp_request_0"
+   end="eth_packet_classifier_0.tx_egress_timestamp_request_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.0"
+   start="eth_tse_0.tx_etstamp_ins_ctrl_0"
+   end="eth_packet_classifier_0.tx_etstamp_ins_ctrl_out">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+</system>

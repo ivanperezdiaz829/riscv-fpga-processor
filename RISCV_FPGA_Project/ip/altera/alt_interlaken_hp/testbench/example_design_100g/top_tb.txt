@@ -1,0 +1,65 @@
+// This testbench is used to run example design
+
+`timescale 1 ps / 1 ps
+
+module top_tb ();
+
+ 
+   reg pll_ref_clk = 1'b0;
+   reg clk50       = 1'b0;
+   parameter TB_TX_PKTMOD_ONLY      = ${tx_packet_mode};      //Set to 1, testbench will generate traffic in packet mode. Otherwise will be segment mode.
+   parameter TB_RX_PKTMOD_ONLY      = 1;
+   parameter TB_LANE_PROFILE        = ${lane_profile};
+   parameter TB_INT_TX_CLK_DIV      = ${clk_div};
+   parameter TB_NUM_LANES           = ${num_lane};
+   parameter TB_METALEN             = 128;
+   parameter TB_SYS_CLK_PERIOD      = 20000;
+   parameter TB_TX_DUAL_SEG         = ${rx_dual_segment};
+   parameter TB_CALENDAR_PAGES      = ${cal_pages};
+   parameter TB_LOG_CALENDAR_PAGES  = ${log_cal_pages};
+   parameter TB_DATA_RATE           = ${data_rate};
+   parameter TB_PLL_OUT_FREQ        = ${pll_out_freq};
+   parameter TB_PLL_REFCLK_FREQ     = ${pll_ref_clk_freq}; // PLL reference clock frequency; should match the one in ilk_core
+   parameter TB_REF_CLK_PERIOD      = (TB_PLL_REFCLK_FREQ == "206.25 MHz")     ? 4848 : // PLL reference clock period;								  
+                                      (TB_PLL_REFCLK_FREQ == "257.8125 MHz")   ? 3878 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "322.265625 MHz") ? 3103 : // PLL reference clock period;									  
+                                      (TB_PLL_REFCLK_FREQ == "322.265625 MHz") ? 3103 : // PLL reference clock period;									  
+                                      (TB_PLL_REFCLK_FREQ == "412.5 MHz")      ? 2424 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "515.625 MHz")    ? 1939 : // PLL reference clock period;								  
+                                      (TB_PLL_REFCLK_FREQ == "644.53125 MHz")  ? 1551 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "156.25 MHz")     ? 6400 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "195.3125 MHz")   ? 5120 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "250.0 MHz")      ? 4000 : // PLL reference clock period;								  
+                                      (TB_PLL_REFCLK_FREQ == "312.5 MHz")      ? 3200 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "390.625 MHz")    ? 2560 : // PLL reference clock period;									  
+                                      (TB_PLL_REFCLK_FREQ == "500.0 MHz")      ? 2000 : // PLL reference clock period;
+                                      (TB_PLL_REFCLK_FREQ == "625.0 MHz")      ? 1600 : // PLL reference clock period;								  
+                                      1;                                           // PLL reference clock frequency either not set or set to wrong value
+
+   wire [TB_NUM_LANES-1:0] tx_pin;
+   wire [TB_NUM_LANES-1:0] rx_pin;
+
+   // loopback
+   assign rx_pin = tx_pin;
+
+   example_design dut (.*);
+      defparam dut.TX_PKTMOD_ONLY                = TB_TX_PKTMOD_ONLY;
+      defparam dut.PLL_REFCLK_FREQ               = TB_PLL_REFCLK_FREQ;
+      defparam dut.NUM_LANES                     = TB_NUM_LANES;
+      defparam dut.TX_DUAL_SEG                   = TB_TX_DUAL_SEG;
+      defparam dut.CALENDAR_PAGES                = TB_CALENDAR_PAGES;	  
+      defparam dut.LOG_CALENDAR_PAGES            = TB_LOG_CALENDAR_PAGES;	  
+      defparam dut.METALEN   = TB_METALEN;
+      defparam dut.CNTR_BITS = 6;
+      defparam dut.USE_ATX = 1;
+      defparam dut.DATA_RATE = TB_DATA_RATE;
+      defparam dut.PLL_OUT_FREQ = TB_PLL_OUT_FREQ;
+      defparam dut.INT_TX_CLK_DIV = TB_INT_TX_CLK_DIV;
+      defparam dut.LANE_PROFILE = TB_LANE_PROFILE;
+      defparam dut.RX_PKTMOD_ONLY = TB_RX_PKTMOD_ONLY;
+      defparam dut.SIM_FAKE_JTAG                 = 1'b1;
+
+   always #(TB_SYS_CLK_PERIOD/2) clk50 = ~clk50;
+   always #(TB_REF_CLK_PERIOD/2) pll_ref_clk = ~pll_ref_clk;
+
+endmodule

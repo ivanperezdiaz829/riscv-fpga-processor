@@ -1,0 +1,12 @@
+[Interfaces|DisplayPort]
+DisplayPort v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_dp_hw.tcl" --wizard:altera_dp --familyparameter:DEVICE_FAMILY --cusp_ip:true  --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V | Arria V GZ | Cyclone V"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>DisplayPort v12.1</ALIAS>
+<ALIAS>DisplayPort v13.0</ALIAS>
+</INFO>

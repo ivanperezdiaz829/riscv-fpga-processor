@@ -1,0 +1,645 @@
+-- $Revision: #1 $
+
+--------------------------
+-- CHIPS
+--------------------------
+[Default]
+    description    = Default Memroy - 4 word burst - 1M x18 
+    data_width     = 18
+    addr_width     = 18
+    burst_length   = 4
+    max_frequency  = 200
+    io_voltage     = 18
+    mem_latency    = 1.5
+    memory_model_name	= qdrii_model
+
+[Custom]
+    description    = Default Memroy - 4 word burst - 1M x18 
+    data_width     = 18
+    addr_width     = 18
+    burst_length   = 4
+    max_frequency  = 200
+    io_voltage     = 18
+    mem_latency    = 1.5
+    memory_model_name	= qdrii_model
+
+
+
+-- CYPRESS Semiconductors 72Mbits
+
+
+[CYPRESS CY7C1512]
+    description    	= CYPRESS QDR-II - 2 word burst - 4M x 18
+    data_width     	= 18
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1512av18
+    memory_model_name = qdrii_model
+                                             
+[CYPRESS CY7C1513]
+    description    	= CYPRESS QDR-II - 4 word burst - 4M x 18
+    data_width     	= 18
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1513av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1514]
+    description    	= CYPRESS QDR-II - 2 word burst - 2M x 36
+    data_width     	= 36
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1514av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1515]
+    description    	= CYPRESS QDR-II - 4 word burst - 2M x 36
+    data_width     	= 36
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1515av18
+    memory_model_name = qdrii_model
+
+-- CYPRESS Semiconductors 36Mbit density
+-- x8
+[CYPRESS CY7C1410]
+    description    	= CYPRESS QDR-II - 2 word burst - 4M x 8
+    data_width     	= 8
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1410av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1411]
+    description    	= CYPRESS QDR-II - 4 word burst - 4M x 8
+    data_width     	= 8
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1411av18
+    memory_model_name = qdrii_model
+-- x9
+[CYPRESS CY7C1425]
+    description    	= CYPRESS QDR-II - 2 word burst - 4M x 9
+    data_width     	= 9
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1425av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1426]
+    description    	= CYPRESS QDR-II - 4 word burst - 4M x 9
+    data_width     	= 9
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1426av18
+    memory_model_name = qdrii_model
+-- x18
+[CYPRESS CY7C1412]
+    description    	= CYPRESS QDR-II - 2 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1412av18
+    memory_model_name = qdrii_model
+                                               
+[CYPRESS CY7C1413]
+    description    	= CYPRESS QDR-II - 4 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1413av18
+    memory_model_name = qdrii_model
+
+-- x36                                           
+[CYPRESS CY7C1414]
+    description    	= CYPRESS QDR-II - 2 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1414av18
+    memory_model_name = qdrii_model
+    
+[CYPRESS CY7C1415]
+    description    	= CYPRESS QDR-II - 4 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1415av18
+    memory_model_name = qdrii_model
+                          
+                          
+                          
+                          
+-- CYPRESS Semiconductors 18Mbit density
+-- x8
+[CYPRESS CY7C1310]
+    description    	= CYPRESS QDR-II - 2 word burst - 2M x 8
+    data_width     	= 8
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1310av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1311]
+    description    	= CYPRESS QDR-II - 4 word burst - 2M x 8
+    data_width     	= 8
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1311av18
+    memory_model_name = qdrii_model
+-- x9
+[CYPRESS CY7C1910]
+    description    	= CYPRESS QDR-II - 2 word burst - 2M x 9
+    data_width     	= 9
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1910av18
+    memory_model_name = qdrii_model
+
+[CYPRESS CY7C1911]
+    description    	= CYPRESS QDR-II - 4 word burst - 2M x 9
+    data_width     	= 9
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1911av18
+    memory_model_name = qdrii_model
+
+-- x18
+[CYPRESS CY7C1312]
+    description    	= CYPRESS QDR-II - 2 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1312av18
+    memory_model_name = qdrii_model
+                                               
+[CYPRESS CY7C1313]
+    description    	= CYPRESS QDR-II - 4 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1313av18
+    memory_model_name = qdrii_model
+
+-- x36                                           
+[CYPRESS CY7C1314]
+    description    	= CYPRESS QDR-II - 2 word burst - 512K x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1314av18
+    memory_model_name = qdrii_model
+    
+[CYPRESS CY7C1315]
+    description    	= CYPRESS QDR-II - 4 word burst - 512Kx 36
+    data_width     	= 36
+    addr_width     	= 17
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1315av18
+    memory_model_name = qdrii_model
+
+ -- CYPRESS Semiconductors 9Mbit density
+-- x18
+[CYPRESS CY7C1292]
+    description    	= CYPRESS QDR-II - 2 word burst - 512K x 18
+    data_width     	= 18
+    addr_width     	= 18
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1292av18
+    memory_model_name = qdrii_model
+                                               
+-- x36                                           
+[CYPRESS CY7C1294]
+    description    	= CYPRESS QDR-II - 2 word burst - 256K x 36
+    data_width     	= 36
+    addr_width     	= 17
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= cy7c1294av18
+    memory_model_name = qdrii_model
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+-- NEC Electronics 36Mbit density
+-- x8
+[NEC uPD44325082]
+    description    	= NEC QDR-II - 2 word burst - 4M x 8
+    data_width     	= 8
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+[NEC uPD44325084]
+    description    	= NEC QDR-II - 4 word burst - 4M x 8
+    data_width     	= 8
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+-- x9
+[NEC uPD44325092]
+    description    	= NEC QDR-II - 2 word burst - 4M x 9
+    data_width     	= 9
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+[NEC uPD44325094]
+    description    	= NEC QDR-II - 4 word burst - 4M x 9
+    data_width     	= 9
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+-- x18
+[NEC uPD44325182]
+    description    	= NEC QDR-II - 2 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+                                               
+[NEC uPD44325184]
+    description    	= NEC QDR-II - 4 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+-- x36                                           
+[NEC uPD44325362]
+    description    	= NEC QDR-II - 2 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+    
+[NEC uPD44325364]
+    description    	= NEC QDR-II - 4 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+
+ 
+-- NEC Electronics 18Mbit density
+-- x8
+[NEC uPD44165082]
+    description    	= NEC QDR-II - 2 word burst - 2M x 8
+    data_width     	= 8
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+[NEC uPD44165084]
+    description    	= NEC QDR-II - 4 word burst - 2M x 8
+    data_width     	= 8
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+-- x18
+[NEC uPD44165182]
+    description    	= NEC QDR-II - 2 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+                                               
+[NEC uPD44165184]
+    description    	= NEC QDR-II - 4 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+
+-- x36                                           
+[NEC uPD44165362]
+    description    	= NEC QDR-II - 2 word burst - 512K x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+    
+[NEC uPD44165364]
+    description    	= NEC QDR-II - 4 word burst - 512Kx 36
+    data_width     	= 36
+    addr_width     	= 17
+    burst_length  	= 4
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= unkown
+    memory_model_name = qdrii_model
+ 
+-- SAMSUNG 72Mbit density
+  
+  
+  
+[SAMSUNG K7R640982M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 8M x 9
+    data_width     	= 9
+    addr_width     	= 22
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r640982m
+    memory_model_name = qdrii_model
+
+                                             
+[SAMSUNG K7R641882M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 4M x 18
+    data_width     	= 18
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r641882m
+    memory_model_name = qdrii_model
+                                             
+[SAMSUNG K7R641884M]
+    description    	= SAMSUNG QDR-II - 4 word burst - 4M x 18
+    data_width     	= 18
+    addr_width     	= 20
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r641884m
+    memory_model_name = qdrii_model
+
+[SAMSUNG K7R643682M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 2M x 36
+    data_width     	= 36
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r643682m
+    memory_model_name = qdrii_model
+
+[SAMSUNG K7R643684M]
+    description    	= SAMSUNG QDR-II - 4 word burst - 2M x 36
+    data_width     	= 36
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r643684m
+    memory_model_name = qdrii_model
+
+-- SAMSUNG 36Mbit density
+
+[SAMSUNG K7R320982M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 4M x 9
+    data_width     	= 9
+    addr_width     	= 21
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r320982m
+    memory_model_name = qdrii_model
+                                             
+[SAMSUNG K7R321882M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r321882m
+    memory_model_name = qdrii_model
+                                             
+[SAMSUNG K7R321884M]
+    description    	= SAMSUNG QDR-II - 4 word burst - 2M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r321884m
+    memory_model_name = qdrii_model
+
+[SAMSUNG K7R323682M]
+    description    	= SAMSUNG QDR-II - 2 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 200
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r323682m
+    memory_model_name = qdrii_model
+
+[SAMSUNG K7R323684M]
+    description    	= SAMSUNG QDR-II - 4 word burst - 1M x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r323684m
+    memory_model_name = qdrii_model
+
+
+-- SAMSUNG 18Mbit density
+
+[SAMSUNG K7R160982]
+    description    	= SAMSUNG QDR-II - 2 word burst - 2M x 9
+    data_width     	= 9
+    addr_width     	= 20
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r160982
+    memory_model_name = qdrii_model
+                                             
+[SAMSUNG K7R161882]
+    description    	= SAMSUNG QDR-II - 2 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 19
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r161882
+    memory_model_name = qdrii_model
+                                             
+[SAMSUNG K7R161884]
+    description    	= SAMSUNG QDR-II - 4 word burst - 1M x 18
+    data_width     	= 18
+    addr_width     	= 18
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r161884
+    memory_model_name = qdrii_model
+
+[SAMSUNG K7R163682]
+    description    	= SAMSUNG QDR-II - 2 word burst - 512K x 36
+    data_width     	= 36
+    addr_width     	= 18
+    burst_length  	= 2
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r163682      
+    memory_model_name = qdrii_model
+    
+[SAMSUNG K7R163684]
+    description    	= SAMSUNG QDR-II - 4 word burst - 512K x 36
+    data_width     	= 36
+    addr_width     	= 17
+    burst_length  	= 4
+    max_frequency  	= 250
+    io_voltage     	= 18
+    mem_latency    = 1.5
+--    memory_model_name	= k7r163684
+    memory_model_name = qdrii_model
+
+
+
+
+
+

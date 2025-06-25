@@ -1,0 +1,13 @@
+set_global_assignment -entity "alt_e40_sys_pll_sv" -library "alt_e40_sys_pll_sv" -name IP_TOOL_NAME "altera_pll"
+set_global_assignment -entity "alt_e40_sys_pll_sv" -library "alt_e40_sys_pll_sv" -name IP_TOOL_VERSION "13.0sp1"
+set_global_assignment -entity "alt_e40_sys_pll_sv" -library "alt_e40_sys_pll_sv" -name IP_TOOL_ENV "mwpim"
+set_global_assignment -library "alt_e40_sys_pll_sv" -name MISC_FILE [file join $::quartus(qip_path) "alt_e40_sys_pll_sv.cmp"]
+set_global_assignment -name SYNTHESIS_ONLY_QIP ON
+
+set_global_assignment -library "alt_e40_sys_pll_sv" -name VERILOG_FILE [file join $::quartus(qip_path) "alt_e40_sys_pll_sv.v"]
+set_global_assignment -library "alt_e40_sys_pll_sv" -name VERILOG_FILE [file join $::quartus(qip_path) "alt_e40_sys_pll_sv/alt_e40_sys_pll_sv_0002.v"]
+set_global_assignment -library "alt_e40_sys_pll_sv" -name QIP_FILE [file join $::quartus(qip_path) "alt_e40_sys_pll_sv/alt_e40_sys_pll_sv_0002.qip"]
+
+set_global_assignment -entity "alt_e40_sys_pll_sv_0002" -library "alt_e40_sys_pll_sv" -name IP_TOOL_NAME "altera_pll"
+set_global_assignment -entity "alt_e40_sys_pll_sv_0002" -library "alt_e40_sys_pll_sv" -name IP_TOOL_VERSION "13.0"
+set_global_assignment -entity "alt_e40_sys_pll_sv_0002" -library "alt_e40_sys_pll_sv" -name IP_TOOL_ENV "mwpim"

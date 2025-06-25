@@ -1,0 +1,35 @@
+                                                                  
+    MIN_scaling                                         =   0.50        -- for 0degC (0.575 is for -40degC)    Stratix 0.58 0.53  0.46 
+    
+    -- postamble buffer insertion to meet hold time ------------------------
+                                                                                       -- c7     -- c6      -- c5 numbers for comparison
+    tPD_undelayed_out_to_resetreg_clk_no_buffers                                    =   1886    --1634     -- 1503      real 
+    tPD_undelayed_out_to_resetreg_clk_one_buffer                                    =   2387    --2075     -- 1903      real 
+    tPD_undelayed_out_to_resetreg_clk_two_buffers                                   =   3096    --2692     -- 2469      est. for c6 and c7
+    
+    tPD_undelayed_out_to_resetreg_clk_three_buffers                                 =   3805    Estimates based on above numbers
+    tPD_undelayed_out_to_resetreg_clk_four_buffers                                  =   4514
+
+        
+    -- these override the settings in stratix_common.txt
+    -- Insert one buffer for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_zero_buffers    =   7518   (130MHz)  
+    
+    -- Insert two bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_one_buffer      =   8695  (115MHz)  
+ 
+    -- Insert three bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_two_buffers      =  9999   (100MHz)   
+
+    -- Insert four bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_three_buffers    =  11764   (85MHz)
+ 
+-- MISC ========================================================================================
+
+    -- dedicated pll output not currently supported 
+    tPD_plle0_to_pin                                    =   2000         
+
+
+
+
+

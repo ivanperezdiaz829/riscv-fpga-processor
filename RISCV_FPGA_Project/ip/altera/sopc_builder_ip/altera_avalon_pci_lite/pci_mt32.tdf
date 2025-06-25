@@ -1,0 +1,2369 @@
+-- synthesis altera_attribute="disable_da_rule=c101" 
+-- File Name      :  pci_mt32.tdf
+-- Date Created   :  11/09/1998
+-- Designer Name  :  SIO Group, System Engineering
+-- Company Name   :  Altera Corporation
+-- Company Address:  101 Innovation Drive
+--                   San Jose, California 95134
+--                   U.S.A.
+--
+--
+-- Copyright Altera Corporation 1998
+--
+--                 
+-- This is the Top Level Design for PCI/C MegaCore
+-- This MegaCore supports The following
+--    - 64 Bit Master/Target Interface
+--    - 64 Bit Target Only Interface
+--    - 32 Bit Master/Target Interface
+--    - 32 Bit Target Only Interface
+--
+-- The following are the naming conventions used.
+-- The following are the signal name endings with x being a signal name
+--
+--  x : active high signal
+--  x_i  : Active High Input signal
+--  x_o  : Active high Output Signal
+--  x_n  : Active Low Signal
+--  x_ni : Active Low Input Signal
+--  x_no : Active Low Output Signal
+--  x_r  : Active High registered Signal
+--  x_ir : Active High registered Input signal
+--  x_nir: Active Low registered Input signal
+--  x_or : Active High registered output signal
+--  x_nor: Active Low registered Output signal
+--
+-- $Id: pci_mt32.tdf,v 1.10 2007/06/27 07:13:33 lfching Exp $
+OPTIONS ALTERA_INTERNAL_OPTION = "SUPPRESS_DA_RULE_INTERNAL=C101";
+FUNCTION pcimt32_adce (low_ad_ce_in, high_ad_ce_in)
+    WITH (TARGET_DEVICE)
+    RETURNS (ad_ce_out[63..0]);
+
+
+FUNCTION pcimt32_m (  clk, rstn, gnt, frame, irdy, trdy, devsel, stop, perr, mstr_ena, lat_dat[7..0], 
+          lm_req64, lm_req32, lm_last, lm_rdyn, low_lm_dati[31..0], low_lm_beni[3..0], 
+          ack64, high_lm_dati[31..0], high_lm_beni[3..0], targ_access ) 
+                
+   WITH     ( DEVICE_FAMILY,
+        DISCARD_TIMER,
+    SUBORDINATE_BUS,
+    PREFETCHABLE_MEMORY,
+    TARGET_ONLY,
+    PCI_32,
+    P2P_BRIDGE,
+    PRIMARY_INTERFACE,
+    VERSION_1_0_COMPATIBLE,
+    TARGET_DEVICE,
+    PCI_66MHZ_CAPABLE,
+    INTERNAL_ARBITER,
+    INTERRUPT_PIN_REG,
+    VENDOR_ID,
+    DEVICE_ID,
+    REVISION_ID,
+    CLASS_CODE,
+    ENABLE_BITS,
+    SUBSYSTEM_ID,
+    SUBSYSTEM_VENDOR_ID,
+    MIN_GRANT,
+    MAX_LATENCY,
+    CAP_PTR,
+    CIS_PTR,
+    EXP_ROM_BAR,
+    HARDWIRE_EXP_ROM,
+    NUMBER_OF_BARS,
+    BAR0,
+    BAR1,
+    BAR2,
+    BAR3,
+    BAR4,
+    BAR5,
+    HARDWIRE_BAR0,
+    HARDWIRE_BAR1,
+    HARDWIRE_BAR2,
+    HARDWIRE_BAR3,
+    HARDWIRE_BAR4,
+    HARDWIRE_BAR5,
+    PCI_64BIT_SYSTEM,
+    LOCAL_CONFIG_ENA,
+    DATA_TIMEOUT
+    )
+    
+         
+    
+    
+    RETURNS   ( low_data_out[31..0], high_data_out[31..0], ad_oe, ad_sel, ad_ir_ce_D, cbe_ce, 
+          low_cbe_out[3..0], high_cbe_out[3..0], cbe_oe, frame_out, frame_oe, irdy_out, 
+          irdy_oe, req_or_out, perr_vld, perr_oe,  par_oe_lc1, mstr_park, perr_rep_set, targ_abrt_set, 
+          mstr_abrt_set, lm_adr_ack, lm_ackn, lm_dato_vld_out, lm_tsr[12..0], mstr_actv, mstr_cfg_cyc,
+          hr_dat_sel, dati_HR_ena, ADOR_ena, hr_cbe_sel, cbe_HR_ena, req64_out, req64_oe, 
+          hr_adr_sel, lm_ldata_ackn, lm_hdata_ackn, lm_dxfrn, hi_low_sel, 
+          tgt_64_response_out, ad_ir_ce_a, cben_ir_ce_a, cben_ir_ce_d, dac_cyc_out, 
+          mstr_wr_dxfr);
+          
+
+FUNCTION pcimt32_pk ( clk, rstn, par, low_ad_ir_addr[31..0], low_cben_ir_addr[3..0], 
+          low_ad_ir[31..0], low_cben_ir[3..0], par64, high_ad_ir[31..0], 
+          high_cben_ir[3..0], perr_ena, serr_ena, prim_perr_ena, prim_serr_ena, 
+          sec_perr_ena, sec_serr_ena, mstr_perr_vld, targ_perr_vld, targ_serr_vld, 
+          sec_serr_in, serr_in, trg_64_trans_out, mstr_64_trans_out )
+  WITH     (PCI_32 , DEVICE_FAMILY, P2P_BRIDGE ,PRIMARY_INTERFACE)
+  
+    RETURNS    (  perr_det_set, serr_sig_set, perr_out, serr_out);
+
+
+FUNCTION pcimt32_pg ( data[31..0], cben[3..0])
+    RETURNS    (  parity);
+        
+
+FUNCTION pcimt32_t  ( clk, rstn, ad_ir_address[31..0], cben_ir_address[3..0], frame, irdy, idsel,
+          low_lt_dati[31..0], lt_rdyn, lt_discn, lt_abortn, perr_rep_set, perr_det_set,
+            serr_sig_set, mstr_actv, mstr_cfg_cyc, mstr_abrt_set, targ_abrt_set, lcfg_adr[7..0], 
+          lcfg_ben[3..0], lcfg_dat_in[31..0], lcfg_adr_vld, lcfg_dat_vld, lcfg_wr_rdn, 
+          req64, high_lt_dati[31..0], lm_ackn, mstr_dac_decode, ad_ir_data[31..0], 
+          cben_ir_data[3..0], serrn_in, sec_stat_set_in[15..0], cfg_dat_in_a[207..0], 
+          cfg_dat_in_b[183..0],cfg_dat_in_c[191..0], lt_discard_set, l_dis_64_ext, l_stat_reg_rst[5..0],
+          lirqn)
+   WITH     ( DEVICE_FAMILY,
+        DISCARD_TIMER,
+    SUBORDINATE_BUS,
+    PREFETCHABLE_MEMORY,
+    TARGET_ONLY,
+    PCI_32,
+    P2P_BRIDGE,
+    PRIMARY_INTERFACE,
+    VERSION_1_0_COMPATIBLE,
+    TARGET_DEVICE,
+    PCI_66MHZ_CAPABLE,
+    INTERNAL_ARBITER,
+    INTERRUPT_PIN_REG,
+    VENDOR_ID,
+    DEVICE_ID,
+    REVISION_ID,
+    CLASS_CODE,
+    ENABLE_BITS,
+    SUBSYSTEM_ID,
+    SUBSYSTEM_VENDOR_ID,
+    MIN_GRANT,
+    MAX_LATENCY,
+    CAP_PTR,
+    CIS_PTR,
+    EXP_ROM_BAR,
+    HARDWIRE_EXP_ROM,
+    NUMBER_OF_BARS,
+    BAR0,
+    BAR1,
+    BAR2,
+    BAR3,
+    BAR4,
+    BAR5,
+    HARDWIRE_BAR0,
+    HARDWIRE_BAR1,
+    HARDWIRE_BAR2,
+    HARDWIRE_BAR3,
+    HARDWIRE_BAR4,
+    HARDWIRE_BAR5,
+    PCI_64BIT_SYSTEM,
+    LOCAL_CONFIG_ENA,
+    DATA_TIMEOUT
+    )
+
+  
+    RETURNS   ( serr_vld, perr_vld, perr_oe, par_oe, lt_adr[63..0], lt_cmd[3..0], 
+          low_lt_ben[3..0], lt_framen, lt_ackn, ad_oe, ad_sel, targ_oer, trdy_out, 
+          devsel_or_out, stop_out, high_lt_ben[3..0], io_ena, mem_ena, mstr_ena, mwi_ena, 
+          perr_ena, serr_ena, cfg_perr_rep, cfg_tabrt_sig, cfg_tabrt_rcvd,cfg_mabrt_rcvd,
+          cfg_serr_sig, cfg_perr_det, lat_dat[7..0], cache_dat[7..0], lt_tsr[13..0],
+            lt_dxfrn, lcfg_dat_out[31..0], ADOR_ena, ad_IR_ce_A, ad_IR_ce_D, cben_IR_ce_A, 
+          cben_IR_ce_D, low_data_out[31..0], high_data_out[31..0], cfg_ad_out[31..0], 
+          cfg_cyc_out, hr_dat_sel, dati_HR_ena, ack64_or_out, lt_ldata_ackn, lt_hdata_ackn, 
+          lt_sel_w, ador_hi_dena, hi_low_sel, trans64_out, adr_phase_out, dac_sr_out,
+          cfg_dat_out_a[207..0], cfg_dat_out_b[183..0],cfg_dat_out_c[191..0], sec_stat_set_out[15..0], 
+          lt_dato_vld_out, irdyrn, base_hit[5..0], rstn_out, cfg_intr_stat, intr_disable  );
+         
+FUNCTION pci_mt32 (clk, rstn, gntn, idsel, framen_in, irdyn_in, devseln_in, trdyn_in, stopn_in, l_adi[31..0], l_cbeni[3..0], lm_req32n, lm_lastn, lm_rdyn, 
+						lt_rdyn, lt_abortn, lt_discn, lirqn)
+    WITH (TARGET_DEVICE, PCI_66MHZ_CAPABLE, INTERNAL_ARBITER, VENDOR_ID, DEVICE_ID, REVISION_ID, CLASS_CODE, SUBSYSTEM_ID, SUBSYSTEM_VENDOR_ID, MIN_GRANT, 
+    					MAX_LATENCY, CAP_PTR, EXP_ROM_BAR, NUMBER_OF_BARS, BAR0, BAR1, BAR2, BAR3, BAR4, BAR5,
+    					HARDWIRE_BAR0, HARDWIRE_BAR1, HARDWIRE_BAR2, HARDWIRE_BAR3, HARDWIRE_BAR4, HARDWIRE_BAR5, ENABLE_BITS,
+						HARDWIRE_EXP_ROM, INTERRUPT_PIN_REG, CIS_PTR)
+    RETURNS (intan, reqn, framen_out, irdyn_out, devseln_out, trdyn_out, stopn_out, serrn, ad[31..0], cben[3..0], par, perrn, l_adro[31..0], l_dato[31..0], 
+    					l_beno[3..0], l_cmdo[3..0], lm_adr_ackn, lm_ackn, lm_dxfrn, lm_tsr[11..0], lt_framen, lt_ackn, lt_dxfrn, lt_tsr[11..0], cmd_reg[5..0], 
+    					stat_reg[5..0], cache[7..0]);   
+    					
+DEFINE PCI_FAMILY_STRATIXII()		= (((DEVICE_FAMILY == "STRATIX II" ) OR (DEVICE_FAMILY == "HardCopy II" ) ) ? 1 : 0);     
+DEFINE PCI_FAMILY_CYCLONE()		= ((DEVICE_FAMILY == "CYCLONE")  ? 1 : 0);  
+    					 
+INCLUDE "maxplus2.inc";
+--INCLUDE "pcimt32.inc";
+
+
+PARAMETERS
+( DEVICE_FAMILY          = "Stratix",
+  DISCARD_TIMER          = "NO",
+  SUBORDINATE_BUS        = "NO",
+  PREFETCHABLE_MEMORY    = "NO",
+  TARGET_ONLY            = "NO",
+  PCI_32                 = "YES",
+  P2P_BRIDGE             = "NO",
+  P2P_ENABLE_BITS        = H"00000000",  -- P2P Bridge Enable bits
+  PRIMARY_INTERFACE      = "NO",
+  VERSION_1_0_COMPATIBLE = "NO",
+  PCI_66MHZ_CAPABLE      = "YES",
+  INTERRUPT_PIN_REG      = H"01",
+  VENDOR_ID              = H"1172",      -- Vendor ID Register
+  DEVICE_ID              = H"0004",      -- Device ID Register
+  REVISION_ID            = H"01",        -- Revision ID Register
+  CLASS_CODE             = H"FF0000",    -- Class Code Register
+  ENABLE_BITS            = H"00000000",  
+  SUBSYSTEM_ID           = H"0000",      -- Subsystem ID Register
+  SUBSYSTEM_VENDOR_ID    = H"0000",      -- Subsystem Vendor ID Register
+  MIN_GRANT              = H"00",        -- Minimum Grant Register
+  MAX_LATENCY            = H"00",        -- Maximum Latency Register
+  CAP_PTR                = H"40",
+  CIS_PTR                = H"00000000",
+  EXP_ROM_BAR            = H"FFF00000",  -- EXpansion ROM Base Address Register
+  HARDWIRE_EXP_ROM       = H"FFF00000",
+  NUMBER_OF_BARS         = 1,            -- Number of Base Address Regisers to be used  // NIOS_REMOVE_ATTRIBUTE  (do not remove)
+  BAR0                   = H"FFF00000",  -- Values in CFG_BAR0
+  BAR1                   = H"FFF00000",  --  Bit(0) = 0-Memory, 1-I/O Space
+  BAR2                   = H"FFF00000",  --  Bit(1) = Reserve for I/O Space
+  BAR3                   = H"FFF00000",  --  Bit(2,1) = Memory Type
+  BAR4                   = H"FFF00000",  --  Bit(3)  = Prefetchable Memory Address
+  BAR5                   = H"FFF00000",  --  Bits(31..n) = 1 for number of decode bits
+  
+  HARDWIRE_BAR0          = H"F0000000",  --        // NIOS_REMOVE_ATTRIBUTE
+  HARDWIRE_BAR1          = H"FF000000",
+  HARDWIRE_BAR2          = H"FFF00000",    
+  HARDWIRE_BAR3          = H"FFFF0000",
+  HARDWIRE_BAR4          = H"FFFFF000",
+  HARDWIRE_BAR5          = H"FFFFFF00",
+  
+  VERBOSE                = "NO",   
+    
+  LOCAL_CONFIG_ENA       = "NO"          -- Enable Host Bridge Support
+  
+  
+
+);
+
+  CONSTANT HARDWIRE_BAR0_ENA    = (ENABLE_BITS & H"00000001");               -- 0
+  CONSTANT HARDWIRE_BAR1_ENA    = (ENABLE_BITS & H"00000002") DIV 2;         -- 1
+  CONSTANT HARDWIRE_BAR2_ENA    = (ENABLE_BITS & H"00000004") DIV 4;         -- 2
+  CONSTANT HARDWIRE_BAR3_ENA    = (ENABLE_BITS & H"00000008") DIV 8;         -- 3
+  CONSTANT HARDWIRE_BAR4_ENA    = (ENABLE_BITS & H"00000010") DIV H"10";     -- 4
+  CONSTANT HARDWIRE_BAR5_ENA    = (ENABLE_BITS & H"00000020") DIV H"20";     -- 5
+  CONSTANT HARDWIRE_EXP_ROM_ENA = (ENABLE_BITS & H"00000040") DIV H"40";     -- 6
+  CONSTANT EXP_ROM_ENA          = (ENABLE_BITS & H"00000080") DIV H"80";     -- 7
+  CONSTANT CAP_LIST_ENA         = (ENABLE_BITS & H"00000100") DIV H"100";    -- 8
+  CONSTANT CIS_PTR_ENA          = (ENABLE_BITS & H"00000200") DIV H"200";    -- 9
+  CONSTANT INTERRUPT_ACK_ENA    = (ENABLE_BITS & H"00000400") DIV H"400";    -- 10
+  CONSTANT HARDWIRE_HB_ENA      = (ENABLE_BITS & H"00000800") DIV H"800";    -- 11
+  CONSTANT INTERNAL_ARBITER_ENA = (ENABLE_BITS & H"00001000") DIV H"1000";   -- 12 Determines if REQ signal should have a tristate buffer or not.
+  Constant SCFG_HB_ENA          = (ENABLE_BITS & H"00002000") DIV H"2000";   -- 13 Enable Host Bridge Capability and Self Configuration    
+  CONSTANT LOC_HDAT_MUX_ENA     = (ENABLE_BITS & H"00004000") DIV H"4000";   -- 14 Insert Local Muxes on High Data and Byte enable outputs for 32 Xfers  
+  CONSTANT DISABLE_LAT_TMR      = (ENABLE_BITS & H"00008000") DIV H"8000";   -- 15
+  CONSTANT PCI_64BIT_SYSTEM     = (ENABLE_BITS & H"00010000") DIV H"10000";  -- 16 Indicates whether this is a pure 64bit system or not
+  CONSTANT MW_CBEN_ENA          = (ENABLE_BITS & H"00020000") DIV H"20000";  -- 17 master write cben enable
+  CONSTANT DELAYED_XFR          = (ENABLE_BITS & H"00040000") DIV H"40000";  -- 18 delayed transaction support
+  CONSTANT IGNORE_CFG_MABRT     = (ENABLE_BITS & H"00080000") DIV H"80000";  -- 19 Ignore Master Abort for Master Configuration Transactions
+  CONSTANT AVALON_BRIDGE_ENA    = (ENABLE_BITS & H"00100000") DIV H"100000"; -- 20 Avalon Bridge Enable Set when Avalon Bridge is instantiated.
+   
+  CONSTANT CORE_MT64            = ((TARGET_ONLY == "NO") & (PCI_32 == "NO")) ? 1 : 0;
+  CONSTANT CORE_T64             = ((TARGET_ONLY == "YES") & (PCI_32 == "NO")) ? 1 : 0;
+  CONSTANT CORE_MT32            = ((TARGET_ONLY == "NO") & (PCI_32 == "YES")) ? 1 : 0;
+  CONSTANT CORE_T32             = ((TARGET_ONLY == "YES") & (PCI_32 == "YES")) ? 1 : 0;
+
+  -- ********************************************************************************************
+  -- P2P Enable Bits
+  --
+  -- 0 Enable driving CBEN from local side during Master Burst write after 1st data phase 
+  -- 1 Enable driving Par Par64 from local side for mstr writ and trgt read                 
+  -- 2 Disable I/O accesses for P2P Bridge                                                
+  -- 3 Enable Mem Base1, Mem Limit 1, Pref Mem Base 1, Pref Mem Limit 1                   
+  -- 4 Enable Mem Base1, Mem Limit 2, Pref Mem Base 1, Pref Mem Limit 2                   
+  -- 5 Enable Mem Base1, Mem Limit 3, Pref Mem Base 1, Pref Mem Limit 3                   
+  -- ********************************************************************************************
+  CONSTANT P2P_MW_CBEN_ENA      = (P2P_ENABLE_BITS & H"00000001") DIV H"00000001";  
+  CONSTANT P2P_LPARI_ENA        = (P2P_ENABLE_BITS & H"00000002") DIV H"00000002";  
+  CONSTANT P2P_IOACC_DIS        = (P2P_ENABLE_BITS & H"00000004") DIV H"00000004";  
+  CONSTANT P2P_MBS_MLMT_1_ENA   = (P2P_ENABLE_BITS & H"00000008") DIV H"00000008";  
+  CONSTANT P2P_MBS_MLMT_2_ENA   = (P2P_ENABLE_BITS & H"00000010") DIV H"00000010";  
+  CONSTANT P2P_MBS_MLMT_3_ENA   = (P2P_ENABLE_BITS & H"00000020") DIV H"00000020";  
+
+-- Ver 1.13: 32-bit parameter and P2P bridge parameter
+-- ver 0.1 = ver.1.15 of pci_mt32: added subordinate bus and prefetchable memory
+
+SUBDESIGN 'pci_mt32'
+(
+-- ==== BEGINNING OF SUBDESIGN SECTION ============================================================
+
+---- PCI Input Signals ---------------------------------------------------------------------------- 
+  clk           : INPUT = GND;    -- PCI Clock
+  rstn          : INPUT = VCC;    -- PCI Reset
+  gntn          : INPUT = VCC;    -- PCI Grant
+  idsel         : INPUT = GND;    -- PCI ID Select
+
+  framen_in     : INPUT = VCC;    -- PCI Frame Signal INPUT
+  req64n_in     : INPUT = VCC;    -- PCI 64 bit request
+  irdyn_in      : INPUT = VCC;    -- PCI Initiator Ready INPUT
+  devseln_in    : INPUT = VCC;    -- PCI Device Select
+ 
+  ack64n_in     : INPUT = VCC;    -- PCI 64 acknowledge signal
+  trdyn_in      : INPUT = VCC;    -- PCI Target Ready INPUT
+  stopn_in      : INPUT = VCC;    -- PCI Transaction Stop
+
+  serrn_in      : INPUT = VCC;    -- PCI-to-PCI bridge/Secondary Interface - system error
+  l_dis_64_extn : INPUT = VCC;    -- Local Disable 64-Bit Extension
+                  -- when 0: The 64-Bit extension Signals Are driven
+                  -- When 1: The 64-Bit Extension Signals Operate Nomrally 
+--------------------------------------------------------------------------------------------------- 
+
+---- PCI Output Signals --------------------------------------------------------------------------- 
+  intan         : OUTPUT;   -- PCI Interrupt A
+  reqn          : OUTPUT;   -- PCI Request
+
+  framen_out    : OUTPUT;   -- PCI Frame Signal OUTPUT
+  --req64n_out    : OUTPUT;   -- PCI 64 bit request
+  irdyn_out     : OUTPUT;   -- PCI Initiator Ready OUTPUT
+
+  devseln_out   : OUTPUT;   -- PCI Device Select 
+  --ack64n_out    : OUTPUT;   -- PCI 64 acknowledge signal
+  trdyn_out     : OUTPUT;   -- PCI Target Ready OUTPUT
+  stopn_out     : OUTPUT;   -- PCI Transaction Stop
+  
+  par_reg       : OUTPUT;
+  serrn         : OUTPUT;   -- PCI System Error
+  rstn_out      : OUTPUT;   -- PCI-to-PCI bridge/Secondary interface - reset output
+--------------------------------------------------------------------------------------------------- 
+  
+---- PCI Bidir Signals ---------------------------------------------------------------------------- 
+  ad[63..0]     : BIDIR;    -- PCI Address/Data Bus
+  cben[7..0]    : BIDIR;    -- PCI Command/Byte Enables
+--  cben[7..0]    : INPUT;
+  par           : BIDIR;    -- PCI Parity
+  par64         : BIDIR;    -- PCI Parity for Upper 32 bits
+  perrn         : BIDIR;    -- PCI Data Parity Error
+--  perrn     : OUTPUT;   -- PCI Data Parity Error
+--------------------------------------------------------------------------------------------------- 
+  
+---- Local Address, Data, Command and Byte Enables ------------------------------------------------
+  -- Version 1.0  
+  l_dati[63..0] : INPUT = GND;  -- Target Data Input
+  l_adri[31..0] : INPUT = GND;  -- Local Side Master Address/Data Bus
+  l_cmdi[3..0]  : INPUT = GND;  -- Local Command
+  l_beni[7..0]  : INPUT = GND;  -- Local Byte Enables
+  -- Version 1.1
+  l_adi[63..0]  : INPUT = GND;  -- Local Side Address/Data Bus version 1.1
+  l_cbeni[7..0] : INPUT = GND;  -- Local Side Command/Byte Enable Bus version 1.1
+
+  l_adro[63..0] : OUTPUT; -- Target Address Output
+  l_dato[63..0] : OUTPUT; -- Target Data Output
+
+  l_beno[7..0]  : OUTPUT; -- Target Byte Enable
+  l_cmdo[3..0]  : OUTPUT; -- Target command
+---------------------------------------------------------------------------------------------------
+
+---- General Purpose Outputs ----------------------------------------------------------------------
+  l_ldat_ackn   : OUTPUT;   -- Low Data Acknowledge
+  l_hdat_ackn   : OUTPUT; -- High Data Acknowledge
+---------------------------------------------------------------------------------------------------
+
+---- Local Master Input Signals -------------------------------------------------------------------
+  lm_req32n   : INPUT = VCC;  -- Local Master 32-bit Request Transaction
+  lm_req64n   : INPUT = VCC;  -- Local Master 64-bit Request Transaction
+  lm_lastn    : INPUT = VCC;  -- Local Master End Transaction
+  lm_rdyn     : INPUT = VCC;  -- Local Master ready
+                  -- Will assert waits on the next clock cycle
+---------------------------------------------------------------------------------------------------                 
+
+---- Local Master Output Signals ------------------------------------------------------------------
+  lm_adr_ackn   : OUTPUT; -- Local Master Address Acknowledge
+  lm_ackn     : OUTPUT; -- Master Transfer Acknowledge
+                -- When Asserted Indicates that Data is valid or Ready to recieve data
+  lm_dato_vldn  : OUTPUT; -- Local Master Data Output Valid
+  lm_dxfrn    : OUTPUT;
+  lm_tsr[12..0]  : OUTPUT; -- Master Transaction Status Registers
+                -- 0: Master is requesting the Bus
+                -- 1: Master has been Granted the bus
+                -- 2: Master is in Address Phase
+                -- 3: Master is Transferring data
+                -- 4: Latency Timer has expired
+                -- 5: Master Recieved a retry
+                -- 6: Master Recieved a Disconnect with 0 Data Transfers
+                -- 7: Master Recieved a Disconnect with 1 Data Transfers
+                -- 8: PCI data Xfr in Last Clock
+                -- 9: 64 bit transaction
+                -- 10: Received Master Abort
+                -- 11: Latency Timer Has expired in MWI Command
+                -- 12: Received Target Abort
+---------------------------------------------------------------------------------------------------
+  l_pari      : INPUT = GND;  -- Local Par input.  Must have the same timing as l_adi[31..0]
+  l_par64i    : INPUT = GND;  -- Local Par64 input.  Must have the same timing as l_adi[63..32]
+  
+  l_paro      : OUTPUT; -- Local par output
+  l_par64o    : OUTPUT; -- local par64 output
+---- Local Side Configuration Space Support -------------------------------------------------------
+  
+  lcfg_adr[7..0]      : INPUT = GND;    -- Local Configuration Address
+  lcfg_ben[3..0]      : INPUT = GND;    -- Local Configuration Byte enables
+  lcfg_dati[31..0]    : INPUT = GND;    -- Local Configuration Data Input Bus
+  lcfg_adr_vld      : INPUT = GND;    -- Local Configuration Address Valid
+  lcfg_dat_vld      : INPUT = GND;    -- Local Configuration data Valid
+  lcfg_dato[31..0]    : OUTPUT;   -- Local Configuration Data Output
+          
+---- Local Target Input Signals -------------------------------------------------------------------
+  lt_rdyn     : INPUT = VCC;  -- Local Target Ready
+  lt_abortn   : INPUT = VCC;  -- Instructs the Target to abort the current Transaction
+  lt_discn    : INPUT = VCC;  -- Instructs the Target to end the current Transaction with a Disconnect
+                  -- or retry depending on the time when it was asserted
+  lirqn     : INPUT = VCC;  -- Local Interrupt Request
+---------------------------------------------------------------------------------------------------
+
+---- Local Target Output Signals ------------------------------------------------------------------
+  lt_framen   : OUTPUT; -- Local Target Begin/End Transaction
+  lt_ackn     : OUTPUT; -- Target Transfer Acknowledge
+  lt_dato_vldn  : OUTPUT; -- Local data output is valid.  Used for PCI-to-PCI bridge.
+  lt_dxfrn    : OUTPUT; -- Target data transfer is occurring 
+  lt_tsr[13..0] : OUTPUT; -- Target Transaction Status Registers
+                -- 5..0: Target Base Address Register accessed
+                -- 6: Target indicates an Expansion ROM hit
+                -- 7: Target transaction is 64 bit
+                -- 8: Target is accessed from PCI bus
+                -- 9: Burst transaction
+                -- 10: Successful PCI transfer in previous cycle
+                -- 11: Dual Address Cycle
+                -- 12: Target Address Valid: Used for PCI-to-PCI bridge
+                -- 13: Target retry: Used internally only
+---------------------------------------------------------------------------------------------------
+
+---- Local Configuration Space Outputs ------------------------------------------------------------
+  cmd_reg[6..0] : OUTPUT; -- PCI Configuration Command Registers Outputs
+                -- 0: I/O Enable    ( Command Register Bit 0)
+                -- 1: Memory Enable   ( Command Register Bit 1)
+                -- 2: Master Enable   ( Command Register Bit 2)
+                -- 3: MWI Enable    ( Command Register Bit 4)
+                -- 4: PERR Response Ena ( Command Register Bit 6)
+                -- 5: SERR Enable   ( Command Register Bit 8)
+                -- 6:  INTR Disable   ( Command Register Bit 10)
+--------------------------------------------------------------------------------------------------- 
+
+---- Local Status Register Outputs ---------------------------------------------------------------- 
+  stat_reg[6..0]  : OUTPUT; -- Status Register Outputs
+                -- 0: Data Parity Error Reported  ( Status Register Bit 8)
+                -- 1: Signaled Target Abort   ( Status Register Bit 11)
+                -- 2: Recieved Target Abort   ( Status Register Bit 12)
+                -- 3: Recieved Master Abort   ( Status Register Bit 13)
+                -- 4: Signaled System Error   ( Status Register Bit 14)
+                -- 5: Detected Parit Error    ( Status Register Bit 15)
+                -- 6: Interrupt Status        ( Status Register Bit 3)
+---------------------------------------------------------------------------------------------------
+  l_stat_reg_rst[5..0]  : INPUT = GND;  -- Local Status Register Reset bits
+                      -- 0 : reset bit 8 (Master Data Parity Error)
+                      -- 1 : reset bit 11 (Signaled Target Abort)
+                      -- 2 : reset bit 12 (Received Target Abort)
+                      -- 3 : reset bit 13 (Received Master Abort)
+                      -- 4 : reset bit 14 (Signaled System Error)
+                      -- 5 : reset bit 15 ( Detected Parity Error)
+---- Other Local Configuration Register Outputs --------------------------------------------------- 
+  cache[7..0]   : OUTPUT; -- Cache Line Register Data
+---------------------------------------------------------------------------------------------------
+
+---- PCI-to-PCI bridge/Primary Interface - Configuration Buses ------------------------------------
+  l_discard_set     : INPUT = GND;
+
+  sec_stat_set_in[15..0]  : INPUT = GND;  -- Secondary status register input.  Connected from sec_stat_set_out[].
+  cfg_dat_in_a[207..0]  : INPUT = GND;  -- Configuration data A input.  Connected from cfg_dat_out_a[].
+  cfg_dat_in_b[183..0]  : INPUT = GND;  -- Configuration data B input.  Connected from cfg_dat_out_b[].
+  cfg_dat_in_c[191..0]  : INPUT = GND;  -- Configuration data B input.  Connected from cfg_dat_out_b[].
+  l_serrin        : INPUT = VCC;  -- Local system error input.  Connected from l_serron of secondary interface.
+
+  sec_stat_set_out[15..0] : OUTPUT;  -- Secondary status register output.
+  cfg_dat_out_a[207..0] : OUTPUT;  -- Configuration data A output.
+  cfg_dat_out_b[183..0] : OUTPUT;  -- Configuration data B output.  
+  cfg_dat_out_c[191..0] : OUTPUT;  -- Configuration data B output.  
+  l_serron        : OUTPUT;  -- Local system error output.
+---------------------------------------------------------------------------------------------------
+
+)
+--==== END OF SUBDESIGN SECTION ===================================================================
+
+
+VARIABLE
+
+--==== BEGINNING OF VARIABLE SECTION ==============================================================
+
+---- PCI 64-bit extension signals disabled --------------------------------------------------------
+  l_dis_64_ext            : NODE;
+--------------------------------------------------------------------------------------------------- 
+  
+---- Lower-level designs instantiation ------------------------------------------------------------ 
+  trg                 : pcimt32_t;    -- Instantiate Target Control Module
+  IF (TARGET_ONLY == "NO") GENERATE
+    mstr              : pcimt32_m;    -- Instantiate Master Control Module
+  END GENERATE;
+  
+  parity_Chk              : pcimt32_pk WITH (P2P_BRIDGE = P2P_BRIDGE, PRIMARY_INTERFACE = PRIMARY_INTERFACE);   -- Parity Generator XOR Tree
+  parity_gen              : pcimt32_pg;   -- Parity Generator XOR Tree
+  
+  
+  IF (PCI_32 == "NO") GENERATE
+    parity_gen64          : pcimt32_pg;   -- Parity Generator XOR Tree
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+      
+---- PCI Signals Tristate Buffers -----------------------------------------------------------------
+  ad_tri_oe             : NODE;
+  ad_tri[63..0]           : TRI;    -- AD Tristate buffer
+  IF (TARGET_ONLY == "NO") GENERATE
+    cbe_tri[7..0]         : TRI;    -- CBEN Tristate Buffer
+    mstr_cbe_oe           : NODE; -- Master cbe Output enable
+  END GENERATE;
+  
+  mstr_ad_oe              : NODE; -- Master AD OE Output  
+  trg_ad_oe             : NODE; -- Target AD OE Output
+---------------------------------------------------------------------------------------------------
+
+---- Address/Command Input Registers --------------------------------------------------------------
+  ad_IR_address[31..0]        : DFFE;   -- AD Input Register for Address
+  cben_IR_address[3..0]       : DFFE;   -- CBEN Input Register
+--------------------------------------------------------------------------------------------------- 
+
+---- Target Write/ Master Read AD[31..0] Input Register for PCI Signals ---------------------------
+  low_ad_IR_data[31..0]       : DFFE;   -- AD Input Register for Data 
+  low_cben_IR_data[3..0]        : DFFE;   -- CBEN Input Register
+---------------------------------------------------------------------------------------------------
+  
+  ---- Target Write/ Master Read AD[63..32] Input Register for PCI Signals --------------------------
+  IF (PCI_32 == "NO") GENERATE
+    high_ad_IR_data[31..0]      : DFFE;   -- AD Input Register for Data
+    high_cben_IR_data[3..0]     : DFFE;   -- CBEN Input Register
+  ELSE GENERATE
+    high_ad_IR_data[31..0]      : NODE;   -- AD Input Register for Data   
+    high_cben_IR_data[3..0]     : NODE;   -- CBEN Input Register
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- Master and Target Address/Data/CBEN Input Registers Clock Enables ----------------------------
+  ad_IR_ce_data             : LCELL;
+  ad_IR_ce_address          : LCELL;
+  
+  cben_IR_ce_data           : LCELL;
+  cben_IR_ce_address          : LCELL;
+  
+  mstr_ad_ir_ce_a           : NODE;
+  mstr_ad_IR_ce_D           : LCELL;-- AD Input Register Clock Enable
+  
+  mstr_cben_ir_ce_a         : NODE;
+  mstr_cben_ir_ce_d         : LCELL;
+    
+  trg_ad_IR_ce_A            : LCELL;-- Target AD/BE Clock Enable- Address
+  trg_ad_IR_ce_D            : LCELL;-- Target AD/BE Clock Enable- Data
+
+  trg_cben_IR_ce_A          : LCELL;-- Target AD/BE Clock Enable- Address
+  trg_cben_IR_ce_D          : LCELL;-- Target AD/BE Clock Enable- Data
+---------------------------------------------------------------------------------------------------
+-- Low AD Output Registers and related Nodes
+---------------------------------------------------------------------------------------------------
+  low_ad_or[31..0]          : DFFE;   -- AD Output Register 
+  ad_ce_nc                  : NODE;   -- AD CLock Enable Non Critical Node
+      
+  low_ad_lc1[31..0]         : LCELL;
+  low_ad_d[31..0]           : LCELL;
+  low_ad_or_fb[31..0]       : DFFE;
+  
+  IF(PCI_FAMILY_STRATIXII()) GENERATE
+        low_ad_d_fb[31..0]        : LCELL;      
+  ELSE GENERATE
+        low_ad_d_fb[31..0]        : NODE;
+  END GENERATE;
+
+  low_ad_out[31..0]         : LCELL;
+  low_ad_out_lc1[31..0]     : LCELL;
+  low_ad_out_lc2[31..0]     : LCELL;
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    mstr_ADOR_ena         : LCELL;-- Master AD_OR Register clock enable
+    mstr_trg_hr_dat_sel       : NODE; -- Master & Target Holding Register Select Signal
+                        -- in a 32-bit PCI / 64-bit Local Side transaction
+    mstr_hr_dat_sel         : NODE; -- Master Holding Register Select Signal
+    mstr_trg_low_ad_out_sel     : NODE;
+    mstr_ad_sel           : LCELL;-- Master AD Output Mux Select
+  END GENERATE;
+
+  IF (PCI_32 == "NO") GENERATE
+    mstr_hi_low_sel         : LCELL;
+    hi_low_sel            : LCELL;-- Target Mux select for High or Low DWORD transfer
+    mstr_trg_hi_ad          : LCELL;-- Mux select used for high_ad_or
+  ELSE GENERATE
+    mstr_hi_low_sel         : NODE; 
+  END GENERATE;
+
+  trg_ADOR_ena            : LCELL;
+
+  low_data_out_hr_ena_d       : NODE;
+  mstr_dati_HR_ena          : NODE; -- Master Holding Register Enable Signal
+  trg_dati_HR_ena           : NODE; -- Target Holding Register Enable Signal
+
+  low_data_out_HR_lc          : NODE;
+  low_data_out_HR[31..0]        : DFFE; -- Low data holding register
+
+  trg_low_data_out[31..0]       : NODE; -- Target Local Side Low Output Data to AD Output Register
+  
+  trg_cfg_ad_out[31..0]       : LCELL;--NODE; -- Target Configuration data Output to AD Output Register 
+  trg_cfg_cyc_out           : LCELL;  -- Target Configuratiob Cycle Indicator 
+  mstr_low_data_out[31..0]      : NODE; -- Master Output Data to AD Output Register
+  mstr_trg_low            : NODE; 
+  trg_hr_dat_sel            : NODE; -- Target Holding Register Select Signal
+  trg_low_ad_out_sel          : NODE;
+  trg_ad_sel              : LCELL;-- AD Output Mux Select 
+
+
+---------------------------------------------------------------------------------------------------
+-- High AD Output Registers and related Nodes
+---------------------------------------------------------------------------------------------------
+
+  IF (PCI_32 == "NO") GENERATE  -- T64, MT64
+    high_ad_or[63..32]        : DFFE;   -- AD Output Register
+      
+    high_ad_out_lc[31..0]       : LCELL;
+    high_data_out_HR[31..0]     : DFFE; -- Low data holding register
+    high_data_out_HR_ena        : NODE;   
+    trg_high_data_out[31..0]    : NODE; -- Target Local Side Low Output Data to AD Output Register
+  
+    IF (TARGET_ONLY == "NO") GENERATE
+      mstr_high_data_out[31..0] : NODE; -- Master Output Data to AD Output Register
+    END GENERATE;
+    
+    
+    
+      high_ad_lc1[31..0]           : LCELL;
+      high_ad_d[63..32]     : LCELL;
+      high_ad_or_fb[63..32]   : DFFE;
+    
+      IF(PCI_FAMILY_STRATIXII()) GENERATE
+            high_ad_d_fb[63..32]    : LCELL;
+      ELSE GENERATE       
+            high_ad_d_fb[63..32]    : NODE;
+      END GENERATE;
+     
+     
+     
+      
+      high_ad_out[31..0]      : LCELL;  -- AD Data MUX Ouput
+  ELSE GENERATE -- T32, MT32
+  
+    high_ad_or[63..32]        : NODE;   -- AD Output Register
+    
+    high_ad_out[31..0]        : NODE; -- AD Data MUX Ouput
+    high_ad_out_lc[31..0]       : NODE;
+  
+  END GENERATE;
+  
+---------------------------------------------------------------------------------------------------
+-- Low CBEN output registers and related Nodes
+---------------------------------------------------------------------------------------------------
+
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    low_cben_or[3..0]           : DFFE;     -- CBEN Output Register
+    low_cbe_out_HR[3..0]        : DFFE;     -- Low Command Byte Enables holding register  
+    
+    mstr_cbe_ce                 : LCELL;    -- Master CBE Clock Enable
+    mstr_cbe_HR_ena             : LCELL;    -- Master CBE Holding Register Clock enable 
+    mstr_low_cbe_out[3..0]      : NODE;     -- Master Cbe output
+    mstr_hr_cbe_sel             : LCELL;    -- Master CBE Holding Register MUX select
+    
+    low_mstr_cbe_out_lc1[3..0]  : LCELL;
+      
+    low_mstr_cbe_out[3..0]      : LCELL;
+  END GENERATE;
+
+  IF (P2P_MW_CBEN_ENA == 1 OR MW_CBEN_ENA == 1) GENERATE
+      low_mstr_cben_ce_carry[3..0]  : LCELL;
+      low_cben_or_d[3..0]           : LCELL;
+    
+    IF (PCI_32 == "NO") GENERATE
+      high_mstr_cbe_out_lc[3..0]    : LCELL;
+      high_cben_or_d[3..0]          : LCELL;
+    END GENERATE;
+  
+  END GENERATE;
+    
+---------------------------------------------------------------------------------------------------
+-- High CBEN output Registers and Related Nodes
+---------------------------------------------------------------------------------------------------
+  IF (CORE_MT64 == 1) GENERATE
+    high_cben_or[3..0]        : DFFE;   -- CBEN Output Register
+    high_cben_or_fb[3..0]     : DFFE;   -- CBEN Output Register Feedback
+    mstr_high_cbe_out[3..0]   : NODE; -- Master Cbe output
+    high_cbe_out_HR[3..0]     : DFFE; -- Low Command Byte Enables holding register
+    high_mstr_cbe_out[3..0]   : LCELL;  
+  END GENERATE;
+  
+  -- Defining these nodes to enable them to be synthesized out in MT32 case
+  IF (CORE_MT32 == 1) GENERATE
+    high_cben_or[3..0]        : NODE;   -- CBEN Output Register   
+    high_cben_or_fb[3..0]     : NODE;   -- CBEN Output Register Feedback
+    high_mstr_cbe_out[3..0]   : NODE; 
+    high_cbe_out_HR[3..0]     : NODE; -- Low Command Byte Enables holding register  
+  END GENERATE;
+  
+---------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------- 
+---- L_LDAT_ACKN and L_HDAT_ACKN variables: Used primarily for 32-bit PCI/64-bit Local side ------- 
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      lt_ldata_ackn       : NODE; -- Target Data Acknowledge
+      lt_hdata_ackn       : NODE;
+      lm_ldata_ackn       : NODE;
+      lm_hdata_ackn       : NODE;
+    END GENERATE;
+  ELSE GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      lt_ldata_ackn       : NODE; -- Target Data Acknowledge
+      lt_hdata_ackn       : NODE;
+    END GENERATE;
+  END GENERATE;
+  
+  l_ldat_ack              : NODE;
+  l_hdat_ack              : NODE;
+  local_dat_sel         : LCELL;
+  
+  IF (PCI_32 == "NO") GENERATE
+    lt_sel_w            : NODE;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+---- Internal Active High Input Nodes for PCI Signals ---------------------------------------------
+  frame               : NODE;   -- Frame Input
+  req64               : NODE;   -- Request 64 bit
+  irdy                : NODE;   -- Irdy Input
+  IF (TARGET_ONLY == "NO") GENERATE
+    devsel              : NODE;   -- DEVSEL Input
+    trdy              : NODE;   -- trdy Input
+    stop              : NODE;   -- stop Input
+    perr              : NODE;   -- Parity Error Input
+    ack64             : NODE;   -- Acknowledge 64 bit
+    gnt               : NODE;   -- gnt Input
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+---- Target PCI Outputs ---------------------------------------------------------------------------
+  devsel_or             : NODE; -- PCI Device Select Output
+  ack64_or              : NODE; -- Acknowledge 64 bit output signal
+  targ_oeR              : NODE; -- Target Control Signals Output Enable
+  trdy_out              : NODE; -- PCI Target Ready Output
+  stop_out              : NODE; -- PCI Stop Output
+  perr_out              : NODE; -- perr output from parity checker module
+  serr_out              : NODE; -- SERR Output Register
+--------------------------------------------------------------------------------------------------- 
+---- Master PCI Outputs ---------------------------------------------------------------------------   
+
+  IF (P2P_LPARI_ENA == 1) GENERATE
+    par_out_reg           : DFFE;
+--    par_out_reg_ena         : NODE;
+    par_out_reg_d         : NODE;
+    
+    par_out_HR_reg          : DFFE;
+    
+    par64_out_reg         : DFFE;
+--    par64_out_reg_ena       : NODE;
+    par64_out_reg_d           : NODE;
+    
+    par64_out_hr_reg        : DFFE;
+
+    par_out_dat           : NODE;
+    par_out_reg_ce_carry      : CARRY_SUM;
+    
+    par64_out_dat           : NODE;
+    par64_out_reg_ce_carry      : CARRY_SUM;
+    
+    
+  END GENERATE;
+  
+  ad_IR_ce_data_reg         : DFFE;
+  l_paro_reg              : DFFE;
+  IF (PCI_32 == "NO") GENERATE
+    l_par64o_reg            : DFFE;
+  END GENERATE;
+  
+  
+  par_R               : DFFE;
+  par_or                : DFFE;   -- PAR Output Register
+  par_or_d              : NODE;
+  IF (PCI_32 == "NO") GENERATE
+    par64_or            : DFFE;   -- PAR64 Output Register
+  ELSE GENERATE
+    par64_or            : NODE;
+  END GENERATE;
+  par64_or_d              : NODE;
+    
+  frame_out             : NODE;   -- Frame Output Signal
+  irdy_out              : NODE;   -- Irdy Output Signal
+  req64_out             : NODE;   -- Request 64 bit output signal
+  interrupt_reqn        : NODE;
+  IF (INTERRUPT_PIN_REG == H"01") GENERATE
+    inta_or             : DFFE;   -- Interrup A Output Register
+  ELSE GENERATE
+    inta_or             : NODE;
+  END GENERATE;
+  req_or                : NODE;   -- Request Output Register
+---------------------------------------------------------------------------------------------------
+-- Output Enables for PCI Signals -----------------------------------------------------------------
+  par_oe                : NODE;   -- PAR Output Enable 
+  par_oeR               : DFFE;
+  req64_oe              : NODE;   -- irdy Output enable
+  frame_oe              : NODE;   -- Frame Output Enable
+  irdy_oe               : NODE;   -- irdy Output enable
+  perr_oe_r             : DFFE;   -- PERR Output Enable Register
+--------------------------------------------------------------------------------------------------- 
+---- Target Parity/System Error variables --------------------------------------------------------- 
+  trg_par_oe              : LCELL;  -- PAR Output Enable
+                                
+  trg_perr_vld            : NODE; -- Parity Error is valid
+  trg_perr_oe             : NODE; -- PERR Output Enable
+                                
+  trg_serr_vld            : LCELL;--NODE; -- SERR Error is valid
+---------------------------------------------------------------------------------------------------
+---- Parity Generator Signals ---------------------------------------------------------------------
+    par_gen_out           : LCELL;    -- Parity Output from Parity Generator
+    IF (PCI_32 == "NO") GENERATE
+      par_gen_out64       : LCELL;    -- Parity Output from Parity Generator
+    END GENERATE;
+---------------------------------------------------------------------------------------------------
+---- Configuration Space Command Register Enables ------------------------------------------------- 
+  io_ena                : NODE; -- I/O Space Enable
+  mem_ena               : NODE; -- Memory Space Enable
+  mstr_ena              : NODE; -- Bus Master Enable
+  mwi_ena               : NODE; -- Memory Write and Invalidate Enable
+  perr_ena              : NODE; -- Pariy Error Response Enable 
+  serr_ena              : NODE; -- SERR Enable
+  intr_disable          : NODE;
+                            
+  IF (P2P_BRIDGE == "YES") GENERATE
+    prim_perr_ena         : NODE;
+    prim_serr_ena         : NODE;
+                                      
+    sec_serr_ena          : NODE;
+    sec_perr_ena          : NODE;
+                                      
+    sec_serr_in           : NODE;
+    serr_in             : NODE;
+  END GENERATE;
+--------------------------------------------------------------------------------------------------- 
+
+---- Configuration Space Status Register ----------------------------------------------------------
+  perr_rep_set            : NODE; -- Set node for the perr report in Status Register
+  perr_det_set            : NODE; -- Set node for the perr detected in Status Register
+  serr_sig_set            : NODE; -- Set node for the signaled serr in Status Register  
+  -- Nodes used when NOT implementing PCI-to-PCI bridge
+  IF (P2P_BRIDGE == "NO") GENERATE
+    perr_rep            : NODE; -- Data Parity Error Signaled
+    tabort_sig          : NODE; -- Signaled Target Abort
+    tabort_rcvd         : NODE; -- Recieved Target Abort
+    mabort_rcvd         : NODE; -- Recieved Master Abort
+    serr_sig            : NODE; -- Signaled SERR
+    perr_det            : NODE; -- Detected Parity Error
+    intr_stat           : NODE;
+  END GENERATE;               
+---------------------------------------------------------------------------------------------------   
+
+---- Other Configuration Space Registers ----------------------------------------------------------
+  lat_dat[7..0]           : NODE; -- Latency Timer data
+--------------------------------------------------------------------------------------------------- 
+  
+---- Target Transaction Indicator -----------------------------------------------------------------
+  IF (TARGET_ONLY == "NO") GENERATE
+    targ_access           : NODE;
+  END GENERATE;
+  IF (PCI_32 == "NO") GENERATE
+    trg_trans64_out         : NODE; --  Target 64-bit Transaction
+  END GENERATE;
+  targ_abrt_set           : NODE;
+--------------------------------------------------------------------------------------------------- 
+
+---- Master Transaction Indicator ----------------------------------------------------------------- 
+  mstr_actv             : NODE;
+  mstr_cfg_cyc            : NODE;
+  
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      mstr_64_trans_out     : NODE; 
+    END GENERATE;
+  END GENERATE;
+  
+  mstr_dac_decode           : NODE;
+  mstr_abrt_set           : NODE;
+---------------------------------------------------------------------------------------------------
+
+---- Master Parity Signals ------------------------------------------------------------------------
+  mstr_perr_vld           : NODE; -- master Parity Error valid
+  mstr_perr_oe            : NODE; -- PERR Output Enable
+  
+  
+  mstr_par_oe_lc1           : LCELL;
+  mstr_park           		: NODE;
+  mstr_par_oe_lc2           : NODE;
+  
+  --------------------------------------------------  
+  
+---- Local Master Active High Inputs --------------------------------------------------------------
+  lm_last               : NODE;
+  lm_req64              : NODE;
+  lm_req32              : NODE;
+  lm_adr_ack              : NODE;
+--------------------------------------------------------------------------------------------------- 
+  
+---- Version 1.0 Compatibility variables ----------------------------------------------------------
+  ador_mux[31..0]           : NODE;
+  cbenor_mux[3..0]          : NODE;
+---------------------------------------------------------------------------------------------------
+  
+---- The following nodes were added to substitute for the removed ports ---------------------------
+  IF (PCI_32 == "YES") GENERATE
+    par64_out           : NODE;
+    IF (TARGET_ONLY == "NO") GENERATE
+      req64n_out          : NODE;
+    END GENERATE;
+    ack64n_out            : NODE;
+    ad_in[63..32]         : NODE;
+    cben_in[7..4]         : NODE;
+    par64_in            : NODE;
+    l_ldat_ackn           : NODE;
+    l_hdat_ackn           : NODE;
+    l_adro_out[63..32]        : NODE;
+  END GENERATE;               
+---------------------------------------------------------------------------------------------------
+---- No Operation nodes: Used to remove warnings during compilation -------------------------------
+  no_op[63..0]            : NODE;
+---------------------------------------------------------------------------------------------------
+--  lt_tsr_lc[13..0] : LCELL;
+--==== END OF VARIABLE SECTION ====================================================================
+
+BEGIN
+
+--==== BEGINNING OF THE LOGIC SECTION =============================================================
+
+
+---- PCI 64-bit extension signals disabled --------------------------------------------------------
+  l_dis_64_ext  = not l_dis_64_extn;
+---------------------------------------------------------------------------------------------------
+
+-- Assert statements showing the options enabled with Enable BITS parameter
+--Assert Report " The following features were turned on in the ENABLE_BITS Parameter" severity info;
+Assert ( HARDWIRE_BAR0_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 0 == Harwire BAR 0  ------  ON"
+  Severity Info;
+  
+Assert ( HARDWIRE_BAR1_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 1 == Harwire BAR 1  ------  ON"
+  Severity Info;
+
+Assert ( HARDWIRE_BAR2_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 2 == Harwire BAR 2  ------  ON"
+  Severity Info;
+  
+Assert ( HARDWIRE_BAR3_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 3 == Harwire BAR 3  ------  ON"
+  Severity Info;
+
+Assert ( HARDWIRE_BAR4_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 4 == Harwire BAR 4  ------  ON"
+  Severity Info;
+  
+Assert ( HARDWIRE_BAR5_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 5 == Harwire BAR 5  ------  ON"
+  Severity Info;
+
+Assert ( HARDWIRE_EXP_ROM_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 6 == Harwire Expansion ROM BAR  ------  ON"
+  Severity Info;
+  
+Assert ( EXP_ROM_ENA == 0 OR VERBOSE == "NO") 
+  Report " Enable BIT 7 == Enable Expansion ROM BAR   ------  ON"
+  Severity Info;
+
+Assert ( CAP_LIST_ENA       == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 8 == Enable Capabilities List ------  ON"
+  Severity Info;
+  
+Assert ( CIS_PTR_ENA      == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 9 == Enable CIS Pointer Regiser ------  ON"
+  Severity Info;
+
+Assert ( INTERRUPT_ACK_ENA    == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 10 == Enable Interrupt Acknowledge Command Support  ------  ON"
+  Severity Info;
+  
+Assert ( HARDWIRE_HB_ENA    == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 11 == Enable Host Bridge Support by Hardwiring Command, Latency, and Cache Registers  ------  ON"
+  Severity Info;
+
+Assert ( INTERNAL_ARBITER_ENA   == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 12 == PCI Arbiter is implemented on Device    ------  ON"
+  Severity Info;
+  
+Assert ( SCFG_HB_ENA      == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 13 == Enable Self configuring Host bridge capability  ------  ON"
+  Severity Info;
+
+Assert ( LOC_HDAT_MUX_ENA     == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 14 == Instantiate Local Side Mux on High Data and Byte Enable Buses ------  ON"
+  Severity Info;
+  
+  
+Assert ( DISABLE_LAT_TMR    == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 15  == Disable Latency timer register counter ------  ON"
+  Severity Info;
+
+Assert ( PCI_64BIT_SYSTEM     == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 16 == All PCI Devices on System are 64-Bit  ------  ON"
+  Severity Info;
+
+Assert ( MW_CBEN_ENA     == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 17 == Enable variable CBEN during Master Writes  ------  ON"
+  Severity Info;
+
+Assert ( DELAYED_XFR     == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 18 == Enable Delayed Transfers  ------  ON"
+  Severity Info;
+
+Assert ( IGNORE_CFG_MABRT     == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 19 == (IGNORE_CFG_MABRT) Ignore Master Abort for Master Configuration Transactions  ------  ON"
+  Severity Info;
+
+Assert ( P2P_MW_CBEN_ENA    == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 17 == CBEN values can be changed during Master Burst Read/Write transactions  ------  ON"
+  Severity Info;
+  
+Assert ( P2P_LPARI_ENA      == 0 OR VERBOSE == "NO") 
+  Report " Enable Bit 18 == Core Generates Parity for Internal Config Accesses Only.  Master Write and Target Read data from the local side must include the parity values  ------  ON"
+  Severity Info;
+
+Assert (VERBOSE == "NO" OR CORE_MT64 == 0) 
+  Report " Parameters are set for 64-Bit Master/Target Core (PCI/MT64)"
+  Severity INFO;
+  
+Assert (VERBOSE == "NO" OR CORE_MT32 == 0) 
+  Report " Parameters are set for 32-Bit Master/Target Core (PCI/MT32)"
+  Severity INFO;
+  
+Assert (VERBOSE == "NO" OR CORE_T64 == 0) 
+  Report " Parameters are set for 64-Bit Target Only Core (PCI/T64)"
+  Severity INFO;
+Assert (VERBOSE == "NO" OR CORE_T32 == 0) 
+  Report " Parameters are set for 32-Bit Target Only Core (PCI/T32)"
+  Severity INFO;
+  
+---- No Operation nodes: Used to remove warnings during compilation -------------------------------
+  no_op[63..0]      = no_op[63..0] or l_adi[63..0] or l_dati[63..0]; 
+  no_op[31..0]      = no_op[31..0] or l_adri[31..0] or ad_tri[63..32]
+                OR ador_mux[31..0]
+                OR mstr_low_data_out[31..0];
+  no_op[7..0]       = no_op[7..0] or l_cbeni[7..0] or l_beni[7..0]
+                OR lat_dat[7..0];
+  no_op[3..0]       = no_op[3..0] or l_cmdi[3..0]
+                OR cbenor_mux[3..0];-- or l_beno_out[7..4];
+--  no_op[1..0]       = no_op[1..0] or lt_tsr_lc[11..10]; 
+  no_op0          = no_op0 or serr_ena or mem_ena or io_ena 
+                or perr_ena or mwi_ena 
+                
+                or l_serrin
+                or l_dis_64_extn
+                or l_ldat_ackn
+                or l_hdat_ackn  
+                or par64_or
+                or irdy_oe
+                OR irdy_out
+                OR frame_oe
+                OR frame_out
+                OR req64_oe
+                OR req64_out
+                OR lm_last
+                OR lm_req64
+                OR lm_req32
+                OR req_or
+                OR mstr_hi_low_sel
+                OR mstr_dati_HR_ena
+                OR l_discard_set
+                OR local_dat_sel
+                ;
+---------------------------------------------------------------------------------------------------
+
+---- Version 1.0 Compatibility --------------------------------------------------------------------
+  IF (VERSION_1_0_COMPATIBLE == "YES") GENERATE
+    ASSERT REPORT "Backward Compatibility With pci_mt32 Version 1.0"
+    SEVERITY INFO;
+    ador_mux[]    = (l_adri[] AND lm_adr_ack) OR (l_dati[31..0] AND NOT lm_adr_ack);
+    cbenor_mux[]  = (l_cmdi[] AND lm_adr_ack) OR (l_beni[3..0] AND NOT lm_adr_ack); 
+  ELSE GENERATE
+    ador_mux[]    = l_adi[31..0];
+    cbenor_mux[]  = l_cbeni[3..0];
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- PCI Tri-state/Bidir Signals ------------------------------------------------------------------
+  -- Frame Signal 
+  IF (TARGET_ONLY == "NO") GENERATE
+    
+      frame       = NOT framen_in;    -- Active High FRAME Input
+      framen_out      = TRI(NOT frame_out, frame_oe);   -- framen Output    
+      -- Req64 Signal 
+      req64       = NOT req64n_in;    -- Active High FRAME Input
+      req64n_out      = TRI(NOT req64_out, req64_oe and l_dis_64_extn);   -- framen Output    
+      -- Ack64 Signal
+      ack64       = NOT ack64n_in;    -- Active High FRAME Input
+      ack64n_out      = TRI(NOT ack64_or, targ_oeR and l_dis_64_extn);    -- framen Output    
+      -- IRDY Signal
+      irdy        = NOT irdyn_in;   -- Active High IRDY Input
+      irdyn_out     = TRI(NOT irdy_out, irdy_oe);     -- irdyn tristate buffer
+      -- Devsel Signal
+      devsel        = not devseln_in;   -- Active High DEVSEL Input
+      devseln_out     = TRI( NOT devsel_or, targ_oeR);    -- devseln Output
+      -- TRDY Signal
+      trdy        = not trdyn_in;   -- Active High trdy Input
+      trdyn_out     = tri(NOT trdy_out, targ_oeR);      -- trdyn tristate buffer
+      -- STOP Signal
+      stop        = not stopn_in;   -- Active High stop Input
+      stopn_out     = TRI( NOT stop_out, targ_oeR);     -- stopn tristate buffer
+      -- GNTn signal  
+      gnt         = not gntn;
+      -- REQN signal
+      IF (INTERNAL_ARBITER_ENA == 0 ) GENERATE
+        -- REQn Signal
+        reqn      = TRI(NOT req_or, rstn); -- REQn Output
+      ELSE GENERATE
+        -- REQn Signal
+        reqn      = NOT req_or; -- REQn Output
+      END GENERATE;
+
+  
+---- TARGET_ONLY == "YES"     
+  ELSE GENERATE
+    
+      frame       = NOT framen_in;    -- Active High FRAME Input
+      -- Req64 Signal 
+      req64       = NOT req64n_in;    -- Active High FRAME Input
+      -- Ack64 Signal
+      IF (PCI_32 == "NO") GENERATE
+        ack64n_out    = TRI(NOT ack64_or, targ_oeR and l_dis_64_extn);    -- framen Output    
+      ELSE GENERATE
+        ack64n_out    = TRI(NOT ack64_or, targ_oeR);    -- framen Output    
+      END GENERATE;   
+      -- IRDY Signal
+      irdy        = NOT irdyn_in;   -- Active High IRDY Input
+      -- Devsel Signal
+      devseln_out     = TRI( NOT devsel_or, targ_oeR);    -- devseln Output
+      -- TRDY Signal
+      trdyn_out     = tri(NOT trdy_out, targ_oeR);      -- trdyn tristate buffer
+      -- STOP Signal
+      stopn_out     = TRI(not stop_out, targ_oeR);      -- stopn tristate buffer
+    
+  END GENERATE; 
+---------------------------------------------------------------------------------------------------
+
+
+---- Parity/Error and System Error and Interrupt Acknowledge Logic --------------------------------
+  -- Parity
+  par_or.clk    = clk ;     -- par output regsister
+  par_or.clrn   = rstn; 
+  par_or      = par_or_d; 
+  par       = TRI(par_or, par_oe);    -- par Output
+  
+  mstr_par_oe_lc2 = LCELL(lm_tsr2 OR mstr_par_oe_lc1 OR trg_par_oe);
+  par_R.clk   = clk;
+  par_R.clrn    = rstn;
+  par_R     = par;
+  par_reg     = par_R;
+  
+  par_oeR.clk   = clk;
+  par_oeR.prn   = rstn;
+  --par_oeR     =  (NOT trg_par_oe AND NOT mstr_par_oe);
+  
+  IF(TARGET_ONLY == "NO") GENERATE
+    par_oeR       =   (
+                NOT((lm_tsr1 and gnt) OR (mstr_park and gnt) OR mstr_par_oe_lc2)
+                );
+  ELSE GENERATE
+    par_oeR       =   (
+                NOT((lm_tsr1) OR mstr_par_oe_lc2)
+                );
+  END GENERATE;
+  par_oe      = NOT par_oeR;
+    
+  -- Parity 64
+  IF (PCI_32 == "NO") GENERATE
+    par64_or.clk    = clk ;     -- par output regsister
+    par64_or.clrn   = rstn; 
+    par64_or      = par64_or_d;     
+    par64       = TRI(par64_or, par_oe or not l_dis_64_extn); -- par64 Output
+  ELSE GENERATE
+    par64_or      = par64_or_d;
+    par64_out     = par64_or;
+    par64_or_d      = GND;
+  END GENERATE;
+
+  -- Parity Error 
+  IF (TARGET_ONLY == "NO") GENERATE
+    perr      = NOT perrn;    -- Active high perr Input
+  END GENERATE; 
+  perr_oe_r.clk = clk;      -- PERRn Output Enable Register
+  perr_oe_r.clrn  = rstn;
+  perr_oe_r   = trg_perr_oe OR mstr_perr_oe; 
+  IF (PCI_32 == "NO") GENERATE
+    
+      perrn     = TRI(perr_out, perr_oe_r);     -- PERRn Output 
+    
+  ELSE GENERATE
+    perrn       = TRI(not perr_out, perr_oe_r);
+  END GENERATE;
+
+  -- SERRn Signal
+  serrn     = OPNDRN(NOT serr_out); -- SERRn Output
+
+  -- INTAn Signal
+  IF (INTERRUPT_PIN_REG ==  H"01") GENERATE
+      inta_or.clk   = clk ; -- inta output regsister
+      inta_or.prn   = rstn;
+      inta_or     = interrupt_reqn ;
+      intan     = OPNDRN(inta_or);  -- intan tristate buffer
+  ELSE GENERATE
+    inta_or = VCC;
+    intan   = inta_or;
+  END GENERATE;
+  
+  IF(P2P_BRIDGE == "NO") GENERATE
+    interrupt_reqn = not intr_stat;
+  ELSE GENERATE
+    interrupt_reqn = VCC; 
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+    
+---- Address/ Command Input Registers -------------------------------------------------------------
+  ad_IR_address[].clk   = clk;      -- AD Input Registers   
+  ad_IR_address[].clrn  = rstn;
+  ad_IR_address[].ena   = ad_IR_ce_address; 
+  ad_IR_ce_address    = (trg_ad_IR_ce_A or mstr_ad_ir_ce_a);  
+  ad_IR_address[]     = ad[31..0];    --Adderss AD input is used to capture the addresses
+
+  cben_IR_address[].clk = clk;      -- cben Input Register
+  cben_IR_address[].clrn  = rstn;
+  cben_IR_address[].ena   = cben_IR_ce_address;
+  cben_IR_ce_address    = (trg_cben_IR_ce_A or mstr_cben_ir_ce_a);  
+  cben_IR_address[]   = cben[3..0];
+---------------------------------------------------------------------------------------------------
+
+---- Target Write/ Master REad AD[31..0] Input Registers for PCI signals --------------------------
+  low_ad_IR_data[].clk  = clk;      -- AD Input Registers   
+  low_ad_IR_data[].clrn = rstn;
+  low_ad_IR_data[].ena  = ad_IR_ce_data;
+  ad_IR_ce_data     = (trg_ad_IR_ce_D or mstr_ad_IR_ce_D);
+  low_ad_IR_data[]    = ad[31..0];  --Data is used to capture data
+
+  low_cben_IR_data[].clk    = clk;      -- cben Input Register
+  low_cben_IR_data[].clrn   = rstn;
+  low_cben_IR_data[].ena    = cben_IR_ce_data;
+  cben_IR_ce_data       = (trg_cben_IR_ce_D or mstr_cben_ir_ce_d);
+  low_cben_IR_data[]      = cben[3..0];
+---------------------------------------------------------------------------------------------------
+
+---- Target Write/ Master REad AD[63..32] INput Registers for PCI Signals -------------------------
+  IF (PCI_32 == "NO") GENERATE
+    high_ad_IR_data[].clk   = clk;      -- AD Input Registers   
+    high_ad_IR_data[].clrn    = rstn;
+    high_ad_IR_data[].ena   = ad_IR_ce_data;-- and not trg_cfg_cyc_out;
+    high_ad_IR_data[]     = ad[63..32];   --Data is used to capture data
+  ELSE GENERATE
+    high_ad_IR_data[]     = ad_in[63..32];
+    ad_in[63..32]       = VCC;
+  END GENERATE;
+
+  IF (PCI_32 == "NO") GENERATE
+    high_cben_IR_data[].clk   = clk;      -- cben Input Register
+    high_cben_IR_data[].clrn  = rstn;
+    high_cben_IR_data[].ena   = cben_IR_ce_data;-- and not trg_cfg_cyc_out; -- added not cfg_cyc because of "XX" in ModelTech
+    high_cben_IR_data[]     = cben[7..4];
+  ELSE GENERATE
+    high_cben_IR_data[]     = cben_in[7..4];
+    cben_in[7..4]       = VCC;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- Target Write/ Master Read L_DATO[31..0] Data Path --------------------------------------------
+  l_dato[31..0] = low_ad_IR_data[31..0];  -- Local Data Output
+
+  l_beno[3..0]  = low_cben_IR_data[3..0]; -- Local Data Output
+---------------------------------------------------------------------------------------------------
+
+---- Target Write/ Master Read L_DATO[63..32] Data Path ------------------------------------------- 
+  IF (PCI_32 == "NO") GENERATE      -- 64
+    IF(LOC_HDAT_MUX_ENA  == 0) GENERATE   -- 64 bit pci side and local side
+      l_dato[63..32]    = (high_ad_IR_data[31..0]);
+    ELSE GENERATE             -- 64bit local side, but pci side is 32 or 64bit
+    l_dato[63..32]    = (high_ad_IR_data[31..0] and   local_dat_sel) 
+                OR  (low_ad_IR_data[31..0]  and not local_dat_sel); 
+    END GENERATE;       
+  ELSE GENERATE               --32
+    l_dato[63..32]    = (high_ad_IR_data[31..0]);
+  END GENERATE;
+
+
+
+  IF (PCI_32 == "NO") GENERATE
+    IF (LOC_HDAT_MUX_ENA == 0) GENERATE
+      l_beno[7..4]    = high_cben_IR_data[3..0] ;
+    ELSE GENERATE   
+      l_beno[7..4]    =   (high_cben_IR_data[3..0] and local_dat_sel) 
+                OR  (low_cben_IR_data[3..0] and not local_dat_sel); -- Local Data Output
+    END GENERATE;
+  ELSE GENERATE 
+    l_beno[7..4]    = (high_cben_IR_data[3..0]); 
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- L_LDAT_ACKN and L_HDAT_ACKN Logic ------------------------------------------------------------
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      local_dat_sel     = (not lt_hdata_ackn and not lt_ldata_ackn and lt_sel_w) 
+                    OR  (not lm_hdata_ackn and not lm_ldata_ackn and not lt_sel_w and mstr_64_trans_out);       
+      l_ldat_ack        = (not lt_ldata_ackn and lt_sel_w) 
+                    OR  (not lm_ldata_ackn and not lt_sel_w);
+      l_hdat_ack        = (not lt_hdata_ackn and lt_sel_w) 
+                    OR  (not lm_hdata_ackn and not lt_sel_w);
+      l_ldat_ackn       = not l_ldat_ack;
+      l_hdat_ackn       = not l_hdat_ack;
+    ELSE GENERATE
+            local_dat_sel           = GND;
+      l_ldat_ack        = GND;
+      l_hdat_ack        = GND;
+      l_ldat_ackn       = not l_ldat_ack;
+      l_hdat_ackn       = not l_hdat_ack;
+    END GENERATE;
+  ELSE GENERATE             -- T
+    IF (PCI_32 == "NO") GENERATE  -- 64
+      local_dat_sel     = (not lt_hdata_ackn and not lt_ldata_ackn and lt_sel_w) ;
+      l_ldat_ack        = (not lt_ldata_ackn and lt_sel_w); 
+      l_hdat_ack        = (not lt_hdata_ackn and lt_sel_w); 
+      l_ldat_ackn       = not l_ldat_ack;
+      l_hdat_ackn       = not l_hdat_ack;
+    ELSE GENERATE
+            local_dat_sel           = GND;
+      l_ldat_ack        = GND;
+      l_hdat_ack        = GND;
+      l_ldat_ackn       = not l_ldat_ack;
+      l_hdat_ackn       = not l_hdat_ack;
+    END GENERATE;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- AD[31..0] Bidir/Tri-State Logic --------------------------------------------------------------
+  ad[31..0]     = ad_tri[31..0];      -- AD Output
+  ad_tri[31..0]   = low_ad_or[];      -- AD Tristate Buffers
+  ad_tri[31..0].oe  = ad_tri_oe;-- or not l_dis_64_extn;
+  ad_tri_oe     = (trg_ad_oe OR mstr_ad_oe); 
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    cben[3..0]          = cbe_tri[3..0];      -- cben Output
+    cbe_tri[3..0]       = low_cben_or[];      -- cben Tristate Buffer 
+    cbe_tri[3..0].oe    = mstr_cbe_oe;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+---- AD[63..32] Bidir/Tri-State Logic -------------------------------------------------------------
+  ad[63..32]      = ad_tri[63..32];
+  IF (PCI_32 == "NO") GENERATE
+    ad_tri[63..32].oe = ad_tri_oe or not l_dis_64_extn;
+    ad_tri[63..32]    = high_ad_or[63..32];     -- AD Tristate Buffers
+  ELSE GENERATE
+    ad_tri[63..32].oe = VCC;  
+    ad_tri[63..32]    = high_ad_or[63..32];
+  END GENERATE;
+  
+  IF (TARGET_ONLY == "NO") GENERATE
+    cben[7..4]      = cbe_tri[7..4];      -- cben Output
+    IF (PCI_32 == "NO") GENERATE
+      cbe_tri[7..4].oe  = mstr_cbe_oe OR not l_dis_64_extn; 
+      cbe_tri[7..4]   = high_cben_or[];   -- cben Tristate Buffer
+    ELSE GENERATE 
+      cbe_tri[7..4].oe  = VCC;    
+      cbe_tri[7..4]   = high_cben_or[];
+    END GENERATE;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+-- Low AD Output Registers and related Logic
+---------------------------------------------------------------------------------------------------
+
+  IF (TARGET_ONLY == "NO") GENERATE
+
+    ad_ce_nc        = LCELL(trg_ADOR_ena OR mstr_ADOR_ena); 
+    low_ad_lc1[] = ( ( not ad_ce_nc and low_ad_or_fb[]) OR 
+                   (low_ad_out[] and ad_ce_nc)
+                        );
+                        
+    
+    low_ad_d[] = (   ((irdy and trdy) and  low_ad_out[]) OR
+                            (not(irdy and trdy) and low_ad_lc1[])
+                         );
+                                       
+   
+    low_ad_d_fb[] = low_ad_d[];         
+      
+  ELSE GENERATE
+    ad_ce_nc        = (trg_ADOR_ena);
+    
+    low_ad_lc1[] = ( ( not ad_ce_nc and low_ad_or_fb[]) OR 
+                     (low_ad_out[] and ad_ce_nc)
+                          );
+                          
+      
+    low_ad_d[] = (   ((irdy) and  low_ad_out[]) OR
+                       (not(irdy) and low_ad_lc1[])
+                    );
+    
+    
+    low_ad_d_fb[] = low_ad_d[];         
+    
+    
+    
+  END GENERATE;
+
+  IF (TARGET_ONLY == "NO") GENERATE     -- MT
+    low_data_out_HR[].clk   = clk;
+    low_data_out_HR[].clrn    = rstn;
+    low_data_out_HR[].ena   = low_data_out_hr_ena_d;-- Holding Register Enable Signal
+    low_data_out_hr_ena_d   = LCELL ( trg_dati_HR_ena # mstr_dati_HR_ena);  
+    low_data_out_HR_lc      = LCELL ( not lm_tsr1 and trg_ad_sel);    
+    low_data_out_HR[]     =   (trg_low_data_out[]   and   low_data_out_HR_lc )
+                  OR  (mstr_low_data_out[]  and   mstr_ad_sel);
+  ELSE GENERATE     -- Target Only
+    low_data_out_HR[].clk   = clk;
+    low_data_out_HR[].clrn    = rstn;
+    low_data_out_HR[].ena   = low_data_out_hr_ena_d;-- Holding Register Enable Signal
+    low_data_out_hr_ena_d   = (trg_dati_HR_ena);  
+    low_data_out_HR_lc      = (trg_ad_sel);
+    low_data_out_HR[]     = (trg_low_data_out[] and low_data_out_HR_lc );
+  END GENERATE;
+  
+  
+  
+  IF (CORE_MT64 == 1) GENERATE
+    mstr_trg_low_ad_out_sel   = LCELL((mstr_ad_sel or trg_ad_sel) and not (mstr_hi_low_sel or hi_low_sel));
+    mstr_trg_hr_dat_sel     = LCELL(mstr_hr_dat_sel or trg_hr_dat_sel); 
+    trg_low_ad_out_sel      = LCELL(trg_ad_sel and not hi_low_sel );
+    mstr_trg_low        = LCELL(not mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel and not trg_cfg_cyc_out);
+    low_ad_out_lc2[]    =   (low_data_out_HR[] and mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel)
+                OR  (high_ad_or_fb[63..32] and not(mstr_trg_low_ad_out_sel));
+                
+    low_ad_out_lc1[]    =   (trg_cfg_ad_out[31..0] and trg_cfg_cyc_out and trg_low_ad_out_sel) OR low_ad_out_lc2[];
+    
+    low_ad_out[]      = low_ad_out_lc1[]
+                OR  (((trg_low_data_out[] and not lm_tsr1) or mstr_low_data_out[]) and mstr_trg_low);
+
+    low_ad_or[].clk     = clk;      -- AD Output Register
+    low_ad_or[].clrn    = rstn;
+    low_ad_or[]       = low_ad_d[];
+    
+    low_ad_or_fb[].clk    = clk;
+    low_ad_or_fb[].clrn   = rstn;
+    low_ad_or_fb[]      = low_ad_d_fb[];
+  END GENERATE;
+
+
+  IF (CORE_T64 == 1) GENERATE
+    trg_low_ad_out_sel      = LCELL(trg_ad_sel and not hi_low_sel );
+
+    mstr_trg_low        = LCELL(not trg_hr_dat_sel and trg_low_ad_out_sel and not trg_cfg_cyc_out);             
+    low_ad_out_lc2[]      = (low_data_out_HR[] and trg_hr_dat_sel and trg_low_ad_out_sel)
+                  OR (high_ad_or_fb[63..32] and not(trg_low_ad_out_sel));
+    
+    low_ad_out_lc1[]      = (trg_cfg_ad_out[31..0] and trg_cfg_cyc_out and trg_low_ad_out_sel) OR low_ad_out_lc2[];
+    
+    low_ad_out[]        = low_ad_out_lc1[]
+                      OR (trg_low_data_out[] and mstr_trg_low);
+    -- LOW_AD_OR Registers connect to AD_TRI
+    low_ad_or[].clk   = clk;      -- AD Output Register
+    low_ad_or[].clrn  = rstn;
+    low_ad_or[]       = low_ad_d[];
+    low_ad_or_fb[].clk    = clk;
+    low_ad_or_fb[].clrn   = rstn;
+    low_ad_or_fb[]      = low_ad_d_fb[];
+  END GENERATE;
+  
+  
+  
+  IF (CORE_MT32 == 1) GENERATE
+    mstr_trg_low_ad_out_sel   = (mstr_ad_sel or trg_ad_sel);
+    mstr_trg_hr_dat_sel     = LCELL(mstr_hr_dat_sel or trg_hr_dat_sel); 
+    trg_low_ad_out_sel      = trg_ad_sel; 
+    mstr_trg_low        = LCELL(not mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel and not trg_cfg_cyc_out);             
+    low_ad_out_lc2[]    = (low_data_out_HR[] and mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel);
+    
+    low_ad_out_lc1[]    = (trg_cfg_ad_out[31..0] and trg_cfg_cyc_out and trg_low_ad_out_sel) OR low_ad_out_lc2[];
+    
+    low_ad_out[]      =   low_ad_out_lc1[]
+                  OR  (((trg_low_data_out[] and not lm_tsr1) or mstr_low_data_out[]) and mstr_trg_low);
+    -- LOW_AD_OR Registers connect to AD_TRI
+    low_ad_or[].clk   = clk;      -- AD Output Register
+    low_ad_or[].clrn  = rstn;
+    low_ad_or[]       = low_ad_d[];
+    low_ad_or_fb[].clk    = clk;
+    low_ad_or_fb[].clrn   = rstn;
+    low_ad_or_fb[]      = low_ad_d_fb[];
+  END GENERATE;
+  
+  
+  
+  IF (CORE_T32 == 1) GENERATE
+    trg_low_ad_out_sel        = trg_ad_sel; 
+    mstr_trg_low          = LCELL(not trg_hr_dat_sel and trg_low_ad_out_sel and not trg_cfg_cyc_out);             
+    low_ad_out_lc2[]      = (low_data_out_HR[] and trg_hr_dat_sel and trg_low_ad_out_sel);
+    low_ad_out_lc1[]      = (trg_cfg_ad_out[31..0] and trg_cfg_cyc_out and trg_low_ad_out_sel) OR low_ad_out_lc2[];
+    low_ad_out[]        = low_ad_out_lc1[]
+                      OR (trg_low_data_out[] and mstr_trg_low);
+    -- LOW_AD_OR Registers connect to AD_TRI
+    low_ad_or[].clk   = clk;      -- AD Output Register
+    low_ad_or[].clrn  = rstn;
+    low_ad_or[]       = low_ad_d[];
+    low_ad_or_fb[].clk    = clk;
+    low_ad_or_fb[].clrn   = rstn;
+    low_ad_or_fb[]      = low_ad_d_fb[];
+  END GENERATE;
+  
+  
+
+
+---------------------------------------------------------------------------------------------------
+-- High AD Output Registers and Related Logic
+---------------------------------------------------------------------------------------------------
+
+  IF (CORE_MT64 == 1) GENERATE
+    
+    high_data_out_HR[].clk    = clk;
+    high_data_out_HR[].clrn   = rstn;
+    high_data_out_HR[].ena    = high_data_out_HR_ena;
+    high_data_out_HR_ena        = LCELL(trg_dati_HR_ena # mstr_dati_HR_ena);
+    
+    high_data_out_HR[]          =   (trg_high_data_out[] and trg_ad_sel) 
+                                OR  (mstr_high_data_out[] and mstr_ad_sel);
+    
+    high_ad_lc1[]               = (   ( not ad_ce_nc and high_ad_or_fb[]) 
+                                            OR  ( ad_ce_nc and high_ad_out[]) 
+                                    );
+    
+    high_ad_d[]                     =  (   (not(trdy and irdy) and high_ad_lc1[]) 
+                                            OR  ((trdy and irdy) and high_ad_out[])
+                                    );
+                     
+    high_ad_d_fb[]              = high_ad_d[];
+        
+   
+    high_ad_out_lc[]            = (high_data_out_HR[] and mstr_trg_hr_dat_sel and (trg_ad_sel or mstr_ad_sel));
+    high_ad_out[]               = ( ((trg_high_data_out[31..0] or mstr_high_data_out[]) and mstr_trg_hi_ad)
+                                    OR high_ad_out_lc[]
+                                        ); 
+    mstr_trg_hi_ad              = (mstr_ad_sel or trg_ad_sel) and not mstr_trg_hr_dat_sel;
+
+    high_ad_or[63..32].clk    = clk;      -- AD Output Register
+    high_ad_or[63..32].clrn   = rstn;
+    high_ad_or[63..32]          = high_ad_d[];
+    high_ad_or_fb[63..32].clk = clk;      -- AD Output Register
+    high_ad_or_fb[63..32].clrn  = rstn;
+    high_ad_or_fb[63..32]       = high_ad_d_fb[];
+
+  END GENERATE;
+  
+  
+  -- Target Only 64-Bit core
+  -- Left Carry chains in so that hold time is not an issue for T64 core.
+  IF (CORE_T64 == 1) GENERATE
+    high_data_out_HR[].clk    = clk;
+    high_data_out_HR[].clrn   = rstn;
+    high_data_out_HR[].ena    = high_data_out_HR_ena;
+    high_data_out_HR_ena    = LCELL(trg_dati_HR_ena); -- Holding Register Enable Signal 
+    high_data_out_HR[]      = (trg_high_data_out[] and trg_ad_sel);
+    high_ad_lc1[] = (   ( not ad_ce_nc and high_ad_or_fb[]) OR
+                      (     ad_ce_nc and high_ad_out[]) 
+                     );
+        
+    high_ad_d[] =   (   (not(irdy) and high_ad_lc1[]) OR
+                  (   (irdy) and high_ad_out[])
+                );
+    
+      
+    high_ad_d_fb[] = high_ad_d[];
+    
+    high_ad_out_lc[]      = (high_data_out_HR[] and trg_hr_dat_sel and trg_ad_sel);
+
+    high_ad_out[]       = ( ((trg_high_data_out[31..0]) and mstr_trg_hi_ad)
+                      OR high_ad_out_lc[]
+                    ); 
+    mstr_trg_hi_ad        = (trg_ad_sel) and not trg_hr_dat_sel;
+
+    high_ad_or[63..32].clk    = clk;      -- AD Output Register
+    high_ad_or[63..32].clrn   = rstn;
+    
+    high_ad_or[63..32]      = high_ad_d[];
+    high_ad_or_fb[63..32].clk = clk;      -- AD Output Register
+    high_ad_or_fb[63..32].clrn  = rstn;
+    high_ad_or_fb[63..32]   = high_ad_d_fb[];
+  END GENERATE;
+
+
+  IF (PCI_32 == "YES") GENERATE
+    high_ad_out_lc[]      = GND;
+    high_ad_out[]       = high_ad_out_lc[]; 
+    high_ad_or[63..32]      = high_ad_out[];
+  END GENERATE;         -- END 64
+  
+---------------------------------------------------------------------------------------------------
+-- Low CBEN output Registers and Related Logic
+---------------------------------------------------------------------------------------------------
+%-    mstr_trg_low_ad_out_sel   = LCELL((mstr_ad_sel or trg_ad_sel) and not (mstr_hi_low_sel or hi_low_sel));
+    mstr_trg_hr_dat_sel     = LCELL(mstr_hr_dat_sel or trg_hr_dat_sel); 
+    
+    trg_low_ad_out_sel      = LCELL(trg_ad_sel and not hi_low_sel );
+    
+    mstr_trg_low        = LCELL(not mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel and not trg_cfg_cyc_out);
+      
+-%
+%-
+As part of the modifications for the P2P code requested by Cisco Andiamo on 4/02, the cben were
+requested to be made to drive out during master write transactions.
+To do this, I modified the code for the cbe pipeline to work exactly as the ad pipline when this
+feature is enabled.
+-%
+
+IF (P2P_MW_CBEN_ENA  == 0 AND MW_CBEN_ENA == 0) GENERATE
+
+  IF (TARGET_ONLY == "NO") GENERATE
+      
+    
+    low_cbe_out_HR[].clk    = clk;
+    low_cbe_out_HR[].clrn   = rstn;
+    low_cbe_out_HR[].ena    = mstr_cbe_HR_ena;
+    low_cbe_out_HR[]        = mstr_low_cbe_out[];
+    
+    low_mstr_cbe_out_lc1[]  =   (low_cbe_out_HR[3..0] and mstr_hr_cbe_sel and not mstr_hi_low_sel)
+                            OR  (high_cben_or_fb[3..0] and mstr_hi_low_sel);  
+                            
+    low_mstr_cbe_out[]      = (mstr_low_cbe_out[3..0] and not mstr_hr_cbe_sel and not mstr_hi_low_sel)
+                            OR low_mstr_cbe_out_lc1[];  
+
+    low_cben_or[].clk     = clk;
+    low_cben_or[].clrn    = rstn;
+    low_cben_or[].ena     = mstr_cbe_ce;
+    low_cben_or[]         = low_mstr_cbe_out[];
+    
+  END GENERATE;
+ELSE GENERATE
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    low_cbe_out_HR[].clk    = clk;
+    low_cbe_out_HR[].clrn   = rstn;
+    low_cbe_out_HR[].ena    = mstr_cbe_HR_ena;
+    low_cbe_out_HR[]        = mstr_low_cbe_out[];
+    
+    low_mstr_cbe_out_lc1[]  =   (low_cbe_out_HR[3..0] and mstr_hr_cbe_sel and not mstr_hi_low_sel)
+                            OR  (high_cben_or_fb[3..0] and mstr_hi_low_sel);
+                    
+    low_mstr_cbe_out[]      = (mstr_low_cbe_out[3..0] and not mstr_hr_cbe_sel and not mstr_hi_low_sel)
+                            OR low_mstr_cbe_out_lc1[];  
+                            
+     low_mstr_cben_ce_carry[]   =   irdy & trdy;
+    --low_mstr_cben_ce_carry[].cin  =   irdy & trdy;
+    --low_mstr_cben_ce_carry[].sin  =   VCC;
+    low_cben_or_d[]                 =  low_mstr_cbe_out[] & low_mstr_cben_ce_carry[]
+                                    OR low_mstr_cbe_out[] & mstr_cbe_ce
+                                    OR low_cben_or[] AND NOT low_mstr_cben_ce_carry[]
+                                    AND NOT mstr_cbe_ce;
+ 
+    low_cben_or[].clk               = clk;
+    low_cben_or[].clrn              = rstn;
+    low_cben_or[]                   = low_cben_or_d[];
+
+  END GENERATE;
+  
+END GENERATE;
+    
+
+
+---------------------------------------------------------------------------------------------------
+-- High CBEN Output Registers and Related Logic
+---------------------------------------------------------------------------------------------------
+IF (P2P_MW_CBEN_ENA  == 0 AND MW_CBEN_ENA == 0) GENERATE
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      high_cbe_out_HR[].clk     = clk;
+      high_cbe_out_HR[].clrn    = rstn;
+      high_cbe_out_HR[].ena     = mstr_cbe_HR_ena;
+      high_cbe_out_HR[]         = mstr_high_cbe_out[];
+        
+      high_mstr_cbe_out[]       =   (mstr_high_cbe_out[3..0] and not mstr_hr_cbe_sel) 
+                                OR  (high_cbe_out_HR[3..0] and mstr_hr_cbe_sel);
+                                
+      high_cben_or[].clk        = clk;
+      high_cben_or[].clrn       = rstn;
+      high_cben_or[].ena        = mstr_cbe_ce;
+      high_cben_or[]            = high_mstr_cbe_out[];
+    
+      high_cben_or_fb[].clk     = clk;
+      high_cben_or_fb[].clrn    = rstn;
+      high_cben_or_fb[].ena     = mstr_cbe_ce;
+      high_cben_or_fb[]         = high_mstr_cbe_out[];
+    ELSE GENERATE
+      high_cbe_out_HR[]         = GND;
+      high_mstr_cbe_out[]       = GND;
+      high_cben_or[]            = high_mstr_cbe_out[];
+      high_cben_or_fb[]         = high_mstr_cbe_out[];
+    END GENERATE;
+  END GENERATE;
+
+ELSE GENERATE
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      high_cbe_out_HR[].clk     = clk;
+      high_cbe_out_HR[].clrn    = rstn;
+      high_cbe_out_HR[].ena     = mstr_cbe_HR_ena;
+      high_cbe_out_HR[]         = mstr_high_cbe_out[];
+        
+      high_mstr_cbe_out[]       = (mstr_high_cbe_out[3..0] and not mstr_hr_cbe_sel) 
+                                OR (high_cbe_out_HR[3..0] and mstr_hr_cbe_sel);
+      
+      high_cben_or[].clk        = clk;
+      high_cben_or[].clrn       = rstn;
+
+
+ 
+      high_mstr_cbe_out_lc[]    = (mstr_cbe_ce & high_mstr_cbe_out[])
+                                or (NOT mstr_cbe_ce & high_cben_or_fb[]);
+      
+      high_cben_or_d[]          =  ((irdy & trdy) & high_mstr_cbe_out[])
+                                OR NOT (irdy & trdy) & high_mstr_cbe_out_lc[];
+                                        
+      
+      high_cben_or[]            = high_cben_or_d[];
+    
+      high_cben_or_fb[].clk     = clk;
+      high_cben_or_fb[].clrn    = rstn;
+      high_cben_or_fb[]         = high_cben_or_d[];
+      
+    ELSE GENERATE
+      high_cbe_out_HR[]         = GND;
+      high_mstr_cbe_out[]       = GND;
+      high_cben_or[]            = high_mstr_cbe_out[];
+      high_cben_or_fb[]        = high_mstr_cbe_out[];
+      
+    END GENERATE;
+  END GENERATE;
+  
+END GENERATE;
+---------------------------------------------------------------------------------------------------
+-- The following logic was added to allow locally generated parity to be driven to the PCI bus
+-- This will be supported only for P2P bridge and in PCI/MT64 Core.  The functionality of these
+-- registers is exactly the same as the data path.  Since the par and par64 output registers are
+-- in the par_gen module guarantee the delay by one clock, only a mux is used to generate the parity
+--
+---------------------------------------------------------------------------------------------------
+IF (CORE_MT64 == 1) GENERATE
+  IF (P2P_LPARI_ENA == 1) GENERATE
+
+    par_out_HR_reg.clk    = clk;
+    par_out_HR_reg.clrn   = rstn;
+    par_out_HR_reg.ena    = low_data_out_hr_ena_d;
+    par_out_HR_reg.d    = l_pari;
+
+    --------------------------------------------------------------------------------------------
+
+    par_out_reg.clk     = clk;
+    par_out_reg.clrn    = rstn;
+--    par_out_reg.ena     = par_out_reg_ena;
+    par_out_reg.d     = par_out_reg_d;
+    
+--    par_out_reg_ena     = ad_ce_nc
+--                OR  trdy AND irdy;
+                
+--    par_out_reg_d     = par_out_HR_reg  AND mstr_trg_hr_dat_sel AND mstr_trg_low_ad_out_sel
+--                OR  par64_out_reg AND NOT mstr_trg_low_ad_out_sel
+--                OR  l_pari      AND NOT mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel;
+                
+    par_out_dat       = LCELL ( par_out_HR_reg  AND mstr_trg_hr_dat_sel AND mstr_trg_low_ad_out_sel
+                      OR  par64_out_reg AND NOT mstr_trg_low_ad_out_sel
+                      OR  l_pari      AND NOT mstr_trg_hr_dat_sel and mstr_trg_low_ad_out_sel
+                      );
+    par_out_reg_ce_carry.cin  = trdy AND irdy;
+    par_out_reg_ce_carry.sin  =   VCC;
+  
+    par_out_reg_d     = par_out_dat AND par_out_reg_ce_carry.cout
+                OR  par_out_dat AND ad_ce_nc
+                OR  par_out_reg AND NOT par_out_reg_ce_carry.cout AND NOT ad_ce_nc;
+                  
+                    
+
+    --------------------------------------------------------------------------------------------
+
+    par64_out_HR_reg.clk  = clk;
+    par64_out_HR_reg.clrn = rstn;
+    par64_out_HR_reg.ena  = high_data_out_HR_ena;
+    par64_out_HR_reg.d    = l_par64i;
+    
+    --------------------------------------------------------------------------------------------
+    par64_out_reg.clk   = clk;
+    par64_out_reg.clrn    = rstn;
+    par64_out_reg.d     = par64_out_reg_d;
+    par64_out_dat     = LCELL ( l_par64i AND NOT mstr_trg_hr_dat_sel AND (trg_ad_sel OR mstr_ad_sel)
+                      OR  par64_out_HR_reg AND mstr_trg_hr_dat_sel AND (trg_ad_sel OR mstr_ad_sel)
+                      );
+    par64_out_reg_ce_carry.cin  = trdy AND irdy;
+    par64_out_reg_ce_carry.sin  =   VCC;
+    par64_out_reg_d     = par64_out_dat AND par64_out_reg_ce_carry.cout
+                OR  par64_out_dat AND ad_ce_nc
+                OR  par64_out_reg AND NOT par64_out_reg_ce_carry.cout AND NOT ad_ce_nc;
+    --------------------------------------------------------------------------------------------
+    par_or_d        = lcell(  par_out_reg AND NOT trg_cfg_cyc_out
+                    OR  carry(par_gen_out)  AND trg_cfg_cyc_out
+                    );
+    
+    par64_or_d        = par64_out_reg;
+    
+    no_op0          =   par_gen_out64;
+     
+                
+  ELSE GENERATE
+    par_or_d        = par_gen_out;
+    par64_or_d        = par_gen_out64;
+        
+  END GENERATE;           
+
+ELSE GENERATE
+
+    par_or_d        = par_gen_out;
+    
+    IF (PCI_32 == "NO") GENERATE
+      par64_or_d      = par_gen_out64;
+    END GENERATE;
+
+END GENERATE;
+
+-- The following is the logic to drive output parity from the PCI to the local side
+
+-- This register delays the clock enable for the data input registers by one clock.  This guarantees
+-- That the parity input registers will always latch data one clock after the data input registers
+
+  ad_IR_ce_data_reg.clk   = clk;
+  ad_IR_ce_data_reg.clrn    = rstn;
+  ad_IR_ce_data_reg     = ad_IR_ce_data;
+  
+  l_paro_reg.clk        = clk;
+  l_paro_reg.clrn       = rstn;
+  l_paro_reg.ena        = ad_IR_ce_data_reg;
+  l_paro_reg          = par;
+
+  IF (PCI_32 == "NO") GENERATE
+    l_par64o_reg.clk      = clk;
+    l_par64o_reg.clrn     = rstn;
+    l_par64o_reg.ena      = ad_IR_ce_data_reg;
+    l_par64o_reg        = par64;
+    l_par64o          = l_par64o_reg;
+  ELSE GENERATE
+    l_par64o          = GND;
+  END GENERATE;
+  
+  l_paro            = l_paro_reg;
+  
+
+---------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------
+
+---- Internal Signals for Local Signals -----------------------------------------------------------
+  -- Master REquest Signals
+  lm_req64    = not lm_req64n;
+  lm_req32    = not lm_req32n;
+  -- Master Address Acknowledgs Signal
+  lm_adr_ackn   = not lm_adr_ack;
+  -- Master Request for last data phase
+  lm_last     = not lm_lastn;
+
+---------------------------------------------------------------------------------------------------
+
+---- Configuration Space Registers ---------------------------------------------------------------- 
+  IF (P2P_BRIDGE == "NO") GENERATE
+    stat_reg[6..0]  = (intr_stat, perr_det, serr_sig, mabort_rcvd, tabort_rcvd, tabort_sig, perr_rep);
+    cmd_reg[6..0] = (intr_disable, serr_ena, perr_ena, mwi_ena, mstr_ena, mem_ena, io_ena);
+  END GENERATE;
+    
+  IF (P2P_BRIDGE == "YES") GENERATE
+    IF (PRIMARY_INTERFACE == "YES") GENERATE
+  
+      prim_perr_ena     = cfg_dat_out_a[6];   -- Primary perr Enable cmd reg 6
+      prim_serr_ena     = cfg_dat_out_a[8];   -- Primary Serr enable cmd reg 8
+    
+      sec_perr_ena      = cfg_dat_out_b[160];   -- secondary perr enable ctrl reg 0
+      sec_serr_ena      = cfg_dat_out_b[161];   -- Secondary serr enable ctrl reg 1
+  
+      sec_serr_in       = not l_serrin;   -- From Secondary Side System Error Detection Inpu  
+      serr_in         = VCC;--GND;          -- Secondary Side system Error Input
+
+    ELSE GENERATE
+
+      ASSERT REPORT "Compiling SECONDARY PCI Interface of Altera's PCI-to-PCI Bridge MegaCore. % " P2P_REVISION
+      SEVERITY INFO;
+
+      prim_perr_ena     = cfg_dat_in_a[6];    -- Primary perr Enable cmd reg 6
+      prim_serr_ena     = cfg_dat_in_a[8];    -- Primary Serr enable cmd reg 8
+  
+      sec_perr_ena      = cfg_dat_in_b[160];    -- secondary perr enable ctrl reg 0
+      sec_serr_ena      = cfg_dat_in_b[161];    -- secondary serr enable ctrl reg 1
+  
+      sec_serr_in       = VCC;--GND;          -- From Secondary Side System Error Detection Input
+      serr_in         = not serrn_in;     -- Secondary Side system Error Input
+
+    END GENERATE; 
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+
+---- Instantiate Parity Checker par_chk.tdf -------------------------------------------------------
+  parity_chk.clk        = clk;        -- PCI clk Input
+  parity_chk.rstn       = rstn;       -- PCI rstn Input 
+  parity_chk.par        = par;        -- PCI par signal
+
+  IF (PCI_32 == "NO") GENERATE
+    parity_chk.par64    = par64;      -- PCI par64 signal
+  ELSE GENERATE
+    parity_chk.par64    = par64_in;
+    par64_in        = VCC;--GND;    
+  END GENERATE;
+
+  IF (TARGET_ONLY == "NO") GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      parity_chk.trg_64_trans_out     = trg_trans64_out;
+      parity_chk.mstr_64_trans_out    = mstr_64_trans_out;
+    END GENERATE;
+  ELSE GENERATE
+    IF (PCI_32 == "NO") GENERATE
+      parity_chk.trg_64_trans_out     = trg_trans64_out;
+    END GENERATE;
+  END GENERATE;
+
+  parity_chk.low_ad_IR_addr[31..0]  =  (ad_IR_address[31..0]);-- & parity_ad_ir_ce_address);-- PCI AD Bus Input Registers
+  parity_chk.low_cben_IR_addr[3..0]   =  (cben_IR_address[3..0]);-- & parity_cben_ir_ce_address);-- PCI CBE Bus Input Registers -- PCI CBEN Bus Input Registers
+
+  parity_chk.low_ad_IR[31..0]     = (low_ad_IR_data[31..0] %& ad_IR_ce_data%);      -- PCI AD Bus Input Registers
+  parity_chk.low_cben_IR[3..0]    = (low_cben_IR_data[3..0] %& cben_IR_ce_data%);     -- PCI CBEN Bus Input Registers
+
+  parity_chk.high_ad_IR[31..0]    = (high_ad_IR_data[31..0]);  -- PCI AD Bus Input Registers
+  parity_chk.high_cben_IR[3..0]   = (high_cben_IR_data[3..0] %& cben_IR_ce_data%);  -- PCI CBE Bus Input Registers  -- PCI CBEN Bus Input Registers
+  
+  IF (P2P_BRIDGE == "YES") GENERATE
+    parity_chk.prim_perr_ena    = prim_perr_ena;
+    parity_chk.prim_serr_ena    = prim_serr_ena;
+    
+    parity_chk.sec_perr_ena     = sec_perr_ena;
+    parity_chk.sec_serr_ena     = sec_serr_ena;
+    
+    parity_chk.sec_serr_in      = sec_serr_in;
+    parity_chk.serr_in        = serr_in;
+    
+    l_serron            = not (parity_chk.serr_out);
+    
+  ELSE GENERATE
+    parity_chk.perr_ena       = perr_ena;     -- Configuration Command Register Parity Enable
+    parity_chk.serr_ena       = serr_ena;     -- Configuration Command Register System Error Enable
+  
+  END GENERATE;
+  
+  parity_chk.mstr_perr_vld      = mstr_perr_vld;  -- Master Data Parity error valid
+  parity_chk.targ_perr_vld      = trg_perr_vld;   -- Target Data Parity error Valid
+  parity_chk.targ_serr_vld      = trg_serr_vld;   -- Target System Error valid
+    
+  perr_det_set            = parity_chk.perr_det_set;  -- PERR Detect Set, Config Status Register Bit 15 Set
+  serr_sig_set            = parity_chk.serr_sig_set;  -- System Error Signaled Set
+  
+  perr_out              = parity_chk.perr_out;    -- Parity Error Output
+  serr_out              = parity_chk.serr_out;    -- System Error Output
+---------------------------------------------------------------------------------------------------
+
+---- Instantiate Parity Generator pcimt32_pg.tdf -----------------------------------------------------
+    parity_gen.data[31..0]    = low_ad_or_fb[31..0];    -- Data Input
+    parity_gen.cbeN[3..0]     = cben[3..0];   -- Command/Byte Enable
+  
+  par_gen_out         = parity_gen.parity;  -- Parity Output
+
+  IF (PCI_32 == "NO") GENERATE
+      parity_gen64.data[31..0]  = high_ad_or_fb[63..32];    -- Data Input
+  END GENERATE;   
+  
+  IF (PCI_32 == "NO") GENERATE
+      parity_gen64.cbeN[3..0] = cben[7..4];         -- Command/Byte Enable
+      par_gen_out64     = parity_gen64.parity;      -- Parity Output
+  END GENERATE;
+  
+---------------------------------------------------------------------------------------------------
+    
+---- Instantiate Target Module pcimt32_t.tdf----------------------------------------------------------
+  -- PCI Signal Inputs
+  
+  Assert ( DELAYED_XFR == 0) 
+  Report " Enable Bit 18 == Delayed Transaction ------  ON"
+  Severity Info;
+  
+  trg.l_dis_64_ext      = l_dis_64_ext;
+  
+  trg.clk           = clk;              -- PCI Clock
+  trg.rstn          = rstn;             -- PCI Reset
+  
+  trg.ad_IR_address[31..0]  = ad_IR_address[31..0];     -- AD Input Registers
+  trg.ad_ir_data[31..0]   = low_ad_ir_data[31..0];
+  trg.cben_IR_address[3..0] = cben_IR_address[3..0];    -- Command/Byte Enable Input Registers
+  trg.cben_ir_data[3..0]    = low_cben_ir_data[3..0];
+
+  trg.frame         = frame;            -- Active High FRAMEn Input
+  trg.irdy          = irdy;             -- Active High IRDYn Input
+  trg.idsel         = idsel;            -- IDSEL Input Register
+  trg.req64         = req64;
+  trg.lirqn         = lirqn;
+  
+  -- Local Side Inputs
+  IF (VERSION_1_0_COMPATIBLE == "YES") GENERATE
+    trg.low_lt_dati[31..0]  = l_dati[31..0];        -- Local Target Data Input
+    IF (PCI_32 == "NO") GENERATE
+      trg.high_lt_dati[31..0] = l_dati[63..32];       -- Local Target Data Input  
+    ELSE GENERATE
+      trg.high_lt_dati[]  = GND;        -- Local Target Data Input      
+    END GENERATE;
+  ELSE GENERATE
+    trg.low_lt_dati[31..0]  = l_adi[31..0];         -- Local Target Data Input
+    IF (PCI_32 == "NO") GENERATE
+      trg.high_lt_dati[31..0] = l_adi[63..32];        -- Local Target Data Input
+    ELSE GENERATE
+      trg.high_lt_dati[]  = GND;        -- Local Target Data Input
+    END GENERATE;   
+  END GENERATE;
+
+  trg.lt_rdyn     = lt_rdyn;                -- Local Target Ready Input
+  trg.lt_discn    = lt_discn;               -- Local Target Disconnect Input
+  trg.lt_abortn   = lt_abortn;              -- Local Target Abort Input
+  
+  -- Input from Parity Checker
+  trg.perr_rep_set  = perr_rep_set;             -- Data Parity Error Signaled
+  trg.perr_det_set  = perr_det_set;             -- Parity Error Detected
+  trg.serr_sig_set  = serr_sig_set;             -- System Parity Error Signaled
+
+  trg.mstr_dac_decode = mstr_dac_decode;
+  trg.mstr_actv   = mstr_actv;              -- Master is Active. Has PCI Bus
+  trg.mstr_cfg_cyc  = mstr_cfg_cyc;             -- Master is Active. Has PCI Bus
+  trg.mstr_abrt_set = mstr_abrt_set;            -- Master Abort Set
+  trg.targ_abrt_set = targ_abrt_set;            -- Target Abort Set
+
+  trg.l_stat_reg_rst[5..0]  = l_stat_reg_rst[5..0];     -- Local status register reset signals
+  trg.lm_ackn     = lm_ackn;
+    -- Delayed Transaction support
+  IF(DELAYED_XFR == 1) GENERATE
+   
+    lt_dato_vldn        = not trg.lt_dato_vld_out;
+  END GENERATE;
+  
+  IF (P2P_BRIDGE == "YES") GENERATE
+    trg.serrn_in  = serrn_in;               -- PCI-to-PCI bridge/Secondary Interface - system error
+    -- PCI-to-PCI bridge Configuration Buses
+    trg.sec_stat_set_in[15..0]  = sec_stat_set_in[15..0];
+    trg.cfg_dat_in_a[207..0]  = cfg_dat_in_a[207..0];
+    trg.cfg_dat_in_b[183..0]  = cfg_dat_in_b[183..0];   
+    trg.cfg_dat_in_c[191..0]  = cfg_dat_in_c[191..0];   
+    cfg_dat_out_a[207..0]   = trg.cfg_dat_out_a[207..0];
+    cfg_dat_out_b[183..0]   = trg.cfg_dat_out_b[183..0];    
+    cfg_dat_out_c[191..0]   = trg.cfg_dat_out_c[191..0];    
+    sec_stat_set_out[15..0]   = trg.sec_stat_set_out[15..0];
+    lt_dato_vldn        = not trg.lt_dato_vld_out;
+    
+    IF (DISCARD_TIMER == "YES") GENERATE
+      trg.lt_discard_set      = l_discard_set;
+    END GENERATE;
+  END GENERATE;
+
+  trg_serr_vld    = trg.serr_vld;     -- SERR Valid
+  trg_perr_vld    = trg.perr_vld;     -- Parity Error was detected
+  trg_perr_oe     = trg.perr_oe;      -- PERR Output Enable
+  trg_par_oe      = trg.par_oe;     -- PAR Output Enable
+    
+  -- Local Side Outputs
+  IF (PCI_32 == "YES") GENERATE
+    l_adro[31..0]   = trg.lt_adr[31..0];
+    l_adro_out[63..32]  = trg.lt_adr[63..32];
+    l_adro[63..32]  = trg.lt_adr[63..32];
+    no_op[31..0]    = l_adro_out[63..32];
+    no_op0        = par64_out;
+  ELSE GENERATE
+    l_adro[63..0]   = trg.lt_adr[63..0];  -- Local Target Address
+  END GENERATE;
+
+  l_cmdo[3..0]    = trg.lt_cmd[3..0];   -- Local Target Command
+  
+  IF (PCI_32 == "NO") GENERATE
+    lt_ldata_ackn   = trg.lt_ldata_ackn;
+    lt_hdata_ackn     = trg.lt_hdata_ackn;
+    lt_sel_w      = trg.lt_sel_w;
+  END GENERATE;
+
+  lt_tsr[13..0]   = trg.lt_tsr[13..0];
+  lt_dxfrn      = trg.lt_dxfrn;     -- Local Target Data Transfer
+  lt_framen     = trg.lt_framen;    -- Local Target Frame
+  lt_ackn       = trg.lt_ackn;      -- Local target Acknowledge
+  -- AD Bus Controls  
+  trg_ad_oe     = trg.ad_oe;      -- Target AD OE Output
+  trg_ad_sel      = trg.ad_sel;     -- AD Output Mux Select
+  
+  trg_ad_IR_ce_D    = trg.ad_IR_ce_D;   -- Target Address Clock Enable
+  trg_ad_IR_ce_A    = trg.ad_IR_ce_A;   -- Target Data    Clock Enable
+
+  trg_cben_IR_ce_D  = trg.cben_IR_ce_D;   -- Target Address Clock Enable
+  trg_cben_IR_ce_A  = trg.cben_IR_ce_A;   -- Target Data    Clock Enable
+
+  trg_low_data_out[31..0]   =   trg.low_data_out[31..0];
+  IF (PCI_32 == "NO") GENERATE
+    trg_high_data_out[31..0]  =   trg.high_data_out[31..0]; 
+  END GENERATE;
+  trg_cfg_ad_out[31..0]   =   trg.cfg_ad_out[31..0];  -- Configuration data Output to AD Output Register
+  
+  trg_cfg_cyc_out       =   trg.cfg_cyc_out;  -- Configuratiob Cycle Indicator
+  trg_hr_dat_sel        =   trg.hr_dat_sel;   -- Holding Register Select Signal
+  trg_dati_HR_ena       =   trg.dati_HR_ena;  -- Holding Register Enable Signal
+  IF (PCI_32 == "NO") GENERATE
+    hi_low_sel          =   trg.hi_low_sel;
+    trg_trans64_out     =   trg.trans64_out;
+  END GENERATE;
+  rstn_out          =   trg.rstn_out;
+
+  -- Target Control Signal Outputs  
+  targ_oeR      = trg.targ_oeR;   -- Output Enable Signal for Target Controls
+  trdy_out      = trg.trdy_out;     -- PCI Target Ready Output
+  devsel_or     = trg.devsel_or_out;  -- PCI Device Select Output
+  stop_out      = trg.stop_out;   -- PCI Stop Output
+  ack64_or      = trg.ack64_or_out; 
+
+  -- Local Command Register Outputs
+  io_ena        = trg.io_ena;     -- I/O Space Enable
+  mem_ena       = trg.mem_ena;    -- Memory Space Enable
+  mstr_ena      = trg.mstr_ena;   -- Bus Master Enable
+  mwi_ena       = trg.mwi_ena;    -- Memory Write and Invalidate Enable
+  perr_ena      = trg.perr_ena;   -- Pariy Error Response Enable 
+  serr_ena      = trg.serr_ena;   -- SERR Enable
+  intr_disable  = trg.intr_disable;   -- Interrupt Disable
+  
+  -- Local Status Register Outputs
+  IF (P2P_BRIDGE == "NO") GENERATE  
+    perr_rep      = trg.cfg_perr_rep;   -- Data Parity Error Signaled
+    tabort_sig      = trg.cfg_tabrt_sig;  -- Signaled Target Abort
+    tabort_rcvd     = trg.cfg_tabrt_rcvd; -- Recieved Target Abort
+    mabort_rcvd     = trg.cfg_mabrt_rcvd; -- Recieved Master Abort
+    serr_sig      = trg.cfg_serr_sig;   -- Signaled SERR
+    perr_det      = trg.cfg_perr_det;   -- Detected Parity Error
+    intr_stat     = trg.cfg_intr_stat;   -- Detected Parity Error
+  END GENERATE;
+  
+  -- Other Local Configuration Register Outputs 
+  lat_dat[7..0]   = trg.lat_dat[7..0];  -- Latency Timer Register Data
+  cache[7..0]     = trg.cache_dat[7..0];  -- Cache Line Register Data
+
+  -- Local Side Configuration Space Support
+  trg.lcfg_adr[7..0]      = lcfg_adr[7..0];     -- Local Configuration Address
+  trg.lcfg_ben[3..0]      = lcfg_ben[3..0];     -- Local Configuration Byte enables
+  trg.lcfg_dat_in[31..0]    = lcfg_dati[31..0];   -- Local Configuration Data Input Bus
+  trg.lcfg_adr_vld      = lcfg_adr_vld;     -- Local Configuration Address Valid
+  trg.lcfg_dat_vld      = lcfg_dat_vld;     -- Local Configuration data Valid
+
+  IF (P2P_BRIDGE == "NO") GENERATE  
+    lcfg_dato[31..0]      = trg.lcfg_dat_out[31..0];-- Local Configuration Data Output
+  END GENERATE;
+
+  -- AD_CE addition
+  trg_ADOR_ena        = trg.ADOR_ena; 
+---------------------------------------------------------------------------------------------------
+
+---- Instantiate pcimt32_m.tdf -----------------------------------------------------------------------
+  -- PCI Inputs
+  IF (TARGET_ONLY == "NO") GENERATE
+          
+    mstr_hi_low_sel       =   mstr.hi_low_sel;
+    
+    mstr.clk    = clk;        -- PCI Clock
+    mstr.rstn   = rstn;       -- PCI Restet
+    mstr.gnt    = gnt;      -- Active High PCI Grant Signal 
+
+    mstr.frame    = frame;      -- Active High FRAMEn Input
+    mstr.irdy   = irdy;     -- Active High IRDYn INPUT
+    mstr.trdy   = trdy;     -- Active High TRDYn Input  
+    mstr.devsel   = devsel;     -- Active High DEVSELn Input
+    mstr.stop   = stop;     -- Active High STOPn Input
+    mstr.ack64    = ack64;
+    
+    mstr.perr   = perr;     -- Active high 
+    
+    mstr.targ_access  = targ_access;  
+    targ_access     = lt_tsr8;
+
+    -- Configuration Space Inputs 
+    mstr.mstr_ena   = mstr_ena; -- Master Enable
+    mstr.lat_dat[7..0]  = lat_dat[7..0];  -- Latency Timer Register Data
+  
+    -- Local Side Inputs
+    mstr.lm_req64   = lm_req64; -- Local Side Master Access Request Signal
+    mstr.lm_req32   = lm_req32; -- Local Side Master Access Request Signal
+    mstr.lm_last    = lm_last;  -- Local Side Master Access Request Signal
+    mstr.lm_rdyn    = lm_rdyn;  -- Local Side Master Data Ready Input
+
+    IF (VERSION_1_0_COMPATIBLE == "YES") GENERATE
+      mstr.low_lm_dati[31..0]   = ador_mux[31..0];    -- Local Side Master Address/Data Bus
+      mstr.high_lm_dati[31..0]  = l_dati[63..32];   -- Local Side Master Address/Data Bus
+    
+      mstr.low_lm_beni[3..0]    = cbenor_mux[3..0]; -- Local Side Master Command/Byte Enables
+      mstr.high_lm_beni[3..0]   = l_beni[7..4]; -- Local Side Master Command/Byte Enables
+    ELSE GENERATE
+      mstr.low_lm_dati[31..0]   = ador_mux[31..0];    -- Local Side Master Address/Data Bus
+      mstr.high_lm_dati[31..0]  = l_adi[63..32];    -- Local Side Master Address/Data Bus 
+
+      mstr.low_lm_beni[3..0]    = cbenor_mux[3..0]; -- Local Side Master Command/Byte Enables
+      mstr.high_lm_beni[3..0]   = l_cbeni[7..4];  -- Local Side Master Command/Byte Enables
+    END GENERATE;
+  
+    -- AD Bus Controls
+    mstr_low_data_out[31..0]  = mstr.low_data_out[31..0]; -- Master Output Data to AD Output Register
+    IF (PCI_32 == "NO") GENERATE
+      mstr_high_data_out[31..0] = mstr.high_data_out[31..0];-- Master Output Data to AD Output Register
+    END GENERATE;
+
+    mstr_ad_oe          = mstr.ad_oe; -- Master AD OE Output
+    mstr_ad_sel         = mstr.ad_sel;  -- Master AD Output Mux Select
+    mstr_ad_IR_ce_D       = mstr.ad_IR_ce_D;  -- AD Input Register Clock Enable 
+
+    mstr_hr_dat_sel       = mstr.hr_dat_sel;
+    mstr_dati_HR_ena      = mstr.dati_HR_ena;
+    mstr_ADOR_ena       = mstr.ADOR_ena;
+    
+    IF (PCI_32 == "NO") GENERATE
+      mstr_64_trans_out       = mstr.tgt_64_response_out;
+    END GENERATE;
+    
+    mstr_ad_ir_ce_a         =  mstr.ad_ir_ce_a;
+    mstr_cben_ir_ce_a       =  mstr.cben_ir_ce_a; 
+    mstr_cben_ir_ce_d       =  mstr.cben_ir_ce_d;
+
+    -- Command/byte enable Bus Signals
+    mstr_cbe_ce         = mstr.cbe_ce;  -- Command/Byte Enable Clock Enable
+
+    mstr_low_cbe_out[3..0]    = mstr.low_cbe_out[3..0]; -- Command/Byte Enable Output Registers
+    IF (PCI_32 == "NO") GENERATE
+      mstr_high_cbe_out[3..0]   = mstr.high_cbe_out[3..0];  -- Command/Byte Enable Output Registers 
+    END GENERATE;
+
+    mstr_hr_cbe_sel       = mstr.hr_cbe_sel;
+    mstr_cbe_HR_ena       = mstr.cbe_HR_ena;
+    mstr_cbe_oe         = mstr.cbe_oe;  -- Command/Byte Enable Output Enable
+  
+    -- Hand Shake Signals
+    frame_out   = mstr.frame_out    ; -- FRAMEn Output Register
+    frame_oe    = mstr.frame_oe     ; -- Frame Output Enable
+    irdy_out    = mstr.irdy_out     ; -- IRDYn Output Register
+    irdy_oe     = mstr.irdy_oe      ; -- IRDYn Output Enable
+    req64_out   = mstr.req64_out    ; -- IRDYn Output Register
+    req64_oe    = mstr.req64_oe     ; -- IRDYn Output Enable
+    req_or      = mstr.req_or_out     ; -- PCI Bus Request Output Register
+
+    -- Parity Signals
+    mstr_perr_vld = mstr.perr_vld     ; -- Parity Error was detected
+    mstr_perr_oe  = mstr.perr_oe      ; -- PERR Output Enable
+    
+  
+    mstr_par_oe_lc1 = mstr.par_oe_lc1   ;
+    mstr_park 		= mstr.mstr_park   ;
+
+    -- Configuration Space Outputs
+    perr_rep_set  = mstr.perr_rep_set   ; -- Set Command Register Target Abort Recieved Bit
+    targ_abrt_set = mstr.targ_abrt_set  ; -- Set Command Register Target Abort Recieved Bit
+    mstr_abrt_set = mstr.mstr_abrt_set  ; -- Set Command Regsiter Master Abort Recieved Bit
+    
+    -- Local Side Outputs
+    lm_adr_ack    = mstr.lm_adr_ack   ;   -- Local Master Address Acknowledge
+    lm_ackn     = mstr.lm_ackn      ; -- PCI/B Ready/Acknowledge Signal
+    lm_dato_vldn  = not mstr.lm_dato_vld_out  ;
+    
+    IF (PCI_32 == "NO") GENERATE
+      lm_ldata_ackn = mstr.lm_ldata_ackn;
+      lm_hdata_ackn = mstr.lm_hdata_ackn;
+    END GENERATE;
+    
+    lm_dxfrn      = mstr.lm_dxfrn;  
+
+    lm_tsr[12..0]  = mstr.lm_tsr[12..0]   ; -- Master Transaction Status Registers
+    mstr_actv   = mstr.mstr_actv    ;   -- Master is Active.  Has PCI Bus
+    mstr_cfg_cyc  = mstr.mstr_cfg_cyc   ; 
+    mstr_dac_decode = mstr.dac_cyc_out    ;   -- Dual Address decode
+  
+  ELSE GENERATE
+      
+    mstr_hi_low_sel       =   GND;
+  
+    -- AD Bus Controls
+    mstr_low_data_out[31..0]  = VCC;  -- Master Output Data to AD Output Register
+
+    mstr_ad_oe          = GND;  -- Master AD OE Output
+--    mstr_ad_sel         = GND;  -- Master AD Output Mux Select
+    mstr_ad_IR_ce_D       = GND;  -- AD Input Register Clock Enable 
+
+--    mstr_hr_dat_sel       = GND;
+    mstr_dati_HR_ena      = GND;
+
+
+--    mstr_64_trans_out       = GND;
+    mstr_ad_ir_ce_a         = GND;
+    mstr_cben_ir_ce_a       = GND;  
+    mstr_cben_ir_ce_d       = GND;
+
+  
+  
+    -- Hand Shake Signals
+    frame_out   = GND   ; -- FRAMEn Output Register
+    frame_oe    = GND     ; -- Frame Output Enable
+    irdy_out    = GND     ; -- IRDYn Output Register
+    irdy_oe     = GND     ; -- IRDYn Output Enable
+    req64_out   = GND   ; -- IRDYn Output Register
+    req64_oe    = GND     ; -- IRDYn Output Enable
+
+    req_or      = GND     ; -- PCI Bus Request Output Register
+
+    -- Parity Signals
+    mstr_perr_vld = GND     ; -- Parity Error was detected
+    mstr_perr_oe  = GND     ; -- PERR Output Enable
+  --  mstr_par_oe   = GND     ; -- PAR Output Enable
+    
+    
+    mstr_par_oe_lc1 = GND     ;
+
+    -- Configuration Space Outputs
+    perr_rep_set  = GND   ; -- Set Command Register Target Abort Recieved Bit
+    targ_abrt_set = GND ; -- Set Command Register Target Abort Recieved Bit
+    mstr_abrt_set = GND ; -- Set Command Regsiter Master Abort Recieved Bit
+    
+    -- Local Side Outputs
+    lm_adr_ack    = GND   ;   -- Local Master Address Acknowledge
+    lm_ackn     = VCC     ; -- PCI/B Ready/Acknowledge Signal
+    lm_dato_vldn  = VCC ;
+  
+--    lm_ldata_ackn   = VCC;
+--    lm_hdata_ackn   = VCC;
+    lm_dxfrn      = VCC;  
+
+    lm_tsr[12..0]  = GND ; -- Master Transaction Status Registers
+    mstr_actv   = GND   ;   -- Master is Active.  Has PCI Bus
+    mstr_dac_decode = GND   ;   -- Dual Address decode
+    mstr_cfg_cyc    = GND;
+    
+  END GENERATE; -- End of Master Instantiation for Master/Target
+  
+---------------------------------------------------------------------------------------------------
+
+--==== END OF LOGIC SECTION ======================================================================= 
+  
+END;
+
+    

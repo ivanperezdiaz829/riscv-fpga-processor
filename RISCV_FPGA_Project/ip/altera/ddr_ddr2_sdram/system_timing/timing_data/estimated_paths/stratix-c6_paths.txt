@@ -1,0 +1,21 @@
+array_name=    min_paths_for_each_half_dq_0
+    dq_2_ddio               549
+    ddio_2_reg              566
+    reg_2_post              683
+    post_2_ddio             794
+    dqsclk_2_ddio           323
+    undelayed_2_post        832
+    dqspin_2_undelayed      630
+    clk_2_pin              1263
+    dqspin_2_dqsclk_minus_tshift    371
+array_name=    max_paths_for_each_half_dq_0
+    dq_2_ddio               985
+    ddio_2_reg             1654
+    reg_2_post             1320
+    post_2_ddio            2134
+    dqsclk_2_ddio           948
+    undelayed_2_post       1634
+    dqspin_2_undelayed     1163
+    clk_2_pin              2265
+    dqspin_2_dqsclk_minus_tshift    406
+

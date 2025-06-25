@@ -1,0 +1,1642 @@
+--------------------------------------------------------------------------------
+-- This confidential and proprietary software may be used only as authorized by
+-- a licensing agreement from Altera Corporation.
+--
+-- (C) COPYRIGHT 2005 ALTERA CORPORATION
+-- ALL RIGHTS RESERVED
+--
+-- The entire notice above must be reproduced on all authorized copies and any
+-- such reproduction must be pursuant to a licensing agreement from Altera.
+--
+-- Title        : Memory definition file for DDR/DDR2 SDRAM Controller
+-- Project      : DDR SDRAM Controller
+--
+-- File         : memory_types.dat
+--
+-- Revision     : v3.3.0
+--
+-- Abstract:
+-- Describes the memory type presets available in the DDR/DDR2 SDRAM Controller MegaWizard.
+-- This file may be edited to add new memories as they are required.
+-- Please observe the comments below, as to the format required when making edits.
+--
+--------------------------------------------------------------------------------
+--<<<<<<<<<<<<<<<<START OF FILE FORMAT DOCUMENTATION>>>>>>>>>>>>>>>>>>>>>>>>
+
+-------------------------------------------------------------
+-- [ ]:  Top of Parameterize window, Name displayed in Presets drop down list,text info
+-------------------------------------------------------------
+-- description  :  Top of Paramaterize window, this is the text info describing device or DIMM that will appear under the Presets drop down, 50char max
+-- mem_type     :  Determines when the item will be shown in the wizard, valid parameters are:  ddr_sdram, ddr2_sdram
+-- clock_speed  :  Memory clock speed, Mhz Decimal value to one place [x.x]
+
+-------------------------------------------------------------
+-- MEMORY SETTINGS,Memory Interface section
+-------------------------------------------------------------
+-- width        :  memory width in bits, integer value
+-- chipselects  :  number of chip selects used by entity, integer value
+-- clock_pairs  :  number of clocks used by entity, integer value
+-- rowbits      :  Row address bits, integer value
+-- colbits      :  Column address bits, integer value
+-- bankbits     :  number of bank address bits, integer value
+-- dq_per_dqs   :  DQ bits per DQS, integer value
+-- pch_bit      :  recharge Address Bit, integer value
+-- reg_dimm     :  Dimm registered hot button, 1=registered 0=unregistered or unbuffered memory
+
+-------------------------------------------------------------
+-- Controller Settings, Memory Initialization Options
+-------------------------------------------------------------
+-- cas_latency  :  CAS Latency, Decimal [x.x] in clock cycles
+
+-------------------------------------------------------------
+-- CONTROLLER TIMINGS tab
+-------------------------------------------------------------
+-- trefi        :  Refresh command interval, Decimal [x.x] in micro seconds
+-- tinit_time   :  Memory initializatoin time, Decimal [x.x] in micro seconds
+-- trp          :  Precharge command period, integer in nano seconds
+-- trcd         :  Active to read/write, integer in nano seconds
+-- trfc         :  Auto-refresh command period, integer in nano seconds
+-- twr          :  Write recovery time, integer in nano seconds
+-- tras         :  Active to precharge time, integer in nano seconds
+-- tmrd         :  Load mode register command period, integer in nano seconds (not clock cycles as the datasheet might provide)
+-- twtr         :  Write to read command delay, integer in clock cycles (not ns as the datasheet might provide)
+
+-------------------------------------------------------------
+-- MEMORY TIMINGS tab
+-------------------------------------------------------------
+-- tDQSQ        :  DQS to last DQ valid, integer in pico seconds
+-- tQHS         :  Data hold skew factor, integer in pico seconds
+-- tDQSCK       :  Access window of DQS from CK/CK# +/-, integer in pico seconds
+-- tAC          :  Access window of DQ from CK/CK# +/-, integer in pico seconds
+-- tCK_MAX      :  Maximum clock cycle time, integer in pico seconds
+-- tDS          :  DQ input setup time, integer in pico seconds
+-- tDH          :  DQ input hold time, integer in pico seconds
+-- tDQSS_MIN    :  Minimum write command to first DQS transition, decimal [x.xx] in clock cycles
+-- tDQSS_MAX    :  Maximum write command to first DQS transition, decimal [x.xx] in clock cycles
+
+-- These five values are not seen in the wizard directly, but are still required here.
+-- fmax_at_cl*:  Fmax at CAS latency of 5, 4, 3, 2.5 and 2
+
+-------------------------------------------------------------
+-- BOARD TIMINGS tab
+-------------------------------------------------------------
+-- dq_pin_load  :  Pin loading on FPGA DQ/DQS pins, integer in pico farads
+-- cmd_pin_load :  Pin loading on FPGA address/command pins, integer in pico farads
+-- clk_pin_load :  Pin loading on FPGA clock pins
+
+--<<<<<<<<<<<<<<<<END OF FILE FORMAT DOCUMENTATION>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+
+
+
+--<<<<<<<<<<<<<<<<START OF MEMORY PARAMETERS>>>>>>>>>>>>>>>>>>
+
+--------------------------
+-- DDR CHIPS
+--------------------------
+[Infineon HYB25D25616OBT-5]
+    description    = Infineon 256Mbit x16 DDR400 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 1
+    twr            = 15
+    trp            = 15
+    trfc           = 65
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   550
+    tAC            =   500
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 10000
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Micron MT46V16M16TG-5B]
+    description    = Micron 256Mbit x16 DDR400 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 70
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   600
+    tAC            =   700
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        =  7500
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Micron MT46V16M8TG-6T]
+    description    = Micron 128Mbit x8 DDR333 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 8
+    colbits        = 10
+    rowbits        = 12
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 166.667
+
+    trcd           = 18
+    tras           = 42
+    twtr           = 1
+    twr            = 15
+    trp            = 18
+    trfc           = 72
+    tmrd           = 12
+    trefi          = 15.6
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   600
+    tAC            =   700
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =     0
+    fmax_at_cl3    =     0
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 13000
+    tDS            =    450
+    tDH            =    450
+    tDQSS_MIN      =   0.75
+    tDQSS_MAX      =   1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Micron MT46V8M16TG-75]
+    description    = Micron 128Mbit x16 DDR266 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 12
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 133.333
+
+    trcd           = 20
+    tras           = 40
+    twtr           = 1
+    twr            = 15
+    trp            = 20
+    trfc           = 75
+    tmrd           = 15
+    trefi          = 15.6
+    tinit_time     = 200
+
+    tDQSQ          =   500
+    tQHS           =   750
+    tDQSCK         =   750
+    tAC            =   750
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =     0
+    fmax_at_cl25   =   134
+    fmax_at_cl2    =   100
+    tCK_MAX        = 13000
+    tDS            =   500
+    tDH            =   500
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Micron MT46V8M16TG-75Z]
+    description    = Micron 128Mbit x16 DDR266 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 12
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 133.333
+
+    trcd           = 20
+    tras           = 40
+    twtr           = 1
+    twr            = 15
+    trp            = 20
+    trfc           = 75
+    tmrd           = 15
+    trefi          = 15.6
+    tinit_time     = 200
+
+    tDQSQ          =   500
+    tQHS           =   750
+    tDQSCK         =   750
+    tAC            =   750
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =     0
+    fmax_at_cl25   =   134
+    fmax_at_cl2    =   134
+    tCK_MAX        = 13000
+    tDS            =   500
+    tDH            =   500
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Samsung K4H561638F-TCB3]
+    description    = Samsung 256Mbit x16 DDR333 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 166.667
+
+    trcd           = 18
+    tras           = 42
+    twtr           = 1
+    twr            = 15
+    trp            = 18
+    trfc           = 72
+    tmrd           = 12
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   450
+    tQHS           =   550
+    tDQSCK         =   600
+    tAC            =   700
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =     0
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 12000
+    tDS            =   450
+    tDH            =   450
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+[Samsung K4H561638F-TCCC]
+    description    = Samsung 256Mbit x16 DDR400 chip
+    mem_type       = ddr_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200.00
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 70
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   550
+    tAC            =   650
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 10000
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+--------------------------
+-- DDR DIMMS
+--------------------------
+
+[Micron MT9VDDT3274AG-40B]
+    description    = Micron 256Mb 72 bit DDR400 DIMM
+    mem_type       = ddr_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 70
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   600
+    tAC            =   700
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        =  7500
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+-- Estimates
+    dq_pin_load    = 5
+    cmd_pin_load   = 27
+    clk_pin_load   = 9
+
+
+[Samsung M381L3223ETM-CCC]
+    description    = Samsung 256Mb 72 bit DDR400 DIMM
+    mem_type       = ddr_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 70
+    tmrd           = 10
+    trefi          = 15.6
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   550
+    tAC            =   650
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 10000
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+-- Estimates
+    dq_pin_load    = 5
+    cmd_pin_load   = 27
+    clk_pin_load   = 9
+
+[Infineon HYS72D32300GU-5-B]
+    description    = Infineon 256Mb 72 bit DDR400 DIMM
+    mem_type       = ddr_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 1
+    twr            = 15
+    trp            = 15
+    trfc           = 65
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   500
+    tAC            =   600
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 12000
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+-- Estimates
+    dq_pin_load    = 5
+    cmd_pin_load   = 27
+    clk_pin_load   = 9
+
+
+[Infineon HYS64D32020GDL-5-B]
+    description    = Infineon 256Mb DDR400 SO-DIMM
+    mem_type       = ddr_sdram
+    clock_pairs    = 2
+    chipselects    = 2
+    bankbits       = 2
+    width          = 64
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 1
+    twr            = 15
+    trp            = 15
+    trfc           = 65
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   400
+    tQHS           =   500
+    tDQSCK         =   550
+    tAC            =   500
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 10000
+    tDS            =   400
+    tDH            =   400
+    tDQSS_MIN      =  0.72
+    tDQSS_MAX      =  1.28
+
+-- Estimates
+    dq_pin_load    = 10
+    cmd_pin_load   = 48
+    clk_pin_load   = 18
+
+
+[Micron MT8VDDT3264HG-335C2]
+    description    = Micron 256Mb DDR333 SO-DIMM
+    mem_type       = ddr_sdram
+    clock_pairs    = 2
+    chipselects    = 1
+    bankbits       = 2
+    width          = 64
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 166.667
+
+    trcd           = 15
+    tras           = 42
+    twtr           = 1
+    twr            = 15
+    trp            = 15
+    trfc           = 72
+    tmrd           = 12
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   450
+    tQHS           =   550
+    tDQSCK         =   600
+    tAC            =   700
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   0
+    fmax_at_cl3    =     0
+    fmax_at_cl25   =   167
+    fmax_at_cl2    =   134
+    tCK_MAX        = 13000
+    tDS            =   450
+    tDH            =   450
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+-- Estimates
+    dq_pin_load    = 5
+    cmd_pin_load   = 27
+    clk_pin_load   = 9
+
+
+--------------------------
+-- DDR2 CHIPS
+--------------------------
+[Infineon HYB18T512160AC-3.7]
+    description    = Infineon 512Mbit x16 DDR2-533 chip
+    mem_type       = ddr2_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 4.0
+    clock_speed    = 266.667
+
+    trcd           = 15
+    tras           = 45
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 105
+    tmrd           = 7
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   300
+    tQHS           =   400
+    tDQSCK         =   450
+    tAC            =   500
+    fmax_at_cl5    =   267
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   100
+    tDH            =   225
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+[Samsung K4T51163QB-GCCC]
+    description    = Samsung 512Mbit x16 DDR2-400 chip
+    mem_type       = ddr2_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 105
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   350
+    tQHS           =   450
+    tDQSCK         =   500
+    tAC            =   600
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   200
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   150
+    tDH            =   275
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+[Micron MT47H16M16BG-5E]
+    description    = Micron 256Mbit x16 DDR2-400 chip
+    mem_type       = ddr2_sdram
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 75
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   350
+    tQHS           =   450
+    tDQSCK         =   500
+    tAC            =   600
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   200
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   150
+    tDH            =   275
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+
+
+--------------------------
+-- DDR2 DIMMS
+--------------------------
+
+[Infineon HYS72T64000GU-3.7]
+    description    = Infineon 512Mb 72 bit DDR2-533 DIMM
+    mem_type       = ddr2_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 14
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 4.0
+    clock_speed    = 266.667
+
+    trcd           = 15
+    tras           = 45
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 105
+    tmrd           = 7
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   300
+    tQHS           =   400
+    tDQSCK         =   450
+    tAC            =   500
+    fmax_at_cl5    =   267
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   100
+    tDH            =   225
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+-- Not in datasheet (copied from Micron MT9HTF3272AG-40EB3)
+    dq_pin_load    = 4
+    cmd_pin_load   = 24
+    clk_pin_load   = 10
+
+[Samsung M391T3253FG0-CCC]
+    description    = Samsung 256Mb 72 bit DDR2-400 DIMM
+    mem_type       = ddr2_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 105
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   350
+    tQHS           =   450
+    tDQSCK         =   500
+    tAC            =   600
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   200
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   150
+    tDH            =   275
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 6
+    cmd_pin_load   = 44
+    clk_pin_load   = 25
+
+
+[Micron MT9HTF3272AG-40EB3]
+    description    = Micron 256Mb 72 bit DDR2-400 DIMM
+    mem_type       = ddr2_sdram
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 75
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   350
+    tQHS           =   450
+    tDQSCK         =   500
+    tAC            =   600
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   200
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   150
+    tDH            =   275
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 24
+    clk_pin_load   = 10
+
+----------------------------------------------
+-- Altera Development Boards with DDR/DDR2 Devices
+----------------------------------------------
+[Nios Development Board, Cyclone II (EP2C35)]
+    description    = Micron MT46V16M16TG-6T 256Mbit x16 chip
+    mem_type       = ddr_sdram
+    altera_device  = EP2C35F672
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 166.6667
+
+    trcd           = 18
+    tras           = 42
+    twtr           = 1
+    twr            = 15
+    trp            = 18
+    trfc           = 72
+    tmrd           = 12
+    trefi          = 7.81
+    tinit_time     = 200
+
+    tDQSQ          = 450
+    tQHS           = 550
+    tDQSCK         = 600
+    tAC            = 700
+    fmax_at_cl5    = 0
+    fmax_at_cl4    = 0
+    fmax_at_cl3    = 166.6667
+    fmax_at_cl25   = 166.6667
+    fmax_at_cl2    = 133.3333
+    tCK_MAX        = 13000
+    tDS            = 450
+    tDH            = 450
+    tDQSS_MIN      = 0.75
+    tDQSS_MAX      = 1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+    board_type     = true
+    boardTPDDQS    = 550
+    boardTPDClock  = 550
+    byte_groups    = 1L 3L
+    tcl_pin_file   = sopc_cycloneii_nios_pins.tcl
+
+[Nios Development Board, Stratix II (EP2S60) RoHS]
+    description    = Micron MT46V16M16TG-6T 256Mbit x16 chip
+    mem_type       = ddr_sdram
+    altera_device  = EP2S60F672
+    clock_pairs    = 1
+    chipselects    = 1
+    bankbits       = 2
+    width          = 16
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 2.5
+    clock_speed    = 166.6667
+
+    trcd           = 18
+    tras           = 42
+    twtr           = 1
+    twr            = 15
+    trp            = 18
+    trfc           = 72
+    tmrd           = 12
+    trefi          = 7.81
+    tinit_time     = 200
+
+    tDQSQ          = 450
+    tQHS           = 550
+    tDQSCK         = 600
+    tAC            = 700
+    fmax_at_cl5    = 0
+    fmax_at_cl4    = 0
+    fmax_at_cl3    = 166.6667
+    fmax_at_cl25   = 166.6667
+    fmax_at_cl2    = 133.3333
+    tCK_MAX        = 13000
+    tDS            = 450
+    tDH            = 450
+    tDQSS_MIN      = 0.75
+    tDQSS_MAX      = 1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+    board_type     = true
+    boardTPDDQS    = 550
+    boardTPDClock  = 550
+    byte_groups    = 1T 0T
+    tcl_pin_file   = sopc_stratixii_rohs_nios_pins.tcl
+    
+[Altera Cyclone II EP2C35 DSP Development Board]
+    description    = Micron 256Mb 64 bit DDR2 SDRAM DIMM
+    mem_type       = ddr2_sdram
+    altera_device  = EP2C35F672
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 64
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 166.6667
+
+    trcd           = 15
+    tras           = 45
+    twtr           = 2
+    twr            = 15
+    trp            = 20
+    trfc           = 75
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          = 350
+    tQHS           = 450
+    tDQSCK         = 500
+    tAC            = 600
+    fmax_at_cl5    = 0
+    fmax_at_cl4    = 200
+    fmax_at_cl3    = 200
+    fmax_at_cl25   = 0
+    fmax_at_cl2    = 0
+    tCK_MAX        = 8000
+    tDS            = 150
+    tDH            = 275
+    tDQSS_MIN      = 0.75
+    tDQSS_MAX      = 1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 24
+    clk_pin_load   = 10
+
+    board_type     = true
+    boardTPDDQS    = 1400
+    boardTPDClock  = 1400
+    byte_groups    = 2B 4B 5B 3B 3T 5T 4T 2T
+    tcl_pin_file   = sopc_cycloneii_dsp_pins.tcl
+
+[Altera Cyclone II EP2C35 PCI Development Board]
+    description    = 2 Micron MT47H16M16BG-37E 256Mbit x16 chips
+    mem_type       = ddr2_sdram
+    altera_device  = EP2C35F672
+    clock_pairs    = 2
+    chipselects    = 1
+    bankbits       = 2
+    width          = 32
+    colbits        = 9
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 3.0
+    clock_speed    = 166.667
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 75
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          = 300
+    tQHS           = 400
+    tDQSCK         = 450
+    tAC            = 500
+    fmax_at_cl5    = 0
+    fmax_at_cl4    = 266.667
+    fmax_at_cl3    = 200
+    fmax_at_cl25   = 0
+    fmax_at_cl2    = 0
+    tCK_MAX        = 8000
+    tDS            = 350
+    tDH            = 350
+    tDQSS_MIN      = 0.75
+    tDQSS_MAX      = 1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 2
+    clk_pin_load   = 2
+
+    board_type     = true
+    boardTPDDQS    = 700
+    boardTPDClock  = 700
+    byte_groups    = 2T 4T 3T 5T
+    tcl_pin_file   = sopc_cycloneii_pci_pins.tcl
+
+[Altera Stratix II High-Speed Development Board]
+    description    = Micron 256Mb 72 bit DDR2-533 DIMM
+    mem_type       = ddr2_sdram
+    altera_device  = EP2S60F1020
+    clock_pairs    = 3
+    chipselects    = 1
+    bankbits       = 2
+    width          = 72
+    colbits        = 10
+    rowbits        = 13
+    dq_per_dqs     = 8
+    pch_bit        = 10
+    reg_dimm       = 0
+    cas_latency    = 4.0
+    clock_speed    = 200
+
+    trcd           = 15
+    tras           = 40
+    twtr           = 2
+    twr            = 15
+    trp            = 15
+    trfc           = 75
+    tmrd           = 10
+    trefi          = 7.8
+    tinit_time     = 200
+
+    tDQSQ          =   300
+    tQHS           =   400
+    tDQSCK         =   450
+    tAC            =   500
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   266.667
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+    tCK_MAX        =  8000
+    tDS            =   350
+    tDH            =   350
+    tDQSS_MIN      =  0.75
+    tDQSS_MAX      =  1.25
+
+    dq_pin_load    = 4
+    cmd_pin_load   = 24
+    clk_pin_load   = 10
+    
+    board_type     = true
+    boardTPDDQS    = 1500
+    boardTPDClock  = 1500
+    byte_groups    = 0T 1T 2T 3T 5T 6T 7T 8T 4T
+	
+    
+--------------------------
+-- DDR2 CHIPS
+--------------------------
+-- GKR 5-17-06
+-- this template contains usage parameters for the following equivalent DRAMs
+-- 512Mbit x16 200Mhz (400Mbit/sec)@ CL3 or 4
+-- Micron   MT47H32M16CC-5E
+-- Infineon HYB18T512160BF-5
+-- Samsung  K4T51163QC-ZC(L)CC
+--Top of Paramaterize window, Name displayed in Presets drop down list,text info - only one space allowed
+[MIS 512Mb_4bnk_x16_200Mhz_CL3]
+--Top of Paramaterize window, this is the text info describing device or DIMM that will appear under the Presets drop down, 50char max
+    description    = 512Mbit x16 4bank DDR2-400 chip
+--mem_type determines when the item will be shown in the wizard, valid parameters are:  ddr_sdram, ddr2_sdram
+    mem_type       = ddr2_sdram
+--Memory clock speed, Mhz Decimal value to one place [x.x]
+    clock_speed    = 200.00					
+
+--MEMORY SETTINGS,Memory Interface section
+--memory width in bits, integer value
+    width          = 16	
+--number of chip selects used by entity, integer value					
+    chipselects    = 1	
+--number of clocks used by entity, integer value					
+    clock_pairs    = 1						
+
+--Row address bits, integer value
+    rowbits        = 13
+--Column address bits, integer value						
+    colbits        = 10
+--number of bank address bits, integer value						
+    bankbits       = 2
+--DQ bits per DQS, integer value						
+    dq_per_dqs     = 8
+--recharge Address Bit, integer value						
+    pch_bit        = 10
+--Dimm registered hot button, 1=registered 0=unregistered or unbuffered memory						
+    reg_dimm       = 0						
+
+--Controller Settings, Memory Initialization Options
+--Cas Latency, Decimal [x.x] in clock cycles
+    cas_latency    = 3.0
+					
+--CONTROLLER TIMINGS tab
+-- Refresh command interval, Decimal [x.x] in micro seconds
+    trefi          = 7.8
+--Memory initializatoin time, Decimal [x.x] in micro seconds
+    tinit_time     = 200
+--Precharge command period, integer in nano seconds
+    trp            = 15
+-- Active to read/write, integer in nano seconds
+    trcd           = 15
+--Auto-refresh command period, integer in nano seconds
+    trfc           = 105
+--Write recovery time, integer in nano seconds
+    twr            = 15
+--Active to precharge time, integer in nano seconds
+--		Micron, Samsung = 40
+--		Infineon = 45
+    tras           = 45
+--Load mode register command period, integer in nano seconds
+    tmrd           = 8
+--Write to read command delay, integer in clock cycles
+    twtr           = 2
+
+--MEMORY TIMINGS tab
+--DQS to last DQ valid, integer in pico seconds
+    tDQSQ          =   300
+--Data hold skew factor, integer in pico seconds
+    tQHS           =   400
+--Access window of DQS from CK/CK# +/-, integer in pico seconds
+    tDQSCK         =   450
+--Access window of DQ from CK/CK# +/-, integer in pico seconds
+    tAC            =   500
+--Maximum clock cycle time, integer in pico seconds
+    tCK_MAX        =  8000
+--DQ input setup time, integer in pico seconds
+    tDS            =   100
+--DQ input hold time, integer in pico seconds
+    tDH            =   225
+--Minimum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MIN      =  0.75
+--Maximum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MAX      =  1.25
+
+--These five values are not seen in the wizard directly, but are still required here.
+--Fmax at CAS latency of 5, 4, 3, 2.5 and 2
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+
+--BOARD TIMINGS tab
+--Pin loading on FPGA DQ/DQS pins, integer in pico farads
+    dq_pin_load    = 4
+--Pin loading on FPGA address/command pins, integer in pico farads
+    cmd_pin_load   = 2
+--Pin loading on FPGA clock pins
+    clk_pin_load   = 2
+
+
+
+-- this template contains usage parameters for the following equivalent DRAMs
+-- GKR 5-18-06
+-- 512Mbit x16 266Mhz (533Mbit/sec)@ CL4
+-- Micron   MT47H32M16CC-37E
+-- Infineon HYB18T512160BF-3.7
+-- Samsung  K4T51163QC-ZC(L)D5
+--Top of Paramaterize window, Name displayed in Presets drop down list,text info - only one space allowed
+[MIS 512Mb_4bnk_x16_267Mhz_CL4]
+--Top of Paramaterize window, this is the text info describing device or DIMM that will appear under the Presets drop down, 50char max
+    description    = 512Mbit x16 4bank DDR2-533 chip
+--mem_type determines when the item will be shown in the wizard, valid parameters are:  ddr_sdram, ddr2_sdram
+    mem_type       = ddr2_sdram
+--Memory clock speed, Mhz Decimal value to one place [x.x]
+    clock_speed    = 266.667					
+
+--MEMORY SETTINGS,Memory Interface section
+--memory width in bits, integer value
+    width          = 16	
+--number of chip selects used by entity, integer value					
+    chipselects    = 1	
+--number of clocks used by entity, integer value					
+    clock_pairs    = 1						
+
+--Row address bits, integer value
+    rowbits        = 13
+--Column address bits, integer value						
+    colbits        = 10
+--number of bank address bits, integer value						
+    bankbits       = 2
+--DQ bits per DQS, integer value						
+    dq_per_dqs     = 8
+--recharge Address Bit, integer value						
+    pch_bit        = 10
+--Dimm registered hot button, 1=registered 0=unregistered or unbuffered memory						
+    reg_dimm       = 0						
+
+--Controller Settings, Memory Initialization Options
+--Cas Latency, Decimal [x.x] in clock cycles
+    cas_latency    = 4.0
+					
+--CONTROLLER TIMINGS tab
+-- Refresh command interval, Decimal [x.x] in micro seconds
+    trefi          = 7.8
+--Memory initializatoin time, Decimal [x.x] in micro seconds
+    tinit_time     = 200
+--Precharge command period, integer in nano seconds
+    trp            = 15
+-- Active to read/write, integer in nano seconds
+    trcd           = 15
+--Auto-refresh command period, integer in nano seconds
+    trfc           = 105
+--Write recovery time, integer in nano seconds
+    twr            = 15
+--Active to precharge time, integer in nano seconds
+--		Micron, Samsung = 40
+--		Infineon = 45
+    tras           = 45
+--Load mode register command period, integer in nano seconds
+    tmrd           = 8
+--Write to read command delay, integer in clock cycles
+    twtr           = 2
+
+--MEMORY TIMINGS tab
+--DQS to last DQ valid, integer in pico seconds
+    tDQSQ          =   300
+--Data hold skew factor, integer in pico seconds
+    tQHS           =   400
+--Access window of DQS from CK/CK# +/-, integer in pico seconds
+    tDQSCK         =   450
+--Access window of DQ from CK/CK# +/-, integer in pico seconds
+    tAC            =   500
+--Maximum clock cycle time, integer in pico seconds
+    tCK_MAX        =  8000
+--DQ input setup time, integer in pico seconds
+    tDS            =   100
+--DQ input hold time, integer in pico seconds
+    tDH            =   225
+--Minimum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MIN      =  0.75
+--Maximum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MAX      =  1.25
+
+--These five values are not seen in the wizard directly, but are still required here.
+--Fmax at CAS latency of 5, 4, 3, 2.5 and 2
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+
+--BOARD TIMINGS tab
+--Pin loading on FPGA DQ/DQS pins, integer in pico farads
+    dq_pin_load    = 4
+--Pin loading on FPGA address/command pins, integer in pico farads
+    cmd_pin_load   = 2
+--Pin loading on FPGA clock pins
+    clk_pin_load   = 2
+
+--========================================================================================================
+--added 8-16-05 GKR
+--Top of Paramaterize window, Name displayed in Presets drop down list,text info - only one space allowed
+[Micron MT47H64M16BT-37E]
+--Top of Paramaterize window, this is the text info describing device or DIMM that will appear under the Presets drop down, 50char max
+    description    = Micron 1Gbit x16 DDR2-533 chip
+
+--mem_type determines when the item will be shown in the wizard, valid parameters are:  ddr_sdram, ddr2_sdram
+    mem_type       = ddr2_sdram
+
+--Memory clock speed, Mhz Decimal value to one place [x.x]
+    clock_speed    = 267					
+
+
+--MEMORY SETTINGS,Memory Interface section
+--memory width in bits, integer value
+    width          = 16	
+
+--number of chip selects used by entity, integer value					
+    chipselects    = 1	
+
+--number of clocks used by entity, integer value					
+    clock_pairs    = 1						
+
+--Row address bits, integer value
+    rowbits        = 13
+
+--Column address bits, integer value						
+    colbits        = 10
+
+--number of bank address bits, integer value						
+    bankbits       = 3
+
+--DQ bits per DQS, integer value						
+    dq_per_dqs     = 8
+
+--recharge Address Bit, integer value						
+    pch_bit        = 10
+
+--Dimm registered hot button, 1=registered 0=unregistered or unbuffered memory						
+    reg_dimm       = 0						
+
+
+--Controller Settings, Memory Initialization Options
+--Cas Latency, Decimal [x.x] in clock cycles
+    cas_latency    = 4.0
+				
+	
+--CONTROLLER TIMINGS tab
+-- Refresh command interval, Decimal [x.x] in micro seconds
+    trefi          = 7.8
+
+--Memory initializatoin time, Decimal [x.x] in micro seconds
+    tinit_time     = 200
+
+--Precharge command period, integer in nano seconds
+    trp            = 15
+
+-- Active to read/write, integer in nano seconds
+    trcd           = 15
+
+--Auto-refresh command period, integer in nano seconds
+    trfc           = 75
+
+--Write recovery time, integer in nano seconds
+    twr            = 15
+
+--Active to precharge time, integer in nano seconds
+    tras           = 40
+
+--Load mode register command period, integer in nano seconds
+    tmrd           = 8
+
+--Write to read command delay, integer in clock cycles
+    twtr           = 2
+
+
+--MEMORY TIMINGS tab
+--DQS to last DQ valid, integer in pico seconds
+    tDQSQ          =   300
+
+--Data hold skew factor, integer in pico seconds
+    tQHS           =   400
+
+--Access window of DQS from CK/CK# +/-, integer in pico seconds
+    tDQSCK         =   450
+
+--Access window of DQ from CK/CK# +/-, integer in pico seconds
+    tAC            =   500
+
+--Maxinum clock cycle time, integer in pico seconds
+    tCK_MAX        =  8000
+
+--DQ input setup time, integer in pico seconds
+    tDS            =   100
+
+--DQ input hold time, integer in pico seconds
+    tDH            =   225
+
+--Minimum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MIN      =  0.75
+
+--Maximum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MAX      =  1.25
+
+--These five values are not seen in the wizard directly, but are still required here.
+--Fmax at CAS latency of 5, 4, 3, 2.5 and 2
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+
+
+--BOARD TIMINGS tab
+--Pin loading on FPGA DQ/DQS pins, integer in pico farads
+    dq_pin_load    = 4
+
+--Pin loading on FPGA address/command pins, integer in pico farads
+    cmd_pin_load   = 2
+
+--Pin loading on FPGA clock pins
+    clk_pin_load   = 2
+
+
+--------------------DDR2  DIMMS---------------------
+
+-- ------------------------------------------------------------------------
+-- 11-14-05  Creating 267Mhz DIMM for HSHD testing
+-- RevE GKR 8-23-05 I updated the clock speed to a single precision value.
+-- RevD GKR 8-3-05  I added more space between lines to make it easier to read
+-- This commented template provides details for the individual parameter lines from the PARAMETERIZE tab on the IPToolBench
+-- GKR 7-27-05
+
+
+--Top of Paramaterize window, Name displayed in Presets drop down list,text info - only one space allowed
+[Micron MT9HTF3272AG-53EB3]
+--Top of Paramaterize window, this is the text info describing device or DIMM that will appear under the Presets drop down, 50char max
+    description    = Micron 256MByte DDR2-533 CL4 DIMM
+
+--mem_type determines when the item will be shown in the wizard, valid parameters are:  ddr_sdram, ddr2_sdram
+    mem_type       = ddr2_sdram
+
+--Memory clock speed, Mhz Decimal value to up to 6 places [x.xxxxxxx]
+    clock_speed    = 266.6667					
+
+
+--MEMORY SETTINGS,Memory Interface section
+--memory width in bits, integer value
+    width          = 72	
+
+--number of chip selects used by entity, integer value					
+    chipselects    = 1	
+
+--number of clocks used by entity, integer value					
+    clock_pairs    = 3						
+
+--Row address bits, integer value
+    rowbits        = 13
+
+--Column address bits, integer value						
+    colbits        = 10
+
+--number of bank address bits, integer value						
+    bankbits       = 2
+
+--DQ bits per DQS, integer value						
+    dq_per_dqs     = 8
+
+--recharge Address Bit, integer value						
+    pch_bit        = 10
+
+--Dimm registered hot button, 1=registered 0=unregistered or unbuffered memory						
+    reg_dimm       = 0						
+
+
+--Controller Settings, Memory Initialization Options
+--Cas Latency, Decimal [x.x] in clock cycles
+    cas_latency    = 4.0
+				
+	
+--CONTROLLER TIMINGS tab
+-- Refresh command interval, Decimal [x.x] in micro seconds
+    trefi          = 7.8
+
+--Memory initialization time, Decimal [x.x] in micro seconds
+    tinit_time     = 200
+
+--Precharge command period, integer in nano seconds
+    trp            = 15
+
+-- Active to read/write, integer in nano seconds
+    trcd           = 15
+
+--Auto-refresh command period, integer in nano seconds
+    trfc           = 75
+
+--Write recovery time, integer in nano seconds
+    twr            = 15
+
+--Active to precharge time, integer in nano seconds
+    tras           = 40
+
+--Load mode register command period, integer in nano seconds
+    tmrd           = 8
+
+--Write to read command delay, integer in clock cycles
+    twtr           = 2
+
+
+--MEMORY TIMINGS tab
+--DQS to last DQ valid, integer in pico seconds
+    tDQSQ          =   300
+
+--Data hold skew factor, integer in pico seconds
+    tQHS           =   400
+
+--Access window of DQS from CK/CK# +/-, integer in pico seconds
+    tDQSCK         =   450
+
+--Access window of DQ from CK/CK# +/-, integer in pico seconds
+    tAC            =   500
+
+--Maxinum clock cycle time, integer in pico seconds
+    tCK_MAX        =  8000
+
+--DQ input setup time(tDSb), integer in pico seconds
+-- changing to (tDSa) 1/31/06  was 100ps
+    tDS            =   350
+
+--DQ input hold time(tDHb), integer in pico seconds
+-- changing to (tDHa) 1/31/06 was 225ps
+    tDH            =   350
+
+--Minimum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MIN      =  0.75
+
+--Maximum write command to first DQS transition, decimal [x.xx] in clock cycles
+    tDQSS_MAX      =  1.25
+
+--These five values are not seen in the wizard directly, but are still required here.
+--Fmax at CAS latency of 5, 4, 3, 2.5 and 2
+    fmax_at_cl5    =   0
+    fmax_at_cl4    =   267
+    fmax_at_cl3    =   200
+    fmax_at_cl25   =   0
+    fmax_at_cl2    =   0
+
+
+--BOARD TIMINGS tab
+-- GKR  these were copied from MT9HTF3272AG-40EB3 not present on -53EB3 sheet
+--Pin loading on FPGA DQ/DQS pins, integer in pico farads
+    dq_pin_load    = 4
+
+--Pin loading on FPGA address/command pins, integer in pico farads
+    cmd_pin_load   = 24
+
+--Pin loading on FPGA clock pins
+    clk_pin_load   = 10
+
+
+

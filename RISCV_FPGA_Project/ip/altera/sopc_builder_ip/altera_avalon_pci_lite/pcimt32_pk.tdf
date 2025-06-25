@@ -1,0 +1,515 @@
+-- File Name: pcimt32_pk.tdf
+-- Function     : This design will take care of all parity checking operation
+-- Author       : Ziad M. Abu-Lebdeh
+-- Rev History
+--      2/98    Initial Entry
+--
+
+DEFINE PCI_FAMILY_STRATIXII()		= (((DEVICE_FAMILY == "STRATIX II" ) OR (DEVICE_FAMILY == "HardCopy II" ) ) ? 1 : 0);     
+DEFINE PCI_FAMILY_CYCLONE()		= ((DEVICE_FAMILY == "CYCLONE")  ? 1 : 0);  
+include "aglobal.inc";
+--include "pcimt32.inc";
+ 
+PARAMETERS
+        (  PCI_32            = "YES",
+           VERBOSE           = "NO",
+           P2P_BRIDGE        = "NO",
+           PRIMARY_INTERFACE = "YES"
+        );      
+
+SUBDESIGN 'pcimt32_pk'
+(
+           clk                     : INPUT;        -- PCI clk Input
+           rstn                    : INPUT;        -- PCI rstn Input
+           par                     : INPUT;        -- PCI par signal
+           trg_64_trans_out        : INPUT = GND;
+           mstr_64_trans_out       : INPUT = GND;
+           low_ad_IR_addr[31..0]   : INPUT = GND;  -- PCI AD Bus Input Registers
+           low_cben_IR_addr[3..0]  : INPUT = GND;  -- PCI CBEN Bus Input Registers 
+           low_ad_IR[31..0]        : INPUT = GND;  -- PCI AD Bus Input Registers
+           low_cben_IR[3..0]       : INPUT = GND;  -- PCI CBEN Bus Input Registers
+           par64                   : INPUT = GND;  -- PCI par signal
+           high_ad_IR[31..0]       : INPUT = GND;  -- PCI AD Bus Input Registers
+           high_cben_IR[3..0]      : INPUT = GND;  -- PCI CBEN Bus Input Registers
+           sec_perr_ena            : INPUT = GND;  -- Configuration Command Register Parity Enable
+           sec_serr_ena            : INPUT = GND;  -- Configuration Command Register System Error Enable
+           prim_perr_ena           : INPUT = GND;  -- Configuration Command Register Parity Enable
+           prim_serr_ena           : INPUT = GND;  -- Configuration Command Register System Error Enable
+           perr_ena                : INPUT = GND;  -- Configuration Command Register Parity Enable
+           serr_ena                : INPUT = GND;  -- Configuration Command Register System Error Enable
+           mstr_perr_vld           : INPUT = GND;  -- Master Data Parity error valid
+           targ_perr_vld           : INPUT = GND;  -- Target Data Parity error Valid
+           targ_serr_vld           : INPUT = GND;  -- Target System Error valid
+           sec_serr_in             : INPUT = GND;
+           serr_in                 : INPUT = GND;
+                                   
+           perr_det_set            : OUTPUT;       -- PERR Detect Set, Config Status Register Bit 15 Set
+           serr_sig_set            : OUTPUT;       -- System Error Signaled Set
+           perr_out                : OUTPUT;       -- Parity Error Output
+           serr_out                : OUTPUT;       -- System Error Output
+                                        
+)                               
+
+VARIABLE
+---- P2P_BRIDGE variables ----------------------------------------------------
+        IF (P2P_BRIDGE == "YES") GENERATE
+                IF (PRIMARY_INTERFACE == "NO") GENERATE
+                        sec_serr_in_vld         : DFFE;
+                END GENERATE;
+        END GENERATE;   
+------------------------------------------------------------------------------
+
+---- PERR Detected -----------------------------------------------------------
+        perr_det_setR_r1                        : DFFE;         -- Parity Error Detect Set SR15 Set
+        IF (PCI_32 == "NO") GENERATE
+                perr_det_setR_r2                : DFFE;         -- Parity Error Detect Set SR15 Set
+        END GENERATE;
+        perr_det_setR_r3                        : DFFE;         -- Parity Error Detect Set SR15 Set
+        
+        perr_det_setR_r1_d                      : NODE;         -- Parity Error Detect Set SR15 Set
+        IF (PCI_32 == "NO") GENERATE
+                perr_det_setR_r2_d              : NODE;         -- Parity Error Detect Set SR15 Set
+        END GENERATE;
+        perr_det_setR_r3_d                      : NODE;         -- Parity Error Detect Set SR15 Set
+        perr_det_setR                           : NODE;
+------------------------------------------------------------------------------
+
+---- XOR tree ----------------------------------------------------------------
+        xor_chk_out                             : NODE;         -- Parity Checker XOR Tree Output
+        IF (PCI_32 == "NO") GENERATE
+                xor_chk_out64                   : NODE;         -- Parity Checker XOR Tree Output
+        END GENERATE;   
+        xor_chk_outad                           : NODE;         -- Parity Checker XOR Tree Output
+        
+        xxlad[11..0]                            : LCELL;                        -- Intermediate XOR Gates
+        xxl[11..0]                              : LCELL;                        -- Intermediate XOR Gates
+        IF (PCI_32 == "NO") GENERATE
+                xxh[11..0]                      : LCELL;                        -- Intermediate XOR Gates
+        END GENERATE;
+-------------------------------------------------------------------------------
+        
+---- perr_or variables ---------------------------------------------------------        
+        
+
+        perr_or                                 : NODE;         -- Perr Output Register
+        perr_or_not                             : DFFE;         -- Perr Output Register         
+        perr_or_not_d                           : NODE;         
+        
+        IF (PCI_32 == "NO") GENERATE
+            IF (P2P_BRIDGE == "YES") GENERATE
+                    perr_or_carry               :NODE;
+            ELSE GENERATE                       
+                    perr_or_cascade             :NODE;
+            END GENERATE;
+                                
+        END GENERATE;
+                        
+        
+        perr_or_not_lc1                         : NODE;
+        IF (PCI_32 == "NO") GENERATE
+                perr_or_not_lc2                 : NODE;
+                perr_or_not_lc3                 : NODE;
+        END GENERATE;
+---------------------------------------------------------------------------------       
+        
+---- serr_or variables ----------------------------------------------------------       
+        serr_or_d                               : NODE;
+        serr_or                                 : DFFE;         -- Serr Output Register
+        serr_or_lc                              : NODE;
+        
+        serr_or_fb                              : DFFE;
+        
+        serr_or_d_fb                            : NODE;
+---------------------------------------------------------------------------------
+
+---- PAR ERROR variables --------------------------------------------------------
+        par_error_serr                          : NODE;         -- Par error detected
+
+        par_error                               : NODE;
+        IF (PCI_32 == "NO") GENERATE
+                par_error64                     : NODE;
+        END GENERATE;
+---------------------------------------------------------------------------------
+
+        no_op[31..0]                            : NODE;
+        
+BEGIN
+        
+        Assert (VERBOSE == "NO") report " PCI Parity Checker Module $Revision: 1.3 $, $JustDate:  1/23/03 $"
+        severity INFO;
+        
+
+        no_op0 = no_op0 or sec_serr_in or sec_serr_ena or sec_perr_ena or serr_in or prim_perr_ena      
+                                        OR par64;
+        no_op[3..0]     = no_op[3..0] OR high_cben_IR[3..0];
+        no_op[31..0]    = no_op[31..0] OR high_ad_IR[31..0];
+        -- Parity generation equations for the lower data
+        xxlad0 = low_ad_IR_addr0 $ low_ad_IR_addr1 $ low_ad_IR_addr2 $ low_ad_IR_addr3;
+        xxlad1 = low_ad_IR_addr4 $ low_ad_IR_addr5 $ low_ad_IR_addr6 $ low_ad_IR_addr7;
+        xxlad2 = low_ad_IR_addr8 $ low_ad_IR_addr9 $ low_ad_IR_addr10 $ low_ad_IR_addr11;
+        xxlad3 = low_ad_IR_addr12 $ low_ad_IR_addr13 $ low_ad_IR_addr14 $ low_ad_IR_addr15;
+        xxlad4 = low_ad_IR_addr16 $ low_ad_IR_addr17 $ low_ad_IR_addr18 $ low_ad_IR_addr19;
+        xxlad5 = low_ad_IR_addr20 $ low_ad_IR_addr21 $ low_ad_IR_addr22 $ low_ad_IR_addr23;
+        xxlad6 = low_ad_IR_addr24 $ low_ad_IR_addr25 $ low_ad_IR_addr26 $ low_ad_IR_addr27;
+        xxlad7 = low_ad_IR_addr28 $ low_ad_IR_addr29 $ low_ad_IR_addr30 $ low_ad_IR_addr31;
+        xxlad8 = low_cben_IR_addr0 $ low_cben_IR_addr1 $ low_cben_IR_addr2 $ low_cben_IR_addr3;
+        xxlad9 = xxlad0 $ xxlad1 $ xxlad2 $ xxlad3;
+        xxlad10 = xxlad4 $ xxlad5 $ xxlad6 $ xxlad7;
+        xxlad11 = xxlad8 $ xxlad9 $ xxlad10;
+        xor_chk_outad = xxlad11 ;
+
+
+        -- Parity generation equations for the lower data
+        xxl0 = low_ad_IR0 $ low_ad_IR1 $ low_ad_IR2 $ low_ad_IR3;
+        xxl1 = low_ad_IR4 $ low_ad_IR5 $ low_ad_IR6 $ low_ad_IR7;
+        xxl2 = low_ad_IR8 $ low_ad_IR9 $ low_ad_IR10 $ low_ad_IR11;
+        xxl3 = low_ad_IR12 $ low_ad_IR13 $ low_ad_IR14 $ low_ad_IR15;
+        xxl4 = low_ad_IR16 $ low_ad_IR17 $ low_ad_IR18 $ low_ad_IR19;
+        xxl5 = low_ad_IR20 $ low_ad_IR21 $ low_ad_IR22 $ low_ad_IR23;
+        xxl6 = low_ad_IR24 $ low_ad_IR25 $ low_ad_IR26 $ low_ad_IR27;
+        xxl7 = low_ad_IR28 $ low_ad_IR29 $ low_ad_IR30 $ low_ad_IR31;
+        xxl8 = low_cbeN_IR0 $ low_cbeN_IR1 $ low_cbeN_IR2 $ low_cbeN_IR3;
+        xxl9 = xxl0 $ xxl1 $ xxl2 $ xxl3;
+        xxl10 = xxl4 $ xxl5 $ xxl6 $ xxl7;
+        xxl11 = xxl8 $ xxl9 $ xxl10;
+        xor_chk_out = xxl11 ;
+
+        -- Parity generation equations for the upper data
+        IF (PCI_32 == "NO") GENERATE
+                xxh0 = high_ad_IR0 $ high_ad_IR1 $ high_ad_IR2 $ high_ad_IR3;
+                xxh1 = high_ad_IR4 $ high_ad_IR5 $ high_ad_IR6 $ high_ad_IR7;
+                xxh2 = high_ad_IR8 $ high_ad_IR9 $ high_ad_IR10 $ high_ad_IR11;
+                xxh3 = high_ad_IR12 $ high_ad_IR13 $ high_ad_IR14 $ high_ad_IR15;
+                xxh4 = high_ad_IR16 $ high_ad_IR17 $ high_ad_IR18 $ high_ad_IR19;
+                xxh5 = high_ad_IR20 $ high_ad_IR21 $ high_ad_IR22 $ high_ad_IR23;
+                xxh6 = high_ad_IR24 $ high_ad_IR25 $ high_ad_IR26 $ high_ad_IR27;
+                xxh7 = high_ad_IR28 $ high_ad_IR29 $ high_ad_IR30 $ high_ad_IR31;
+                xxh8 = high_cbeN_IR0 $ high_cbeN_IR1 $ high_cbeN_IR2 $ high_cbeN_IR3;
+                xxh9 = xxh0 $ xxh1 $ xxh2 $ xxh3;
+                xxh10 = xxh4 $ xxh5 $ xxh6 $ xxh7;
+                xxh11 = xxh8 $ xxh9 $ xxh10;
+                xor_chk_out64 = xxh11 ;
+        END GENERATE;
+
+        --      par error is detectd when output of xor tree and par are different
+
+        --      You can avoid the CASCADE chain by replicating the logic and doing the AND gate implementation
+        --      before the XOR ie with the output of xor_36. This is wherever par_error is used.
+
+        par_error                       = (xor_chk_out xor par);
+        IF (PCI_32 == "NO") GENERATE
+                par_error64             = (xor_chk_out64 xor par64);    
+        END GENERATE;
+
+        par_error_serr          = (xor_chk_outad xor par);
+
+
+        IF (P2P_BRIDGE == "YES") GENERATE
+                IF (PRIMARY_INTERFACE == "YES") GENERATE
+                        -- Parity error Output is set when either master or target detected a parity error
+                        -- and parity error reporting is enabled in the Config Command Register.
+                        --
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and ((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)) and perr_ena);
+                                
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and perr_ena and (mstr_perr_vld  and mstr_64_trans_out) )
+                        --                              OR      (par_error64 and perr_ena and (targ_perr_vld and trg_64_trans_out) );                   
+        
+                        IF (PCI_32 == "NO") GENERATE
+                                
+                                        perr_or_not.clk = clk;
+                                        perr_or_not.prn = rstn;
+                                        perr_or_not_lc1 = LCELL( (mstr_perr_vld or targ_perr_vld) and prim_perr_ena);
+                                        perr_or_not_lc2 = LCELL(prim_perr_ena and mstr_perr_vld  and mstr_64_trans_out );
+                                        perr_or_not_lc3 = LCELL(prim_perr_ena and targ_perr_vld and trg_64_trans_out);
+                                        perr_or_carry   =       perr_or_not_lc2 OR perr_or_not_lc3;
+                                        perr_or_not_d   = LCELL(        not (   par_error and perr_or_not_lc1 )
+                                                                                                and not (par_error64 and perr_or_carry)
+                                                                                                );
+                                        perr_or_not.d   = perr_or_not_d;
+                                        perr_or                 = perr_or_not;                  
+                                        perr_out                = perr_or;
+
+                                
+                                                                                                
+                        ELSE GENERATE   
+                                perr_or_not.clk         = clk;
+                                perr_or_not.clrn        = rstn; 
+                                perr_or_not_lc1         = LCELL( (mstr_perr_vld or targ_perr_vld) and prim_perr_ena);                           
+                                perr_or_not_d           = (par_error and perr_or_not_lc1);
+                                perr_or_not.d           = perr_or_not_d;
+                                perr_or                         = perr_or_not;                          
+                                perr_out                        = perr_or;                                      
+                        END GENERATE;                                   
+                                                                                
+                                                   
+
+                        --      System error is asserted if a target address phase detected a parity error and 
+                        --      both perr reporting and serr reporting are set
+        
+                        -- If the interface is primary, then serr can be asserted in one of the following conditions
+                        -- Address Parity error in the Primary side (perr_ena (cmd6), serr_ena(cmd 8) are set)
+                        -- Address Parity error in the Secondary Side (serr_ena(cmd8), serr_ena(ctrl 1), perr_ena(ctrl 0) are set)
+                        -- Serr is asserted on the secondary side( serr_ena (ctrl 1) serr_ena(cmd 8) are set
+                        -- In all cases the primary must set the serr_sig bit.
+                        -- Notice that on page 95 of p2p Spec 1.1 Sec 6.2 Para 2.  Indicates that primary and secondary
+                        -- parity enable bits must be set coherently.  This indicates that both enable bits on both     
+                        -- sides should be set at the same time.  At this time I am not taking advantage of that
+                        -- for timing optimization that needs to be taken into consideration.
+        
+                        serr_or.clk   = clk;
+                        serr_or.clrn  = rstn;
+                        serr_or_lc    = LCELL(targ_serr_vld and prim_serr_ena and prim_perr_ena);
+                        serr_or_d     = LCELL( (serr_or_lc and par_error_serr)
+                                                                                        OR sec_serr_in);
+                        serr_or.d     = serr_or_d;
+                        serr_out      = serr_or; 
+                        serr_or_d_fb  = LCELL( ( (serr_or_lc and par_error_serr)
+                                                    OR sec_serr_in) );
+                        serr_or_fb.clk  = clk;
+                        serr_or_fb.clrn = rstn;
+                        serr_or_fb      = serr_or_d_fb;
+                        serr_sig_set    = serr_or_fb;
+                            
+                                
+                        
+                        ------------------------------------------------------------------------------------------------
+                        --------------  REGISTER-OR OPTIMIZATION  -----------------------------------------------------
+
+--                    
+                        perr_det_setR_r1.clk  = clk;
+                        perr_det_setR_r1.clrn = rstn;
+                        perr_det_setR_r1_d    = (par_error and (mstr_perr_vld or targ_perr_vld));
+                        perr_det_setR_r1.d    = perr_det_setR_r1_d;
+
+                        IF (PCI_32 == "NO") GENERATE
+                           perr_det_setR_r2.clk  = clk;
+                           perr_det_setR_r2.clrn = rstn;
+                           perr_det_setR_r2_d    = (par_error64 and LCELL((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)));
+                           perr_det_setR_r2.d    = perr_det_setR_r2_d;
+                        END GENERATE;
+
+                        perr_det_setR_r3.clk    = clk;
+                        perr_det_setR_r3.clrn   = rstn;
+                        perr_det_setR_r3_d              = (targ_serr_vld and par_error_serr);
+                        perr_det_setR_r3.d              = perr_det_setR_r3_d;
+
+                        IF (PCI_32 == "NO") GENERATE
+                           perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r2 or  perr_det_setR_r3;
+                        ELSE GENERATE
+                           perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r3;
+                        END GENERATE;   
+                        
+                        perr_det_set  = perr_det_setR;
+
+
+
+-- SECONDARY INERFACE  for PCI-to-PCI bridge
+                ELSE GENERATE -- SECONDARY INTERFACE for PCI-to-PCI bridge
+                
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and ((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)) and perr_ena);
+                                
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and perr_ena and (mstr_perr_vld  and mstr_64_trans_out) )
+                        --                              OR      (par_error64 and perr_ena and (targ_perr_vld and trg_64_trans_out) );                   
+
+                                                
+                        IF (PCI_32 == "NO") GENERATE
+                                
+                            perr_or_not.clk  = clk;
+                            perr_or_not.prn  = rstn;
+                            perr_or_not_lc1  = LCELL( (mstr_perr_vld or targ_perr_vld) and sec_perr_ena);
+                            perr_or_not_lc2  = LCELL(sec_perr_ena and mstr_perr_vld  and mstr_64_trans_out );
+                            perr_or_not_lc3  = LCELL(sec_perr_ena and targ_perr_vld and trg_64_trans_out);
+                            perr_or_carry    =       perr_or_not_lc2 OR perr_or_not_lc3;
+                            perr_or_not_d    = LCELL( not ( par_error and perr_or_not_lc1 )
+                                                        and not (par_error64 and perr_or_carry)
+                                                      );
+                                        
+                                        
+                            perr_or_not.d    = perr_or_not_d;                                                                
+                            perr_or          = perr_or_not;                          
+                            perr_out         = perr_or;
+                -- PCI_32 == "YES"              
+                        ELSE GENERATE
+                            perr_or_not.clk  = clk;
+                            perr_or_not.clrn = rstn; 
+                            perr_or_not_lc1  = LCELL( (mstr_perr_vld or targ_perr_vld) and sec_perr_ena);
+                            perr_or_not_d    = (par_error and perr_or_not_lc1  );
+                            perr_or_not.d    = perr_or_not_d;
+                            perr_or          = perr_or_not;                          
+                            perr_out         = perr_or;
+                        END GENERATE;                                   
+                                        
+                                                
+                        
+                        -- Secondary System Error Input Valid
+                        -- Since the time when the serrn is asserted on the primary side with respect to the time when it was asserted
+                        -- on the secondary side, I am adding a register to ensure that timing is met when adding it to the serr_or
+                        sec_serr_in_vld.clk  = clk;
+                        sec_serr_in_vld.clrn = rstn;
+                        sec_serr_in_vld      = serr_in and sec_serr_ena and prim_serr_ena;
+                        
+                        --      System error is asserted if a target address phase detected a parity error and 
+                        --      both perr reporting and serr reporting are set
+
+                        -- If the interface is primary, then serr can be asserted in one of the following conditions
+                        -- Address Parity error in the Primary side (perr_ena (cmd6), serr_ena(cmd 8) are set)
+                        -- Address Parity error in the Secondary Side (serr_ena(cmd8), serr_ena(ctrl 1), perr_ena(ctrl 0) are set)
+                        -- Serr is asserted on the secondary side( serr_ena (ctrl 1) serr_ena(cmd 8) are set
+                        -- In all cases the primary must set the serr_sig bit.
+                        -- Notice that on page 95 of p2p Spec 1.1 Sec 6.2 Para 2.  Indicates that primary and secondary
+                        -- parity enable bits must be set coherently.  This indicates that both enable bits on both
+                        -- sides should be set at the same time.  At this time I am not taking advantage of that        
+                        -- for timing optimization that needs to be taken into consideration.
+        
+                        serr_or.clk    = clk;
+                        serr_or.clrn   = rstn;
+                        serr_or_lc     = LCELL(targ_serr_vld and sec_serr_ena and sec_perr_ena and prim_serr_ena);     
+                        serr_or_d      = LCELL( (serr_or_lc and par_error_serr)
+                                                         OR      sec_serr_in_vld);
+                        serr_or.d      = serr_or_d;                                    
+                        serr_out       = serr_or;
+                         
+                        serr_or_fb.clk   = clk;
+                        serr_or_fb.clrn  = rstn;
+                        serr_or_d_fb     = LCELL(( (serr_or_lc and par_error_serr)
+                                               OR      sec_serr_in_vld));
+                        serr_or_fb       = serr_or_d_fb;
+                        serr_sig_set     = serr_or_fb;
+                                
+        
+                
+                        ----------  CASCADE OPTIMIZATION -------------------------------------------------------------  
+
+                        ------------------------------------------------------------------------------------------------
+
+                        --------------  REGISTER-OR OPTIMIZATION  -----------------------------------------------------
+                   
+                        perr_det_setR_r1.clk    = clk;
+                        perr_det_setR_r1.clrn   = rstn;
+                        perr_det_setR_r1_d      = (par_error and (mstr_perr_vld or targ_perr_vld));
+                        perr_det_setR_r1.d      = perr_det_setR_r1_d;
+        
+                        IF (PCI_32 == "NO") GENERATE
+                           perr_det_setR_r2.clk  = clk;
+                           perr_det_setR_r2.clrn = rstn;
+                           perr_det_setR_r2_d    = (par_error64 and LCELL((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)));
+                           perr_det_setR_r2.d    = perr_det_setR_r2_d;
+                        END GENERATE;
+
+                        perr_det_setR_r3.clk  = clk;
+                        perr_det_setR_r3.clrn = rstn;
+                        perr_det_setR_r3_d    = (targ_serr_vld and par_error_serr);
+                        perr_det_setR_r3.d    = perr_det_setR_r3_d;
+
+                        IF (PCI_32 == "NO") GENERATE
+                           perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r2 or  perr_det_setR_r3;
+                        ELSE GENERATE
+                           perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r3;
+                        END GENERATE;   
+                        
+                        perr_det_set  = perr_det_setR;
+        
+                END GENERATE; -- END OF SECONDARY INTERFACE
+
+---- P2P_BRIDGE == "NO" ---------------------------
+        ELSE GENERATE -- P2P_BRIDGE == "NO"
+                IF (PCI_32 == "NO") GENERATE            
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and ((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)) and perr_ena);                                        
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)   
+                        --                              OR      (par_error64 and perr_ena and (mstr_perr_vld  and mstr_64_trans_out) )
+                        --                              OR      (par_error64 and perr_ena and (targ_perr_vld and trg_64_trans_out) );                   
+                        perr_or_not_lc1 = LCELL( (mstr_perr_vld or targ_perr_vld) and perr_ena);
+                        perr_or_not_lc2 = LCELL(perr_ena and mstr_perr_vld  and mstr_64_trans_out );
+                        perr_or_not_lc3 = LCELL(perr_ena and targ_perr_vld and trg_64_trans_out);
+                        
+                        perr_or_not.clk = clk;
+                        perr_or_not.prn = rstn; 
+                                
+                        perr_or_cascade = LCELL(not  (par_error64 and ( perr_or_not_lc2 OR  perr_or_not_lc3)));
+                        perr_or_not_d   = LCELL((not par_error or not perr_or_not_lc1) and perr_or_cascade);
+                                                                                                        
+
+                                -- IOE register feeds to pin
+                                -- perr_or does not feedback to logic, like irdyn, stopn, etc. 
+                         perr_or_not.d   = perr_or_not_d;
+                         perr_or         = perr_or_not;
+                         perr_out        = perr_or;
+                                
+                        
+                ---- PCI_32 == "YES" -------------------------------------                                                                                              
+                ELSE GENERATE                   
+                        perr_or_not.clk  = clk;
+                        perr_or_not.clrn = rstn; 
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)
+                        --                              OR      (par_error64 and ((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)) and perr_ena);                                
+                        --      perr_or                 =       (par_error and (mstr_perr_vld or targ_perr_vld) and perr_ena)   
+                        --                              OR      (par_error64 and perr_ena and (mstr_perr_vld  and mstr_64_trans_out) )
+                        --                              OR      (par_error64 and perr_ena and (targ_perr_vld and trg_64_trans_out) );                   
+                                        
+                        perr_or_not_lc1 = LCELL( (mstr_perr_vld or targ_perr_vld) and perr_ena);        
+                        perr_or_not_d   = LCELL(par_error and perr_or_not_lc1);                                                                         
+                        perr_or_not     = perr_or_not_d;
+                        perr_or         = perr_or_not;                                  
+                        perr_out        = perr_or;
+                END GENERATE;   
+                                        
+                              
+        
+                --      System error is asserted if a target address phase detected a parity error and 
+                --      both perr reporting and serr reporting are set
+                serr_or.clk     = clk;
+                serr_or.clrn    = rstn;
+                serr_or_lc      = LCELL(targ_serr_vld and serr_ena and perr_ena);
+                serr_or_d       = LCELL(serr_or_lc and par_error_serr);
+                serr_or.d       = serr_or_d;
+                serr_out        = serr_or; 
+                serr_or_d_fb    = LCELL(serr_or_lc and par_error_serr);
+                serr_or_fb.clk  = clk;
+                serr_or_fb.clrn = rstn;
+                serr_or_fb      = serr_or_d_fb;
+                serr_sig_set    = serr_or_fb;
+                
+                
+                --      perr_det_setR is a register to remove par from the path.
+                --      perr det bit in status regsiter must be set when a parity error is detected even 
+                --      if the parity error reporting is not enabled in the command register
+
+                ----------  CASCADE OPTIMIZATION -------------------------------------------------------------  
+                ------------------------------------------------------------------------------------------------
+
+                --------------  REGISTER-OR OPTIMIZATION  -----------------------------------------------------
+
+                perr_det_setR_r1.clk  = clk;
+                perr_det_setR_r1.clrn = rstn;
+                perr_det_setR_r1_d    = (par_error and (mstr_perr_vld or targ_perr_vld));
+                perr_det_setR_r1.d    = perr_det_setR_r1_d;
+
+                IF (PCI_32 == "NO") GENERATE
+                   perr_det_setR_r2.clk  = clk;
+                   perr_det_setR_r2.clrn = rstn;
+                   perr_det_setR_r2_d    = (par_error64 and LCELL((mstr_perr_vld  and mstr_64_trans_out) or (targ_perr_vld and trg_64_trans_out)));
+                   perr_det_setR_r2.d    = perr_det_setR_r2_d;
+                END GENERATE;
+
+                perr_det_setR_r3.clk  = clk;
+                perr_det_setR_r3.clrn = rstn;
+                perr_det_setR_r3_d    = (targ_serr_vld and par_error_serr);
+                perr_det_setR_r3.d    = perr_det_setR_r3_d;
+
+                IF (PCI_32 == "NO") GENERATE
+                   perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r2 or  perr_det_setR_r3;
+                ELSE GENERATE
+                   perr_det_setR =  perr_det_setR_r1 or  perr_det_setR_r3; 
+                END GENERATE;
+                
+                perr_det_set  = perr_det_setR;
+
+        END GENERATE;
+
+END;
+

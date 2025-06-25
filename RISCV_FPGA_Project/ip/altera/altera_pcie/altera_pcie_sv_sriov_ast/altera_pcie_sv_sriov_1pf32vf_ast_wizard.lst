@@ -1,0 +1,11 @@
+[Interfaces|PCI Express]
+Stratix V PCI Express SR-IOV Bridge v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_pcie_sv_sriov_1pf32vf_ast_hw.tcl" --wizard:altera_pcie_sv_sriov_1pf32vf_ast --familyparameter:device_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="OFF"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<ALIAS>Stratix V PCI Express SRIOV Bridge v13.1</ALIAS>
+</INFO>
+

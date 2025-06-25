@@ -1,0 +1,13 @@
+[Interfaces|ASI]
+ASI v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/ip_toolbench/asi.jar" --wizard:ASI --familyParameter:devicefamily %f %o %h 
+<INFO>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<QIP_FILE_ENABLED VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix IV | Stratix III | Stratix II GX | Stratix II | Stratix GX | Stratix | Arria GX | Arria II GX | Arria II GZ | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III | Cyclone II | Cyclone"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>ASI v13.0</ALIAS>
+
+<ALIAS> ASI v12.1</ALIAS>
+<ALIAS> ASI v13.0</ALIAS>
+</INFO>

@@ -1,0 +1,83 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this
+-- file for any purpose do so at their own risk, and are responsible for
+-- the results of such use.  Altera Corporation does not guarantee that
+-- this file is complete, correct, or fit for any particular purpose.
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information I/O standard for the all supported devices
+-- It will describe:
+--  - which pin will get an assignment
+--  - name mapping for some pins
+--  - width of buses
+-- It will be used by the constraint script to apply all constraints to each
+-- pin and any logic related to that pin.
+-- -------------------------------------------------------------------------
+
+-- $Revision: #1 $
+
+
+-- *************************************************************************
+--
+--                             PLEASE DO NOT EDIT
+--
+-- *************************************************************************
+--list 	fast_output_reg_pin_list 		=	read_enable_n_pin_name write_enable_n_pin_name address_pin_name byte_enable_n_pin_name
+list 	hstl_18_pin_list 				=	read_enable_n_pin_name write_enable_n_pin_name address_pin_name byte_enable_n_pin_name q_pin_name cq_pin_name cqn_pin_name d_pin_name qvld_pin_name
+list 	hstl_15_pin_list 				=	read_enable_n_pin_name write_enable_n_pin_name address_pin_name byte_enable_n_pin_name q_pin_name cq_pin_name cqn_pin_name d_pin_name qvld_pin_name
+list 	clk_hstl_18_pin_list 			=	clock_pos_pin_name clock_neg_pin_name
+list 	diff_clk_hstl_18_pin_list 				=	clock_pos_pin_name clock_neg_pin_name
+list 	clk_hstl_15_pin_list 			=	clock_pos_pin_name clock_neg_pin_name
+list 	diff_clk_hstl_15_pin_list 				=	clock_pos_pin_name clock_neg_pin_name
+list	cut_timing_path					= 	cq_pin_name cqn_pin_name
+list 	dq_output_pin_cap_load_list		= 	d_pin_name
+list 	cmd_output_pin_cap_load_list	= 	read_enable_n_pin_name write_enable_n_pin_name address_pin_name byte_enable_n_pin_name
+list 	clk_output_pin_cap_load_list			= clock_pos_pin_name clock_neg_pin_name
+list 	diff_clk_output_pin_cap_load_list	= clock_pos_pin_name clock_neg_pin_name
+
+list  input_pin	= q_pin_name qvld_pin_name
+list  inout_pin	= cq_pin_name cqn_pin_name
+list  output_pin	= read_enable_n_pin_name write_enable_n_pin_name address_pin_name byte_enable_n_pin_name d_pin_name
+list  clock_output_pin	= clock_pos_pin_name clock_neg_pin_name
+list  diff_clock_output_pin							= clock_pos_pin_name clock_neg_pin_name
+
+
+width 	address_pin_name 				= 	memory_address_width
+width	q_pin_name						= 	memory_data_width / num_chips_wide
+width	d_pin_name						= 	memory_data_width / num_chips_wide
+width	cq_pin_name						= 	1
+width	cqn_pin_name					= 	1
+width	qvld_pin_name					= 	1
+width 	clock_pos_pin_name 				= 	num_output_clocks
+width 	clock_neg_pin_name				= 	num_output_clocks
+width	byte_enable_n_pin_name			=   memory_data_width / 8
+
+
+map_name address_pin_name 				= 	a
+map_name q_pin_name 					= 	q
+map_name d_pin_name 					= 	d
+map_name cq_pin_name 					= 	cq
+map_name cqn_pin_name 					= 	cqn
+map_name qvld_pin_name 					= 	qvld
+map_name clock_pos_pin_name 			= 	k
+map_name clock_neg_pin_name 			= 	kn
+map_name clockfeedback_in_pin_name		= 	clk_fedback
+map_name write_enable_n_pin_name 		= 	wpsn
+map_name read_enable_n_pin_name 		= 	rpsn
+map_name byte_enable_n_pin_name 		=   bwsn
+
+numb_if address_pin_name 				= 	num_chips_wide num_chips_deep
+numb_if q_pin_name 						= 	num_chips_wide
+numb_if d_pin_name 						= 	num_chips_wide
+numb_if cq_pin_name 					= 	num_chips_wide
+numb_if cqn_pin_name 					= 	num_chips_wide
+numb_if qvld_pin_name 					= 	num_chips_wide
+numb_if write_enable_n_pin_name 		= 	num_chips_wide num_chips_deep
+numb_if read_enable_n_pin_name 			= 	num_chips_wide num_chips_deep
+numb_if byte_enable_n_pin_name 			=   num_chips_wide num_chips_deep
+
+

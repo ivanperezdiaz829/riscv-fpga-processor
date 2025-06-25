@@ -1,0 +1,17 @@
+[Interfaces|CPRI]
+CPRI v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_cpri_hw.tcl" --early_gen:on --cusp_ip:true --familyParameter:DEVICEFAMILY --wizard:altera_cpri  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix IV | Arria II GX | HardCopy IV | Cyclone IV GX | Arria II GZ | Arria V | Stratix V | Cyclone V | Arria V GZ" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>CPRI v13.0</ALIAS>
+<ALIAS>CPRI v12.1</ALIAS>
+<ALIAS>CPRI v12.0</ALIAS>
+<ALIAS>CPRI v11.1</ALIAS>
+<ALIAS>CPRI v11.0</ALIAS>
+<ALIAS>CPRI v10.1</ALIAS>
+<ALIAS>CPRI v10.0</ALIAS>
+<ALIAS>CPRI v9.1</ALIAS>
+</INFO>

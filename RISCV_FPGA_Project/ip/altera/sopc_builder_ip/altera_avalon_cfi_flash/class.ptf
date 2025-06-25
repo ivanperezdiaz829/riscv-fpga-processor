@@ -1,0 +1,929 @@
+CLASS altera_avalon_cfi_flash
+{
+  SDK_GENERATION 
+  {
+    SDK_FILES 0
+    {
+      cpu_architecture = "always";
+      sdk_files_dir = "sdk";
+      c_header_file = "sdk/am29lv065d_flash_struct.h";
+    }
+  }
+  ASSOCIATED_FILES 
+  {
+    Add_Program = "default";
+    Edit_Program = "default";
+    Generator_Program = "cfi_flash.pl";
+  }
+  MODULE_DEFAULTS 
+  {
+    class = "altera_avalon_cfi_flash";
+    class_version = "7.08131";
+    iss_model_name = "altera_avalon_flash";
+    HDL_INFO 
+    {
+    }
+    SLAVE s1
+    {
+      PORT_WIRING 
+      {
+        PORT data
+        {
+          width = "8";
+          is_shared = "1";
+          direction = "inout";
+          type = "data";
+        }
+        PORT address
+        {
+          width = "23";
+          is_shared = "1";
+          direction = "input";
+          type = "address";
+        }
+        PORT read_n
+        {
+          width = "1";
+          is_shared = "1";
+          direction = "input";
+          type = "read_n";
+        }
+        PORT write_n
+        {
+          width = "1";
+          is_shared = "0";
+          direction = "input";
+          type = "write_n";
+        }
+        PORT select_n
+        {
+          width = "1";
+          is_shared = "0";
+          direction = "input";
+          type = "chipselect_n";
+        }
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+        class = "altera_avalon_cfi_flash";
+        Supports_Flash_File_System = "1";
+      }
+      SYSTEM_BUILDER_INFO 
+      {
+        Bus_Type = "avalon_tristate";
+        Is_Nonvolatile_Storage = "1";
+        Is_Memory_Device = "1";
+        Address_Alignment = "dynamic";
+        Has_IRQ = "0";
+        IRQ_Number = "N/A";
+        Base_Address = "--unknown--";
+
+        Data_Width = "8";
+        Address_Width = "23";
+        Simulation_Num_Lanes = "1";
+        Convert_Xs_To_0 = "1";
+      }
+    }
+    SYSTEM_BUILDER_INFO 
+    {
+      Make_Memory_Model = "1";
+      Is_Enabled = "1";
+      Instantiate_In_System_Module = "0";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      Setup_Value = "40";
+      Wait_Value = "160";
+      Hold_Value = "40";
+      Timing_Units = "ns";
+      Unit_Multiplier = "1";
+    }
+  }
+  USER_INTERFACE 
+  {
+    USER_LABELS 
+    {
+      name = "Flash Memory (Common Flash Interface)";
+      technology = "Memory,EP1S10 Nios Development Board Stratix Edition,EP1S40 Nios Development Board Stratix Pro Edition,EP1C20 Nios Development Board Cyclone Edition,EP2S60 Nios Development Board Stratix II Edition,EP2S60 DSP Board Stratix II Edition";
+    }
+    LINKS
+    {
+      LINK help
+      {
+        title="Data Sheet";
+        url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51013.pdf";
+      }
+    }
+    WIZARD_UI default
+    {
+      title = "Flash Memory (Common Flash Interface) - {{ $MOD }}";
+      CONTEXT 
+      {
+        SWSA = "SLAVE s1/WIZARD_SCRIPT_ARGUMENTS";
+        WSA = "WIZARD_SCRIPT_ARGUMENTS";
+        SBI = "SLAVE s1/SYSTEM_BUILDER_INFO";
+        MODULE_SBI = "SYSTEM_BUILDER_INFO";
+        SPWA = "SLAVE s1/PORT_WIRING/PORT address";
+        SPWD = "SLAVE s1/PORT_WIRING/PORT data";
+      }
+
+      $$cfi_new_refdes = "{{ if ($SWSA/flash_reference_designator == '') '--none--'; else $SWSA/flash_reference_designator; }}";
+      $$add_code = "{{ if ($$add) 1; else 0; }}";
+      $$edit_code = "{{ if ($$edit) 1; else 0; }}";
+
+      $$cfi_utilcomponentclass = "altera_avalon_cfi_flash";
+     
+      $$no_board_is_selected = "{{ $SYSTEM/WIZARD_SCRIPT_ARGUMENTS/board_class == ''; }}";
+      $$cfi_instances = "{{ sopc_slave_list('WIZARD_SCRIPT_ARGUMENTS/class=altera_avalon_cfi_flash'); }}";
+      $$component_dir = "{{ sopc_get_component_dir($$cfi_utilcomponentclass); }}";
+      
+      ACTION get_flash_info
+      {
+      code = "{{
+        $$board_info = exec_and_wait(
+          $$component_dir+'/cfi_flash.pl',
+          'get_board_info',
+          $$system_directory+'/'+$SYSTEM+'.ptf',
+          $$/target_module_name,
+          $$cfi_instances,
+          's1',
+          $$cfi_new_refdes,
+          $$add_code,
+          $$edit_code,
+          $SYSTEM/WIZARD_SCRIPT_ARGUMENTS/board_class,
+          $BUS/BOARD_INFO/altera_avalon_cfi_flash/reference_designators
+        );
+
+        $$extra_info = exec_and_wait(
+          $$component_dir+'/cfi_flash.pl',
+          'get_extra_info',
+          $$system_directory+'/'+$SYSTEM+'.ptf',
+          $$/target_module_name,
+          $$cfi_instances,
+          's1',
+          $$cfi_new_refdes,
+          $$add_code,
+          $$edit_code,
+          $SYSTEM/WIZARD_SCRIPT_ARGUMENTS/board_class,
+          $BUS/BOARD_INFO/altera_avalon_cfi_flash/reference_designators
+        );
+
+        if ($$board_info == 'no_board')
+        {
+          $$error_message = '';
+          $$warning_message = '';
+
+          $$enabled_combo = 1;
+          $$editable_combo = 1;
+        }
+        if ($$board_info == 'error')
+        {
+          $$error_message = $$extra_info;
+          $$warning_message = '';
+
+          $$enabled_combo = 1;
+          $$editable_combo = 1;
+        }
+        if ($$board_info == 'warning')
+        {
+          $$warning_message = $$extra_info;
+          $$error_message = '';
+
+          $$enabled_combo = 1;
+          $$editable_combo = 1;
+        }
+        if ($$board_info == '1_ref_des')
+        {
+          $$error_message = '';
+          $$warning_message = '';
+          $$enabled_combo = 0;
+          $$editable_combo = 0;
+        }
+        if ($$board_info == 'some_ref_des')
+        {
+          $$error_message = '';
+          $$warning_message = '';
+          $$enabled_combo = 1;
+          $$editable_combo = 0;
+        }
+
+      }}";
+      }
+  
+      ACTION initialize
+      {
+        code = "{{
+          post_event('get_flash_info');
+          if ($$add)
+          {
+            if ($$board_info == 'some_ref_des')
+            {
+              $SWSA/flash_reference_designator = $$extra_info;
+              $$cfi_new_refdes = $$extra_info;
+            }
+            if ($$board_info == '1_ref_des')
+            {
+              $SWSA/flash_reference_designator = $$extra_info;
+              $$cfi_new_refdes = $$extra_info;
+            }
+            if ($SYS/board_class == 'altera_nios_dev_board_stratix_2s60_es')
+            {
+            	$SPWA/width = 24;
+            	$SBI/Address_Width = 24;
+            	$WSA/Setup_Value = 45;
+            	$WSA/Hold_Value = 35;
+            }
+          }
+        }}";
+      }
+
+
+      PAGES main
+	    {
+        PAGE 1
+        {
+          GROUP
+          {
+            layout = "horizontal";
+            TEXT { title = "Presets:"; }
+            COMBO
+            {
+              id = "preset";
+              ITEM { title = "(Custom)"; }
+              ITEM
+              {
+                title = "AMD29LV065D-120R";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "23";
+                      }
+                      PORT data
+                      {
+                        width = "8";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "8";
+                      Address_Width = "23";
+                      Simulation_Num_Lanes = "1";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "40";
+                    Wait_Value = "160";
+                    Hold_Value = "40";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+              ITEM
+              {
+                title = "AMD29LV128M-123R (BYTE Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "24";
+                      }
+                      PORT data
+                      {
+                        width = "8";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "8";
+                      Address_Width = "24";
+                      Simulation_Num_Lanes = "1";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "45";
+                    Wait_Value = "160";
+                    Hold_Value = "35";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+
+              ITEM
+              {
+                title = "AMD29LV128M-123R (WORD Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "23"; 
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "23";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "45";
+                    Wait_Value = "160";
+                    Hold_Value = "35";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+
+              ITEM
+              {
+                title = "AMD29LV641DH-123R ";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "22"; 
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "22";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "45";
+                    Wait_Value = "160";
+                    Hold_Value = "35";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+
+              ITEM
+              {
+                title = "TE28F320J3A-110 (BYTE Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "22"; 
+                      }
+                      PORT data
+                      {
+                        width = "8";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "8";
+                      Address_Width = "22";
+                      Simulation_Num_Lanes = "1";                      
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "50";
+                    Wait_Value = "160";
+                    Hold_Value = "35";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+
+              ITEM
+              {
+                title = "TE28F320J3A-110 (WORD Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "21"; 
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "21";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "50";
+                    Wait_Value = "160";
+                    Hold_Value = "35";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+              ITEM
+              {
+                title = "TE28F320C3BC-90 ";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "21"; 
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "21";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "55";
+                    Wait_Value = "160";
+                    Hold_Value = "40";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+              ITEM
+              {
+                title = "LH28F160S3T-L13A (BYTE Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "21";
+                      }
+                      PORT data
+                      {
+                        width = "8";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "8";
+                      Address_Width = "21";
+                      Simulation_Num_Lanes = "1";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "60";
+                    Wait_Value = "160";
+                    Hold_Value = "60";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+              ITEM
+              {
+                title = "LH28F160S3T-L13A (WORD Mode)";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "20";
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "20";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "60";
+                    Wait_Value = "160";
+                    Hold_Value = "60";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+              ITEM
+              {
+                title = "SST39VF200-90";
+                DATA
+                {
+                  SLAVE s1
+                  {
+                    PORT_WIRING
+                    {
+                      PORT address
+                      {
+                        width = "17";
+                      }
+                      PORT data
+                      {
+                        width = "16";
+                      }
+                    }
+                    SYSTEM_BUILDER_INFO
+                    {
+                      Data_Width = "16";
+                      Address_Width = "17";
+                      Simulation_Num_Lanes = "2";
+                    }
+                  }
+                  WIZARD_SCRIPT_ARGUMENTS
+                  {
+                    Setup_Value = "60";
+                    Wait_Value = "160";
+                    Hold_Value = "60";
+                    Timing_Units = "ns";
+                    Unit_Multiplier = "1";
+                  }
+                }
+              }
+
+            }
+          }
+        
+          title = "Attributes";
+          GROUP 
+          {
+            title = "Size";
+            COMBO address
+            {
+              id = "addr";
+              title = "Address Width: ";
+              key = "A";
+
+              values = "17,18,19,20,21,22,23,24,25,26,27,28,29,30,31";
+
+              suffix = "bits";
+              DATA
+              {
+                $SBI/Address_Width = "$";
+                $SPWA/width = "$";
+              }
+            }
+
+            COMBO data
+            {
+              values = "8,16,32";
+
+              id = "data";
+              title = "Data Width: ";
+              key = "D";
+              suffix = "bits";
+              DATA
+              {
+                $SBI/Data_Width = "$";
+                $SPWD/width = "$";
+                $SBI/Simulation_Num_Lanes = "{{ $SBI/Data_Width / 8 }}";
+              }
+            }
+          }
+          GROUP
+          {
+            title = "Board Info";
+            COMBO refdes
+            {
+              id = "refdes";
+              title = "Reference Designator (chip label): ";
+              key = "R";
+            
+              values = "{{ $BUS/BOARD_INFO/altera_avalon_cfi_flash/reference_designators }}";
+
+              editable = "{{ $$editable_combo; }}";
+              enable = "{{ $$enabled_combo; }}";
+              
+              action = "get_flash_info";
+
+              DATA
+              {
+                $SWSA/flash_reference_designator = "$";
+                $$cfi_new_refdes = "$";
+              }
+            }
+          }
+          GROUP
+          {
+            TEXT { title = "Create an interface to any industry-standard CFI (Common Flash\nInterface)-compliant flash memory device.  Select from a list of\ntested flash memories, or provide interface & timing information\nfor a CFI memory which does not appear on the list."; }
+          }
+        }
+        PAGE 2
+        {
+          title="Timing";
+          align = "left";
+          enable = "1";
+          $$cfi_clock_freq = "{{ sopc_get_clock_freq($MOD) }}";
+          $$ns_per_cycle = "{{ 1E9/$$cfi_clock_freq; }}";
+          GROUP
+          {
+            GROUP
+            {
+              GROUP
+              {
+                #just for spacing
+                width = 10;
+              }
+              GROUP
+              {
+                layout = "horizontal";
+                align = "left";
+                enable = "1";
+                EDIT
+                {
+                  id="t_setup";
+                  title="Setup:";
+                  rows = 1;
+                  width=3;
+                  type="decimal";
+                  DATA
+                  {
+                    $WSA/Setup_Value = $;
+                  }
+                  ACTION change
+                  {
+                    $$dummy = "{{ if ($WSA/Setup_Value == 0) {$WSA/Setup_Value = 0}; }}";
+                  }
+                  error = "{{ if (($ > 999999999) && ($ != '')) 'Setup time exceeded range'; }}";
+                  error = "{{ if (($ < 0) && ($ != '')) 'Setup time must be >= 0'; }}";
+                }
+                EDIT
+                {
+                  id="t_wait";
+                  rows = 1;
+                  width=3;
+                  title="Wait:";
+                  type="decimal";
+                  DATA
+                  {
+                      $WSA/Wait_Value = $;
+                  }
+                  ACTION change
+                  {
+                      $$dummy = "{{ if ($WSA/Wait_Value == 0) {$WSA/Wait_Value = 0}; }}";
+                  }
+                  error = "{{ if (($ > 999999999) && ($ != '')) 'Wait time exceeded range'; }}";
+                  error = "{{ if (($ < 0) && ($ != '')) 'Wait time must be >= 0'; }}";
+                }
+                EDIT
+                {
+                  id="t_hold";
+                  title="Hold:";
+                  rows = 1;
+                  width=3;
+                  type="decimal";
+                  DATA
+                  {
+                    $WSA/Hold_Value = $;
+                  }
+                  ACTION change
+                  {
+                    $$dummy = "{{ if ($WSA/Hold_Value == 0) {$WSA/Hold_Value = 0}; }}";
+                  }
+                  error = "{{ if (($ > 999999999) && ($ != '')) 'Hold time exceeded range'; }}";
+                  error = "{{ if (($ < 0) && ($ != '')) 'Hold time must be >= 0'; }}";
+                }
+                $$dummy = "{{
+                  if ($WSA/Timing_Units == 'ns') {$WSA/Unit_Multiplier = 1}
+                  else { 
+                    if ($WSA/Timing_Units == 'us') {$WSA/Unit_Multiplier = 1000}
+                    else { 
+                      if ($WSA/Timing_Units == 'ms') {$WSA/Unit_Multiplier = 1000000}
+                      else {$WSA/Unit_Multiplier = $$ns_per_cycle}
+                    }
+                  }
+                }}";
+                COMBO
+                {
+                  id="t_units";
+                  title = "Units:";
+                  ITEM
+                  {
+                    title = "ns";
+                    DATA 
+                    { 
+                      $WSA/Timing_Units = "ns"; 
+                      $WSA/Unit_Multiplier = 1;
+                    }
+                  }
+                  ITEM
+                  {
+                    title = "us";
+                    DATA 
+                    { 
+                      $WSA/Timing_Units = "us"; 
+                      $WSA/Unit_Multiplier = 1000;
+                    }
+                  }
+                  ITEM
+                  {
+                    title = "ms";
+                    DATA 
+                    { 
+                      $WSA/Timing_Units = "ms"; 
+                      $WSA/Unit_Multiplier = 1000000;
+                    }
+                  }
+                  ITEM
+                  {
+                    title = "cycles";
+                    DATA 
+                    { 
+                      $WSA/Timing_Units = "cycles"; 
+                      $WSA/Unit_Multiplier = "{{ $$ns_per_cycle; }}"; 
+                    }
+                  }
+                }
+                $SBI/Write_Wait_States = "{{ str($WSA/Wait_Value) + $WSA/Timing_Units; }}";
+                $SBI/Read_Wait_States = "{{ str($WSA/Wait_Value) + $WSA/Timing_Units; }}";
+                $SBI/Setup_Time = "{{ str($WSA/Setup_Value) + $WSA/Timing_Units; }}";
+                $SBI/Hold_Time = "{{ str($WSA/Hold_Value) + $WSA/Timing_Units; }}";
+              }
+              GROUP
+              {
+                layout = "horizontal";
+                TEXT { title = "System Clock {{$$cfi_clock_freq / 1000000}} MHz"; }
+                TEXT { title = "Timing granularity is System Clock cycles."; }
+              }
+              GROUP
+              {
+                layout = "vertical";
+                GROUP
+                {
+                  title = "Read Waveforms";
+                  WAVEFORM
+                  {
+                    $$Read_Wait_States = "{{ ceil (int($WSA/Wait_Value * $WSA/Unit_Multiplier) / $$ns_per_cycle) }}";
+                    $$Write_Wait_States= "{{ ceil (int($WSA/Wait_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle) }}";
+                    $$Setup_Time= "{{ ceil (int($WSA/Setup_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle) }}";
+                    $$Hold_Time= "{{ ceil (int($WSA/Hold_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle) }}";
+
+                    width=260;
+                    height=80;
+                    $$WIDTH = "25";
+                    $$TOTAL="{{ $$Setup_Time + 1 + $$Read_Wait_States }}";
+                    $$SETUPi="{{ int(($$WIDTH-1)*($$Setup_Time / $$TOTAL)); }}";
+                    $$SETUP="{{ if (($$SETUPi == 0) && ($$Setup_Time != 0)) {$$SETUPi+1} else {$$SETUPi}; }}";
+                    $$SETUPt="{{ if ($WSA/Timing_Units == '') 
+                                    {$$Setup_Time} 
+                                    else {int(1E9*($$Setup_Time / $$cfi_clock_freq)) / $WSA/Unit_Multiplier}; 
+                              }}";
+                    $$DispStime="{{ if ($$SETUP > 0) {1} else {0}; }}";
+                    $$CENTER="{{ $$WIDTH - $$SETUP; }}";
+                    $$DWIDTH="{{ $$WIDTH - 2; }}";
+                    $$CENTERt="{{ if ($WSA/Timing_Units == '')
+                                    {1 + $$Read_Wait_States}
+                                    else {int((1 + $$Read_Wait_States) * $$ns_per_cycle) / $WSA/Unit_Multiplier}; 
+                               }}";
+                    ITEM { value="SSHdata,SSLaddr,3,BB,DD,DD,DT,TD,{{$$DWIDTH;}},DD,DT,TD,3,DD"; }
+                    ITEM { value="SSMselect,3,BB,LL,LL,LL,VV,{{$$WIDTH;}},HH,VV,4,LL"; }
+                    ITEM { value="SSMreadn,3,BB,3,HH,{{$$SETUP;}},HH,VV,CBLACK,{{$$CENTER;}},LL,VV,4,HH"; }
+                    $$RPulseTextStart="{{ ((10*$$SETUP) + 65); }}";
+                    ITEM { value="CBLUE,X{{$$RPulseTextStart;}},Y70,1,SC{{$$CENTERt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                    ITEM { value="CBLUE,X50,Y70,{{$$DispStime;}},SC{{$$SETUPt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                  }
+                }
+                GROUP
+                {
+                  title = "Write Waveforms";
+                  WAVEFORM
+                  {
+                    width=260;
+                    height=80;
+                    $$wWIDTH = 25;
+                    $$wTOTAL="{{ $$Setup_Time + 1 + $$Write_Wait_States + $$Hold_Time; }}";
+                    $$wSETUPi="{{ int(($$wWIDTH-1)*($$Setup_Time / $$wTOTAL)); }}";
+                    $$wSETUP="{{ if (($$wSETUPi == 0) && ($$Setup_Time != 0)) {$$wSETUPi+1} else {$$wSETUPi}; }}";
+                    $$wSETUPt="{{ int(1E9*($$Setup_Time / $$cfi_clock_freq)); }}";
+                    $$wDispStime="{{ if ($$wSETUP > 0) {1} else {0}; }}";
+                    $$wHOLDi="{{ int(($$wWIDTH-1)*($$Hold_Time / $$wTOTAL)); }}";
+                    $$wHOLD="{{ if (($$wHOLDi == 0) && ($$Hold_Time != 0)) {$$wHOLDi+1} else {$$wHOLDi}; }}";
+                    $$wHOLDt="{{ if ($WSA/Timing_Units == '')
+                                    {$$Hold_Time}
+                                    else {int(1E9*($$Hold_Time / $$cfi_clock_freq)) / $WSA/Unit_Multiplier}; 
+                              }}";
+                    $$wDispHtime="{{ if ($$wHOLD > 0) {1} else {0}; }}";
+                    $$wCENTER="{{ $$wWIDTH-$$wSETUP-$$wHOLD; }}";
+                    $$wDWIDTH="{{ $$WIDTH - 2; }}";
+                    ITEM { value="SSHdata,SSLaddr,3,BB,DD,DD,DT,TD,{{$$wDWIDTH;}},DD,DT,TD,3,DD"; }
+                    ITEM { value="SSMselect,3,BB,LL,LL,LL,VV,{{$$wWIDTH;}},HH,VV,4,LL"; }
+                    ITEM { value="SSMwriten,3,BB,3,HH,{{$$wSETUP;}},HH,VV,CBLACK,{{$$wCENTER;}},LL,VV,{{$$wHOLD;}},HH,CBLACK,4,HH"; }
+                    $$WPulseTextStart="{{ ((10*$$wSETUP) + 65); }}";
+                    ITEM { value="CBLUE,X{{$$WPulseTextStart;}},Y70,1,SC{{$$CENTERt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                    ITEM { value="CBLUE,X50,Y70,{{$$wDispStime;}},SC{{$$SETUPt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                    ITEM { value="CBLUE,X330,Y70,{{$$wDispHtime;}},SC{{$$wHOLDt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        message = "{{
+          if ($SWSA/flash_reference_designator == '' && $$errors == 0)
+          {
+            if ($$board_info == 'no_board')
+            {
+              'Enter a reference designator for this CFI flash component.';
+            }
+            else
+            {
+              'Select a reference designator for this CFI flash component.';
+            }
+          }
+          else
+          {
+            '';
+          }
+        }}";
+
+        $$num_bytes = "{{ 2^($SBI/Address_Width) * $SBI/Data_Width / 8; }}";
+        $WSA/Size = "{{ $$num_bytes }}";
+        $SBI/Address_Span = "{{ $$num_bytes }}";
+
+        $$num_Mbytes = "{{ $$num_bytes / 1048576; }}";
+        $$Mbytes_text = "{{ if ($$num_Mbytes == 1) 'MByte'; else 'MBytes'}}";
+        $$memory_message = "Flash memory capacity: {{ $$num_Mbytes }} {{ $$Mbytes_text }} ({{ $$num_bytes }} bytes)";
+        message = "{{ $$memory_message; }}";
+
+        error = "{{ $$error_message }}";
+        warning = "{{ $$warning_message }}";
+        warning = "{{ if ($SWSA/flash_reference_designator == 'oogabooga') 'Warning: oogabooga'; else '' }}";
+      }
+    }
+  }
+}

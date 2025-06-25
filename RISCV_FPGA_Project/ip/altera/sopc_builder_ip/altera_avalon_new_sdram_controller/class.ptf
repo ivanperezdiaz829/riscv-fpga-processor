@@ -1,0 +1,1478 @@
+
+CLASS altera_avalon_new_sdram_controller
+{
+   ASSOCIATED_FILES
+   {
+      Add_Program  = "default";
+      Edit_Program = "default";
+      Bind_Program = "bind";
+      Generator_Libraries = "../../bin/europa";
+      Generator_Program = "em_new_sdram_controller.pl";
+      Test_Generator_Program = "em_altera_sodimm.pl";
+   }
+
+   MODULE_DEFAULTS
+   {
+      class         = "altera_avalon_new_sdram_controller";
+      class_version = "7.08131";
+      iss_model_name = "altera_memory";
+
+      SLAVE s1
+      {
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type                      = "avalon";
+            Address_Alignment             = "dynamic";
+            Has_IRQ                       = "0";
+            Maximum_Pending_Read_Transactions = "5";
+            Read_Wait_States              = "peripheral_controlled";
+            Write_Wait_States             = "peripheral_controlled";
+            Is_Memory_Device              = "1";
+            Address_Width                 = "22";
+            Data_Width                    = "32";
+            Simulation_Num_Lanes          = "1";
+         }
+         PORT_WIRING
+         {
+            # These are the top level ports.
+            # Avalon ports will be added during system generation.
+            PORT zs_addr
+            {
+               direction = "output";
+               width = "22";
+            }
+            PORT zs_ba
+            {
+               direction = "output";
+               width = "2";
+            }
+            PORT zs_cas_n
+            {
+               direction = "output";
+               width = "1";
+            }
+            PORT zs_cke
+            {
+               direction = "output";
+               width = "1";
+            }
+            PORT zs_cs_n
+            {
+               direction = "output";
+               width = "1";
+            }
+            PORT zs_dq
+            {
+               direction = "inout";
+               width = "32";
+            }
+            PORT zs_dqm
+            {
+               direction = "output";
+               width = "4";
+            }
+            PORT zs_ras_n
+            {
+               direction = "output";
+               width = "1";
+            }
+            PORT zs_we_n
+            {
+               direction = "output";
+               width = "1";
+            }
+         }
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled                   = "1";
+         Default_Module_Name          = "sdram";
+         Disable_Simulation_Port_Wiring = "0";
+         Top_Level_Ports_Are_Enumerated = "1";
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+         register_data_in = "1";
+         sim_model_base = "1";
+         sdram_data_width = "32";
+         sdram_addr_width = "12";
+         sdram_row_width = "12";
+         sdram_col_width = "8";
+         sdram_num_chipselects = "1";
+         sdram_num_banks = "4";
+         refresh_period = "15.625";
+         powerup_delay = "100";
+         cas_latency = "3";
+         t_rfc = "70";
+         t_rp = "20";
+         t_mrd = "3";
+         t_rcd = "20";
+         t_ac = "5.5";
+         t_wr = "14";
+         init_refresh_commands = "2";
+         init_nop_delay = "0";
+         shared_data = "0";
+         starvation_indicator = "0";
+         tristate_bridge_slave = "";
+         is_initialized   = "0";
+      }
+      SIMULATION
+      {
+         Fix_Me_Up = "";
+         DISPLAY
+         {
+# These signals are "of interest" and are added to the waveform window, etc.
+# The name of the section (e.g. "a2" or "f") doesn't "mean" anything, except
+# that the signals will be displayed in the waveform window in-order, as
+# sorted by these otherwise-meaningless names.
+            SIGNAL a
+            {
+               name = "az_addr";
+               radix = "hexadecimal";
+            }
+            SIGNAL b
+            {
+               name = "az_be_n";
+               radix = "hexadecimal";
+            }
+            SIGNAL c
+            {
+               name = "az_cs";
+            }
+            SIGNAL d
+            {
+               name = "az_data";
+               radix = "hexadecimal";
+            }
+            SIGNAL e
+            {
+               name = "az_rd_n";
+            }
+            SIGNAL f
+            {
+               name = "az_wr_n";
+            }
+            SIGNAL g
+            {
+               name = "clk";
+            }
+            SIGNAL h
+            {
+               name = "za_data";
+               radix = "hexadecimal";
+            }
+            SIGNAL i
+            {
+               name = "za_valid";
+            }
+            SIGNAL j
+            {
+               name = "za_waitrequest";
+            }
+            SIGNAL k
+            {
+               name = "za_cannotrefresh";
+               suppress = "1";
+            }
+            SIGNAL l
+            {
+               name = "CODE";
+               radix = "ascii";
+            }
+            SIGNAL m
+            {
+               name = "zs_addr";
+               radix = "hexadecimal";
+               suppress = "0";
+            }
+            SIGNAL n
+            {
+               name = "zs_ba";
+               radix = "hexadecimal";
+               suppress = "0";
+            }
+            SIGNAL o
+            {
+               name = "zs_cs_n";
+               radix = "hexadecimal";
+               suppress = "0";
+            }
+            SIGNAL p
+            {
+               name = "zs_ras_n";
+               suppress = "0";
+            }
+            SIGNAL q
+            {
+               name = "zs_cas_n";
+               suppress = "0";
+            }
+            SIGNAL r
+            {
+               name = "zs_we_n";
+               suppress = "0";
+            }
+            SIGNAL s
+            {
+               name = "zs_dq";
+               radix = "hexadecimal";
+               suppress = "0";
+            }
+            SIGNAL t
+            {
+               name = "zs_dqm";
+               radix = "hexadecimal";
+               suppress = "0";
+            }
+            SIGNAL u
+            {
+               name = "zt_addr";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL v
+            {
+               name = "zt_ba";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL w
+            {
+               name = "zt_oe";
+               suppress = "1";
+            }
+            SIGNAL x
+            {
+               name = "zt_cke";
+               suppress = "1";
+            }
+            SIGNAL y
+            {
+               name = "zt_chipselect";
+               suppress = "1";
+            }
+            SIGNAL z0
+            {
+               name = "zt_lock_n";
+               suppress = "1";
+            }
+            SIGNAL z1
+            {
+               name = "zt_ras_n";
+               suppress = "1";
+            }
+            SIGNAL z2
+            {
+               name = "zt_cas_n";
+               suppress = "1";
+            }
+            SIGNAL z3
+            {
+               name = "zt_we_n";
+               suppress = "1";
+            }
+            SIGNAL z4
+            {
+               name = "zt_cs_n";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL z5
+            {
+               name = "zt_dqm";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL z6
+            {
+               name = "zt_data";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL z7
+            {
+               name = "tz_data";
+               radix = "hexadecimal";
+               suppress = "1";
+            }
+            SIGNAL z8
+            {
+               name = "tz_waitrequest";
+               suppress = "1";
+            }
+         }
+      }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+         name="SDRAM Controller";
+         description="Latency-Aware SDR SDRAM Controller";
+         technology="Memory";
+      }
+      LINKS
+      {
+         LINK help
+         {
+            title="Data Sheet";
+            url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51005.pdf";
+         }
+      }
+      WIZARD_UI default
+      {
+         title="SDRAM Controller - {{ $MOD }}";
+         $$sdram_clock_freq = "{{ sopc_get_clock_freq($MOD) }}";
+         $$num_chipselbits = "{{ log2($WSA/sdram_num_chipselects); }}";
+         $$num_bankbits = "{{ log2($WSA/sdram_num_banks); }}";
+         $$address_width = "{{ $WSA/sdram_addr_width + $WSA/sdram_col_width + $$num_bankbits + $$num_chipselbits; }}";
+         $$ns_per_cycle = "{{ 1E9/$$sdram_clock_freq; }}";
+         CONTEXT
+         {
+            WSA="WIZARD_SCRIPT_ARGUMENTS";
+            S_SBI="SLAVE s1/SYSTEM_BUILDER_INFO";
+            SBI="SYSTEM_BUILDER_INFO";
+            # simulation display signals_section
+            SDS="SIMULATION/DISPLAY";
+            CONTENTS="WIZARD_SCRIPT_ARGUMENTS/CONTENTS srec";
+         }
+         ACTION initialize
+         {
+            $$text_file_tooltip =
+               "The specified file will fill the memory.  The first byte <br>
+             of the file will be relocated to the first byte of the
+             memory. <br> If the filename ends with <b>.srec</b>, the file's
+             contents will be <br> treated as S-records.  All other files will
+             be read as raw binary; <br> new-line characters of text will not
+             be translated; <br>unspecified memory locations will remain
+             uninitialized (X).";
+         }
+         ACTION wizard_finish
+         {
+            $WSA/is_initialized = "{{ ($CONTENTS/Kind != 'blank') }}";
+            $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = 
+               "{{ $$cmsib_width; }} x {{ $$width; }}<br>
+                {{ $$mem_size_in_MBytes_str; }}<br>
+                {{ $$mem_size_in_MBits_str; }}
+                {{ if ($WSA/shared_data) 
+                   '<br>Sharing Pins Via Tristate Bridge'; }}";
+            $SBI/Disable_Simulation_Port_Wiring = "{{ $WSA/shared_data; }}";
+            $S_SBI/Maximum_Pending_Read_Transactions = 
+               "{{ 3 + ($WSA/cas_latency) + $WSA/register_data_in +
+                   ( 2 * $WSA/shared_data ); }}";
+            $S_SBI/Address_Width = "{{ $$address_width; }}";
+            $WSA/sdram_bank_width = "{{ $$num_bankbits; }}";
+            $SDS/SIGNAL k/suppress = 
+               "{{ ! ($WSA/shared_data && $WSA/starvation_indicator); }}";
+            $SDS/SIGNAL m/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL n/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL o/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL p/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL q/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL r/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL s/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL t/suppress = "{{ $WSA/shared_data; }}";
+            $SDS/SIGNAL u/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL v/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL w/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL x/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL y/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z0/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z1/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z2/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z3/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z4/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z5/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z6/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z7/suppress = "{{ ! $WSA/shared_data; }}";
+            $SDS/SIGNAL z8/suppress = "{{ ! $WSA/shared_data; }}";
+
+#         $M_SBI/Address_Width = "{{ $$address_width; }}";
+#         $M_SBI/Is_Enabled = "{{ $WSA/shared_data; }}";
+
+            #
+            # SLAVE s1 settings
+            #
+            
+			# set any SLAVE s1 variable port widths
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_addr/width = "{{ $WSA/sdram_addr_width }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_ba/width   = "{{ $WSA/sdram_bank_width }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_cs_n/width = "{{ $WSA/sdram_num_chipselects }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_dq/width   = "{{ $WSA/sdram_data_width }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_dqm/width  = "{{ $WSA/sdram_data_width / 8 }}";
+            
+            # only enable the SLAVE s1 ports if NOT in tristate mode
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_addr/Is_Enabled  = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_ba/Is_Enabled    = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_cas_n/Is_Enabled = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_cke/Is_Enabled   = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_cs_n/Is_Enabled  = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_dq/Is_Enabled    = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_dqm/Is_Enabled   = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_ras_n/Is_Enabled = "{{ ! $WSA/shared_data; }}";
+            $MOD/SLAVE s1/PORT_WIRING/PORT zs_we_n/Is_Enabled  = "{{ ! $WSA/shared_data; }}";
+            
+         }
+         GROUP
+         {
+            layout = "horizontal";
+            TEXT { title = "Presets:"; }
+            COMBO
+            {
+               ITEM { title = "(Custom)"; }
+               ITEM
+               {
+                  title="Micron MT8LSDT1664HG module";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        sdram_data_width = "64";
+                        sdram_addr_width = "12";
+                        sdram_num_banks = "4";
+                        sdram_row_width = "12";
+                        sdram_col_width = "9";
+                        sdram_num_chipselects = "2";
+                        refresh_period = "15.625";
+                        powerup_delay = "100";
+                        cas_latency = "2";
+                        t_rfc = "66";
+                        t_rp = "15";
+                        t_mrd = "3";
+                        t_rcd = "15";
+                        t_ac = "5.4";
+                        init_refresh_commands = "2";
+                        init_nop_delay = "0";
+                        t_wr = "14";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 64;
+                           Address_Width = 24;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="4 SDR100 8MByte x16 chips";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        cas_latency = "2";
+                        init_nop_delay = "0";
+                        init_refresh_commands = "2";
+                        powerup_delay = "100";
+                        refresh_period = "15.625";
+                        sdram_addr_width = "12";
+                        sdram_num_banks = "4";
+                        sdram_col_width = "8";
+                        sdram_data_width = "64";
+                        sdram_num_chipselects = "1";
+                        sdram_row_width = "12";
+                        t_ac = "5.4";
+                        t_mrd = "3";
+                        t_rcd = "20";
+                        t_rfc = "70";
+                        t_rp = "20";
+                        t_wr = "14";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 64;
+                           Address_Width = 22;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="single Micron MT48LC2M32B2-7 chip";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        sdram_data_width = "32";
+                        sdram_addr_width = "11";
+                        sdram_num_banks = "4";
+                        sdram_row_width = "11";
+                        sdram_col_width = "8";
+                        sdram_num_chipselects = "1";
+                        refresh_period = "15.625";
+                        powerup_delay = "100";
+                        cas_latency = "1";
+                        t_rfc = "70";
+                        t_rp = "20";
+                        t_mrd = "3";
+                        t_rcd = "20";
+                        t_ac = "5.5";
+                        t_wr = "14";
+                        init_refresh_commands = "2";
+                        init_nop_delay = "0";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 32;
+                           Address_Width = 21;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="single Micron MT48LC4M32B2-7 chip";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        sdram_data_width = "32";
+                        sdram_addr_width = "12";
+                        sdram_num_banks = "4";
+                        sdram_row_width = "12";
+                        sdram_col_width = "8";
+                        sdram_num_chipselects = "1";
+                        refresh_period = "15.625";
+                        powerup_delay = "100";
+                        cas_latency = "3";
+                        t_rfc = "70";
+                        t_rp = "20";
+                        t_mrd = "3";
+                        t_rcd = "20";
+                        t_ac = "5.5";
+                        t_wr = "14";
+                        init_refresh_commands = "2";
+                        init_nop_delay = "0";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 32;
+                           Address_Width = 22;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="single NEC D4564163-A80 chip (64Mb x 16)";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        sim_model_base = "1";
+                        cas_latency = "2";
+                        init_nop_delay = "0";
+                        init_refresh_commands = "2";
+                        register_data_in = "1";
+                        powerup_delay = "100";
+                        refresh_period = "31.25";
+                        sdram_addr_width = "12";
+                        sdram_num_banks = "4";
+                        sdram_col_width = "8";
+                        sdram_data_width = "16";
+                        sdram_num_chipselects = "1";
+                        sdram_row_width = "12";
+                        t_ac = "5.4";
+                        t_mrd = "3";
+                        t_rcd = "20";
+                        t_rfc = "70";
+                        t_rp = "20";
+                        t_wr = "14";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 16;
+                           Address_Width = 22;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="single Alliance AS4LC1M16S1-10 chip";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        sdram_data_width = "16";
+                        sdram_addr_width = "11";
+                        sdram_num_banks = "2";
+                        sdram_row_width = "11";
+                        sdram_col_width = "8";
+                        sdram_num_chipselects = "1";
+                        refresh_period = "15.625";
+                        powerup_delay = "200";
+                        cas_latency = "3";
+                        t_rfc = "80";
+                        t_rp = "30";
+                        t_mrd = "2";
+                        t_rcd = "30";
+                        t_ac = "6";
+                        t_wr = "20";
+                        init_refresh_commands = "8";
+                        init_nop_delay = "0";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 16;
+                           Address_Width = 20;
+                        }
+                     }
+                  }
+               }
+               ITEM
+               {
+                  title="single Alliance AS4LC2M8S0-10 chip";
+                  DATA
+                  {
+                     WIZARD_SCRIPT_ARGUMENTS
+                     {
+                        register_data_in = "1";
+                        sim_model_base = "1";
+                        sdram_data_width = "8";
+                        sdram_addr_width = "11";
+                        sdram_num_banks = "2";
+                        sdram_row_width = "11";
+                        sdram_col_width = "9";
+                        sdram_num_chipselects = "1";
+                        refresh_period = "31.25";
+                        powerup_delay = "200";
+                        cas_latency = "3";
+                        t_rfc = "80";
+                        t_rp = "30";
+                        t_mrd = "2";
+                        t_rcd = "30";
+                        t_ac = "6";
+                        t_wr = "20";
+                        init_refresh_commands = "8";
+                        init_nop_delay = "0";
+                     }
+                     SLAVE s1
+                     {
+                        SYSTEM_BUILDER_INFO
+                        {
+                           Data_Width = 8;
+                           Address_Width = 21;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+         GROUP
+         {
+            PAGES main
+            {
+               select=1;
+               PAGE 1
+               {
+                  title="Memory Profile";
+                  align="center";
+                  GROUP arch
+                  {
+                     layout = "horizontal";
+                     GROUP sdram_data_width
+                     {
+                        id = "width";
+                        title = "Data Width";
+                        COMBO 
+                        {
+                           id = "width";
+                           suffix = " Bits  ";
+                           values = "8,16,32,64";
+                           DATA
+                           {
+                              $S_SBI/Data_Width = $;
+                              $WSA/sdram_data_width = $;
+                           }
+                        }
+                     }
+                     GROUP architecture
+                     {
+                        title = "Architecture";
+                        layout = "horizontal";
+                        COMBO
+                        {
+                           id = "cs";
+                           title = "  Chip Selects: ";
+                           tooltip = 
+                              "Use one chip select for each distinct region of SDRAM address space";
+                           values = "1,2,4,8";
+                           DATA
+                           {
+                              sdram_num_chipselects = $;
+                           }
+                        }
+                        COMBO
+                        {
+                           id = "banks";
+                           title = "  Banks: ";
+                           tooltip =
+                              "Set the number of banks to match the specification of your SDRAM chip";
+                           values = "2,4";
+                           DATA
+                           {
+                              sdram_num_banks = $;
+                           }
+                        }
+                     }
+                  }
+                  GROUP address
+                  {
+                     GROUP sdram_width
+                     {
+                        title = "Address Widths";
+                        layout = "horizontal";
+                        EDIT
+                        {
+                           id = "rows";
+                           type = "int";
+                           columns = 3;
+                           title = "Row";
+                           $$badrow =
+                              "{{ $WSA/sdram_row_width < 11 ||
+                                  $WSA/sdram_row_width > 14; }}";
+                           error="{{ if ($$badrow) 'Invalid Row Width.'; }}";
+                           DATA
+                           {
+                              WIZARD_SCRIPT_ARGUMENTS
+                              {
+                                 sdram_row_width = $;
+                                 sdram_addr_width = $;
+                              }
+                           }
+                        }
+                        EDIT
+                        {
+                           id = "cols";
+                           type = "int";
+                           columns = 3;
+                           title = "Column";
+                           $$badcol =
+                              "{{ $WSA/sdram_col_width < 8 ||
+                              $WSA/sdram_col_width >= $WSA/sdram_row_width; }}";
+                           error="{{ if ($$badcol) 'Invalid Column Width.'; }}";
+                           DATA
+                           {
+                              WIZARD_SCRIPT_ARGUMENTS
+                              {
+                                 sdram_col_width = $;
+                              }
+                           }
+                        }
+                     }
+                  }
+                  GROUP shared_data
+                  {
+                     title = "Share Pins via Tristate Bridge";
+                     align = "left";
+                     spacing = "0";
+                     GROUP
+                     {
+                        spacing = "0";
+                        align = "left";
+                        CHECK
+                        {
+                           id = "shared";
+                           title =
+                              "Controller shares dq/dqm/addr I/O pins.";
+                           tooltip =
+                              "When not selected, Controller uses dedicated dq/dqm/addr I/O pins.";
+                           DATA
+                           {
+                              shared_data = $;
+                           }
+                        }
+                     }
+                     REM GROUP
+                     {
+                        align = "left";
+                        spacing = "0";
+                        CHECK
+                        {
+                           title =
+                              "Create Output pulse for Refresh Rate Violation.";
+                           tooltip =
+                              "Output 'za_cannotrefresh' can be monitored by peripherals.<br>It will assert as a pulse if two refresh intervals pass before one refresh is achieved;<br> After the first pulse, data may be corrupted.";
+                           enable = "{{ $WSA/shared_data }}";
+                           DATA
+                           {
+                              starvation_indicator = "$";
+                           }
+                        }
+                     }
+                  }
+                  GROUP simulation_base_model
+                  {
+                     title = "Generic Memory Model (Simulation Only)";
+                     align = "left";
+                     spacing = "0";
+                     CHECK
+                     {
+                        id = "model";
+                        title = 
+                           "Include a functional memory model in the system testbench.";
+                        tooltip =
+                           "The model will auto-size to the declared SDRAM Controller profile.<br>When not selected, you must acquire a vendor memory model<br>and manually wire it into the testbench.";
+                        DATA
+                        {
+                           $WSA/sim_model_base = $;
+                        }
+                     }
+                  }
+                  $$pre_mem_size_in_bits =
+                     "{{ 2^($$address_width) * $WSA/sdram_data_width; }}";
+                  $$mem_size_in_bits = "{{ ceil ($$pre_mem_size_in_bits); }}";
+                  $$pre_mem_size_in_MBytes =
+                     "{{ $$mem_size_in_bits / 8388608 ; }}";
+                  $$good_mem_size_in_MBytes_str =
+                     "Memory size: {{ ceil ( $$mem_size_in_bits / 8388608 ) ; }} MBytes";
+                  $$mem_size_in_MBytes_str =
+                     "{{ if ($$pre_mem_size_in_MBytes >= 1)
+                         {$$good_mem_size_in_MBytes_str} else
+                         {'Memory size: < 1 MBytes'}; }}";
+                  $$pre_mem_size_in_MBits =
+                     "{{ $$mem_size_in_bits / 1048576 ; }}";
+                  $$good_mem_size_in_MBits_str =
+                     "{{ ceil ( $$mem_size_in_bits / 1048576 ) ; }} MBits";
+                  $$mem_size_in_MBits_str =
+                     "{{ if ($$pre_mem_size_in_MBits >= 1)
+                         {$$good_mem_size_in_MBits_str} else {'< 1 MBits'}; }}";
+                  TEXT
+                  {
+                     title = "{{ $$mem_size_in_MBytes_str; }}";
+                  }
+                  TEXT
+                  {
+                     $$width = "{{ ceil ( $WSA/sdram_data_width ); }}";
+                     $$msib_width = "{{ $$mem_size_in_bits / $$width; }}";
+                     $$cmsib_width = "{{ ceil ($$msib_width); }}";
+                     title = "{{ $$cmsib_width; }} x {{ $$width; }}";
+                  }
+                  TEXT
+                  {
+                     title = "{{ $$mem_size_in_MBits_str; }}";
+                  }
+               }
+               PAGE 2
+               {
+                  title="Timing";
+                  align="right";
+                  GROUP
+                  {
+                     title = "SDRAM Timing Parameters";
+                     layout = "vertical";
+                     GROUP cas_latency
+                     {
+                        id = "cas_latency";
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT { title = "CAS latency cycles                                               "; glue = "0"; }
+                        RADIO
+                        {
+                           title="1"; key="1";
+                           DATA
+                           {
+                              cas_latency = 1;
+                           }
+                        }
+                        RADIO
+                        {
+                           title="2"; key="2";
+                           DATA
+                           {
+                              cas_latency = 2;
+                           }
+                        }
+                        RADIO
+                        {
+                           title="3"; key="3";
+                           DATA
+                           {
+                              cas_latency = 3;
+                           }
+                        }
+                     }
+                     GROUP init_refresh_commands
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT
+                        {
+                           title = "Initialization refresh cycles                     ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           id = "refresh_cmds";
+                           type = "integer";
+                           width = 100;
+                           height = 20;
+                           $$badval = "{{ (($WSA/init_refresh_commands < 1) ||
+                                        ($WSA/init_refresh_commands > 8)); }}";
+                           error = "{{ if ($$badval)
+                                    'Only integral numbers of Refreshes between 1 and 8 are supported'; }}";
+                           
+                           DATA
+                           {
+                              init_refresh_commands = $;
+                           }
+                           suffix = "    ";
+                        }
+                     }
+                     GROUP refresh_period
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title =
+                              "Issue one refresh command every                        ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           id = "refresh_period";
+                           type = "float";
+                           width=100;
+                           height=20;
+                           $$badval = "{{ $WSA/refresh_period >= 156.25; }}";
+                           error=
+                              "{{ if ($$badval)
+                               'Invalid refresh period (must be < 156.25)'; }}";
+                           DATA
+                           {
+                              refresh_period = $;
+                           }
+                           suffix = "us";
+                        }
+                     }
+                     GROUP powerup_delay
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title = 
+                              "Delay after powerup, before initialization              ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           id = "powerup_delay";
+                           type = "float";
+                           $$badval = "{{ $WSA/powerup_delay >= 1000; }}";
+                           error=
+                              "{{ if ($$badval)
+                              'Invalid powerup delay (must be < 1000)'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              powerup_delay = $;
+                           }
+                           suffix = "us";
+                        }
+                     }
+                     GROUP t_rfc
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title =
+                              "Duration of refresh command (t_rfc)                     ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           type = "float";
+                           $$badval = "{{ $WSA/t_rfc >= 700; }}";
+                           error=
+                              "{{ if ($$badval)
+                              'Invalid refresh period (must be < 700)'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              t_rfc = $;
+                           }
+                           suffix = "ns";
+                        }
+                     }
+                     GROUP t_rp
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title = "Duration of precharge command (t_rp)                 ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           type = "float";
+                           $$badval = "{{ $WSA/t_rp >= 200; }}";
+                           error=
+                              "{{ if ($$badval)
+                              'Invalid precharge command period 
+                               (must be < 200)'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              t_rp = $;
+                           }
+                           suffix = "ns";
+                        }
+                     }
+
+                     GROUP t_rcd
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title =
+                              "ACTIVE to READ or WRITE delay (t_rcd)               ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           type = "float";
+                           $$badval = "{{ $WSA/t_rcd >= 200; }}";
+                           error=
+                              "{{ if ($$badval)
+                              'Invalid active to read or write delay
+                              (must be < 200)'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              t_rcd = $;
+                           }
+                           suffix = "ns";
+                        }
+                     }
+
+                     GROUP t_ac
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title =
+                              "Access time (t_ac)                                                ";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           type = "float";
+                           $$ns_per_cas =
+                              "{{ (($$ns_per_cycle) * ($WSA/cas_latency)); }}";
+                           $$badval = "{{ $WSA/t_ac >= ($$ns_per_cas); }}";
+                           error=
+                              "{{ if ($$badval)
+                                     'Invalid Access Time
+                          ( t_ac must be < ' + str($$ns_per_cas) + ' ns )'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              t_ac = $;
+                           }
+                           suffix = "ns";
+                        }
+                     }
+                     GROUP t_wr
+                     {
+                        layout = "horizontal";
+                        glue = "0";
+                        TEXT {
+                           title =
+                              "Write recovery time (t_wr, No auto precharge)";
+                           glue = "0";
+                        }
+                        EDIT
+                        {
+                           type = "float";
+                           $$badval = "{{ $WSA/t_wr >= 140; }}";
+                           error=
+                              "{{ if ($$badval)
+                              'Invalid non-auto precharge time
+                              (must be < 140)'; }}";
+                           width=60;
+                           height=20;
+                           DATA
+                           {
+                              t_wr = $;
+                           }
+                           suffix = "ns";
+                        }
+                     }
+                  }
+               }
+               REM PAGE 3
+               {
+                  title="Advanced Settings";
+                  align="center";
+                  GROUP init_refresh_commands
+                  {
+                     title = "Number of refresh commands during initialization";
+                     layout = "horizontal";
+                     align = "center";
+                     RADIO
+                     {
+                        title = "1"; key = "1";
+                        DATA
+                        {
+                           init_refresh_commands = 1;
+                        }
+                     }
+                     RADIO
+                     {
+                        title = "2"; key = "2";
+                        DATA
+                        {
+                           init_refresh_commands = 2;
+                        }
+                     }
+                  }
+                  GROUP t_mrd
+                  {
+                     title = "Cycles after Load Mode Register command (t_mrd)";
+                     layout = "horizontal";
+                     EDIT
+                     {
+                        type = "int";
+                        $$badval = "{{ $WSA/t_mrd >= 20; }}";
+                        error=
+                           "{{ if ($$badval)
+                           'Invalid cycles after LMR command
+                           (must be < 20)'; }}";
+                        width=60;
+                        height=20;
+                        DATA
+                        {
+                           t_mrd = $;
+                        }
+                     }
+                  }
+                  GROUP register_data_in
+                  {
+                     title = "Register Data Read from SDRAM";
+                     layout = "horizontal";
+                     align = "center";
+                     RADIO
+                     {
+                        title = "Yes (improve timing)"; key = "1";
+                        DATA
+                        {
+                           register_data_in = 1;
+                        }
+                     }
+                     RADIO
+                     {
+                        title = "No (improve latency)"; key = "0";
+                        DATA
+                        {
+                           register_data_in = 0;
+                        }
+                     }
+                  }
+                  REM GROUP shared_data
+                  {
+                     title = "SDRAM Controller Shares Data via Tristate Bridge";
+                     layout = "horizontal";
+                     align = "center";
+                     RADIO
+                     {
+                        title = "No (Controller has dedicated I/O)"; key = "0";
+                        DATA
+                        {
+                           shared_data = 0;
+                        }
+                     }
+                     RADIO
+                     {
+                        title = "Yes (Controller shares I/O)"; key = "1";
+                        DATA
+                        {
+                           shared_data = 1;
+                        }
+                     }
+                  }
+#              GROUP init_nop_delay
+#              {
+#                title = "Delay(us) after NOP during initialization";
+#                layout = "horizontal";
+#                EDIT
+#                {
+#                  $$badval = "{{ $WSA/init_nop_delay >= 10; }}";
+#                  error=
+#                     "{{ if ($$badval)
+#                         'Invalid init delay after NOP (must be < 10)'; }}";
+#                  width=60;
+#                  height=20;
+#                  DATA
+#                  {
+#                    init_nop_delay = $;
+#                  }
+#                }
+#              }
+               }
+# This 'Simulation' page started out as a deadlift of the 'Contents' tab
+# for the OnchipMemory 
+               REM PAGE 4
+               {
+                  title = "Simulation";
+#                  align = "left";
+#                  spacing = "5";
+#                  error = "{{ 
+#               if ($CONTENTS/Kind != 'blank' && 
+#                   $CONTENTS/Kind != 'textfile' && 
+#                   !sopc_is_component_installed('altera_nios') &&
+#                   !sopc_is_component_installed('altera_nios_time_limited'))
+#               'You must have a Nios installed to use contents
+#                other than Blank or File.'; else ''
+#               }}";
+                  
+# | Blank contents: X's for our model -- no initial $readmem(); at all!
+                  GROUP simulation_base_model
+                  {
+                     title = "Altera Simulation Model";
+                     align = "center";
+                     layout = "horizontal";
+                     RADIO
+                     {
+                        title = "Yes";
+                        tooltip =
+                           "Include an Altera functional SODIMM model in the simulation Test Bench.<br>The model will auto-size to the declared sdram controller profile.<br>There are no timing checks in the Altera model.";
+                        DATA
+                        {
+                           $WSA/sim_model_base = 1;
+                        }
+                     }
+                     RADIO
+                     {
+                        title = "No";
+                        tooltip =
+                           "No SODIMM model will be created for simulation;<br>a vendor memory model must be acquired.";
+                        DATA
+                        {
+                           $WSA/sim_model_base = 0;
+                        }
+                     }
+                  }
+                  GROUP simulation_contents
+                  {
+                     title = "Simulation Contents";
+                     align = "left";
+                     RADIO
+                     {
+                        title = "Blank";
+                        tooltip = "Memory will be filled with UNKNOWN's (X's).";
+                        key="k";
+                        DATA { $CONTENTS/Kind = "blank"; }
+                     }
+                     
+# | Germs for contents
+                     RADIO
+                     {
+                        title =
+                           "GERMS Monitor (requires Nios, ~1.5Kbyte footprint)";
+                        tooltip =
+                           "A bootable monitor will be built into the memory";
+                        key="G";
+                        DATA { $CONTENTS/Kind = "germs"; }
+                        warning =
+                           "{{ if (($ == 1) && 
+                                      (($$mem_size_in_bits / 8) < 1536))
+                      'Memory with contents GERMS requires at least 1536 bytes';
+                    }}";
+                     }
+                     
+# | Test Code for contents
+                     RADIO
+                     {
+                        title = "Test Code";
+                        tooltip =
+                           "A program that invokes each peripheral's test routine will be built into the memory";
+                        key="T";
+                        DATA { $CONTENTS/Kind = "test_code"; }
+                     }
+                     
+# | Default Build (nios-build) for contents
+                     RADIO
+                     {
+                        title = "Build:";
+                        tooltip =
+                           "The file(s) specified will be built using nios-convert or nios-build";
+                        DATA { $CONTENTS/Kind = "build"; }
+                        layout="horizontal";
+                        EDIT
+                        {
+                           id = "memory_build_contents";
+                           DATA { $CONTENTS/Build_Info = "$"; }
+                           error = "{{ if ($ == '' && $CONTENTS/Kind == 'build')
+                           'Please specify a file to build the contents.'; }}";
+                        }
+                        BUTTON
+                        {
+                           title = "...";
+                           ACTION select
+                           {
+                              $CONTENTS/Build_Info = 
+                                 "{{ browse($$system_directory, '*.mif,*.srec,*.c,*.s'); }}";
+                           }
+                        }
+                     }
+                     
+# | Text File for contents
+                     RADIO
+                     {
+                        title = "File:  ";
+                        tooltip = "{{ $$text_file_tooltip; }}";
+                        DATA { $CONTENTS/Kind = "textfile"; }
+                        layout = "horizontal";
+                        EDIT
+                        {
+                           id = "memory_file_contents";
+                           DATA { $CONTENTS/Textfile_Info = "$"; }
+                           tooltip = "{{ $$text_file_tooltip; }}";
+                           error =
+                              "{{ if ($ == '' && $CONTENTS/Kind == 'textfile')
+                        'Please specify a .srec file or a raw binary file.';
+                        }}";
+                        }
+                        BUTTON
+                        {
+                           title = "...";
+                           ACTION select
+                           {
+                              $CONTENTS/Textfile_Info =
+                                 "{{ browse($$system_directory, ''); }}";
+                           }
+                        }
+                     }
+                     
+# | Command to generate contents
+                     RADIO
+                     {
+                        title = "Command:";
+                        tooltip = 
+                           "The command will be run by /bin/sh in the current project directory.<br><i>Use %1 for the resulting S-record file and %2 for SDK directory.</i>";
+                        DATA { $CONTENTS/Kind = "command"; }
+                        layout = "horizontal";
+                        EDIT
+                        {
+                           id = "memory_command_contents";
+                           DATA { $CONTENTS/Command_Info = "$"; }
+                           error =
+                              "{{ if ($ == '' && $CONTENTS/Kind == 'command')
+                       'Please specify a command to generate contents.'; }}";
+                        }
+                     }
+                     
+# | String for contents: *** No String supported anymore!***
+                     REM RADIO
+                     {
+                        title = "String:      ";
+                        tooltip = "The string will be placed into the memory";
+                        DATA { $CONTENTS/Kind = "string"; }
+                        layout = "horizontal";
+                        EDIT
+                        {
+                           id = "memory_string_contents";
+                           DATA { $CONTENTS/String_Info = "$"; }
+                           warning =
+                              "{{ if ($ == '' && $CONTENTS/Kind == 'string')
+                             'Please specify a string for contents.';
+                        }}";
+                        }
+                     }
+# Next Brace ends GROUP simulation_contents
+                  }
+# Next Brace ends PAGE 4 (Simulation)
+               }
+# Next Brace ends PAGES main:
+            }
+         }
+      }
+      WIZARD_UI bind
+      {
+         CONTEXT
+         {
+            MOD = "";
+            WSA = "WIZARD_SCRIPT_ARGUMENTS";
+            S_SBI="SLAVE s1/SYSTEM_BUILDER_INFO";
+         }
+         visible = "{{ $WSA/shared_data; }}";
+         align = "left";
+         GROUP
+         {
+            title = "SDRAM Controller / Tristate Bridge Binding";
+            align = "left";
+            spacing = "5";
+            TABLE
+            {
+               glue = "0";
+               java = "sopc_builder.sopc_slave_table";
+               COLUMN name
+               {
+                  title = "SDRAM";
+                  width = "200";
+                  type = "text";
+                  editable = "0";
+               }
+               COLUMN slave
+               {
+                  title = "Select Tristate Bridge";
+                  width = "200";
+                  type = "combo";
+                  contents = "slave";
+               }
+               ROW
+               {
+                  COLUMN name
+                  {
+                     title = "Tristate Bridge Selection";
+                  }
+                  COLUMN slave
+                  {
+                     data = "$WSA/tristate_bridge_slave";
+                     filter = "altera_avalon_tri_state_bridge";
+                     emancipated = "1";
+                     required = "{{ $WSA/shared_data; }} ";
+                  }
+               }
+            }
+            TEXT
+            {
+               title = "Note: This can only be changed if Tri-state Sharing mode is selected in the 'SDRAM Controller' Wizard.";
+               glue = "0";
+            }
+            # SPR 158980: validation to ensure that when SDRAM shares a TSB that it's on the same clock
+            error = "{{  if ($WSA/shared_data != 0 && sopc_get_clock_source($WSA/tristate_bridge_slave) !=  sopc_get_clock_source($MOD))
+                         '<b>'+$MOD+'</b>: SDRAM sharing pins with '+$WSA/tristate_bridge_slave+' must share same clock.';   }}";
+         }
+      }
+   }
+}

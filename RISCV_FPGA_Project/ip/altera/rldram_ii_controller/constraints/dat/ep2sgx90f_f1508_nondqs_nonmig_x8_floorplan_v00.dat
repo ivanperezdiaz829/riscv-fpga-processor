@@ -1,0 +1,38 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains floorplan information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - the maximum width of the memory interface  
+--  - a default byte group location  
+--  - any non working configuration  
+-- It will be used by the MegaWizard in order to let the user select the 
+-- possible placement of the DQ groups 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+device EP2SGX90FF1508
+	bytegroup_name 2T 4T 6T 8T 10T 12T 14T 16T 18T 20T 22T 24T 26T 26B 24B 22B 20B 18B 16B 14B 12B 10B 8B 6B 4B 2B 0B 35L 34L 33L 32L 31L 30L 29L 28L 27L 26L 25L 24L 23L 22L 21L 20L 19L 18L
+	default_placement 2T 4T 6T 8T 10T 12T 14T 16T 18T 20T 22T 24T 26T 26B 24B 22B 20B 18B 16B 14B 12B 10B 8B 6B 4B 2B 0B 35L 34L 33L 32L 31L 30L 29L 28L 27L 26L 25L 24L 23L 22L 21L 20L 19L 18L
+	maximum_width 360

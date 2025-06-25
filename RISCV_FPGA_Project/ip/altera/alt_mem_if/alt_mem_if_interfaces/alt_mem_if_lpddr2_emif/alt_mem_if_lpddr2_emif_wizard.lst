@@ -1,0 +1,12 @@
+[Interfaces|External Memory|LPDDR2 SDRAM]
+LPDDR2 SDRAM Controller with UniPHY v13.1= "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/alt_mem_if_lpddr2_emif_hw.tcl" --wizard:altera_mem_if_lpddr2_emif --familyParameter:SYS_INFO_DEVICE_FAMILY --unencrypted:Verilog --early_gen:on --example_variation_file:text --librarian-path:"%w/*_hw.tcl,$" %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria V | Cyclone V | MAX 10 FPGA"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>LPDDR2 SDRAM Controller with UniPHY v13.0</ALIAS>
+<ALIAS>LPDDR2 SDRAM Controller with UniPHY v12.1</ALIAS>
+<ALIAS>LPDDR2 SDRAM Controller with UniPHY v12.0</ALIAS>
+</INFO>

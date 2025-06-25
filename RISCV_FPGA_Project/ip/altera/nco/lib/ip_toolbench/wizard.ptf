@@ -1,0 +1,33 @@
+open_core_plus {
+    first_message       = "You have selected the OpenCore Plus hardware evaluation version
+of the NCO ver 1.3.0 MegaCore Function.  This version is
+time-limited and may be used for evaluation purposes only.  You 
+may obtain an OpenCore Plus license for this core at no charge by
+visiting the MegaCore Licensing section of www.altera.com.";
+    first_window_title  = "OpenCore Plus Warning";
+    second_message      = "You are using a time-limited version of the NCO ver 
+1.3.0 MegaCore Function.  This version is intended only for 
+hardware evaluation in Altera devices.  After 2.7e11 clock cycles
+of the clock input clk, fsin_o and fcos_o will remain at zero.  
+The device must be reconfigured to reset the core.";
+    second_window_title = "Time Limit Warning";
+    clock_limit         = "2.7e11";
+    disable_behaviour   = "the core will stop...";
+}
+names_and_versions {
+    short_name        = "nco";
+    long_name         = "nco";
+    short_pretty_name = "NCO";
+    long_pretty_name  = "NCO";
+    ver1              = "2";
+    ver2              = "2.0";
+    ver3              = "2.0.0";
+    full_version      = "2.0.0";
+}
+
+plug_in_manager {
+    source_lang = "Verilog";
+    section = "DSP";
+}
+
+

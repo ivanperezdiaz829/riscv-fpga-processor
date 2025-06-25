@@ -1,0 +1,86 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/main/ip/altera_connection_identification_hub/altera_connection_identification_hub.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2012/05/24 $
+// \$Author: adraper $
+
+// -------------------------------------------------------
+// Altera Identification hub
+//
+// Parameters
+//   DESIGN_HASH   : $hash
+//   COUNT         : $count
+//   ROM_WIDTHS    : $rom_widths
+//   LATENCIES     : $latencies
+//
+// -------------------------------------------------------
+
+@@ proc log2 x {expr {int(ceil(log($x) / log(2)))}}
+
+`timescale 1 ns / 1 ns
+
+module $output_name
+(
+@@    set n [llength $rom_widths]
+@@    for { set i 0 } { $i < $n } { incr i } {
+@@    set l [lindex $latencies $i]
+@@    if {$l > 0} {
+	input clock_$i,
+@@    }
+@@    set dw [lindex $rom_widths $i]
+@@    set aw [expr 7 - [log2 $dw]]
+@@    set dwm [expr $dw - 1]
+@@    set awm [expr $aw - 1]
+	input [$awm:0] address_$i,
+	input [3:0] contrib_$i,
+	output [$dwm:0] rdata_$i,
+@@    }
+	output [3:0] mixed
+);
+@@    for { set i 0 } { $i < $n } { incr i } {
+@@    set dw [lindex $rom_widths $i]
+@@    set dwm [expr $dw - 1]
+
+
+@@    set index [format "12'h%X" $i]
+wire [127:0] data_$i = { mixed, $index, 32'h0, 80'h$hash };
+
+@@    set l [lindex $latencies $i]
+@@    if {$l > 0} {
+reg [$dwm:0] result_$i;
+always @(posedge clock_$i) begin
+@@    } else {
+wire [$dwm:0] result_$i;
+always @(address_$i or data_$i) begin
+@@    }
+        case (address_$i)
+@@    for { set j 0; set k 0 } { $k < 128 } { incr j; incr k $dw } {
+            $j: result_$i <= data_$i[$k+:$dw];    
+@@    }
+            default: result_$i <= 0;
+        endcase
+end
+assign rdata_$i = result_$i;
+@@    }
+
+// TODO: Cut timing paths into and out of mixed
+
+assign mixed =
+@@    for { set i 0 } { $i < $n } { incr i } {
+	contrib_$i ^
+@@    }
+	4'h0;
+
+endmodule

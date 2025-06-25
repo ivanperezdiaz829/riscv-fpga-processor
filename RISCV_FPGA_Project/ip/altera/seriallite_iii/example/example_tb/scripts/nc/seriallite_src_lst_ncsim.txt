@@ -1,0 +1,47 @@
+
+
+// Infrastructure components
+../../demo/src/dp_sync.v
+../../demo/src/dp_hs_req.v
+../../demo/src/dp_hs_resp.v
+
+// Source Components
+$SRC_SIM_LOCATION/seriallite_iii/seriallite_iii_streaming_source.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/source_clock_gen.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/source_application.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/source_adaptation.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/interlaken_phy_ip_tx.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/dv_gen.v
+$SRC_SIM_LOCATION/seriallite_iii/cadence/reset_delay.v
+$SRC_SIM_LOCATION/seriallite_iii/control_word_decoder.v
+$SRC_SIM_LOCATION/seriallite_iii/aclr_filter.v
+$SRC_SIM_LOCATION/seriallite_iii/dcfifo_s5m20k.v
+$SRC_SIM_LOCATION/seriallite_iii/delay_regs.v
+$SRC_SIM_LOCATION/seriallite_iii/eq_5_ena.v
+$SRC_SIM_LOCATION/seriallite_iii/gray_cntr_5_sl.v
+$SRC_SIM_LOCATION/seriallite_iii/gray_to_bin_5.v
+$SRC_SIM_LOCATION/seriallite_iii/neq_5_ena.v
+$SRC_SIM_LOCATION/seriallite_iii/s5m20k_ecc_1r1w.v
+$SRC_SIM_LOCATION/seriallite_iii/sync_regs_aclr_m2.v
+$SRC_SIM_LOCATION/seriallite_iii/wys_lut.v
+
+// Sink Components
+$SNK_SIM_LOCATION/seriallite_iii/seriallite_iii_streaming_sink.v
+$SNK_SIM_LOCATION/seriallite_iii/cadence/sink_clock_gen.v
+$SNK_SIM_LOCATION/seriallite_iii/cadence/sink_application.v
+$SNK_SIM_LOCATION/seriallite_iii/cadence/sink_adaptation.v
+$SNK_SIM_LOCATION/seriallite_iii/cadence/interlaken_phy_ip_rx.v
+$SNK_SIM_LOCATION/seriallite_iii/cadence/sink_alignment.v
+
+// Demo Components
+../../demo/src/traffic_gen.sv
+../../demo/src/prbs_generator.v
+../../demo/src/prbs_poly.v
+../../demo/src/traffic_check.v
+../../demo/src/source_reconfig.v
+../../demo/src/sink_reconfig.v
+
+// Testbench Components
+../skew_insertion.v
+../testbench.sv
+../test_env.v

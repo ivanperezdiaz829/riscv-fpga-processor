@@ -1,0 +1,69 @@
+
+
+-- Clearbox generated Memory Initialization File (.mif)
+-- 
+-- File Name = rc_s4gxb_rx_alt4gxb_2876.mif
+-- ALTGX MegaWizard instance = "|rc_s4gxb_rx_alt4gxb_2876:rc_s4gxb_rx_alt4gxb_2876_component"
+-- MIF type = RX
+-- Protocol = basic
+-- Effective data rate = 2970.0 Mbps
+-- Input clock frequency = 148.5 MHz
+-- Data rate divider = 1
+-- Input clock source for receiver PLL = 0
+-- 8B/10B used = No
+-- Rate matcher used = No
+-- Channel width = 20
+-- 
+-- Bit details for RX PMA Control Register 4:
+-- [15]    RCRU_DIV2       1=cruclk divided by 2, 0=bypass
+-- [14-13] RCRU_M_SEL[1:0] cruclk division ratio: 00=1, 01=2, 10=4, 11=unused
+-- [12-9]  RCRU_M[3:0]     M control: 0000=1, 0010=4, 0011=5, 0100=8, 0101=10, 0110=16, 0111=20, 1000=25
+-- [8-7]   RCRU_L[1:0]     L control: 00=1, 01=2, 10=4, 11=8
+-- [6]     RCRU_CTL0       Programmable Control CRAMs for RING VCO frequency range control: 1 = 500MHz - 1.56GHz, 0 = 1GHz - 3.25GHz
+
+WIDTH=16;
+DEPTH=38;
+
+ADDRESS_RADIX=UNS;
+DATA_RADIX=BIN;
+
+CONTENT BEGIN
+	0   :   0101000000000000;	-- Header word: RX_PCS=1, RX_PMA=1
+	1   :   0000000000000000;
+	2   :   0110000001000000;
+	3   :   0010001000000000;
+	4   :   0000000000000000;
+	5   :   0000000101111100;
+	6   :   1000000000000000;
+	7   :   0000000000000000;
+	8   :   0010000101100100;
+	9   :   0010000000000000;
+	10  :   0000000000000000;
+	11  :   0000000000000000;
+	12  :   0010110110110100;
+	13  :   1011110000110001;
+	14  :   0110000000000000;
+	15  :   0000000000000000;
+	16  :   0000000000000000;
+	17  :   0000000011000000;
+	18  :   1101000001011110;
+	19  :   0000000000000000;
+	20  :   0000000000111111;
+	21  :   0000001111101000;
+	22  :   0000000000000000;
+	23  :   0000001000001110;
+	24  :   0000001100100000;
+	25  :   1110010000000000;
+	26  :   0000000000000110;
+	27  :   0000100000000101;
+	28  :   0010000100010100;
+	29  :   0000101001000001;  -- RX PMA Control Register 4
+	30  :   0000000001100000;
+	31  :   0111000000100011;
+	32  :   0000000000000000;
+	33  :   0000000000000000;
+	34  :   0000000000000000;
+	35  :   0100000100000000;
+	36  :   0000000100000000;
+	37  :   0000000000000000;
+END;

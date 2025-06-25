@@ -1,0 +1,822 @@
+CLASS altera_avalon_onchip_memory
+{
+   ASSOCIATED_FILES
+   {
+      Add_Program              = "default";
+      Edit_Program             = "default";
+      Bind_Program             = "bind";
+      Generator_Program        = "em_onchip_memory.pl";
+      Software_Rebuild_Program = "em_onchip_memory.pl";
+   }
+   MODULE_DEFAULTS
+   {
+      class         = "altera_avalon_onchip_memory";
+      class_version = "7.08131";
+      iss_model_name = "altera_memory";
+
+      HDL_INFO
+      {
+           # The list of files associated with this module (for synthesis
+           # and other purposes) depends on the users' wizard-choices.
+           # This section will be filled-in by the Generator_Program
+           # after the module logic has been created and the
+           # various filenames are known.
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled                   = "1";
+         Required_Device_Family		  = "";
+         Prohibited_Device_Family           = "MAXII";
+         Top_Level_Ports_Are_Enumerated = "1";
+      }
+      SLAVE s1
+      {
+        PORT_WIRING
+        {
+             # The number and kind of ports that appear on this module
+             # depends on the user's wizard-choices.
+             # This section will be filled-in by the Generator_Program
+             # after the module logic has been created and the ports are known.
+             #
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Bus_Type                     = "avalon";
+           Is_Memory_Device             = "1";
+           Address_Alignment            = "dynamic";
+           Address_Width                = "8";
+           Data_Width                   = "32";
+           Has_IRQ                      = "0";
+           Read_Wait_States             = "0";
+           Write_Wait_States            = "0";
+           Address_Span                 = "1024";
+           Read_Latency                 = "1";
+           Is_Channel                   = "1";
+        }
+      }
+      SLAVE s2
+      {
+        PORT_WIRING
+        {
+             # The number and kind of ports that appear on this module
+             # depends on the user's wizard-choices.
+             # This section will be filled-in by the Generator_Program
+             # after the module logic has been created and the ports are known.
+             #
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Bus_Type                     = "avalon";
+           Is_Memory_Device             = "1";
+           Address_Alignment            = "dynamic";
+           Address_Width                = "8";
+           Data_Width                   = "32";
+           Has_IRQ                      = "0";
+           Read_Wait_States             = "0";
+           Write_Wait_States            = "0";
+           Address_Span                 = "1024";
+           Read_Latency                 = "1";
+           Is_Enabled                   = "0";
+           Is_Channel                   = "1";
+        }
+      }
+
+      SIMULATION
+      {
+        DISPLAY
+        {
+          SIGNAL a { name  = "chipselect";  conditional = "1";      }
+          SIGNAL b { name  = "write";       conditional = "1";      }
+          SIGNAL c { name  = "address";     radix  = "hexadecimal"; }
+          SIGNAL d { name  = "byteenable";
+                     radix = "binary";
+                     conditional = "1";
+                   }
+          SIGNAL e { name = "readdata";    radix  = "hexadecimal"; }
+          SIGNAL f { name = "writedata";
+                     radix  = "hexadecimal";
+                     conditional = "1";
+                   }
+        }
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+         Writeable     = "1";
+         Size_Value    = "2";
+         Size_Multiple = "1024";
+         Contents      = "blank";
+         Shrink_to_fit_contents = "0";
+		 # use_altsyncram: passed to back-end
+         use_altsyncram = "0";  
+         # use_ram_block_type: passed to back-end
+         use_ram_block_type = "";
+         # altsyncram_ram_block_type: user-selection of block type
+		 altsyncram_ram_block_type = "";
+         dual_port     = "0";
+         allow_mram_sim_contents_only_file = "0";
+
+         CONTENTS srec
+            {
+            Kind        = "blank"; # one of germs, blank, build, command, textfile, or string
+            Build_Info = "";       # if Kind is build...
+	    Command_Info = "";     # if Kind is command...
+	    Textfile_Info = "";    # if Kind is textfile
+	    String_Info = "";      # if Kind is string
+            }
+      }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+         name="Legacy On-Chip Memory (RAM or ROM)";
+         technology = "Legacy Components";
+      }
+      LINKS
+      {
+      }
+
+      WIZARD_UI default
+      {
+        title="On-chip Memory - {{ $MOD }}";
+        align = "left";
+        CONTEXT
+        {
+            WSA="WIZARD_SCRIPT_ARGUMENTS";
+            SLAVE1 = "SLAVE s1";
+            SLAVE2 = "SLAVE s2";
+            SBI="SLAVE s1/SYSTEM_BUILDER_INFO";
+            SBI2="SLAVE s2/SYSTEM_BUILDER_INFO";
+            CONTENTS="WIZARD_SCRIPT_ARGUMENTS/CONTENTS srec";
+        }
+      $$is_stratix_device = "{{ startswith($SYS/device_family, 'STRATIX'); }}";
+      $$is_cyclone = "{{ startswith($SYS/device_family, 'CYCLONE') }}";
+      $$has_altsyncram  = "{{ $$is_cyclone || $$is_stratix_device }}";
+      $$has_dual_port   = "{{ $$has_altsyncram }}";
+      $$happy_devices   = "{{ if ($WSA/use_ram_block_type == 'M4K') 'STRATIX,STRATIXGX,STRATIXII,STRATIXIIGX,CYCLONE,CYCLONEII';
+                             else 'STRATIX,STRATIXGX,STRATIXII,STRATIXIIGX'; }}";
+
+      $$required_device_family = "{{ $MOD/SYSTEM_BUILDER_INFO/Required_Device_Family; }}";
+      # ensure consistent settings when wizard is brought up
+      ACTION initialize
+      {
+         # one-time "the tool changed your setting" message
+         $$init_message = 
+         "{{
+            if ( ($$required_device_family == 'STRATIX,STRATIXGX,STRATIXII,STRATIXIIGX' && !$$is_stratix_device) ||
+                 ($$required_device_family == 'STRATIX,STRATIXGX,STRATIXII,STRATIXIIGX,CYCLONE,CYCLONEII' && !($$is_stratix_device || $$is_cyclone)))
+              'Device family change disabled device-specific features.';
+            else
+               '';
+         }}";
+
+         # Enforce device-family dependancies:
+         #  non-Stratix: clear Stratix settings
+         #      Stratix: make sure valid block type is set
+         code = 
+         "{{ 
+            if (!$$has_altsyncram) 
+            {
+               $WSA/use_altsyncram = 0; 
+               $WSA/altsyncram_ram_block_type = '';
+               $MOD/SYSTEM_BUILDER_INFO/Required_Device_Family='';
+            } else {
+                 if (($WSA/altsyncram_ram_block_type == '') || $$is_cyclone)
+                     $WSA/altsyncram_ram_block_type = 'AUTO';
+             }
+         }}";
+        code_2 = 
+        "{{ if (!$$has_dual_port)
+            {
+               $WSA/dual_port = 0;
+               $SBI2/Is_Enabled = 0;
+            }
+          }}";
+          $$text_file_tooltip =
+            "The specified file will fill the memory.  The first byte <br>
+             of the file will be relocated to the first byte of the memory. <br>
+             If the filename ends with <b>.srec</b>, the file's contents will be <br>
+             treated as S-records.  All other files will be read as raw binary; <br>
+             new-line characters of text will not be translated.";
+      }
+        # ensure consistent settings when wizard is finished
+        ACTION wizard_finish
+        {
+            # if we are using altsyncram, tell SOPC Builder that 
+            # Stratix device family is required
+			$MOD/SYSTEM_BUILDER_INFO/Required_Device_Family = 
+			"{{ 
+				if ($WSA/use_altsyncram == 1) 
+					$$happy_devices; 
+				else 
+					''; 
+			}}";
+            # produce a user-readable settings summary
+            $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = 
+            "{{ $SBI/Address_Span; }}-bytes of {{ if ($WSA/Writeable == 1) { if ($WSA/use_altsyncram) $WSA/use_ram_block_type+' block(s)'; else 'RAM'; } else {'ROM'}; }}, Contents: {{ $WSA/CONTENTS/Kind; }}";
+        }
+
+        # perform some computations used throughout the wizard.
+        byte_size = "{{ $WSA/Size_Value * $WSA/Size_Multiple }}";
+        bytes_per_word = "{{ $SBI/Data_Width / 8 }}";
+        word_size = "{{ $byte_size / $bytes_per_word }}";
+        raw_address_bits = "{{ ceil(log2($word_size)) }}";
+        address_bits = "{{ if ($word_size < 2)
+                             1;
+                           else
+                             $raw_address_bits;
+                        }}";
+        $SBI/Address_Width = "{{ $address_bits }}";
+        $SBI/Address_Span  = "{{ $byte_size }}";
+        $SBI2/Address_Width = "{{ $address_bits }}";
+        $SBI2/Address_Span  = "{{ $byte_size }}";
+
+        $$is_initialized = "{{ $CONTENTS/Kind != 'blank' }}";
+        $$is_rom = "{{ $WSA/Writeable == 0 }}";
+        $WSA/use_altsyncram = "{{ $$has_altsyncram }}";
+
+        # update auto-selection block type
+        test_1 = "{{ if ($byte_size < 20480 || $$is_initialized || $$is_rom || $$is_cyclone) { $$auto_type = 'M4K' }; else { $$auto_type='M-RAM'; } }}";
+        test_2 = "{{ if (!$WSA/dual_port && !$$is_cyclone && $byte_size <= 256 && (!$$is_initialized || $$is_rom)) { $$auto_type = 'M512'; } else { $$auto_type=$$auto_type; } }}";
+
+        $WSA/use_ram_block_type = 
+        "{{
+            if ($WSA/altsyncram_ram_block_type == 'AUTO') $$auto_type; 
+            else $WSA/altsyncram_ram_block_type;
+        }}";
+
+        # For Stratix, show which block-type we're auto-selecting
+        message=
+        "{{ 
+            if ($WSA/altsyncram_ram_block_type == 'AUTO' &&
+                $WSA/use_altsyncram)
+                'Automatically choosing '+$WSA/use_ram_block_type+' blocks';
+            else
+                '';
+        }}";
+        message = "{{ $$init_message }}";
+
+        PAGES main
+        {
+          select = 1;
+#          align = "left";
+          PAGE 1
+          {
+            title = "Attributes";
+            spacing = 12;   # make up for larger 2nd page.
+            GROUP type
+            {
+                title = "Memory Type";
+                align = "center";
+                spacing = 4;
+                GROUP
+                {
+                    layout = "horizontal";
+                    RADIO 
+                    { 
+                        title = "RAM (writable)"; 
+                        DATA {Writeable = "1";}
+                    }
+                    RADIO 
+                    { 
+                        title = "ROM (read-only)"; 
+                        DATA {Writeable = "0";}
+                    }
+                }
+                CHECK
+                {
+                     title = "Dual-Port Access";
+                     enable="{{ $$has_dual_port }}";
+                     DATA { dual_port = $;
+                            $SBI2/Is_Enabled = $; }
+                            
+                    # JRK 2004-October-19: For SPR 159148: Warn the user that simultaneous
+                    #                      operations can produce undefined results. 
+                    #                      Simultaneous reads and writes behave differently
+                    #                      in Stratix & Stratix II, while simultaneous
+                    #                      writes are bad in all DP memories (not just 
+                    #                      M-RAMs). Hence, the warning is pretty generic.
+                    warning = "{{ 
+                       if ($WSA/dual_port == 1) ) 
+                          'Simultaneous access to the same address can produce undefined output.';
+                    }}";
+                    
+                   tooltip = 
+                    "<b>Dual-port memory warning:</b> Simultaneous access to the same<br>
+                    address on both ports can produce undefined output. Behavior varies<br>
+                    with memory block type. Refer to the memory chapter of the <br>
+                    appropriate Altera device handbook for details.";
+                }
+                CHECK
+                {
+                     title = "Allow Non-Blank M-RAM Contents For Simulation";
+                     DATA { allow_mram_sim_contents_only_file = $; }
+			         warning = "{{ if ($WSA/allow_mram_sim_contents_only_file && $enable)
+				     'The initialized contents of M-RAM blocks are only available under simulation'; }}";
+                }
+                COMBO
+                {
+                    title = "Block Type:";
+                    enable="{{ $$is_stratix_device }}";
+                    ITEM
+                    {
+                        title="Automatic";
+                        DATA { altsyncram_ram_block_type = "{{ if ($$is_stratix_device) 'AUTO'; else '' }}"; }; 
+                    }
+                    ITEM
+                    {
+                        title="M512";
+                        visible="{{ $$is_stratix_device }}";
+                        DATA { altsyncram_ram_block_type = "M512"; }
+                    }
+                    ITEM
+                    {
+                        title="M4K";
+                        visible="{{ $$is_stratix_device }}";
+                        DATA { altsyncram_ram_block_type = "M4K"; }
+                    }
+                    ITEM
+                    {
+                        title="M-RAM";
+                        visible="{{ $$is_stratix_device }}";
+                        DATA { altsyncram_ram_block_type = "M-RAM"; }
+                    }
+                     error =
+                        "{{ if (($WSA/dual_port == 1) && 
+                          ($WSA/altsyncram_ram_block_type == 'M512'))
+                        'You must have M-RAM or M4K selected for dual port memories';
+                        }}";
+
+                }
+              
+            }
+
+            # error if M-RAM ROMs attempted
+			error=
+			"{{
+				if ($WSA/altsyncram_ram_block_type == 'M-RAM' && $$is_rom)
+    					'Stratix M-RAM blocks cannot be read-only'; 
+			}}";
+            # error if M-RAM initialization attempted and not allowed
+            # by WSA parameter
+			error=
+			"{{
+				if ($$is_initialized && !$$is_rom &&
+                                    $WSA/use_altsyncram == 1 && 
+                                  ($WSA/altsyncram_ram_block_type == 'M-RAM' &&
+                                   $WSA/allow_mram_sim_contents_only_file == 0))
+    					'Stratix M-RAM blocks must have Blank Contents'; 
+			}}";
+            # error if M512 RAMs initialized
+            error=
+            "{{
+				if ($$is_initialized && !$$is_rom &&
+                                    $WSA/use_ram_block_type == 'M512')
+    					'Block Type M512 must be ROM or must have Blank Contents'; 
+			}}";
+
+
+            GROUP size
+            {
+               title = "Size";
+               spacing = 10;
+
+               #MF: To make this page actually work,
+               #    I need to set $SBI/Address_Width
+               #    as a function of three controls in this group.
+               #    To do this, I need some sort of global-assignment
+               #    section, as we discussed.  Without this feature,
+               #    this wizard is mostly-useless (or dangerously
+               #    awkward to program).
+               #
+               GROUP
+               {
+                    layout = "horizontal";
+                    align = "left";
+                    glue = "0";
+                    indent = "20";
+                    TEXT { title = "Data Width: "; }
+                    COMBO
+                    {
+                        id = "memory_width";
+                        width = "1500";
+                        suffix = "bits";
+                        DATA { $SBI/Data_Width = $;
+                               $SBI2/Data_Width = $;}
+                        ITEM { title = "128"; }
+                        ITEM { title = "64"; }
+                        ITEM { title = "32"; }
+                        ITEM { title = "16"; }
+                        ITEM { title = "8"; }
+                    }
+               }
+               GROUP
+               {
+                    layout = "horizontal";
+                    align = "left";
+                    glue = "0";
+                    indent = "20";
+                    TEXT {title = "Total Memory Size:        "; }
+                    EDIT
+                    {
+                        # MF: It ignores "column" unless width is absurdly small.
+                        width    = "1";
+                        columns  = "5";
+                        justify  = "right";
+                        type     = "decimal";
+                        id = "memory_size";
+                        DATA { Size_Value = $; }
+                    }
+                    COMBO
+                    {
+                        id = "memory_units";
+                        width = "30";
+                        ITEM { title="KBytes"; DATA { Size_Multiple = "1024";}}
+                        ITEM { title="bytes";  DATA { Size_Multiple =    "1";}}
+                    }
+               }
+               # MF: I want this check-box indented.  I tried putting the
+               #     indent assignment -inside- the CHECK section, but
+               #     that didn't work.  I think that's what I want:  To
+               #     associate the indent-assignment with the control
+               #     itself, not as an order-dependent property of the
+               #     enclosing group.
+			   
+			   # SPR 98037: removing Shrink_to_fit_contents checkbox for SOPC Builder 2.6
+               REM   
+               GROUP 
+               {  
+                   indent = "20";
+                   CHECK
+                   {
+                     title = "Shrink size to fit contents";
+                     DATA { Shrink_to_fit_contents = $;}
+                     error =
+                        "{{ if (($ == 1) && ($CONTENTS/Kind == 'blank'))
+                        'Cannot shrink size to fit <i>Blank</i> contents.';
+                        }}";
+                   }
+               }
+             }
+           }
+
+# ----------------------------------------------------------------------------------
+# The Contents Page
+#
+# Lets you select between blank, germs, and various ways to operate on files
+#
+
+           PAGE 2
+           {
+             title = "Contents";
+#             align = "left";
+             spacing = "5";
+
+             error = "{{ 
+               if ($CONTENTS/Kind != 'blank' && 
+                   $CONTENTS/Kind != 'textfile' && 
+                   $CONTENTS/Kind != 'command' && 
+                   !sopc_is_component_installed('altera_nios') &&
+                   !sopc_is_component_installed('altera_nios2') &&
+                   !sopc_is_component_installed('altera_nios_time_limited'))
+               'You must have a Nios or Nios II installed to use contents other than Blank or File.'; else ''
+               }}";
+
+	     # +-----------------------------------------------
+	     # | Blank contents
+
+             RADIO
+             {
+                title = "Blank";
+                tooltip = "Memory will be filled with zeroes. <br> (Stratix M-RAM blocks will not be initialized.)";
+                key="k";
+                DATA { $CONTENTS/Kind = "blank"; }
+                warning = 
+                "{{
+                    if (!$WSA/Writeable && $CONTENTS/Kind == 'blank')
+                    'ROM is blank and read only.';
+                }}";
+             }
+
+	     # +-----------------------------------------------
+	     # | Germs for contents
+
+        RADIO
+        {
+            title = "GERMS Monitor (requires Nios master, ~1.5K footprint)";
+            tooltip = "A bootable monitor will be built into the memory";
+            key="G";
+            DATA { $CONTENTS/Kind = "germs"; }
+            warning = "{{ if (($ == 1) && 
+                           (($WSA/Size_Value * $WSA/Size_Multiple) < 1536))
+                        'Memory with contents GERMS may require at least 1536 bytes (1.5KBytes)';
+                    }}";   
+            error = "{{ if (($WSA/dual_port == 1) && ($CONTENTS/Kind == 'germs'))
+                        'Germs monitor not supported for dual-port memory.'; }}";   
+        }
+
+	     # +-----------------------------------------------
+	     # | Test Code for contents
+
+        RADIO
+        {
+            title = "Test Code";
+            tooltip = "A program that invokes each peripheral's test routine will be built into the memory";
+            key="T";
+            DATA { $CONTENTS/Kind = "test_code"; }
+            error = "{{ if (($WSA/dual_port == 1) && ($CONTENTS/Kind == 'test_code'))
+                        'Test Code not supported for dual-port memory.'; }}";   
+        }
+
+	     # +-----------------------------------------------
+	     # | Default Build (nios-build) for contents
+
+        RADIO
+        {
+            title = "Build:";
+            tooltip = "The file(s) specified will be built using nios-convert or nios-build";
+            DATA { $CONTENTS/Kind = "build"; }
+            layout="horizontal";
+            EDIT
+            {
+                id = "memory_build_contents";
+                DATA { $CONTENTS/Build_Info = "$"; }
+                error =
+                     "{{ if ($ == '' && $CONTENTS/Kind == 'build')
+                           'Please specify a file to build the contents.';
+                      }}";
+            }
+            BUTTON
+            {
+                title = "...";
+                ACTION select
+                {
+                    $CONTENTS/Build_Info = "{{ browse($$system_directory, '*.mif,*.srec,*.c,*.s'); }}";
+                }
+            }
+            error = "{{ if (($WSA/dual_port == 1) && ($CONTENTS/Kind == 'build'))
+                        'Software Build not supported for dual-port memory.'; }}";   
+         }
+
+	     # +----------------------------------------
+	     # | Text File for contents
+
+            RADIO
+            {
+                title = "File:  ";
+
+                tooltip = "{{ $$text_file_tooltip; }}";
+                DATA { $CONTENTS/Kind = "textfile"; }
+                layout = "horizontal";
+                EDIT
+                {
+                    id = "memory_file_contents";
+                    DATA { $CONTENTS/Textfile_Info = "$"; }
+                    tooltip = "{{ $$text_file_tooltip; }}";
+                    error =
+                        "{{ if ($ == '' && $CONTENTS/Kind == 'textfile')
+                        'Please specify a .srec file or a raw binary file.';
+                        }}";
+                }
+                BUTTON
+                {
+                    title = "...";
+                    ACTION select
+                    {
+                        $CONTENTS/Textfile_Info = "{{ browse($$system_directory, ''); }}";
+                    }
+                }
+            }
+
+	     # +----------------------------------------
+	     # | Command to generate contents
+
+        RADIO
+        {
+            title = "Command:";
+            tooltip = "The command will be run by /bin/sh in the current project directory.<br><i>Use %1 for the resulting S-record file and %2 for SDK directory.</i>";
+            DATA { $CONTENTS/Kind = "command"; }
+            layout = "horizontal";
+            EDIT
+            {
+               id = "memory_command_contents";
+               DATA { $CONTENTS/Command_Info = "$"; }
+               error =
+                   "{{ if ($ == '' && $CONTENTS/Kind == 'command')
+                       'Please specify a command to generate contents.';
+                   }}";
+            }
+        }
+
+	     # +----------------------------------------
+	     # | String for contents
+             # | No String supported anymore
+             REM RADIO
+             {
+                title = "String:      ";
+                tooltip = "The string will be placed into the memory";
+                DATA { $CONTENTS/Kind = "string"; }
+                layout = "horizontal";
+                EDIT
+                {
+                    id = "memory_string_contents";
+                    DATA { $CONTENTS/String_Info = "$"; }
+                    warning =
+                       "{{ if ($ == '' && $CONTENTS/Kind == 'string')
+                             'Please specify a string for contents.';
+                        }}";
+                }
+            }
+    }
+
+
+
+           REM "PAGE 2" # disable page 2 for a bit
+           {
+              warning = "{{
+                         if (!$WSA/Writeable && $WSA/Contents == 'blank')
+                           'ROM is blank.  You may want to specify contents.';
+                         }}";
+             title = "Contents";
+             align = "left";
+             spacing = 10;
+             #MF: I notice that the radio-buttons are plastered right up
+             #    against the leftie-most edge of the panel.  This is,
+             #    I suppose, what I asked for.
+             #    But the whole thing looks a little risky to me--I'm afraid
+             #    the radio-buttons are going to fall off the edge if I
+             #    poke them too hard.
+             #    I guess I could put everything
+             #    in this page in a group, and slide it over to the right
+             #    a wee bit.  But it might be better to automatically
+             #    give the user a default margin of a few pixels  on every
+             #    page.  If you want this to be an assignment that they
+             #    can override at-will, that would be even better.
+             #
+             RADIO { title = "Blank"; DATA { Contents = "blank"; } }
+             RADIO {
+               title = "GERMS boot / debug monitor ";
+               DATA {Contents = "germs"; }
+             }
+             RADIO
+             {
+               align = "left";
+               title = "Build from source file(s) using default process";
+               DATA { Contents = "default_build"; }
+               GROUP
+               {
+                 # MF: This indent works exactly like I expect.
+                 indent = 25;
+                 layout = "horizontal";
+                 # MF: It appears that this spacing-directive is being ignored.
+                 #     I would like the browse-button to scoot over a bit
+                 #     closer to the edit-box.  Setting "spacing" didn't seem
+                 #     to do anything.
+                 spacing = 5;
+                 EDIT
+                 {
+                   columns = "30";
+                   width   = 5;
+                   DATA {Source_files = $; }
+                   # TODO: Some sort of validation for allowed exts: srec/mif.
+                   error = "{{ if ($ == '' && $WSA/Contents == 'default_build')
+                           'Please specify one or more initialization files.';
+                      }}";
+                 }
+                 BUTTON
+                 {
+                   title = "...";
+                   ACTION select
+                   {
+                     $WSA/Source_files =  "{{ browse($$system_directory, '*.mif,*.srec,*.c,*.s'); }}";
+                   }
+                 }
+               }
+               GROUP
+               {
+                 indent = 30;
+                 spacing = 0;
+                 TEXT {title =
+                   "C (.c) and ASM (.s) files will be compiled using the 'nios-build' utility.";
+                 }
+                 TEXT {title = "SREC or MIF files are be used directly.";}
+               }
+             }
+             RADIO
+             {
+               title = "Use custom build-process to create contents";
+               DATA { Contents = "custom_build"; }
+             }
+           }
+           REM "PAGE 3"  # disable page 3 for a bit
+           {
+             title = "Custom Build";
+             enable = "{{ $WSA/Contents == 'custom_build' }}";
+             align  = "left";
+             TEXT {title =
+           "You may specify a program which builds the conents of this memory.";
+             }
+             TEXT {title =
+               "Build-command to execute when system is generated:";
+               GROUP {
+                 #MF: There are three edit-boxes on this page, all with the
+                 #    same width and indentation, specified in the same
+                 #    slightly-awkward GROUP{}-way.   That's fine.  But
+                 #    the fact that this first one has a slightly-different
+                 #    position than its brothers is ...odd.  I imagine this
+                 #    has something to do with the fact that the other
+                 #    brothers have browse-buttons, but this one doesn't.
+                 indent = 25;
+                 EDIT {
+                   DATA { Custom_build_command = $; }
+                   columns = 30;
+                   width   = 5;
+                   error = "{{
+                              if ($WSA/Contents == 'custom_build' && $ == '')
+                                 'Custom-build: requires a build-command.';
+                            }}";
+                 }
+               }
+             }
+             TEXT {title =
+               "Directory in which the build-command is run:";
+               GROUP {
+                 indent = 25;
+                 layout = "horizontal";
+                 spacing = 5;
+                 EDIT {
+                   DATA { Custom_build_directory = $; }
+                   columns = 30;
+                   width   = 5;
+                   warning = "{{
+                                if ($WSA/Contents == 'custom_build' && $ == '')
+                                 'Custom-build: no directory specified.';
+                              }}";
+                 }
+                 BUTTON {
+                   title = "...";
+                   ACTION select {
+                       $WSA/Custom_build_directory = " {{ browse($$system_directory, 'directory'); }}";
+                   }
+                 }
+               }
+             }
+             TEXT {title =
+               "Output (SREC or MIF) file produced by the build-command:";
+               GROUP {
+                 indent = 25;
+                 layout = "horizontal";
+                 spacing = 5;
+                 EDIT {
+                   DATA { Custom_build_output_file = $; }
+                   columns = 30;
+                   width   = 5;
+                   error = "{{
+                             if ($WSA/Contents == 'custom_build' && $ == '')
+                               'Custom-build: requires output-file';
+                            }}";
+                 }
+                 BUTTON {
+                   title = "...";
+                   ACTION select {
+                        $WSA/Custom_build_output_file =  "{{ browse($$system_directory, '.mif,.srec'); }}";
+                   }
+                 }
+               }
+             }
+           }
+         }
+         
+       # JRK 2004-October-19: For SPR 159148: Add a dual-port warning; we will
+       #                      need more room for it to fit.
+        GROUP messages
+        {
+          LIST
+          {
+            rows = "5";
+            glue = "0";
+            background = "lightGray";
+          }
+        }
+       }
+
+
+      WIZARD_UI bind
+      {
+        visible = "0";
+        CONTEXT 
+        {
+          WSA = "WIZARD_SCRIPT_ARGUMENTS";
+          MOD = "";
+          SBI = "SLAVE s1/SYSTEM_BUILDER_INFO";
+        }
+
+        # The EP2S60ES doesn't support M-RAMs with byte enables.
+        # To prevent an error in Quartus, we give a warning here.
+        warning = "{{ if ($SYS/board_class == 'altera_nios_dev_board_stratix_2s60_es' && $SYS/BOARD_INFO/device_is_engineering_sample && $WSA/use_ram_block_type == 'M-RAM' && $SBI/Data_Width != 8)
+          '<b> '+$MOD+':</b> EP2S60 ES (engineering sample) devices do not support M-RAM blocks with byte enables. Set Block Type to M4K, or set Data Width to 8.'; }}";
+      }
+    }
+  }
+

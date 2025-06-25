@@ -1,0 +1,96 @@
+#########################################################
+# Device and Board Setting                              #
+#########################################################
+set_global_assignment -name DEVICE EP4S100G5F45C2ES1
+set_global_assignment -name FAMILY "Stratix IV"
+
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+#########################################################
+# Timing Related Setting                                #
+#########################################################
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name AUTO_GLOBAL_CLOCK OFF
+set_global_assignment -name AUTO_GLOBAL_REGISTER_CONTROLS OFF
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "ALL PATHS"
+set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING OFF
+set_global_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION OFF
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name TIMEQUEST_DO_REPORT_TIMING ON
+set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION OFF
+set_global_assignment -name AUTO_RAM_RECOGNITION OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF
+set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 10
+
+#########################################################
+# I/O pins and GLOBAL_SIGNAL Setting                    #
+#########################################################
+set_location_assignment PIN_AD40 -to clk50
+set_location_assignment PIN_T39 -to cpu_resetn
+
+set_location_assignment PIN_AB39 -to xfp_scl
+set_location_assignment PIN_AA39 -to xfp_sda
+set_location_assignment PIN_Y38 -to xfp_mod_desel
+set_location_assignment PIN_AA38 -to xfp_pdown_rst
+set_location_assignment PIN_Y39 -to xfp_tx_dis
+
+set_location_assignment PIN_V2 -to clk_ref_r
+set_instance_assignment -name IO_STANDARD "1.4-V PCML" -to clk_ref_r
+set_instance_assignment -name INPUT_TERMINATION "OCT 100 OHMS" -to clk_ref_r
+
+set_location_assignment PIN_AN4 -to tx_serial_r[0]
+set_location_assignment PIN_AL4 -to tx_serial_r[1]
+set_location_assignment PIN_AE4 -to tx_serial_r[2]
+set_location_assignment PIN_AC4 -to tx_serial_r[3]
+set_location_assignment PIN_AA4 -to tx_serial_r[4]
+set_location_assignment PIN_W4 -to tx_serial_r[5]
+set_location_assignment PIN_N4 -to tx_serial_r[6]
+set_location_assignment PIN_L4 -to tx_serial_r[7]
+set_location_assignment PIN_J4 -to tx_serial_r[8]
+set_location_assignment PIN_G4 -to tx_serial_r[9]
+
+set_instance_assignment -name IO_STANDARD "1.4-V PCML" -to tx_serial_r
+set_instance_assignment -name OUTPUT_TERMINATION "OCT 100 OHMS" -to tx_serial_r
+
+set_location_assignment PIN_AP2 -to rx_serial_r[0]
+set_location_assignment PIN_AM2 -to rx_serial_r[1]
+set_location_assignment PIN_AF2 -to rx_serial_r[2]
+set_location_assignment PIN_AD2 -to rx_serial_r[3]
+set_location_assignment PIN_AB2 -to rx_serial_r[4]
+set_location_assignment PIN_Y2 -to rx_serial_r[5]
+set_location_assignment PIN_P2 -to rx_serial_r[6]
+set_location_assignment PIN_M2 -to rx_serial_r[7]
+set_location_assignment PIN_K2 -to rx_serial_r[8]
+set_location_assignment PIN_H2 -to rx_serial_r[9]
+
+set_instance_assignment -name IO_STANDARD "1.4-V PCML" -to rx_serial_r
+set_instance_assignment -name INPUT_TERMINATION "OCT 100 OHMS" -to rx_serial_r
+
+set_location_assignment PIN_H9 -to cfp_glb_alrm
+set_location_assignment PIN_H8 -to cfp_mdc
+set_location_assignment PIN_H7 -to cfp_mdio
+set_location_assignment PIN_L10 -to cfp_mod_abs
+set_location_assignment PIN_J9 -to cfp_mod_lopwr
+set_location_assignment PIN_M12 -to cfp_mod_rst
+set_location_assignment PIN_N10 -to cfp_prg_alrm[1]
+set_location_assignment PIN_M10 -to cfp_prg_alrm[2]
+set_location_assignment PIN_F7 -to cfp_prg_alrm[3]
+set_location_assignment PIN_U14 -to cfp_prg_cntl[1]
+set_location_assignment PIN_U13 -to cfp_prg_cntl[2]
+set_location_assignment PIN_J8 -to cfp_prg_cntl[3]
+set_location_assignment PIN_K8 -to cfp_prtadr[0]
+set_location_assignment PIN_L9 -to cfp_prtadr[1]
+set_location_assignment PIN_V14 -to cfp_prtadr[2]
+set_location_assignment PIN_V15 -to cfp_prtadr[3]
+set_location_assignment PIN_J7 -to cfp_prtadr[4]
+set_location_assignment PIN_F8 -to cfp_rx_los
+set_location_assignment PIN_M11 -to cfp_tx_dis
+
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk50
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk320
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to "*pma|rx_clkout[4]"
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to "*pma|tx_clkout[4]"
+

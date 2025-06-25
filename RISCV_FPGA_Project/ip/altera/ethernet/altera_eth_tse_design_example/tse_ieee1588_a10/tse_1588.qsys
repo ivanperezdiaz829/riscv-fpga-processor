@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element $${FILENAME}
+   {
+   }
+   element clk_0
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element tod.csr
+   {
+      datum baseAddress
+      {
+         value = "4096";
+         type = "String";
+      }
+   }
+   element eth_packet_classifier_0
+   {
+      datum _sortIndex
+      {
+         value = "4";
+         type = "int";
+      }
+   }
+   element merlin_master_translator_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
+   element tod
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element triple_speed_ethernet_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element xcvr_cdr_pll_vi_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element xcvr_reset_control_0
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="HANDSHAKE" />
+ <parameter name="designEnvironment" value="SYSTEM" />
+ <parameter name="device" value="Unknown" />
+ <parameter name="deviceFamily" value="Arria 10" />
+ <parameter name="deviceSpeedGrade" value="Unknown" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="generationId" value="0" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="maxAdditionalLatency" value="1" />
+ <parameter name="projectName" value="" />
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="0" />
+ <parameter name="timeStamp" value="0" />
+ <parameter name="useTestBenchNamingPattern" value="false" />
+ <instanceParameter
+   name="ENABLE_PTP_1STEP"
+   displayName="ENABLE_PTP_1STEP"
+   type="integer"
+   defaultValue="1"
+   legalRanges=""
+   description="" />
+ <instanceParameter
+   name="TSTAMP_FP_WIDTH"
+   displayName="TSTAMP_FP_WIDTH"
+   type="integer"
+   defaultValue="4"
+   legalRanges=""
+   description="" />
+ <instanceScript><![CDATA[# request a specific version of the scripting API
+package require -exact qsys 11.1
+
+# Set the name of the procedure to manipulate parameters
+set_module_property COMPOSITION_CALLBACK compose
+
+proc compose {} {
+    # manipulate parameters in here
+    set_instance_parameter_value triple_speed_ethernet_0 ENABLE_PTP_1STEP [ get_parameter_value ENABLE_PTP_1STEP ]
+    set_instance_parameter_value triple_speed_ethernet_0 TSTAMP_FP_WIDTH [ get_parameter_value TSTAMP_FP_WIDTH ]
+}]]></instanceScript>
+ <interface
+   name="tod_period_clock"
+   internal="tod.period_clock"
+   type="clock"
+   dir="end" />
+ <interface
+   name="tod_period_clock_reset"
+   internal="tod.period_clock_reset"
+   type="reset"
+   dir="end" />
+ <interface name="tx_tod_clock_reset" internal="tod.clock_reset" />
+ <interface name="tx_tod_clock_reset_reset" internal="tod.clock_reset_reset" />
+ <interface
+   name="receive_fifo_status_clock_connection"
+   internal="triple_speed_ethernet_0.receive_fifo_status_clock_connection"
+   type="clock"
+   dir="end" />
+ <interface
+   name="receive_fifo_status"
+   internal="triple_speed_ethernet_0.receive_fifo_status"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="mac_rx_clock_connection_0"
+   internal="triple_speed_ethernet_0.mac_rx_clock_connection_0"
+   type="clock"
+   dir="start" />
+ <interface
+   name="mac_tx_clock_connection_0"
+   internal="triple_speed_ethernet_0.mac_tx_clock_connection_0"
+   type="clock"
+   dir="start" />
+ <interface
+   name="receive_0"
+   internal="triple_speed_ethernet_0.receive_0"
+   type="avalon_streaming"
+   dir="start" />
+ <interface
+   name="receive_packet_type_0"
+   internal="triple_speed_ethernet_0.receive_packet_type_0"
+   type="avalon_streaming"
+   dir="start" />
+ <interface
+   name="rx_ingress_timestamp_96b_0"
+   internal="triple_speed_ethernet_0.rx_ingress_timestamp_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_ingress_timestamp_64b_0"
+   internal="triple_speed_ethernet_0.rx_ingress_timestamp_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_egress_timestamp_96b_0"
+   internal="triple_speed_ethernet_0.tx_egress_timestamp_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_egress_timestamp_64b_0"
+   internal="triple_speed_ethernet_0.tx_egress_timestamp_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pcs_phase_measure_clk"
+   internal="triple_speed_ethernet_0.pcs_phase_measure_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="mac_misc_connection_0"
+   internal="triple_speed_ethernet_0.mac_misc_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pcs_ref_clk_clock_connection"
+   internal="triple_speed_ethernet_0.pcs_ref_clk_clock_connection"
+   type="clock"
+   dir="end" />
+ <interface
+   name="status_led_connection_0"
+   internal="triple_speed_ethernet_0.status_led_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="serdes_control_connection_0"
+   internal="triple_speed_ethernet_0.serdes_control_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="serial_connection_0"
+   internal="triple_speed_ethernet_0.serial_connection_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_96b_load"
+   internal="tod.time_of_day_96b_load"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_64b_load"
+   internal="tod.time_of_day_64b_load"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="reset_control_0_clock"
+   internal="xcvr_reset_control_0.clock"
+   type="clock"
+   dir="end" />
+ <interface
+   name="rx_set_locktodata_0"
+   internal="triple_speed_ethernet_0.rx_set_locktodata_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_set_locktoref_0"
+   internal="triple_speed_ethernet_0.rx_set_locktoref_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_is_lockedtoref_0"
+   internal="triple_speed_ethernet_0.rx_is_lockedtoref_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_ready"
+   internal="xcvr_reset_control_0.tx_ready"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pll_select"
+   internal="xcvr_reset_control_0.pll_select"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_ready"
+   internal="xcvr_reset_control_0.rx_ready"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="pll_refclk0"
+   internal="xcvr_cdr_pll_vi_0.pll_refclk0"
+   type="clock"
+   dir="end" />
+ <interface
+   name="tx_serial_clk"
+   internal="xcvr_cdr_pll_vi_0.tx_serial_clk"
+   type="hssi_serial_clock"
+   dir="start" />
+ <interface
+   name="tx_serial_clk_0"
+   internal="triple_speed_ethernet_0.tx_serial_clk_0"
+   type="hssi_serial_clock"
+   dir="end" />
+ <interface
+   name="rx_cdr_refclk_0"
+   internal="triple_speed_ethernet_0.rx_cdr_refclk_0"
+   type="clock"
+   dir="end" />
+ <interface
+   name="reset_control_0_reset"
+   internal="xcvr_reset_control_0.reset"
+   type="reset"
+   dir="end" />
+ <interface name="clk_50" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface name="reset_50" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <interface
+   name="tod_time_of_day_96b"
+   internal="tod.time_of_day_96b"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tod_time_of_day_64b"
+   internal="tod.time_of_day_64b"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="avalon_anti_master_0"
+   internal="merlin_master_translator_0.avalon_anti_master_0"
+   type="avalon"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_reset"
+   internal="eth_packet_classifier_0.clock_reset"
+   type="clock"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_reset_reset"
+   internal="eth_packet_classifier_0.clock_reset_reset"
+   type="reset"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_data_sink"
+   internal="eth_packet_classifier_0.data_sink"
+   type="avalon_streaming"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_clock_operation_mode"
+   internal="eth_packet_classifier_0.clock_operation_mode"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_pkt_with_crc"
+   internal="eth_packet_classifier_0.pkt_with_crc"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_tx_egress_timestamp_request_in"
+   internal="eth_packet_classifier_0.tx_egress_timestamp_request_in"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="eth_packet_classifier_0_tx_etstamp_ins_ctrl_in"
+   internal="eth_packet_classifier_0.tx_etstamp_ins_ctrl_in"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_time_of_day_96b_0"
+   internal="triple_speed_ethernet_0.rx_time_of_day_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="rx_time_of_day_64b_0"
+   internal="triple_speed_ethernet_0.rx_time_of_day_64b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_time_of_day_96b_0"
+   internal="triple_speed_ethernet_0.tx_time_of_day_96b_0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="tx_time_of_day_64b_0"
+   internal="triple_speed_ethernet_0.tx_time_of_day_64b_0"
+   type="conduit"
+   dir="end" />
+ <module kind="altera_eth_1588_tod" version="13.1" enabled="1" name="tod">
+  <parameter name="DEFAULT_NSEC_PERIOD" value="8" />
+  <parameter name="DEFAULT_FNSEC_PERIOD" value="0" />
+  <parameter name="DEFAULT_NSEC_ADJPERIOD" value="8" />
+  <parameter name="DEFAULT_FNSEC_ADJPERIOD" value="0" />
+  <parameter name="AUTO_CSR_CLOCK_CLOCK_RATE" value="50000000" />
+  <parameter name="AUTO_PERIOD_CLOCK_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Arria 10" />
+ </module>
+ <module
+   kind="altera_eth_tse"
+   version="13.1"
+   enabled="1"
+   name="triple_speed_ethernet_0">
+  <parameter name="deviceFamilyName" value="Arria 10" />
+  <parameter name="core_variation" value="MAC_PCS" />
+  <parameter name="ifGMII" value="MII_GMII" />
+  <parameter name="enable_use_internal_fifo" value="false" />
+  <parameter name="max_channels" value="1" />
+  <parameter name="use_misc_ports" value="true" />
+  <parameter name="transceiver_type" value="GXB" />
+  <parameter name="enable_hd_logic" value="true" />
+  <parameter name="enable_gmii_loopback" value="false" />
+  <parameter name="enable_sup_addr" value="false" />
+  <parameter name="stat_cnt_ena" value="true" />
+  <parameter name="ext_stat_cnt_ena" value="false" />
+  <parameter name="ena_hash" value="false" />
+  <parameter name="enable_shift16" value="false" />
+  <parameter name="enable_mac_flow_ctrl" value="true" />
+  <parameter name="enable_mac_vlan" value="false" />
+  <parameter name="enable_magic_detect" value="false" />
+  <parameter name="useMDIO" value="false" />
+  <parameter name="mdio_clk_div" value="40" />
+  <parameter name="enable_ena" value="32" />
+  <parameter name="eg_addr" value="11" />
+  <parameter name="ing_addr" value="11" />
+  <parameter name="phy_identifier" value="0" />
+  <parameter name="enable_sgmii" value="true" />
+  <parameter name="export_pwrdn" value="false" />
+  <parameter name="enable_alt_reconfig" value="false" />
+  <parameter name="starting_channel_number" value="0" />
+  <parameter name="phyip_pll_type" value="CMU" />
+  <parameter name="phyip_en_synce_support" value="false" />
+  <parameter name="phyip_pma_bonding_mode" value="x1" />
+  <parameter name="nf_phyip_rcfg_enable" value="false" />
+  <parameter name="enable_timestamping" value="true" />
+  <parameter name="enable_ptp_1step" value="true" />
+  <parameter name="tstamp_fp_width" value="4" />
+  <parameter name="AUTO_DEVICE" value="Unknown" />
+  <parameter name="AUTO_DESIGN_ENVIRONMENT" value="SYSTEM" />
+ </module>
+ <module
+   kind="altera_xcvr_reset_control"
+   version="13.1"
+   enabled="1"
+   name="xcvr_reset_control_0">
+  <parameter name="CHANNELS" value="1" />
+  <parameter name="PLLS" value="1" />
+  <parameter name="SYS_CLK_IN_MHZ" value="125" />
+  <parameter name="SYNCHRONIZE_RESET" value="1" />
+  <parameter name="REDUCED_SIM_TIME" value="1" />
+  <parameter name="gui_split_interfaces" value="0" />
+  <parameter name="TX_PLL_ENABLE" value="1" />
+  <parameter name="T_PLL_POWERDOWN" value="1000" />
+  <parameter name="SYNCHRONIZE_PLL_RESET" value="0" />
+  <parameter name="TX_ENABLE" value="1" />
+  <parameter name="TX_PER_CHANNEL" value="0" />
+  <parameter name="gui_tx_auto_reset" value="1" />
+  <parameter name="T_TX_DIGITALRESET" value="20" />
+  <parameter name="T_PLL_LOCK_HYST" value="0" />
+  <parameter name="RX_ENABLE" value="1" />
+  <parameter name="RX_PER_CHANNEL" value="0" />
+  <parameter name="gui_rx_auto_reset" value="0" />
+  <parameter name="T_RX_ANALOGRESET" value="40" />
+  <parameter name="T_RX_DIGITALRESET" value="4000" />
+  <parameter name="AUTO_CLOCK_CLOCK_RATE" value="0" />
+ </module>
+ <module
+   kind="altera_xcvr_cdr_pll_vi"
+   version="13.1"
+   enabled="1"
+   name="xcvr_cdr_pll_vi_0">
+  <parameter name="rcfg_debug" value="0" />
+  <parameter name="enable_pll_reconfig" value="0" />
+  <parameter name="rcfg_file_prefix">altera_xcvr_cdr_pll_vi</parameter>
+  <parameter name="rcfg_sv_file_enable" value="0" />
+  <parameter name="rcfg_h_file_enable" value="0" />
+  <parameter name="rcfg_txt_file_enable" value="0" />
+  <parameter name="rcfg_mif_file_enable" value="0" />
+  <parameter name="rcfg_multi_enable" value="0" />
+  <parameter name="rcfg_profile_cnt" value="2" />
+  <parameter name="rcfg_profile_select" value="1" />
+  <parameter name="rcfg_param_vals1" value="" />
+  <parameter name="rcfg_param_vals2" value="" />
+  <parameter name="generate_docs" value="1" />
+  <parameter name="generate_add_hdl_instance_example" value="0" />
+  <parameter name="device_family" value="Arria 10" />
+  <parameter name="speed_grade" value="dash2" />
+  <parameter name="prot_mode" value="basic_rx" />
+  <parameter name="bw_sel" value="low" />
+  <parameter name="refclk_cnt" value="1" />
+  <parameter name="refclk_index" value="0" />
+  <parameter name="silicon_rev" value="reva" />
+  <parameter name="message_level" value="error" />
+  <parameter name="support_mode" value="user_mode" />
+  <parameter name="select_manual_config" value="false" />
+  <parameter name="output_clock_frequency" value="1250" />
+  <parameter name="reference_clock_frequency" value="125.000000" />
+  <parameter name="manual_counters" value="" />
+  <parameter name="cdr_pll_pma_width" value="8" />
+  <parameter name="cdr_pll_cgb_div" value="1" />
+  <parameter name="cdr_pll_txpll_hclk_driver_enable" value="false" />
+  <parameter name="cdr_pll_fb_select" value="direct_fb" />
+  <parameter name="cdr_pll_atb_select_control" value="atb_off" />
+  <parameter
+     name="cdr_pll_bbpd_data_pattern_filter_select"
+     value="bbpd_data_pat_off" />
+  <parameter name="cdr_pll_cdr_odi_select" value="sel_cdr" />
+  <parameter name="cdr_pll_chgpmp_current_pd">cp_current_pd_setting0</parameter>
+  <parameter name="cdr_pll_chgpmp_current_pfd">cp_current_pfd_setting0</parameter>
+  <parameter name="cdr_pll_chgpmp_replicate" value="true" />
+  <parameter name="cdr_pll_chgpmp_testmode" value="cp_test_disable" />
+  <parameter name="cdr_pll_clklow_mux_select">clklow_mux_cdr_fbclk</parameter>
+  <parameter name="cdr_pll_diag_loopback_enable" value="false" />
+  <parameter name="cdr_pll_disable_up_dn" value="true" />
+  <parameter name="cdr_pll_fref_clklow_div" value="1" />
+  <parameter name="cdr_pll_fref_mux_select" value="fref_mux_cdr_refclk" />
+  <parameter name="cdr_pll_gpon_lck2ref_control" value="gpon_lck2ref_off" />
+  <parameter name="cdr_pll_lck2ref_delay_control" value="lck2ref_delay_off" />
+  <parameter name="cdr_pll_lf_resistor_pd" value="lf_pd_setting0" />
+  <parameter name="cdr_pll_lf_resistor_pfd" value="lf_pfd_setting0" />
+  <parameter name="cdr_pll_lf_ripple_cap" value="lf_no_ripple" />
+  <parameter name="cdr_pll_loop_filter_bias_select" value="lpflt_bias_off" />
+  <parameter name="cdr_pll_loopback_mode" value="loopback_disabled" />
+  <parameter name="cdr_pll_ltd_ltr_micro_controller_select" value="ltd_ltr_pcs" />
+  <parameter name="cdr_pll_op_mode" value="pwr_down" />
+  <parameter name="cdr_pll_pd_fastlock_mode" value="false" />
+  <parameter name="cdr_pll_power_mode" value="low_power" />
+  <parameter name="cdr_pll_reverse_serial_loopback" value="no_loopback" />
+  <parameter name="cdr_pll_set_cdr_v2i_enable" value="true" />
+  <parameter name="cdr_pll_set_cdr_vco_reset" value="false" />
+  <parameter name="cdr_pll_set_cdr_vco_speed">cdr_vco_max_speedbin</parameter>
+  <parameter name="cdr_pll_set_cdr_vco_speed_pciegen3">cdr_vco_max_speedbin_pciegen3</parameter>
+  <parameter name="cdr_pll_vco_overrange_voltage" value="vco_overrange_off" />
+  <parameter name="cdr_pll_vco_underrange_voltage" value="vco_underange_off" />
+  <parameter name="cdr_pll_is_cascaded_pll" value="false" />
+  <parameter name="cdr_pll_device_variant" value="device1" />
+  <parameter name="cdr_pll_optimal" value="true" />
+  <parameter name="cdr_pll_position" value="position_unknown" />
+  <parameter name="cdr_pll_primary_use" value="cmu" />
+  <parameter name="cdr_pll_side" value="side_unknown" />
+  <parameter name="cdr_pll_sup_mode" value="user_mode" />
+  <parameter name="cdr_pll_top_or_bottom" value="tb_unknown" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk0_logical_to_physical_mapping"
+     value="ref_iqclk0" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk1_logical_to_physical_mapping"
+     value="ref_iqclk1" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk2_logical_to_physical_mapping"
+     value="ref_iqclk2" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk3_logical_to_physical_mapping"
+     value="ref_iqclk3" />
+  <parameter
+     name="pma_cdr_refclk_select_mux_inclk4_logical_to_physical_mapping"
+     value="ref_iqclk4" />
+  <parameter name="AUTO_PLL_REFCLK0_CLOCK_RATE" value="0" />
+  <parameter name="AUTO_PLL_REFCLK1_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_PLL_REFCLK2_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_PLL_REFCLK3_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_PLL_REFCLK4_CLOCK_RATE" value="-1" />
+  <parameter name="AUTO_RECONFIG_AVMM_CLOCK_RATE" value="-1" />
+ </module>
+ <module
+   kind="altera_eth_packet_classifier"
+   version="13.1"
+   enabled="1"
+   name="eth_packet_classifier_0">
+  <parameter name="TSTAMP_FP_WIDTH" value="4" />
+  <parameter name="SYMBOLSPERBEAT" value="1" />
+  <parameter name="BITSPERSYMBOL" value="8" />
+  <parameter name="AUTO_CLOCK_RESET_CLOCK_RATE" value="0" />
+ </module>
+ <module
+   kind="altera_merlin_master_translator"
+   version="13.1"
+   enabled="1"
+   name="merlin_master_translator_0">
+  <parameter name="AV_ADDRESS_W" value="32" />
+  <parameter name="AV_DATA_W" value="32" />
+  <parameter name="AV_BURSTCOUNT_W" value="3" />
+  <parameter name="AV_BYTEENABLE_W" value="4" />
+  <parameter name="UAV_ADDRESS_W" value="32" />
+  <parameter name="UAV_BURSTCOUNT_W" value="3" />
+  <parameter name="AV_READLATENCY" value="0" />
+  <parameter name="AV_WRITE_WAIT" value="0" />
+  <parameter name="AV_READ_WAIT" value="0" />
+  <parameter name="AV_DATA_HOLD" value="0" />
+  <parameter name="AV_SETUP_WAIT" value="0" />
+  <parameter name="USE_READDATA" value="1" />
+  <parameter name="USE_WRITEDATA" value="1" />
+  <parameter name="USE_READ" value="1" />
+  <parameter name="USE_WRITE" value="1" />
+  <parameter name="USE_BEGINBURSTTRANSFER" value="0" />
+  <parameter name="USE_BEGINTRANSFER" value="0" />
+  <parameter name="USE_BYTEENABLE" value="0" />
+  <parameter name="USE_CHIPSELECT" value="0" />
+  <parameter name="USE_ADDRESS" value="1" />
+  <parameter name="USE_BURSTCOUNT" value="0" />
+  <parameter name="USE_DEBUGACCESS" value="0" />
+  <parameter name="USE_CLKEN" value="0" />
+  <parameter name="USE_READDATAVALID" value="0" />
+  <parameter name="USE_WAITREQUEST" value="1" />
+  <parameter name="USE_LOCK" value="0" />
+  <parameter name="USE_READRESPONSE" value="0" />
+  <parameter name="USE_WRITERESPONSE" value="0" />
+  <parameter name="AV_SYMBOLS_PER_WORD" value="4" />
+  <parameter name="AV_ADDRESS_SYMBOLS" value="1" />
+  <parameter name="AV_BURSTCOUNT_SYMBOLS" value="1" />
+  <parameter name="AV_CONSTANT_BURST_BEHAVIOR" value="0" />
+  <parameter name="UAV_CONSTANT_BURST_BEHAVIOR" value="0" />
+  <parameter name="AV_LINEWRAPBURSTS" value="0" />
+  <parameter name="AV_MAX_PENDING_READ_TRANSACTIONS" value="64" />
+  <parameter name="AV_BURSTBOUNDARIES" value="0" />
+  <parameter name="AV_INTERLEAVEBURSTS" value="0" />
+  <parameter name="AV_BITS_PER_SYMBOL" value="8" />
+  <parameter name="AV_ISBIGENDIAN" value="0" />
+  <parameter name="AV_ADDRESSGROUP" value="0" />
+  <parameter name="UAV_ADDRESSGROUP" value="0" />
+  <parameter name="AV_REGISTEROUTGOINGSIGNALS" value="0" />
+  <parameter name="AV_REGISTERINCOMINGSIGNALS" value="0" />
+  <parameter name="AV_ALWAYSBURSTMAXBURST" value="0" />
+  <parameter name="AUTO_CLK_CLOCK_RATE" value="50000000" />
+ </module>
+ <module kind="clock_source" version="13.1" enabled="1" name="clk_0">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="xcvr_cdr_pll_vi_0.pll_powerdown"
+   end="xcvr_reset_control_0.pll_powerdown">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="xcvr_reset_control_0.tx_analogreset"
+   end="triple_speed_ethernet_0.tx_analogreset_0">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="triple_speed_ethernet_0.tx_digitalreset_0"
+   end="xcvr_reset_control_0.tx_digitalreset">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="triple_speed_ethernet_0.rx_analogreset_0"
+   end="xcvr_reset_control_0.rx_analogreset">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="xcvr_reset_control_0.rx_digitalreset"
+   end="triple_speed_ethernet_0.rx_digitalreset_0">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="triple_speed_ethernet_0.tx_cal_busy_0"
+   end="xcvr_reset_control_0.tx_cal_busy">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="triple_speed_ethernet_0.rx_cal_busy_0"
+   end="xcvr_reset_control_0.rx_cal_busy">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="triple_speed_ethernet_0.rx_is_lockedtodata_0"
+   end="xcvr_reset_control_0.rx_is_lockedtodata">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="xcvr_cdr_pll_vi_0.pll_locked"
+   end="xcvr_reset_control_0.pll_locked">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="clock"
+   version="13.1"
+   start="clk_0.clk"
+   end="merlin_master_translator_0.clk" />
+ <connection
+   kind="clock"
+   version="13.1"
+   start="clk_0.clk"
+   end="triple_speed_ethernet_0.control_port_clock_connection" />
+ <connection kind="clock" version="13.1" start="clk_0.clk" end="tod.csr_clock" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="merlin_master_translator_0.reset" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="triple_speed_ethernet_0.reset_connection" />
+ <connection
+   kind="reset"
+   version="13.1"
+   start="clk_0.clk_reset"
+   end="tod.csr_reset" />
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="merlin_master_translator_0.avalon_universal_master_0"
+   end="triple_speed_ethernet_0.control_port">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x0000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon"
+   version="13.1"
+   start="merlin_master_translator_0.avalon_universal_master_0"
+   end="tod.csr">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x1000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
+ <connection
+   kind="avalon_streaming"
+   version="13.1"
+   start="eth_packet_classifier_0.data_src"
+   end="triple_speed_ethernet_0.transmit_0" />
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="eth_packet_classifier_0.tx_egress_timestamp_request_out"
+   end="triple_speed_ethernet_0.tx_egress_timestamp_request_0">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <connection
+   kind="conduit"
+   version="13.1"
+   start="eth_packet_classifier_0.tx_etstamp_ins_ctrl_out"
+   end="triple_speed_ethernet_0.tx_etstamp_ins_ctrl_0">
+  <parameter name="endPort" value="" />
+  <parameter name="endPortLSB" value="0" />
+  <parameter name="startPort" value="" />
+  <parameter name="startPortLSB" value="0" />
+  <parameter name="width" value="0" />
+ </connection>
+ <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />
+ <interconnectRequirement for="$system" name="qsys_mm.maxAdditionalLatency" value="1" />
+</system>

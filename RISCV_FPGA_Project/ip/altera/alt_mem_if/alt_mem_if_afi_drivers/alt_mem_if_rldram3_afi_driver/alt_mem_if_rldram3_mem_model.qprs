@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip><presets version="13.1">
+	<preset name="MT44K32M18-093E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-093E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="1066.6667" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-30" />
+		<parameter name="TIMING_TDH" value="5" />
+		<parameter name="TIMING_TQKQ_MAX" value="75" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="135" />
+		<parameter name="TIMING_TIS" value="85" />
+		<parameter name="TIMING_TIH" value="65" />
+	</preset>
+	<preset name="MT44K32M18-093" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-093">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="1066.6667" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-30" />
+		<parameter name="TIMING_TDH" value="5" />
+		<parameter name="TIMING_TQKQ_MAX" value="75" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="135" />
+		<parameter name="TIMING_TIS" value="85" />
+		<parameter name="TIMING_TIH" value="65" />
+	</preset>
+	<preset name="MT44K32M18-107E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-107E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="933" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-15" />
+		<parameter name="TIMING_TDH" value="20" />
+		<parameter name="TIMING_TQKQ_MAX" value="85" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="140" />
+		<parameter name="TIMING_TIS" value="120" />
+		<parameter name="TIMING_TIH" value="100" />
+	</preset>
+	<preset name="MT44K32M18-107" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-107">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="933" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-15" />
+		<parameter name="TIMING_TDH" value="20" />
+		<parameter name="TIMING_TQKQ_MAX" value="85" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="140" />
+		<parameter name="TIMING_TIS" value="120" />
+		<parameter name="TIMING_TIH" value="100" />
+	</preset>
+	<preset name="MT44K32M18-125E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-125E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="10" />
+		<parameter name="TIMING_TDH" value="45" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+	<preset name="MT44K32M18-125" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M18-125">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="18" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="2" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="10" />
+		<parameter name="TIMING_TDH" value="45" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+	<preset name="MT44K16M36-093E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-093E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="1066.6667" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-30" />
+		<parameter name="TIMING_TDH" value="5" />
+		<parameter name="TIMING_TQKQ_MAX" value="75" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="135" />
+		<parameter name="TIMING_TIS" value="85" />
+		<parameter name="TIMING_TIH" value="65" />
+	</preset>
+	<preset name="MT44K16M36-093" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-093">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="1066.6667" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-30" />
+		<parameter name="TIMING_TDH" value="5" />
+		<parameter name="TIMING_TQKQ_MAX" value="75" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="135" />
+		<parameter name="TIMING_TIS" value="85" />
+		<parameter name="TIMING_TIH" value="65" />
+	</preset>
+	<preset name="MT44K16M36-107E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-107E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="933" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-15" />
+		<parameter name="TIMING_TDH" value="20" />
+		<parameter name="TIMING_TQKQ_MAX" value="85" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="140" />
+		<parameter name="TIMING_TIS" value="120" />
+		<parameter name="TIMING_TIH" value="100" />
+	</preset>
+	<preset name="MT44K16M36-107" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-107">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="933" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="-15" />
+		<parameter name="TIMING_TDH" value="20" />
+		<parameter name="TIMING_TQKQ_MAX" value="85" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="140" />
+		<parameter name="TIMING_TIS" value="120" />
+		<parameter name="TIMING_TIH" value="100" />
+	</preset>
+	<preset name="MT44K16M36-125E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-125E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="10" />
+		<parameter name="TIMING_TDH" value="45" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+	<preset name="MT44K16M36-125" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K16M36-125">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="19" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="10" />
+		<parameter name="TIMING_TDH" value="45" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+	<preset name="MT44K32M36-125E" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M36-125E">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="60" />
+		<parameter name="TIMING_TDH" value="95" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+	<preset name="MT44K32M36-125" kind="altera_mem_if_rldram3_afi_driver" version="13.1" description="MT44K32M36-125">
+		<parameter name="MEM_CLK_FREQ" value="533.3333" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="800" />
+		<parameter name="MEM_ADDR_WIDTH" value="20" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="4" />
+		<parameter name="MEM_CS_WIDTH" value="1" />
+		<parameter name="MEM_DM_WIDTH" value="2" />
+		<parameter name="MEM_CONTROL_WIDTH" value="1" />
+		<parameter name="MEM_DQ_WIDTH" value="36" />
+		<parameter name="MEM_READ_DQS_WIDTH" value="4" />
+		<parameter name="MEM_WRITE_DQS_WIDTH" value="2" />
+		<parameter name="MEM_BURST_LENGTH" value="2" />
+		<parameter name="TIMING_TDS" value="60" />
+		<parameter name="TIMING_TDH" value="95" />
+		<parameter name="TIMING_TQKQ_MAX" value="100" />
+		<parameter name="TIMING_TQH" value="0.38" />
+		<parameter name="TIMING_TCKDK_MAX" value="0.27" />
+		<parameter name="TIMING_TCKDK_MIN" value="-0.27" />
+		<parameter name="TIMING_TCKQK_MAX" value="160" />
+		<parameter name="TIMING_TIS" value="170" />
+		<parameter name="TIMING_TIH" value="120" />
+	</preset>
+</presets></ip>

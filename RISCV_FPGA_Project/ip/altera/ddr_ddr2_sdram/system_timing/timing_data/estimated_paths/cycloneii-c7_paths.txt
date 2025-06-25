@@ -1,0 +1,20 @@
+array_name=    min_paths_for_each_half_dq_0
+    dq_capture        1095
+    clkctrl_capture    989
+    dqs_clkctrl        584
+    clkctrl_resync     989
+    capture_resync     317
+    clkctrl_posten     989
+    posten_capture     704
+    postctrl_posten    659
+    sysclk_pin        2208
+array_name=    max_paths_for_each_half_dq_0
+    dq_capture        2220
+    clkctrl_capture   1722
+    dqs_clkctrl       1007
+    clkctrl_resync    1722
+    capture_resync     880
+    clkctrl_posten    1715
+    posten_capture    2429
+    postctrl_posten   1360
+    sysclk_pin        4725

@@ -1,0 +1,27 @@
+CONDITION,DO
+"[get_old_param ENABLE_DPA_MODE] == ""OFF""","set_new_param MODE ""RX_Non-DPA"""
+"[get_old_param ENABLE_DPA_MODE] == ""ON"" && [get_old_param ENABLE_SOFT_CDR_MODE] == ""OFF""","set_new_param MODE ""RX_DPA-FIFO"""
+"[get_old_param ENABLE_DPA_MODE] == ""ON"" && [get_old_param ENABLE_SOFT_CDR_MODE] == ""ON""","set_new_param MODE ""RX_Soft-CDR"""
+,set_new_param USE_EXTERNAL_PLL [get_old_param USE_EXTERNAL_PLL]
+,set_new_param NUM_CHANNELS [get_old_param Num_Channel]
+,set_new_param J_FACTOR [get_old_param Deser_Factor]
+,set_new_param DATA_RATE [get_old_param Data_rate]
+,set_new_param INCLOCK_FREQUENCY [get_old_param PLL_Freq]
+[get_old_param Use_Data_Align] == 1,"set_new_param RX_USE_BITSLIP ""True"""
+[get_old_param Use_Data_Align] == 0,"set_new_param RX_USE_BITSLIP ""False"""
+,set_new_param RX_INCLOCK_PHASE_SHIFT [expr (1 / [get_new_param INCLOCK_FREQUENCY]) * ([get_old_param pINCLOCK_PHASE_SHIFT] / 360)]
+,set_new_param RX_BITSLIP_USE_RESET [get_old_param Use_Cda_Reset]
+,set_new_param RX_BITSLIP_ASSERT_MAX [get_old_param RX_CDA_MAX_MODE]
+,set_new_param RX_DPA_ALIGN_TO_RISING_EDGE_ONLY [get_old_param ENABLE_DPA_ALIGN_TO_RISING_EDGE_ONLY]
+,set_new_param RX_DPA_USE_RESET [get_old_param RX_DATA_RESET_MODE]
+,"set_new_param RX_DPA_LOSE_LOCK_ON_ONE_CHANGE ""True"""
+,set_new_param RX_DPA_LOCKED_USED [get_old_param m_use_dpa_locked]
+,set_new_param RX_FIFO_USE_RESET [get_old_param m_use_fifo_reset]
+,set_new_param RX_CDR_SIMULATION_PPM_DRIFT 0
+"[get_old_param m_use_clock_resc] == ""Dual-Regional clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Auto"""
+"[get_old_param m_use_clock_resc] == ""Global clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Global"""
+"[get_old_param m_use_clock_resc] == ""Regional clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Regional"""
+"[get_old_param m_use_clock_resc] == ""Auto selection""","set_new_param PLL_CORECLOCK_RESOURCE ""Auto"""
+,set_new_param PLL_SPEED_GRADE 4
+,set_new_param PLL_EXPORT_LOCK [get_old_param USE_RX_LOCKED_MODE]
+,set_new_param PLL_USE_RESET [get_old_param USE_PLL_RESET_MODE]

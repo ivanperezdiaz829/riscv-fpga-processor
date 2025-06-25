@@ -1,0 +1,342 @@
+# Copyright(C) 2005 Altera Corporation
+CLASS altera_avalon_cy7c1380_ssram
+{
+      ASSOCIATED_FILES 
+      {
+         Add_Program            = "default";
+         Edit_Program           = "default";
+         Generator_Program      = "mk_ssram.pl";
+         Bind_Program           = "bind";
+        # Test_Generator_Program = "mk_testbench.pl";
+      }
+      MODULE_DEFAULTS 
+      {
+         class = "altera_avalon_cy7c1380_ssram";
+         class_version = "7.08131";
+         iss_model_name = "altera_memory";
+         HDL_INFO 
+         {
+           # An interface to this memory requires no additional files
+           # in the target project directory.
+         }
+         WIZARD_SCRIPT_ARGUMENTS 
+         {
+            # Units of measure for future computation of address bus size and
+            # such. The default is 2048 x 1k, or, 2MBytes.
+            sram_memory_size = "2048";
+            sram_memory_units = "1024";
+            ssram_data_width = "32";
+            ssram_read_latency = "2";
+            
+            # Special tag to alert CPU regression tests to the fact that the 
+            # SOPCB-generated simulation model for this interface has individual
+            # byte-lanes.
+            simulation_model_num_lanes = "4";
+         }
+         SLAVE s1
+         {
+            PORT_WIRING
+            {
+               PORT address
+               {
+                  width     = "21";
+                  is_shared = "1";
+                  direction = "input";
+                  type      = "address";
+               }
+               PORT adsc_n
+               {
+                  width     = "1";
+                  is_shared = "0";
+                  direction = "input";
+                  type      = "begintransfer_n";
+               }
+               PORT bw_n
+               {
+                  width     = "4";
+                  is_shared = "1";
+                  direction = "input";
+                  type      = "byteenable_n";
+               }
+               PORT bwe_n
+               {
+                  width     = "1";
+                  is_shared = "0";
+                  direction = "input";
+                  type      = "write_n";
+               }
+               PORT chipenable1_n
+               {
+                  width     = "1";
+                  is_shared = "0";
+                  direction = "input";
+                  type      = "chipselect_n";
+               }
+               PORT data
+               {
+                  width     = "32";
+                  is_shared = "1";
+                  direction = "inout";
+                  type      = "data";
+               }
+               PORT outputenable_n
+               {
+                  width     = "1";
+                  is_shared = "0";
+                  direction = "input";
+                  type      = "outputenable_n";
+               }
+               #############
+               # clk is a global signal and should not be wired to the top-level;
+               # its existance is for simulation-model purposes only. In real 
+               # operation, the SSRAM gets its clock from an FPGA PLL output.
+               # to not expose this in the pin mapper, turn off the visible attribute.
+               PORT clk
+               {
+                  width     = "1";
+                  is_shared = "1";
+                  direction = "input";
+                  type      = "clk";
+                  visible   = "0";
+               }
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+               Bus_Type = "avalon_tristate";
+               Is_Memory_Device = "1";
+               Address_Alignment = "dynamic";
+               Data_Width = "32";
+               Address_Width = "21";
+               Has_IRQ = "0";
+               IRQ_Number = "N/A";
+               Read_Wait_States = "0";
+               Write_Wait_States = "0";
+               Read_Latency = "2";
+               Write_Latency = "0";
+               Setup_Time = "0";
+               Hold_Time = "0";
+               Active_CS_Through_Read_Latency = "1";
+               Base_Address = "--unknown--";
+               Address_Span = "1048576";
+            }
+         }
+         SYSTEM_BUILDER_INFO 
+         {
+            Is_Enabled = "1";
+            Instantiate_In_System_Module = "0";
+            Default_Module_Name = "ssram";
+            Make_Memory_Model = "1";
+            Top_Level_Ports_Are_Enumerated = "1";
+         }
+      }
+      USER_INTERFACE 
+      {
+         USER_LABELS 
+         {
+            name = "Cypress CY7C1380C SSRAM";
+            technology = "Memory,EP2C35 Nios Development Board Cyclone II Edition";
+            license = "full";
+            alias = "ssram_cy7c1380c";
+         }
+         LINKS
+         {
+            LINK help
+            {
+               title="Readme";
+               url="ssram_interface_readme.html";
+            }
+            LINK Cyclone_II_Manual
+            {
+               title="Manual for Nios 2c35 Cyclone II Board";
+               url="http://www.altera.com/";
+            }
+            LINK Cyclone_II_Schematics
+            {
+               title="Schematics for Nios 2c35 Cyclone II Board";
+               url="http://www.altera.com";
+            }
+         }
+         WIZARD_UI default
+         {
+            DEBUG{}
+	    title = "SSRAM (Cypress CY7C1380C) - {{ $MOD }}";
+            CONTEXT 
+            {
+               WSA = "WIZARD_SCRIPT_ARGUMENTS";
+               CONTENTS = "WIZARD_SCRIPT_ARGUMENTS/CONTENTS srec";
+               SBI = "SLAVE s1/SYSTEM_BUILDER_INFO";
+               MODULE_SBI = "SYSTEM_BUILDER_INFO";
+            }
+
+            ACTION wizard_finish
+            {
+               $MOD/SLAVE s1/PORT_WIRING/PORT address/width = "{{ $SBI/Address_Width }}";
+               $MOD/SLAVE s1/PORT_WIRING/PORT data/width = "{{ $SBI/Data_Width }}";
+               $MOD/SLAVE s1/PORT_WIRING/PORT bw_n/width = "{{ $SBI/Data_Width / 8 }}";
+            }
+            
+            # Handy calculations to allow configurable address-bus size based
+            # upon data width & memory depth (in kbytes)
+            $$var_byte_count = "{{ $WSA/sram_memory_size * $WSA/sram_memory_units }}"; # aka address span
+            $$var_word_count = "{{ $$var_byte_count * 8 / $WSA/ssram_data_width }}";
+            $$var_address_bits = "{{ ceil(log2($$var_word_count)) }}"; # 
+
+            $SBI/Address_Width = "{{ $$var_address_bits }}";
+            $SBI/Address_Span = "{{ $$var_byte_count }}";
+            $SBI/Data_Width = "{{ $WSA/ssram_data_width }}";
+
+            GROUP attributes
+            {
+               align = "left";
+               title = "Synchronous Static RAM";
+               spacing = 12;
+               TEXT 
+               {
+                  title = 
+                  "The Nios Development Board (Cyclone II 2C35 edition) has a<br>
+                   Cypress CY7C1380C-167AC SSRAM chip arranged as 512K by<br>
+                   36 bits (32 bits are used by this component resulting in<br>
+                   2MBytes total address span).<br>
+                   <br>
+                   This SSRAM interface allows paramaterization of SSRAM size<br>
+                   and read latency to accomodate your desired device and clock<br>
+                   speed selection.<br>
+                   <br>
+                   <b>Note:</b> Changes in SSRAM read latency must be accompanied<br>
+                   by timing analysis & clock phase adjustments. Please refer to<br>
+                   the SSRAM Interface Readme document using the link below.";
+               }
+               GROUP
+               {
+                  layout = "flow";
+                  align = "left";
+                  spacing = 0;
+                  TEXT 
+                  {
+                      title = "SSRAM Interface Readme document";
+                      url = "ssram_interface_readme.html";
+                      glue = 0;
+                  }
+               }   
+               GROUP timing_settings
+               {
+                  title = "Timing Parameters";
+                  align = "left";
+                  spacing = "0";
+                  COMBO 
+                  {
+                     id = "ssram_read_latency";
+                     title = "Read Latency: ";
+                     DATA 
+                     {
+                        $WSA/ssram_read_latency = "$";
+                     }
+                     ITEM 
+                     {
+                        title = "2 clocks";
+                        value = "2";
+                     }
+                     ITEM 
+                     {
+                        title = "3 clocks";
+                        value = "3";
+                     }
+                  }
+                } # timing_settings
+                GROUP ssram_size
+                {
+                  title = "SSRAM Size";
+                  align = "left";
+                  spacing = "0";
+                  layout = "horizontal";
+                  COMBO 
+                  {
+                     id = "size_k_bytes";
+                     title = "Memory Size:";
+                     suffix = "{{ $$var_address_bits }} Word Aligned Address Bits";
+                     DATA 
+                     {
+                        $WSA/sram_memory_size = "$";
+                     }
+                     ITEM 
+                     {
+                        title = "1 MByte";
+                        value = "1024";
+                     }
+                     ITEM 
+                     {
+                        title = "2 MBytes";
+                        value = "2048";
+                     }
+                     ITEM 
+                     {
+                        title = "4 MBytes";
+                        value = "4096";
+                     }
+                  }
+                } # GROUP ssram_size
+                GROUP simulation_model
+                {
+                  title = "Generic Memory Model (Simulation Only)";
+                  align = "left";
+                  spacing = "0";
+                  CHECK
+                  {
+                    title = 
+                      " Include functional memory model in the system testbench.";
+                    tooltip =
+                      "The model will auto-size to the declared SSRAM profile.<br>When not selected, you must acquire a vendor memory model<br>and manually wire it into the testbench.";
+                    DATA
+                    {
+                       $MODULE_SBI/Make_Memory_Model = $;
+                    }
+                  }
+                } # GROUP simulation_model
+          } #GROUP attributes
+       } # WIZARD_UI default
+
+     # Hidden bind page for SSRAM timing warnings:
+     # The CY7C1380C-167AC SSRAM chip must be driven by a clock synchronous 
+     # with the clock driving the Avalon slave talking to it; as noted in
+     # the part-number suffix, the maximum clock speed is 167MHz. 
+     #
+     # Additionally, the SSRAM requires additional read latency (3 cycles)
+     # as opposed to the default (2) when crossing 130MHz on the Cyclone II
+     # 2C35 development board. We will warn the user in that case. If they 
+     # are using their own custom board, this clock speed no longer applies
+     # and they should be manually calculating clock speeds as described in
+     # the readme html document.
+     WIZARD_UI bind
+     {
+       CONTEXT
+       {
+         MOD = "";
+       }
+       
+       visible = "0";
+
+       $$inputClock = "{{ sopc_get_clock_freq($MOD) }}";
+
+       warning = "{{
+         if ( ($SYS/board_class == 'altera_nios_dev_board_cyclone_2c35') && 
+              ( ($$inputClock) > 130E6) && (($$inputClock) <= 167E6) ) 
+           '<b> '+$MOD+' & Nios Development Board, Cyclone II Edition:</b> Read latency & PLL settings must be adjusted above 130MHz. Refer to SSRAM interface readme.';
+       }}";
+       
+       warning = "{{
+         if ( ($SYS/board_class == 'altera_nios_dev_board_cyclone_2c35') && 
+              ($$inputClock) > 167E6 ) 
+           '<b> '+$MOD+' & Nios Development Board, Cyclone II Edition:</b> CY7C1380C-167AC SSRAM chip maximum clock frequency is 167MHz.';
+       }}";
+       
+       warning = "{{
+         if ( $SYS/board_class == 'altera_nios_dev_board_cyclone_2c35' ) 
+           '<b>Nios Development Board, Cyclone II Edition:</b> SSRAM data byte-lanes are swapped. Refer to the Nios Development Board, Cyclone II Edition Reference Manual.';
+       }}";
+     } # WIZARD_UI bind
+          
+     } # USER_INTERFACE
+
+} #CLASS altera_avalon_cy7c1380_ssram
+
+#end of file

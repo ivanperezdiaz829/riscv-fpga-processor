@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="12.1">
+  <preset
+     name="SAS-Gen2"
+     kind="altera_xcvr_native_avgz"
+     version="12.1"
+     description="">
+   <parameter name="pll_refclk_cnt" value="1" />
+   <parameter name="pll_select" value="0" />
+   <parameter name="std_tx_byte_ser_enable" value="1" />
+   <parameter name="rx_ppm_detect_threshold" value="1000" />
+   <parameter name="std_low_latency_bypass_enable" value="0" />
+   <parameter name="enable_port_rx_std_bitrev_ena" value="0" />
+   <parameter name="rx_clkslip_enable" value="0" />
+   <parameter name="enable_port_rx_std_pcfifo_full" value="0" />
+   <parameter name="enable_port_rx_seriallpbken" value="0" />
+   <parameter name="enable_port_rx_std_runlength_err" value="0" />
+   <parameter name="std_rx_rmfifo_enable" value="0" />
+   <parameter name="enable_port_rx_std_bitslipboundarysel" value="0" />
+   <parameter name="enable_port_rx_std_rmfifo_empty" value="0" />
+   <parameter name="enable_port_rx_pma_clkout" value="1" />
+   <parameter name="gui_pll_reconfig_pll0_refclk_sel" value="0" />
+   <parameter name="gui_pll_reconfig_pll0_pll_type" value="CMU" />
+   <parameter name="enable_port_rx_std_rmfifo_full" value="0" />
+   <parameter name="pll_reconfig_enable" value="0" />
+   <parameter name="std_rx_bitrev_enable" value="0" />
+   <parameter name="std_rx_word_aligner_renumber" value="0" />
+   <parameter name="std_pcs_pma_width" value="20" />
+   <parameter name="bonded_mode" value="non_bonded" />
+   <parameter name="enable_port_rx_std_byterev_ena" value="0" />
+   <parameter name="tx_pma_clk_div" value="1" />
+   <parameter name="enable_port_rx_std_byteorder_ena" value="0" />
+   <parameter name="std_rx_word_aligner_mode" value="manual" />
+   <parameter name="pll_external_enable" value="0" />
+   <parameter name="enable_port_rx_std_byteorder_flag" value="0" />
+   <parameter name="plls" value="1" />
+   <parameter name="enable_port_rx_std_wa_patternalign" value="1" />
+   <parameter name="cdr_reconfig_enable" value="0" />
+   <parameter name="enable_std" value="1" />
+   <parameter name="set_data_rate" value="6000" />
+   <parameter name="tx_enable" value="1" />
+   <parameter name="std_rx_word_aligner_pattern" value="17C" />
+   <parameter name="cdr_refclk_select" value="0" />
+   <parameter name="enable_ports_rx_manual_cdr_mode" value="0" />
+   <parameter name="rx_enable" value="1" />
+   <parameter name="std_rx_8b10b_enable" value="1" />
+   <parameter name="enable_port_rx_is_lockedtoref" value="1" />
+   <parameter name="std_rx_run_length_val" value="0" />
+   <parameter name="enable_port_tx_std_pcfifo_full" value="0" />
+   <parameter name="enable_port_tx_std_polinv" value="0" />
+   <parameter name="gui_pll_reconfig_pll0_refclk_freq" value="150.0 MHz" />
+   <parameter name="enable_port_rx_std_bitslip" value="0" />
+   <parameter name="enable_teng" value="0" />
+   <parameter name="enable_port_rx_std_polinv" value="0" />
+   <parameter name="std_tx_bitslip_enable" value="0" />
+   <parameter name="std_tx_8b10b_enable" value="1" />
+   <parameter name="cdr_refclk_cnt" value="1" />
+   <parameter name="std_tx_8b10b_disp_ctrl_enable" value="0" />
+   <parameter name="std_rx_pcfifo_mode" value="low_latency" />
+   <parameter name="set_cdr_refclk_freq" value="150.0 MHz" />
+   <parameter name="std_rx_word_aligner_pattern_len" value="10" />
+   <parameter name="std_tx_bitrev_enable" value="0" />
+   <parameter name="std_protocol_hint" value="basic" />
+   <parameter name="std_tx_polinv_enable" value="0" />
+   <parameter name="enable_port_tx_std_pcfifo_empty" value="0" />
+   <parameter name="enable_port_rx_std_wa_a1a2size" value="0" />
+   <parameter name="enable_port_rx_std_pcfifo_empty" value="0" />
+   <parameter name="std_rx_polinv_enable" value="0" />
+   <parameter name="std_rx_byte_deser_enable" value="1" />
+   <parameter name="message_level" value="error" />
+   <parameter name="enable_port_rx_std_signaldetect" value="1" />
+   <parameter name="std_tx_pcfifo_mode" value="low_latency" />
+   <parameter name="std_rx_word_aligner_rknumber" value="0" />
+   <parameter name="device_speedgrade" value="fastest" />
+   <parameter name="enable_port_tx_std_bitslipboundarysel" value="0" />
+   <parameter name="std_rx_byterev_enable" value="0" />
+   <parameter name="enable_port_rx_is_lockedtodata" value="1" />
+   <parameter name="std_rx_byte_order_enable" value="0" />
+   <parameter name="enable_port_tx_std_elecidle" value="1" />
+   <parameter name="std_rx_word_aligner_rgnumber" value="0" />
+  </preset>
+ </presets>
+</ip>

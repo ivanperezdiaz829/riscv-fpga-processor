@@ -1,0 +1,10 @@
+[Interfaces|Ethernet]
+Ethernet 10G MAC v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_eth_10g_mac_hw.tcl" --familyparameter:DEVICE_FAMILY --wizard:altera_eth_10g_mac --cusp_ip:true --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix V | Stratix IV | Stratix III |Stratix II GX | HardCopy IV | Arria V | Arria GX | Arria II GZ | Arria II GX | Arria V GZ | Cyclone IV GX | Cyclone V"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Ethernet 10G MAC v13.0</ALIAS>
+</INFO>

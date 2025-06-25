@@ -1,0 +1,30 @@
+CLASS altera_avalon_pci_compiler_adapter
+{
+  ASSOCIATED_FILES
+  {
+    Adapter_Program = "pci_avalon_sopc.VirtualMasterAdapter";
+    Jar_File = "pci_avalon_sopc.jar";
+  }
+  MODULE_DEFAULTS
+  {
+    class = "altera_avalon_pci_compiler_adapter";
+    class_version = "13.1";
+
+    SYSTEM_BUILDER_INFO
+    {
+      Instantiate_In_System_Module = "1";
+      Is_Enabled = "1";
+      Is_Adapter = "1";
+      Inhibit_Global_Reset="1";
+      Pins_Assigned_Automatically = "1";
+     
+    }
+  }
+	USER_INTERFACE
+	{
+	   USER_LABELS
+	   {
+	      Is_Visible = "0";
+	   }
+	}
+}

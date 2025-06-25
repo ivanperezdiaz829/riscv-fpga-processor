@@ -1,0 +1,30 @@
+#
+# This is used as the module class for 6.1 IModule based
+# components, so their interfaces can be included in a
+# system.ptf file without having an associated legacy
+# module class.
+#
+CLASS no_legacy_module
+{
+    MODULE_DEFAULTS 
+    {
+	class = "no_legacy_module";
+	class_version = "7.08131";
+    }
+    ASSOCIATED_FILES 
+    {
+	Add_Program = "";
+	Edit_Program = "";
+	Generator_Program = "";
+    }
+    USER_INTERFACE 
+    {
+	USER_LABELS 
+	{
+	    name = "No legacy module";
+	    technology = "Other";
+	    Is_Visible = "0";
+	}
+    }
+}
+

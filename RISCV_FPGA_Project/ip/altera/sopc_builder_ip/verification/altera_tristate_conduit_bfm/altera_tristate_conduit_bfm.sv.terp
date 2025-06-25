@@ -1,0 +1,714 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/sopc/components/verification/altera_tristate_conduit_bfm/altera_tristate_conduit_bfm.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2013/08/11 $
+// \$Author: swbranch $
+//-----------------------------------------------------------------------------
+// =head1 NAME
+// altera_tristate_conduit_bfm
+// =head1 SYNOPSIS
+// Bus Functional Model (BFM) for a Tristate Conduit BFM
+//-----------------------------------------------------------------------------
+// =head1 DESCRIPTION
+// This is a Bus Functional Model (BFM) for a Tristate Conduit Master.
+// The behavior of each clock cycle of the Tristate protocol on the interface
+// is governed by a transaction. Transactions are constructed using the
+// the public API methods provided and are then pushed into a dispatch
+// queue, either one at a time or as entire sequences. Input transactions 
+// are popped out of a separate input transaction queue and inform the client of
+// statistics such as latency cycles required until interface been granted.
+// This BFM's HDL is been generated through terp file in Qsys.
+// Generation parameters:
+// output_name:                                       $output_name
+// role:width:use_output:use_outputenable:use_input   $rolemap
+//-----------------------------------------------------------------------------
+`timescale 1 ns / 1 ns
+
+module $output_name
+(
+@@ set role_list [ split $rolemap , ]
+@@ set num_roles [ llength $role_list ]
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet       [ split [ lindex $role_list $i ] : ]
+   @@    set role          [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_input == 1} {
+   ${role}_in,
+   @@    }
+   @@    if {$use_output == 1} {
+   ${role}_out,
+   @@    }
+   @@    if {$use_outputenable == 1} {
+   ${role}_outen,
+   @@    }
+@@ }
+   grant,
+   request,
+   clk,
+   reset
+);
+
+   //--------------------------------------------------------------------------
+   // =head1 PINS 
+   // =head2 User defined interface
+   //--------------------------------------------------------------------------
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@ if {$width == 1} {
+      @@    if {$use_input == 1} {
+   input ${role}_in;
+      @@    }
+      @@    if {$use_output == 1} {
+   output ${role}_out;
+      @@    }
+   @@ } else {
+      @@    set right 0
+      @@    set left [expr $width - 1]
+      @@    if {$use_input == 1} {
+   input [${left} : ${right}] ${role}_in;
+      @@    }
+      @@    if {$use_output == 1} {
+   output [${left} : ${right}] ${role}_out;
+      @@    }
+   @@ }
+   @@ if {$use_outputenable == 1} {
+   output ${role}_outen;
+   @@ }
+@@ }
+   
+   //--------------------------------------------------------------------------
+   // =head2 Common interface
+   //--------------------------------------------------------------------------
+   input clk;
+   input reset;
+   input grant;
+   output request;
+   
+   // =cut
+   
+   // synthesis translate_off
+   import verbosity_pkg::*;
+   
+   parameter MAX_MULTIPLE_TRANSACTION = 1024;
+   
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet       [ split [ lindex $role_list $i ] : ]
+   @@    set role          [ lindex $triplet 0 ]
+   @@    set width         [ lindex $triplet 1 ]
+   @@    if {$width == 1} {
+   typedef logic [MAX_MULTIPLE_TRANSACTION-1:0] ROLE_${role}_t;
+   @@    } else {
+      @@    set right 0
+      @@    set left [expr $width - 1]
+   typedef logic [MAX_MULTIPLE_TRANSACTION-1:0][${left} : ${right}] ROLE_${role}_t;
+   @@    }
+@@ }
+   typedef logic [MAX_MULTIPLE_TRANSACTION-1:0] outen_t;
+   
+   //--------------------------------------------------------------------------
+   // Private Data Structures
+   // All internal data types are packed. SystemVerilog struct or array 
+   // slices can be accessed directly and can be assigned to a logic array 
+   // in Verilog or a std_logic_vector in VHDL.
+   //--------------------------------------------------------------------------
+   
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$width == 1} {
+      @@    if {$use_output == 1} {
+   logic ${role}_out;
+      @@    }
+   @@    } else {
+      @@    set right 0
+      @@    set left [expr $width - 1]
+      @@    if {$use_output == 1} {
+   logic [${left} : ${right}] ${role}_out;
+      @@    }
+   @@    }
+      @@    if {$use_outputenable == 1} {
+   logic ${role}_outen;
+   @@    }
+@@ }
+   logic request;
+   logic request_delay;
+   int issued_transaction = 0;
+   bit grant_must_deassert = 1;
+   
+   // transaction descriptor - access with public API
+   typedef struct packed {
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet       [ split [ lindex $role_list $i ] : ]
+   @@    set role     [ lindex $triplet 0 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+      @@    if {$use_output == 1} {
+                          ROLE_${role}_t ${role}_out;
+      @@    }
+      @@    if {$use_outputenable == 1} {
+                          outen_t ${role}_outen;
+      @@    }
+@@ }
+                          int idles;
+                          int num_of_transactions;
+                          } OutputTransaction_t;
+
+   typedef struct packed {
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+      @@    if {$use_input == 1} {
+                          ROLE_${role}_t ${role}_in;
+      @@    }
+@@ }
+                          int latency; 
+                          } ResponseTransaction_t;
+
+   //--------------------------------------------------------------------------
+   // Local Signals
+   //--------------------------------------------------------------------------
+   
+   string message = "*uninitialized*";
+   int   wait_cycles = 0;
+   bit   pending_transaction = 0;
+   int   latency = 0;
+   int   max_transaction_queue_size = 100;
+   int   min_transaction_queue_size = 2;
+   int   output_transaction_issued_counter = 0;
+   bit   request_done = 1;
+   
+   OutputTransaction_t   new_output_transaction;
+   OutputTransaction_t   current_output_transaction;
+   OutputTransaction_t   output_transaction_queue[$];
+   
+   ResponseTransaction_t   new_input_transaction;
+   ResponseTransaction_t   current_input_transaction;
+   ResponseTransaction_t   input_transaction_queue[$];
+
+   //--------------------------------------------------------------------------
+   // =head1 Public Methods API
+   // =pod
+   // This section describes the public methods in the application programming
+   // interface (API). The application program interface provides methods for 
+   // a testbench which instantiates, controls and queries state in this BFM 
+   // component. Test programs must only use these public access methods and 
+   // events to communicate with this BFM component. The API and module pins
+   // are the only interfaces of this component that are guaranteed to be
+   // stable. The API will be maintained for the life of the product. 
+   // While we cannot prevent a test program from directly accessing internal
+   // tasks, functions, or data private to the BFM, there is no guarantee that
+   // these will be present in the future. In fact, it is best for the user
+   // to assume that the underlying implementation of this component can 
+   // and will change.
+   // =cut
+   //--------------------------------------------------------------------------
+   
+   event signal_fatal_error; // public
+   // This event notifies the test bench that a fatal error has occurred
+   // in this module.
+   
+   event signal_all_transactions_complete; // public
+      // Signal that all pending transactions have completed
+
+   event signal_interface_granted; // public
+      // Signal that the interface has been granted
+   
+   event signal_grant_deasserted_while_request_remain_asserted; // public
+      // Signal that the grant is change from high to low while request remain
+      // asserted.
+   
+   event signal_max_transaction_queue_size; // public
+   // This event signals that the pending output transaction queue size
+   // threshold has been exceeded
+
+   event signal_min_transaction_queue_size; // public
+   // This event signals that the pending output transaction queue size
+   // is below the minimum threshold
+   
+   function automatic string get_version();  // public
+      // Return BFM version string. For example, version 9.1 sp1 is "9.1sp1" 
+      string ret_version = "13.1";
+      return ret_version;
+   endfunction
+   
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    set right 0
+   @@    set left [expr $width - 1]
+   @@    if {$use_outputenable == 1} {
+   function automatic void set_transaction_${role}_outen( // public
+      int index,
+      bit outen
+   );
+      // Sets the ${role}_outen.
+      
+      $\sformat(message, "%m: method called arg0 %0d", outen); 
+      print(VERBOSITY_DEBUG, message);
+      
+      if (index > new_output_transaction.num_of_transactions) begin
+         $\sformat(message, "%m: index %0d > num of transactions %0d ", 
+             index, new_output_transaction.num_of_transactions);
+         print(VERBOSITY_FAILURE, message);
+      end else begin
+         new_output_transaction.${role}_outen[index] = outen;
+      end
+      
+   endfunction
+   @@    }
+   @@    if {$use_output == 1} {
+   
+   function automatic void set_transaction_${role}_out( // public
+      int index,
+      @@    if {$width == 1} {
+      bit out
+      @@    } else {
+      bit [${left} : ${right}] out
+      @@ } 
+   );
+      // Sets the ${role}_out.
+
+      $\sformat(message, "%m: method called arg0 %0d", out); 
+      print(VERBOSITY_DEBUG, message);
+      
+      if (index > new_output_transaction.num_of_transactions) begin
+         $\sformat(message, "%m: index %0d > num of transactions %0d ", 
+             index, new_output_transaction.num_of_transactions);
+         print(VERBOSITY_FAILURE, message);
+      end else begin
+         new_output_transaction.${role}_out[index] = out;
+      end
+      
+   endfunction
+   @@    }
+   @@    if {$use_outputenable == 1} {
+   
+   function automatic void set_valid_transaction_${role}_out( // public
+      int index,
+      @@    if {$width == 1} {
+      bit out
+      @@    } else {
+      bit [${left} : ${right}] out
+      @@ } 
+   );
+      // Sets the ${role}_out with ${role}_outen = 1.
+
+      $\sformat(message, "%m: method called arg0 %0d", out); 
+      print(VERBOSITY_DEBUG, message);
+      set_transaction_${role}_out(.index(index), .out(out));
+      set_transaction_${role}_outen(.index(index), .outen(1));
+      
+   endfunction
+   @@    }
+   @@    if {$use_input == 1} {
+   
+   function automatic ROLE_${role}_t get_transaction_${role}_in(); // public
+      // Gets the ${role}_in.
+
+      $\sformat(message, "%m: called get_transaction_${role}_in");
+      print(VERBOSITY_DEBUG, message);
+      return current_input_transaction.${role}_in;
+      
+   endfunction
+   @@    }
+   
+@@ }
+   function automatic void set_transaction_idles(  // public
+      bit[31:0] idle_cycles
+   );
+      // Set the number of idle cycles to elapse before assert request.
+      
+      $\sformat(message, "%m: method called arg0 %0d", idle_cycles); 
+      print(VERBOSITY_DEBUG, message);
+      new_output_transaction.idles = idle_cycles;
+
+   endfunction
+   
+   function automatic void set_num_of_transactions( // public
+      int multiple_transaction_num
+   );
+      // Set the number of transactions driven to output port until request
+      // is deasserted.
+
+      $\sformat(message, "%m: method called arg0 %0d", multiple_transaction_num); 
+      print(VERBOSITY_DEBUG, message);
+      
+      if (multiple_transaction_num > MAX_MULTIPLE_TRANSACTION) begin
+         $\sformat(message, "%m: number of transactions %0d > MAX_MULTIPLE_TRANSACTION %0d ", 
+             multiple_transaction_num, MAX_MULTIPLE_TRANSACTION);
+         print(VERBOSITY_FAILURE, message);
+      end else if (multiple_transaction_num < 2) begin
+         $\sformat(message, "%m: number of transactions %0d must be at least 2", 
+             multiple_transaction_num);
+         print(VERBOSITY_FAILURE, message);
+      end else begin
+         new_output_transaction.num_of_transactions = multiple_transaction_num;
+      end
+      
+   endfunction
+   
+   function automatic void push_transaction(); // public
+      // Push a new output transaction into the local transaction queue. 
+      // The BFM will drive the appropriate signals on the ST bus 
+      // according to the transaction field values.
+      
+      $\sformat(message, "%m: method called"); 
+      print(VERBOSITY_DEBUG, message);
+
+      if (reset) begin
+         $\sformat(message, "%m: Illegal command while reset asserted"); 
+         print(VERBOSITY_ERROR, message);
+         ->signal_fatal_error;
+      end
+      
+      output_transaction_queue.push_front(new_output_transaction);
+
+   endfunction
+   
+   function automatic int get_transaction_latency(); // public
+      // Return the number of cycles before interface been granted after request.
+      $\sformat(message, "%m: called get_transaction_latency()");
+      print(VERBOSITY_DEBUG, message);
+      return current_input_transaction.latency;
+   endfunction
+   
+   function automatic void pop_transaction(); // public
+      // Pop the input transaction from the queue before querying contents
+      string message;
+
+      $\sformat(message, "%m: called pop_transaction - queue depth %0d",
+               input_transaction_queue.size());
+      print(VERBOSITY_DEBUG, message);
+
+      if (input_transaction_queue.size() == 0) begin
+         $\sformat(message, "%m: Illegal command: input transaction queue is empty"); 
+         print(VERBOSITY_ERROR, message);
+         ->signal_fatal_error;         
+      end
+      
+      current_input_transaction = input_transaction_queue.pop_back();
+   endfunction
+   
+   function automatic void set_max_transaction_queue_size( // public
+      int size                                                           
+   );
+      // Set the pending output transaction maximum queue size threshold. 
+      // The public event signal_max_transaction_queue_size
+      // will fire when the threshold is exceeded.
+      max_transaction_queue_size        = size;
+   endfunction 
+
+   function automatic void set_min_transaction_queue_size( // public
+      int size                                                           
+   );
+      // Set the pending output transaction minimum queue size threshold. 
+      // The public event signal_min_transaction_queue_size
+      // will fire when the queue level is below this threshold.
+      min_transaction_queue_size        = size;
+   endfunction 
+
+   function automatic int get_output_transaction_queue_size(); // public
+      // Return the number of transactions in the local output transaction 
+      // queues.
+      $\sformat(message, "%m: called get_output_transaction_queue_size");
+      print(VERBOSITY_DEBUG, message);
+      return output_transaction_queue.size();
+   endfunction
+
+   function automatic int get_input_transaction_queue_size(); // public
+      // Return the number of transactions in the input transaction queues.      
+      $\sformat(message, "%m: called get_input_transaction_queue_size");
+      print(VERBOSITY_DEBUG, message);
+      return input_transaction_queue.size();
+   endfunction
+   
+   // =cut
+   
+   //--------------------------------------------------------------------------
+   // Private Methods
+   //--------------------------------------------------------------------------
+   function automatic void __hello();
+      // Introduction Message to console      
+      $\sformat(message, "%m: - Hello from $output_name.");
+      print(VERBOSITY_INFO, message);            
+      $\sformat(message, "%m: -   $\Revision: #32 $");
+      print(VERBOSITY_INFO, message);            
+      $\sformat(message, "%m: -   $\Date: 2010/07/13 $");
+      print(VERBOSITY_INFO, message);
+      print_divider(VERBOSITY_INFO);
+   endfunction
+   
+   task automatic init(); // public
+      // Drive interface to idle state.      
+      $\sformat(message, "%m: called init");
+      print(VERBOSITY_DEBUG, message);
+      __drive_interface_idle();
+      __init_descriptors();
+      __init_queues();
+   endtask
+   
+   function automatic void __abort_simulation();
+      string message;
+      $\sformat(message, "%m: Abort the simulation due to fatal error."); 
+      print(VERBOSITY_FAILURE, message);
+      $\stop;
+   endfunction
+   
+   task automatic __drive_interface_idle();
+      request = 1'b0;
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_output == 1} {
+      ${role}_out = 'z;
+   @@    }
+   @@    if {$use_outputenable == 1} {
+      ${role}_outen = '0;
+   @@    }
+@@ }
+   endtask 
+
+   task automatic __init_descriptors();
+      wait_cycles = 0;
+      pending_transaction = 0;
+      latency = 0;
+      request_done = 1;
+      issued_transaction = 0;
+      grant_must_deassert = 1;
+      new_output_transaction = '0;
+      current_output_transaction = '0;
+      new_input_transaction = '0;
+   endtask      
+
+   task automatic __init_queues();
+      output_transaction_queue = {};
+      input_transaction_queue = {};
+   endtask
+   
+   //--------------------------------------------------------------------------
+   // Internal Machinery
+   //--------------------------------------------------------------------------
+
+   initial begin
+      __hello();
+      init();
+   end
+   
+   always @(posedge clk) begin
+      if (output_transaction_queue.size() > max_transaction_queue_size) begin
+         ->signal_max_transaction_queue_size;
+      end else if (output_transaction_queue.size() < min_transaction_queue_size) begin
+         ->signal_min_transaction_queue_size;
+      end
+   end
+
+   always @(signal_fatal_error) __abort_simulation();
+   
+   always @(negedge grant) begin
+      if (request_delay && request_done == 0)
+         ->signal_grant_deasserted_while_request_remain_asserted;
+   end
+   
+   always @(posedge clk or posedge reset) begin
+      request_delay <= request;
+      if (reset) begin
+         init();
+      end else begin
+         if ((request_done == 1) && (output_transaction_queue.size() == 0)) begin
+            if (output_transaction_issued_counter > 0)
+               ->signal_all_transactions_complete;
+            __drive_interface_idle();
+            if (grant) begin
+               -> signal_interface_granted;
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_input == 1} {
+               new_input_transaction.${role}_in = ${role}_in;
+   @@ }
+@@}
+               new_input_transaction.latency = latency;
+               input_transaction_queue.push_front(new_input_transaction);
+               latency = 0;
+               if (grant_must_deassert) begin
+                  $\sformat(message, "%m: grant is asserted without the request."); 
+                  print(VERBOSITY_ERROR, message);
+                  ->signal_fatal_error;  
+               end
+            end
+            grant_must_deassert = 1;
+         end else begin
+            if (request_done == 1) begin
+               current_output_transaction = output_transaction_queue.pop_back();
+               output_transaction_issued_counter++;
+               grant_must_deassert = 0;
+            end
+            drive_request(current_output_transaction);
+         end
+      end
+         
+   end
+
+   task drive_request(OutputTransaction_t current_output_transaction);
+      if (wait_cycles < current_output_transaction.idles) begin
+         if (grant) begin
+            -> signal_interface_granted;
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_input == 1} {
+            new_input_transaction.${role}_in = ${role}_in;
+   @@ }
+@@}
+            new_input_transaction.latency = latency;
+            input_transaction_queue.push_front(new_input_transaction);
+            latency = 0;
+            if (grant_must_deassert) begin
+               $\sformat(message, "%m: grant is asserted without the request."); 
+               print(VERBOSITY_ERROR, message);
+               ->signal_fatal_error;  
+            end
+         end
+        __drive_interface_idle();
+         wait_cycles++;
+         grant_must_deassert = 1;
+         request_done = 0;
+         return;
+      end else begin
+         if (grant) begin
+            if (grant_must_deassert) begin
+               $\sformat(message, "%m: grant is asserted without the request."); 
+               print(VERBOSITY_ERROR, message);
+               ->signal_fatal_error;  
+            end
+            -> signal_interface_granted;
+            
+            if (latency > 0) begin
+               if ((current_output_transaction.idles == 0) && (issued_transaction == 0) && 
+                  (output_transaction_issued_counter != 1)) begin
+                  latency = latency;
+               end else
+                  latency--;
+            end
+            
+            if (request_done == 1)
+               request_done = 0;
+            else
+               issued_transaction++;
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_input == 1} {
+            new_input_transaction.${role}_in = ${role}_in;
+   @@ }
+@@}
+            new_input_transaction.latency = latency;
+            input_transaction_queue.push_front(new_input_transaction);
+            latency = 0;
+            
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_output == 1} {
+      @@    if {$use_outputenable == 1} {
+            ${role}_outen = current_output_transaction.${role}_outen[issued_transaction];
+            if (current_output_transaction.${role}_outen[issued_transaction] == 1) begin
+               ${role}_out = current_output_transaction.${role}_out[issued_transaction];
+            end else begin
+               ${role}_out = 'z;
+            end
+      @@ } else {
+            ${role}_out = current_output_transaction.${role}_out[issued_transaction];
+      @@ }
+   @@ }
+@@ }
+
+            if (issued_transaction == current_output_transaction.num_of_transactions - 1) begin
+               request = 1'b0;
+               request_done = 1;
+               wait_cycles = 0;
+               issued_transaction = 0;
+            end else begin
+               request = 1'b1;
+               grant_must_deassert = 0;
+            end
+         end else begin
+            request = 1'b1;
+            grant_must_deassert = 0;
+            request_done = 0;
+            latency++;
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+   @@    set triplet          [ split [ lindex $role_list $i ] : ]
+   @@    set role             [ lindex $triplet 0 ]
+   @@    set width            [ lindex $triplet 1 ]
+   @@    set use_output       [ lindex $triplet 2 ]
+   @@    set use_outputenable [ lindex $triplet 3 ]
+   @@    set use_input        [ lindex $triplet 4 ]
+   @@    if {$use_output == 1} {
+      @@    if {$use_outputenable == 1} {
+            ${role}_outen = current_output_transaction.${role}_outen[issued_transaction];
+            if (current_output_transaction.${role}_outen[issued_transaction] == 1) begin
+               ${role}_out = current_output_transaction.${role}_out[issued_transaction];
+            end else begin
+               ${role}_out = 'z;
+            end
+      @@ } else {
+            ${role}_out = current_output_transaction.${role}_out[issued_transaction];
+      @@ }
+   @@ }
+@@ }
+         end
+      end
+   
+   endtask
+// synthesis translate_on
+
+endmodule 

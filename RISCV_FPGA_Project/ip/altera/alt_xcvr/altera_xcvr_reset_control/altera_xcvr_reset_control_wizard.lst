@@ -1,0 +1,14 @@
+[Interfaces|Transceiver PHY]
+Transceiver PHY Reset Controller v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/tcl/altera_xcvr_reset_control_hw.tcl" --wizard:altera_xcvr_reset_control --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V | Cyclone V | Arria V GZ | Arria VI"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Transceiver PHY Reset Controller</ALIAS>
+<ALIAS>Transceiver PHY Reset Controller v12.0</ALIAS>
+<ALIAS>Transceiver PHY Reset Controller v12.1</ALIAS>
+<ALIAS>Transceiver PHY Reset Controller v13.0</ALIAS>
+</INFO>

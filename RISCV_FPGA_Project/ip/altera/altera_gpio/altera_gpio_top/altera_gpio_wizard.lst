@@ -1,0 +1,9 @@
+[I/O]
+Altera GPIO v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_gpio_hw.tcl" --wizard:altera_gpio --familyparameter:DEVICE_FAMILY --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Night Fury | ARRIAVI | STRATIXVI"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF"/>
+<PINPLAN SUPPORTED="OFF"/>
+</INFO>

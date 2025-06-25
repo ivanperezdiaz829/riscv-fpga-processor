@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="9.1">
+  <preset
+     name="LineSide_wo_1588"
+     kind="altera_xcvr_10gbase_kr"
+     version="13.1"
+     description="Preset for Lineside 1G/10G without 1588 support">
+   <parameter name="sel_backplane_lineside" value="1Gb/10Gb Ethernet" />
+   <parameter name="REF_CLK_FREQ_10G" value="322.265625 MHz" />
+   <parameter name="PHY_IDENTIFIER" value="0" />
+   <parameter name="SYNTH_SGMII" value="1" />
+   <parameter name="SYNTH_SEQ" value="1" />
+   <parameter name="PLL_TYPE_10G" value="ATX" />
+   <parameter name="OPTIONAL_10G_RCVD" value="1" />
+   <parameter name="SYNTH_1588_10G" value="0" />
+   <parameter name="OPTIONAL_PLL_LCK" value="1" />
+   <parameter name="SYNTH_GIGE" value="1" />
+   <parameter name="REF_CLK_FREQ_1G" value="125.00 MHz" />
+   <parameter name="phy_mgmt_clk_freq" value="125.00" />
+   <parameter name="LINK_TIMER_KR" value="504.00" />
+   <parameter name="OPTIONAL_10G" value="1" />
+   <parameter name="SYNTH_AN" value="0" />
+   <parameter name="SYNTH_LT" value="0" />
+   <parameter name="DEV_VERSION" value="0" />
+   <parameter name="SYNTH_1588_1G" value="0" />
+   <parameter name="LINK_TIMER_KX" value="48.00" />
+  </preset>
+ </presets>
+</ip>

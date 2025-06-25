@@ -1,0 +1,32 @@
+MEGACORE 
+{
+   
+   PLUGIN_SECTION 
+   {
+      PLUGIN documentation
+      {
+         DOCUMENTS 
+         {
+            CATEGORY User Guide
+            {
+            	ENTRY RapidIO User Guide
+            	{
+            		version = "3.1.0";
+            		release_date = "April, 2006";
+            	}
+            }
+            CATEGORY Release Notes
+            {
+            	ENTRY RapidIO Release Notes
+            	{
+            		version = "3.1.1";
+            		release_date = "August, 2006";
+            	}
+            }
+            
+         }
+      }
+     
+   }
+   
+}

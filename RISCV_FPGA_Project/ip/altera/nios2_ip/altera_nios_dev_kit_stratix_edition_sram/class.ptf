@@ -1,0 +1,377 @@
+# Copyright(C) 2002-2003 Altera Corporation
+CLASS altera_nios_dev_kit_stratix_edition_sram
+{
+      ASSOCIATED_FILES 
+      {
+         Add_Program = "default";
+         Edit_Program = "default";
+         Generator_Program = "mk_sram.pl";
+      }
+      MODULE_DEFAULTS 
+      {
+         class = "altera_nios_dev_kit_stratix_edition_sram";
+         class_version = "7.08131";
+         iss_model_name = "altera_memory";
+         HDL_INFO 
+         {
+# An interface to this memory requires no additional files
+# in the target project directory.
+         }
+         WIZARD_SCRIPT_ARGUMENTS 
+         {
+            sram_memory_size = "1024";
+            sram_memory_units = "1024";
+            sram_data_width = "32";
+            CONTENTS srec
+               {
+               Kind        = "blank"; # one of germs, blank, build, command, textfile, or string
+               Build_Info = "";       # if Kind is build...
+	       Command_Info = "";     # if Kind is command...
+	       Textfile_Info = "";    # if Kind is textfile
+	       String_Info = "";      # if Kind is string
+               }
+         }
+         SLAVE s1
+         {
+            PORT_WIRING 
+            {
+               PORT data
+               {
+                  width = "32";
+                  is_shared = "1";
+                  direction = "inout";
+                  type = "data";
+               }
+               PORT address
+               {
+                  width = "16";
+                  is_shared = "1";
+                  direction = "input";
+                  type = "address";
+               }
+               PORT read_n
+               {
+                  width = "1";
+                  is_shared = "1";
+                  direction = "input";
+                  type = "read_n";
+               }
+               PORT write_n
+               {
+                  width = "1";
+                  is_shared = "1";
+                  direction = "input";
+                  type = "write_n";
+               }
+               PORT be_n
+               {
+                  width = "4";
+                  is_shared = "1";
+                  direction = "input";
+                  type = "byteenable_n";
+               }
+               PORT select_n
+               {
+                  width = "1";
+                  is_shared = "0";
+                  direction = "input";
+                  type = "chipselect_n";
+               }
+            }
+            SYSTEM_BUILDER_INFO 
+            {
+               Bus_Type = "avalon_tristate";
+               Is_Memory_Device = "1";
+               Address_Alignment = "dynamic";
+               Data_Width = "32";
+               Address_Width = "16";
+               Has_IRQ = "0";
+               IRQ_Number = "N/A";
+               Read_Wait_States = "0";
+               Write_Wait_States = "0";
+               Hold_Time = "half_clock";
+               Base_Address = "--unknown--";
+               Address_Span = "262144";
+            }
+         }
+         SYSTEM_BUILDER_INFO 
+         {
+            Is_Enabled = "1";
+            Instantiate_In_System_Module = "0";
+            Make_Memory_Model = "1";
+            Default_Module_Name = "sram";
+            Top_Level_Ports_Are_Enumerated = "1";
+         }
+      }
+      USER_INTERFACE 
+      {
+         USER_LABELS 
+         {
+            name = "Legacy IDT71V416 SRAM with SDK";
+            technology = "Legacy Components";
+            license = "full";
+         }
+         LINKS
+         {
+            LINK Stratix_1S40_Manual
+            {
+               title="Manual for Nios 1s40 Stratix Board";
+               url="http://www.altera.com/literature/manual/mnl_nios_board_stratix_1s40.pdf";
+            }
+            LINK Stratix_1S40_Schematics
+            {
+               title="Schematics for Nios 1s40 Stratix Board";
+               url="ftp://ftp.altera.com/outgoing/download/support/ip/processors/nios2/nios_stratix_1s40/nios_1s40_board_schematic.pdf";
+            }
+            LINK Stratix_1S10_Manual
+            {
+               title="Manual for Nios 1s10 Stratix Board";
+               url="http://www.altera.com/literature/manual/mnl_nios_board_stratix_1s10.pdf";
+            }
+            LINK Stratix_1S10_Schematics
+            {
+               title="Schematics for Nios 1s10 Stratix Board";
+               url="ftp://ftp.altera.com/outgoing/download/support/ip/processors/nios2/nios_stratix_1s10/nios_1s10_board_schematic.pdf";
+            }
+            LINK Cyclone_Manual
+            {
+               title="Manual for Nios 1c20 Cyclone Board";
+               url="http://www.altera.com/literature/manual/mnl_nios_board_cyclone_1c20.pdf";
+            }
+            LINK Cyclone_Schematics
+            {
+               title="Schematics for Nios 1c20 Cyclone Board";
+               url="ftp://ftp.altera.com/outgoing/download/support/ip/processors/nios2/nios_cyclone_1c20/nios_1c20_board_schematic.pdf";
+            }
+         }
+         WIZARD_UI default
+         {
+            DEBUG{}
+	    title = "SRAM (two IDT71V016 chips) - {{ $MOD }}";
+            CONTEXT 
+            {
+               WSA = "WIZARD_SCRIPT_ARGUMENTS";
+               CONTENTS = "WIZARD_SCRIPT_ARGUMENTS/CONTENTS srec";
+               SBI = "SLAVE s1/SYSTEM_BUILDER_INFO";
+               MODULE_SBI = "SYSTEM_BUILDER_INFO";
+               SPWA  = "SLAVE s1/PORT_WIRING/PORT address";
+               SPWD  = "SLAVE s1/PORT_WIRING/PORT data";
+               SPWBE = "SLAVE s1/PORT_WIRING/PORT be_n";
+            }
+# These assignments manage the continuous updating of values
+# via the WSA, and some intermediate values.
+            $$var_byte_count = "{{ $WSA/sram_memory_size * $WSA/sram_memory_units }}"; # aka address span
+            $$var_word_count = "{{ $$var_byte_count * 8 / $WSA/sram_data_width }}";
+            $$var_address_bits = "{{ ceil(log2($$var_word_count)) }}"; # 
+# And now, poke in all those results to the right PTF spots
+            $SBI/Address_Width = "{{ $$var_address_bits }}";
+            $SBI/Address_Span = "{{ $$var_byte_count }}";
+            $SBI/Data_Width = "{{ $WSA/sram_data_width }}";
+            $SPWA/width = "{{ $$var_address_bits }}";
+            $SPWD/width = "{{ $WSA/sram_data_width }}";
+            $SPWBE/width = "{{ $WSA/sram_data_width / 8 }}";
+
+        align = "left";
+        PAGES main
+        {
+          select = 1;
+#          align = "left";
+          PAGE 1
+          {
+            title = "Attributes";
+            GROUP 
+            {
+               align = "left";
+               title = "Static RAM";
+               spacing = 12;
+               TEXT 
+               {
+                  title = 
+                  "The Nios Development Boards(Stratix 1S10, 1S40 and Cyclone 1C20<br>
+                   editions) , have two IDT71V416 SRAM chips arranged as 256k <br>
+                  32-bit words (1MByte total address span).<br>";
+               }
+
+               GROUP 
+               {
+                  TEXT 
+                  {
+                     title = "Memory Size: ";
+                  }
+                  layout = "horizontal";
+                  EDIT 
+                  {
+                     justify = "right";
+                     DATA 
+                     {
+                        $WSA/sram_memory_size = "$";
+                     }
+                  }
+                  COMBO 
+                  {
+                     DATA 
+                     {
+                        $WSA/sram_memory_units = "$";
+                     }
+                     ITEM 
+                     {
+                        title = "Bytes";
+                        value = "1";
+                     }
+                     ITEM 
+                     {
+                        title = "kB";
+                        value = "1024";
+                     }
+                  }
+               }
+               TEXT 
+               {
+                  title = "{{ $$var_address_bits }} Word Aligned Address Bits";
+               }
+            }
+          }
+# ----------------------------------------------------------------------------------
+# The Contents Page
+#
+# Lets you select between blank, germs, and various ways to operate on files
+#
+           PAGE 2
+           {
+             title = "Simulation";
+             align = "left";
+             spacing = "5";
+
+             RADIO
+             {
+                title = "Do Not Create Simulation Model";
+                key="d";
+                DATA {
+                        $CONTENTS/Kind = "blank";
+                        $MODULE_SBI/Make_Memory_Model = "0";}
+             }
+
+	     # +-----------------------------------------------
+	     # | Blank contents
+
+             RADIO
+             {
+                title = "Blank";
+                tooltip = "Memory will be filled with zeroes";
+                key="k";
+                DATA { $CONTENTS/Kind = "blank";
+                      $MODULE_SBI/Make_Memory_Model = "1";}
+             }
+
+	     # +-----------------------------------------------
+	     # | Germs for contents
+
+             RADIO
+             {
+                title = "GERMS Monitor";
+                tooltip = "A bootable monitor will be built into the memory";
+                key="G";
+                DATA { $CONTENTS/Kind = "germs"; 
+                       $MODULE_SBI/Make_Memory_Model = "1";}
+             }
+
+	     # +-----------------------------------------------
+	     # | Default Build (nios-build) for contents
+
+             RADIO
+             {
+                 title = "Build:";
+                 tooltip = "The file(s) specified will be built using nios-convert or nios-build";
+                 layout="horizontal";
+                 DATA { $CONTENTS/Kind = "build"; 
+                        $MODULE_SBI/Make_Memory_Model = "1";}
+                 EDIT
+                 {
+                     DATA { $CONTENTS/Build_Info = "$"; }
+                     error =
+                          "{{ if ($ == '' && $CONTENTS/Kind == 'build')
+                                'Please specify a file to build the contents.';
+                           }}";
+                 }
+                 BUTTON
+                 {
+                     title = "...";
+                     ACTION select
+                     {
+                         $CONTENTS/Build_Info = "{{ browse($$system_directory, '*.mif,*.srec,*.c,*.s'); }}";
+                     }
+                 }
+	     }
+
+	     # +----------------------------------------
+	     # | Text File for contents
+
+            RADIO
+            {
+                title = "File:  ";
+                tooltip = "The specified file will fill the memory";
+                layout = "horizontal";
+                DATA { $CONTENTS/Kind = "textfile"; 
+                       $MODULE_SBI/Make_Memory_Model = "1";}
+                EDIT
+                {
+                    DATA { $CONTENTS/Textfile_Info = "$"; }
+                    error =
+                        "{{ if ($ == '' && $CONTENTS/Kind == 'textfile')
+                        'Please specify a text file.';
+                        }}";
+                }
+                BUTTON
+                {
+                    title = "...";
+                    ACTION select
+                    {
+                        $CONTENTS/Textfile_Info = "{{ browse($$system_directory, ''); }}";
+                    }
+                }
+            }
+
+	     # +----------------------------------------
+	     # | Command to generate contents
+
+             RADIO
+             {
+                 title = "Command:";
+                 tooltip = "The command will be run by /bin/sh in the current project directory.<br><i>Use %1 for the resulting S-record file and %2 for SDK directory.</i>";
+                 layout = "horizontal";
+                 DATA { $CONTENTS/Kind = "command"; 
+                        $MODULE_SBI/Make_Memory_Model = "1";}
+                  EDIT
+                  {
+                     DATA { $CONTENTS/Command_Info = "$"; }
+                     error =
+                         "{{ if ($ == '' && $CONTENTS/Kind == 'command')
+                             'Please specify a command to generate contents.';
+                         }}";
+                  }
+             }
+
+	     # +----------------------------------------
+	     # | String for contents
+
+	     REM RADIO
+	     {
+                title = "String:      ";
+                tooltip = "The string will be placed into the memory";
+                layout = "horizontal";
+                DATA { $CONTENTS/Kind = "string"; 
+                       $MODULE_SBI/Make_Memory_Model = "1";}
+                EDIT
+                {
+                    DATA { $CONTENTS/String_Info = "$"; }
+                    warning =
+                       "{{ if ($ == '' && $CONTENTS/Kind == 'string')
+                             'Please specify a string for contents.';
+                        }}";
+                }
+             }
+          }
+        }
+      }
+   }
+}

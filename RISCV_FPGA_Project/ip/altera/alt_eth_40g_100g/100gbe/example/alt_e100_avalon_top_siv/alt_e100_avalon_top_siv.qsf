@@ -1,0 +1,1399 @@
+set_global_assignment -name LAST_QUARTUS_VERSION 12.1
+set_global_assignment -name TOP_LEVEL_ENTITY alt_e100_avalon_top_siv
+set_global_assignment -name SDC_FILE ./common/common_timing.sdc
+set_global_assignment -name VERILOG_FILE alt_e100_avalon_top_siv.v
+set_global_assignment -name QIP_FILE ../../../ENET_ENTITY_QMEGA_06072013.qip
+set_global_assignment -name QIP_FILE ./common/alt_e100_example_common.qip
+source ./common/common_settings_siv.qsf
+
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: adapter_rx
+############################################################################
+
+# Removed the logic lock region for the rx adapter
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: adapter_tx
+############################################################################
+
+# Removed the logic lock region for the tx adapter
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: mac_rx
+############################################################################
+
+##test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_rx:mac_rx
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_ENABLED ON -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_HEIGHT 30 -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_instance_assignment -name LL_MEMBER_OF "alt_e100_mac_rx:mac_rx" -to "test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_rx:mac_rx" -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_ORIGIN X73_Y27 -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_PR_REGION OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_RESERVED OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_ROUGH OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_STATE LOCKED -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name LL_WIDTH 40 -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name PARTITION_COLOR 10310740 -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id "alt_e100_mac_rx:mac_rx"
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id "alt_e100_mac_rx:mac_rx"
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: mac_tx
+############################################################################
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_ENABLED ON -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_HEIGHT 36 -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_instance_assignment -name LL_MEMBER_OF "alt_e100_mac_tx:mac_tx" -to "test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_tx:mac_tx" -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_ORIGIN X86_Y73 -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_PR_REGION OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_RESERVED OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_ROUGH OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_STATE LOCKED -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name LL_WIDTH 48 -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name PARTITION_COLOR 5526685 -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id "alt_e100_mac_tx:mac_tx"
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id "alt_e100_mac_tx:mac_tx"
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: mac_csr
+############################################################################
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_ENABLED ON -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_HEIGHT 16 -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_instance_assignment -name LL_MEMBER_OF "alt_e100_mac_csr:mac_csr" -to "test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_csr:mac_csr" -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_ORIGIN X73_Y57 -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_PR_REGION OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_RESERVED OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_ROUGH OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_STATE LOCKED -section_id "alt_e100_mac_csr:mac_csr"
+set_global_assignment -name LL_WIDTH 48 -section_id "alt_e100_mac_csr:mac_csr"
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: pcs_rx
+############################################################################
+
+## test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id decoder_and_descrambler
+set_global_assignment -name LL_ENABLED ON -section_id decoder_and_descrambler
+set_global_assignment -name LL_HEIGHT 30 -section_id decoder_and_descrambler
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id decoder_and_descrambler
+set_instance_assignment -name LL_MEMBER_OF decoder_and_descrambler -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_mii_decode_multiple:mdec" -section_id decoder_and_descrambler
+set_instance_assignment -name LL_MEMBER_OF decoder_and_descrambler -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_framed_descrambler:fds" -section_id decoder_and_descrambler
+set_global_assignment -name LL_ORIGIN X113_Y27 -section_id decoder_and_descrambler
+set_global_assignment -name LL_PARENT pcs_rx -section_id decoder_and_descrambler
+set_global_assignment -name LL_PR_REGION OFF -section_id decoder_and_descrambler
+set_global_assignment -name LL_RESERVED OFF -section_id decoder_and_descrambler
+set_global_assignment -name LL_ROUGH OFF -section_id decoder_and_descrambler
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id decoder_and_descrambler
+set_global_assignment -name LL_STATE LOCKED -section_id decoder_and_descrambler
+set_global_assignment -name LL_WIDTH 27 -section_id decoder_and_descrambler
+
+
+
+
+
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p000
+set_global_assignment -name LL_ENABLED ON -section_id p000
+set_global_assignment -name LL_HEIGHT 6 -section_id p000
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p000
+set_instance_assignment -name LL_MEMBER_OF p000 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp" -section_id p000
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p000
+set_global_assignment -name LL_ORIGIN X126_Y27 -section_id p000
+set_global_assignment -name LL_PARENT pcs_rx -section_id p000
+set_global_assignment -name LL_PR_REGION OFF -section_id p000
+set_global_assignment -name LL_RESERVED OFF -section_id p000
+set_global_assignment -name LL_ROUGH OFF -section_id p000
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p000
+set_global_assignment -name LL_STATE LOCKED -section_id p000
+set_global_assignment -name LL_WIDTH 41 -section_id p000
+set_global_assignment -name PARTITION_COLOR 2696126 -section_id p000
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p000
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p000
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p001
+set_global_assignment -name LL_ENABLED ON -section_id p001
+set_global_assignment -name LL_HEIGHT 3 -section_id p001
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p001
+set_instance_assignment -name LL_MEMBER_OF p001 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp|alt_e100_gearbox_20_66:rge" -section_id p001
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p001
+set_global_assignment -name LL_ORIGIN X167_Y27 -section_id p001
+set_global_assignment -name LL_PARENT pcs_rx -section_id p001
+set_global_assignment -name LL_PR_REGION OFF -section_id p001
+set_global_assignment -name LL_RESERVED OFF -section_id p001
+set_global_assignment -name LL_ROUGH OFF -section_id p001
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p001
+set_global_assignment -name LL_STATE LOCKED -section_id p001
+set_global_assignment -name LL_WIDTH 7 -section_id p001
+set_global_assignment -name PARTITION_COLOR 11387602 -section_id p001
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p001
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p001
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p002
+set_global_assignment -name LL_ENABLED ON -section_id p002
+set_global_assignment -name LL_HEIGHT 3 -section_id p002
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p002
+set_instance_assignment -name LL_MEMBER_OF p002 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp|alt_e100_gearbox_20_66:rgo" -section_id p002
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p002
+set_global_assignment -name LL_ORIGIN X174_Y27 -section_id p002
+set_global_assignment -name LL_PARENT pcs_rx -section_id p002
+set_global_assignment -name LL_PR_REGION OFF -section_id p002
+set_global_assignment -name LL_RESERVED OFF -section_id p002
+set_global_assignment -name LL_ROUGH OFF -section_id p002
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p002
+set_global_assignment -name LL_STATE LOCKED -section_id p002
+set_global_assignment -name LL_WIDTH 6 -section_id p002
+set_global_assignment -name PARTITION_COLOR 8088704 -section_id p002
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p002
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p002
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p003
+set_global_assignment -name LL_ENABLED ON -section_id p003
+set_global_assignment -name LL_HEIGHT 6 -section_id p003
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p003
+set_instance_assignment -name LL_MEMBER_OF p003 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp" -section_id p003
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p003
+set_global_assignment -name LL_ORIGIN X126_Y27 -section_id p003
+set_global_assignment -name LL_PARENT pcs_rx -section_id p003
+set_global_assignment -name LL_PR_REGION OFF -section_id p003
+set_global_assignment -name LL_RESERVED OFF -section_id p003
+set_global_assignment -name LL_ROUGH OFF -section_id p003
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p003
+set_global_assignment -name LL_STATE LOCKED -section_id p003
+set_global_assignment -name LL_WIDTH 41 -section_id p003
+set_global_assignment -name PARTITION_COLOR 15410545 -section_id p003
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p003
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p003
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p004
+set_global_assignment -name LL_ENABLED ON -section_id p004
+set_global_assignment -name LL_HEIGHT 3 -section_id p004
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p004
+set_instance_assignment -name LL_MEMBER_OF p004 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp|alt_e100_gearbox_20_66:rge" -section_id p004
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p004
+set_global_assignment -name LL_ORIGIN X174_Y30 -section_id p004
+set_global_assignment -name LL_PARENT pcs_rx -section_id p004
+set_global_assignment -name LL_PR_REGION OFF -section_id p004
+set_global_assignment -name LL_RESERVED OFF -section_id p004
+set_global_assignment -name LL_ROUGH OFF -section_id p004
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p004
+set_global_assignment -name LL_STATE LOCKED -section_id p004
+set_global_assignment -name LL_WIDTH 6 -section_id p004
+set_global_assignment -name PARTITION_COLOR 1744536 -section_id p004
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p004
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p004
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p005
+set_global_assignment -name LL_ENABLED ON -section_id p005
+set_global_assignment -name LL_HEIGHT 3 -section_id p005
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p005
+set_instance_assignment -name LL_MEMBER_OF p005 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp|alt_e100_gearbox_20_66:rgo" -section_id p005
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p005
+set_global_assignment -name LL_ORIGIN X167_Y30 -section_id p005
+set_global_assignment -name LL_PARENT pcs_rx -section_id p005
+set_global_assignment -name LL_PR_REGION OFF -section_id p005
+set_global_assignment -name LL_RESERVED OFF -section_id p005
+set_global_assignment -name LL_ROUGH OFF -section_id p005
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p005
+set_global_assignment -name LL_STATE LOCKED -section_id p005
+set_global_assignment -name LL_WIDTH 7 -section_id p005
+set_global_assignment -name PARTITION_COLOR 15805758 -section_id p005
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p005
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p005
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p006
+set_global_assignment -name LL_ENABLED ON -section_id p006
+set_global_assignment -name LL_HEIGHT 6 -section_id p006
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p006
+set_instance_assignment -name LL_MEMBER_OF p006 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp" -section_id p006
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p006
+set_global_assignment -name LL_ORIGIN X126_Y33 -section_id p006
+set_global_assignment -name LL_PARENT pcs_rx -section_id p006
+set_global_assignment -name LL_PR_REGION OFF -section_id p006
+set_global_assignment -name LL_RESERVED OFF -section_id p006
+set_global_assignment -name LL_ROUGH OFF -section_id p006
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p006
+set_global_assignment -name LL_STATE LOCKED -section_id p006
+set_global_assignment -name LL_WIDTH 41 -section_id p006
+set_global_assignment -name PARTITION_COLOR 2757049 -section_id p006
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p006
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p006
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p007
+set_global_assignment -name LL_ENABLED ON -section_id p007
+set_global_assignment -name LL_HEIGHT 3 -section_id p007
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p007
+set_instance_assignment -name LL_MEMBER_OF p007 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp|alt_e100_gearbox_20_66:rge" -section_id p007
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p007
+set_global_assignment -name LL_ORIGIN X174_Y33 -section_id p007
+set_global_assignment -name LL_PARENT pcs_rx -section_id p007
+set_global_assignment -name LL_PR_REGION OFF -section_id p007
+set_global_assignment -name LL_RESERVED OFF -section_id p007
+set_global_assignment -name LL_ROUGH OFF -section_id p007
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p007
+set_global_assignment -name LL_STATE LOCKED -section_id p007
+set_global_assignment -name LL_WIDTH 6 -section_id p007
+set_global_assignment -name PARTITION_COLOR 2502432 -section_id p007
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p007
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p007
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p008
+set_global_assignment -name LL_ENABLED ON -section_id p008
+set_global_assignment -name LL_HEIGHT 3 -section_id p008
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p008
+set_instance_assignment -name LL_MEMBER_OF p008 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp|alt_e100_gearbox_20_66:rgo" -section_id p008
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p008
+set_global_assignment -name LL_ORIGIN X167_Y33 -section_id p008
+set_global_assignment -name LL_PARENT pcs_rx -section_id p008
+set_global_assignment -name LL_PR_REGION OFF -section_id p008
+set_global_assignment -name LL_RESERVED OFF -section_id p008
+set_global_assignment -name LL_ROUGH OFF -section_id p008
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p008
+set_global_assignment -name LL_STATE LOCKED -section_id p008
+set_global_assignment -name LL_WIDTH 7 -section_id p008
+set_global_assignment -name PARTITION_COLOR 160045 -section_id p008
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p008
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p008
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p009
+set_global_assignment -name LL_ENABLED ON -section_id p009
+set_global_assignment -name LL_HEIGHT 6 -section_id p009
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p009
+set_instance_assignment -name LL_MEMBER_OF p009 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp" -section_id p009
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p009
+set_global_assignment -name LL_ORIGIN X126_Y33 -section_id p009
+set_global_assignment -name LL_PARENT pcs_rx -section_id p009
+set_global_assignment -name LL_PR_REGION OFF -section_id p009
+set_global_assignment -name LL_RESERVED OFF -section_id p009
+set_global_assignment -name LL_ROUGH OFF -section_id p009
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p009
+set_global_assignment -name LL_STATE LOCKED -section_id p009
+set_global_assignment -name LL_WIDTH 41 -section_id p009
+set_global_assignment -name PARTITION_COLOR 1996698 -section_id p009
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p009
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p009
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p010
+set_global_assignment -name LL_ENABLED ON -section_id p010
+set_global_assignment -name LL_HEIGHT 3 -section_id p010
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p010
+set_instance_assignment -name LL_MEMBER_OF p010 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp|alt_e100_gearbox_20_66:rge" -section_id p010
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p010
+set_global_assignment -name LL_ORIGIN X174_Y36 -section_id p010
+set_global_assignment -name LL_PARENT pcs_rx -section_id p010
+set_global_assignment -name LL_PR_REGION OFF -section_id p010
+set_global_assignment -name LL_RESERVED OFF -section_id p010
+set_global_assignment -name LL_ROUGH OFF -section_id p010
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p010
+set_global_assignment -name LL_STATE LOCKED -section_id p010
+set_global_assignment -name LL_WIDTH 6 -section_id p010
+set_global_assignment -name PARTITION_COLOR 5876009 -section_id p010
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p010
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p010
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p011
+set_global_assignment -name LL_ENABLED ON -section_id p011
+set_global_assignment -name LL_HEIGHT 3 -section_id p011
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p011
+set_instance_assignment -name LL_MEMBER_OF p011 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp|alt_e100_gearbox_20_66:rgo" -section_id p011
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p011
+set_global_assignment -name LL_ORIGIN X167_Y36 -section_id p011
+set_global_assignment -name LL_PARENT pcs_rx -section_id p011
+set_global_assignment -name LL_PR_REGION OFF -section_id p011
+set_global_assignment -name LL_RESERVED OFF -section_id p011
+set_global_assignment -name LL_ROUGH OFF -section_id p011
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p011
+set_global_assignment -name LL_STATE LOCKED -section_id p011
+set_global_assignment -name LL_WIDTH 7 -section_id p011
+set_global_assignment -name PARTITION_COLOR 4973793 -section_id p011
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p011
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p011
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p012
+set_global_assignment -name LL_ENABLED ON -section_id p012
+set_global_assignment -name LL_HEIGHT 6 -section_id p012
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p012
+set_instance_assignment -name LL_MEMBER_OF p012 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp" -section_id p012
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p012
+set_global_assignment -name LL_ORIGIN X126_Y39 -section_id p012
+set_global_assignment -name LL_PARENT pcs_rx -section_id p012
+set_global_assignment -name LL_PR_REGION OFF -section_id p012
+set_global_assignment -name LL_RESERVED OFF -section_id p012
+set_global_assignment -name LL_ROUGH OFF -section_id p012
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p012
+set_global_assignment -name LL_STATE LOCKED -section_id p012
+set_global_assignment -name LL_WIDTH 41 -section_id p012
+set_global_assignment -name PARTITION_COLOR 548714 -section_id p012
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p012
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p012
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p013
+set_global_assignment -name LL_ENABLED ON -section_id p013
+set_global_assignment -name LL_HEIGHT 3 -section_id p013
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p013
+set_instance_assignment -name LL_MEMBER_OF p013 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp|alt_e100_gearbox_20_66:rge" -section_id p013
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p013
+set_global_assignment -name LL_ORIGIN X174_Y39 -section_id p013
+set_global_assignment -name LL_PARENT pcs_rx -section_id p013
+set_global_assignment -name LL_PR_REGION OFF -section_id p013
+set_global_assignment -name LL_RESERVED OFF -section_id p013
+set_global_assignment -name LL_ROUGH OFF -section_id p013
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p013
+set_global_assignment -name LL_STATE LOCKED -section_id p013
+set_global_assignment -name LL_WIDTH 6 -section_id p013
+set_global_assignment -name PARTITION_COLOR 11419753 -section_id p013
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p013
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p013
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p014
+set_global_assignment -name LL_ENABLED ON -section_id p014
+set_global_assignment -name LL_HEIGHT 3 -section_id p014
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p014
+set_instance_assignment -name LL_MEMBER_OF p014 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp|alt_e100_gearbox_20_66:rgo" -section_id p014
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p014
+set_global_assignment -name LL_ORIGIN X167_Y39 -section_id p014
+set_global_assignment -name LL_PARENT pcs_rx -section_id p014
+set_global_assignment -name LL_PR_REGION OFF -section_id p014
+set_global_assignment -name LL_RESERVED OFF -section_id p014
+set_global_assignment -name LL_ROUGH OFF -section_id p014
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p014
+set_global_assignment -name LL_STATE LOCKED -section_id p014
+set_global_assignment -name LL_WIDTH 7 -section_id p014
+set_global_assignment -name PARTITION_COLOR 16006496 -section_id p014
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p014
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p014
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p015
+set_global_assignment -name LL_ENABLED ON -section_id p015
+set_global_assignment -name LL_HEIGHT 6 -section_id p015
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p015
+set_instance_assignment -name LL_MEMBER_OF p015 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp" -section_id p015
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p015
+set_global_assignment -name LL_ORIGIN X126_Y39 -section_id p015
+set_global_assignment -name LL_PARENT pcs_rx -section_id p015
+set_global_assignment -name LL_PR_REGION OFF -section_id p015
+set_global_assignment -name LL_RESERVED OFF -section_id p015
+set_global_assignment -name LL_ROUGH OFF -section_id p015
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p015
+set_global_assignment -name LL_STATE LOCKED -section_id p015
+set_global_assignment -name LL_WIDTH 41 -section_id p015
+set_global_assignment -name PARTITION_COLOR 13375615 -section_id p015
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p015
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p015
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p016
+set_global_assignment -name LL_ENABLED ON -section_id p016
+set_global_assignment -name LL_HEIGHT 3 -section_id p016
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p016
+set_instance_assignment -name LL_MEMBER_OF p016 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp|alt_e100_gearbox_20_66:rge" -section_id p016
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p016
+set_global_assignment -name LL_ORIGIN X174_Y42 -section_id p016
+set_global_assignment -name LL_PARENT pcs_rx -section_id p016
+set_global_assignment -name LL_PR_REGION OFF -section_id p016
+set_global_assignment -name LL_RESERVED OFF -section_id p016
+set_global_assignment -name LL_ROUGH OFF -section_id p016
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p016
+set_global_assignment -name LL_STATE LOCKED -section_id p016
+set_global_assignment -name LL_WIDTH 6 -section_id p016
+set_global_assignment -name PARTITION_COLOR 9555124 -section_id p016
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p016
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p016
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p017
+set_global_assignment -name LL_ENABLED ON -section_id p017
+set_global_assignment -name LL_HEIGHT 3 -section_id p017
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p017
+set_instance_assignment -name LL_MEMBER_OF p017 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp|alt_e100_gearbox_20_66:rgo" -section_id p017
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p017
+set_global_assignment -name LL_ORIGIN X167_Y42 -section_id p017
+set_global_assignment -name LL_PARENT pcs_rx -section_id p017
+set_global_assignment -name LL_PR_REGION OFF -section_id p017
+set_global_assignment -name LL_RESERVED OFF -section_id p017
+set_global_assignment -name LL_ROUGH OFF -section_id p017
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p017
+set_global_assignment -name LL_STATE LOCKED -section_id p017
+set_global_assignment -name LL_WIDTH 7 -section_id p017
+set_global_assignment -name PARTITION_COLOR 7166529 -section_id p017
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p017
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p017
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p018
+set_global_assignment -name LL_ENABLED ON -section_id p018
+set_global_assignment -name LL_HEIGHT 6 -section_id p018
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p018
+set_instance_assignment -name LL_MEMBER_OF p018 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp" -section_id p018
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p018
+set_global_assignment -name LL_ORIGIN X126_Y45 -section_id p018
+set_global_assignment -name LL_PARENT pcs_rx -section_id p018
+set_global_assignment -name LL_PR_REGION OFF -section_id p018
+set_global_assignment -name LL_RESERVED OFF -section_id p018
+set_global_assignment -name LL_ROUGH OFF -section_id p018
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p018
+set_global_assignment -name LL_STATE LOCKED -section_id p018
+set_global_assignment -name LL_WIDTH 41 -section_id p018
+set_global_assignment -name PARTITION_COLOR 2646354 -section_id p018
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p018
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p018
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p019
+set_global_assignment -name LL_ENABLED ON -section_id p019
+set_global_assignment -name LL_HEIGHT 3 -section_id p019
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p019
+set_instance_assignment -name LL_MEMBER_OF p019 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp|alt_e100_gearbox_20_66:rge" -section_id p019
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p019
+set_global_assignment -name LL_ORIGIN X174_Y45 -section_id p019
+set_global_assignment -name LL_PARENT pcs_rx -section_id p019
+set_global_assignment -name LL_PR_REGION OFF -section_id p019
+set_global_assignment -name LL_RESERVED OFF -section_id p019
+set_global_assignment -name LL_ROUGH OFF -section_id p019
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p019
+set_global_assignment -name LL_STATE LOCKED -section_id p019
+set_global_assignment -name LL_WIDTH 6 -section_id p019
+set_global_assignment -name PARTITION_COLOR 2484312 -section_id p019
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p019
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p019
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p020
+set_global_assignment -name LL_ENABLED ON -section_id p020
+set_global_assignment -name LL_HEIGHT 3 -section_id p020
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p020
+set_instance_assignment -name LL_MEMBER_OF p020 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp|alt_e100_gearbox_20_66:rgo" -section_id p020
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p020
+set_global_assignment -name LL_ORIGIN X167_Y45 -section_id p020
+set_global_assignment -name LL_PARENT pcs_rx -section_id p020
+set_global_assignment -name LL_PR_REGION OFF -section_id p020
+set_global_assignment -name LL_RESERVED OFF -section_id p020
+set_global_assignment -name LL_ROUGH OFF -section_id p020
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p020
+set_global_assignment -name LL_STATE LOCKED -section_id p020
+set_global_assignment -name LL_WIDTH 7 -section_id p020
+set_global_assignment -name PARTITION_COLOR 3748854 -section_id p020
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p020
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p020
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p021
+set_global_assignment -name LL_ENABLED ON -section_id p021
+set_global_assignment -name LL_HEIGHT 6 -section_id p021
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p021
+set_instance_assignment -name LL_MEMBER_OF p021 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp" -section_id p021
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p021
+set_global_assignment -name LL_ORIGIN X126_Y45 -section_id p021
+set_global_assignment -name LL_PARENT pcs_rx -section_id p021
+set_global_assignment -name LL_PR_REGION OFF -section_id p021
+set_global_assignment -name LL_RESERVED OFF -section_id p021
+set_global_assignment -name LL_ROUGH OFF -section_id p021
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p021
+set_global_assignment -name LL_STATE LOCKED -section_id p021
+set_global_assignment -name LL_WIDTH 41 -section_id p021
+set_global_assignment -name PARTITION_COLOR 725868 -section_id p021
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p021
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p021
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p022
+set_global_assignment -name LL_ENABLED ON -section_id p022
+set_global_assignment -name LL_HEIGHT 3 -section_id p022
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p022
+set_instance_assignment -name LL_MEMBER_OF p022 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp|alt_e100_gearbox_20_66:rge" -section_id p022
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p022
+set_global_assignment -name LL_ORIGIN X174_Y48 -section_id p022
+set_global_assignment -name LL_PARENT pcs_rx -section_id p022
+set_global_assignment -name LL_PR_REGION OFF -section_id p022
+set_global_assignment -name LL_RESERVED OFF -section_id p022
+set_global_assignment -name LL_ROUGH OFF -section_id p022
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p022
+set_global_assignment -name LL_STATE LOCKED -section_id p022
+set_global_assignment -name LL_WIDTH 6 -section_id p022
+set_global_assignment -name PARTITION_COLOR 6028588 -section_id p022
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p022
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p022
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p023
+set_global_assignment -name LL_ENABLED ON -section_id p023
+set_global_assignment -name LL_HEIGHT 3 -section_id p023
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p023
+set_instance_assignment -name LL_MEMBER_OF p023 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp|alt_e100_gearbox_20_66:rgo" -section_id p023
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p023
+set_global_assignment -name LL_ORIGIN X167_Y48 -section_id p023
+set_global_assignment -name LL_PARENT pcs_rx -section_id p023
+set_global_assignment -name LL_PR_REGION OFF -section_id p023
+set_global_assignment -name LL_RESERVED OFF -section_id p023
+set_global_assignment -name LL_ROUGH OFF -section_id p023
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p023
+set_global_assignment -name LL_STATE LOCKED -section_id p023
+set_global_assignment -name LL_WIDTH 7 -section_id p023
+set_global_assignment -name PARTITION_COLOR 2345937 -section_id p023
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p023
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p023
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p024
+set_global_assignment -name LL_ENABLED ON -section_id p024
+set_global_assignment -name LL_HEIGHT 6 -section_id p024
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p024
+set_instance_assignment -name LL_MEMBER_OF p024 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp" -section_id p024
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p024
+set_global_assignment -name LL_ORIGIN X126_Y51 -section_id p024
+set_global_assignment -name LL_PARENT pcs_rx -section_id p024
+set_global_assignment -name LL_PR_REGION OFF -section_id p024
+set_global_assignment -name LL_RESERVED OFF -section_id p024
+set_global_assignment -name LL_ROUGH OFF -section_id p024
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p024
+set_global_assignment -name LL_STATE LOCKED -section_id p024
+set_global_assignment -name LL_WIDTH 41 -section_id p024
+set_global_assignment -name PARTITION_COLOR 3244771 -section_id p024
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p024
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p024
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p025
+set_global_assignment -name LL_ENABLED ON -section_id p025
+set_global_assignment -name LL_HEIGHT 3 -section_id p025
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p025
+set_instance_assignment -name LL_MEMBER_OF p025 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp|alt_e100_gearbox_20_66:rge" -section_id p025
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p025
+set_global_assignment -name LL_ORIGIN X174_Y51 -section_id p025
+set_global_assignment -name LL_PARENT pcs_rx -section_id p025
+set_global_assignment -name LL_PR_REGION OFF -section_id p025
+set_global_assignment -name LL_RESERVED OFF -section_id p025
+set_global_assignment -name LL_ROUGH OFF -section_id p025
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p025
+set_global_assignment -name LL_STATE LOCKED -section_id p025
+set_global_assignment -name LL_WIDTH 6 -section_id p025
+set_global_assignment -name PARTITION_COLOR 13048990 -section_id p025
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p025
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p025
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p026
+set_global_assignment -name LL_ENABLED ON -section_id p026
+set_global_assignment -name LL_HEIGHT 3 -section_id p026
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p026
+set_instance_assignment -name LL_MEMBER_OF p026 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp|alt_e100_gearbox_20_66:rgo" -section_id p026
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p026
+set_global_assignment -name LL_ORIGIN X167_Y51 -section_id p026
+set_global_assignment -name LL_PARENT pcs_rx -section_id p026
+set_global_assignment -name LL_PR_REGION OFF -section_id p026
+set_global_assignment -name LL_RESERVED OFF -section_id p026
+set_global_assignment -name LL_ROUGH OFF -section_id p026
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p026
+set_global_assignment -name LL_STATE LOCKED -section_id p026
+set_global_assignment -name LL_WIDTH 7 -section_id p026
+set_global_assignment -name PARTITION_COLOR 9355315 -section_id p026
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p026
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p026
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p027
+set_global_assignment -name LL_ENABLED ON -section_id p027
+set_global_assignment -name LL_HEIGHT 6 -section_id p027
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p027
+set_instance_assignment -name LL_MEMBER_OF p027 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp" -section_id p027
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p027
+set_global_assignment -name LL_ORIGIN X126_Y51 -section_id p027
+set_global_assignment -name LL_PARENT pcs_rx -section_id p027
+set_global_assignment -name LL_PR_REGION OFF -section_id p027
+set_global_assignment -name LL_RESERVED OFF -section_id p027
+set_global_assignment -name LL_ROUGH OFF -section_id p027
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p027
+set_global_assignment -name LL_STATE LOCKED -section_id p027
+set_global_assignment -name LL_WIDTH 41 -section_id p027
+set_global_assignment -name PARTITION_COLOR 12702913 -section_id p027
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p027
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p027
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p028
+set_global_assignment -name LL_ENABLED ON -section_id p028
+set_global_assignment -name LL_HEIGHT 3 -section_id p028
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p028
+set_instance_assignment -name LL_MEMBER_OF p028 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp|alt_e100_gearbox_20_66:rge" -section_id p028
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p028
+set_global_assignment -name LL_ORIGIN X174_Y54 -section_id p028
+set_global_assignment -name LL_PARENT pcs_rx -section_id p028
+set_global_assignment -name LL_PR_REGION OFF -section_id p028
+set_global_assignment -name LL_RESERVED OFF -section_id p028
+set_global_assignment -name LL_ROUGH OFF -section_id p028
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p028
+set_global_assignment -name LL_STATE LOCKED -section_id p028
+set_global_assignment -name LL_WIDTH 6 -section_id p028
+set_global_assignment -name PARTITION_COLOR 8754343 -section_id p028
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p028
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p028
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p029
+set_global_assignment -name LL_ENABLED ON -section_id p029
+set_global_assignment -name LL_HEIGHT 3 -section_id p029
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p029
+set_instance_assignment -name LL_MEMBER_OF p029 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp|alt_e100_gearbox_20_66:rgo" -section_id p029
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p029
+set_global_assignment -name LL_ORIGIN X167_Y54 -section_id p029
+set_global_assignment -name LL_PARENT pcs_rx -section_id p029
+set_global_assignment -name LL_PR_REGION OFF -section_id p029
+set_global_assignment -name LL_RESERVED OFF -section_id p029
+set_global_assignment -name LL_ROUGH OFF -section_id p029
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p029
+set_global_assignment -name LL_STATE LOCKED -section_id p029
+set_global_assignment -name LL_WIDTH 7 -section_id p029
+set_global_assignment -name PARTITION_COLOR 5635939 -section_id p029
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p029
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p029
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p031
+set_global_assignment -name LL_ENABLED ON -section_id p031
+set_global_assignment -name LL_HEIGHT 6 -section_id p031
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p031
+set_instance_assignment -name LL_MEMBER_OF p031 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_reorder_destripe:rd|alt_e100_reorder_destripe_helper_group:ro[0].rdhg" -section_id p031
+set_global_assignment -name LL_ORIGIN X126_Y27 -section_id p031
+set_global_assignment -name LL_PARENT pcs_rx -section_id p031
+set_global_assignment -name LL_PR_REGION OFF -section_id p031
+set_global_assignment -name LL_RESERVED OFF -section_id p031
+set_global_assignment -name LL_ROUGH OFF -section_id p031
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p031
+set_global_assignment -name LL_STATE LOCKED -section_id p031
+set_global_assignment -name LL_WIDTH 41 -section_id p031
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p036
+set_global_assignment -name LL_ENABLED ON -section_id p036
+set_global_assignment -name LL_HEIGHT 6 -section_id p036
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p036
+set_instance_assignment -name LL_MEMBER_OF p036 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_reorder_destripe:rd|alt_e100_reorder_destripe_helper_group:ro[1].rdhg" -section_id p036
+set_global_assignment -name LL_ORIGIN X126_Y33 -section_id p036
+set_global_assignment -name LL_PARENT pcs_rx -section_id p036
+set_global_assignment -name LL_PR_REGION OFF -section_id p036
+set_global_assignment -name LL_RESERVED OFF -section_id p036
+set_global_assignment -name LL_ROUGH OFF -section_id p036
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p036
+set_global_assignment -name LL_STATE LOCKED -section_id p036
+set_global_assignment -name LL_WIDTH 41 -section_id p036
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p041
+set_global_assignment -name LL_ENABLED ON -section_id p041
+set_global_assignment -name LL_HEIGHT 6 -section_id p041
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p041
+set_instance_assignment -name LL_MEMBER_OF p041 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_reorder_destripe:rd|alt_e100_reorder_destripe_helper_group:ro[2].rdhg" -section_id p041
+set_global_assignment -name LL_ORIGIN X126_Y39 -section_id p041
+set_global_assignment -name LL_PARENT pcs_rx -section_id p041
+set_global_assignment -name LL_PR_REGION OFF -section_id p041
+set_global_assignment -name LL_RESERVED OFF -section_id p041
+set_global_assignment -name LL_ROUGH OFF -section_id p041
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p041
+set_global_assignment -name LL_STATE LOCKED -section_id p041
+set_global_assignment -name LL_WIDTH 41 -section_id p041
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p046
+set_global_assignment -name LL_ENABLED ON -section_id p046
+set_global_assignment -name LL_HEIGHT 6 -section_id p046
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p046
+set_instance_assignment -name LL_MEMBER_OF p046 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_reorder_destripe:rd|alt_e100_reorder_destripe_helper_group:ro[3].rdhg" -section_id p046
+set_global_assignment -name LL_ORIGIN X126_Y45 -section_id p046
+set_global_assignment -name LL_PARENT pcs_rx -section_id p046
+set_global_assignment -name LL_PR_REGION OFF -section_id p046
+set_global_assignment -name LL_RESERVED OFF -section_id p046
+set_global_assignment -name LL_ROUGH OFF -section_id p046
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p046
+set_global_assignment -name LL_STATE LOCKED -section_id p046
+set_global_assignment -name LL_WIDTH 41 -section_id p046
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p051
+set_global_assignment -name LL_ENABLED ON -section_id p051
+set_global_assignment -name LL_HEIGHT 6 -section_id p051
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p051
+set_instance_assignment -name LL_MEMBER_OF p051 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_reorder_destripe:rd|alt_e100_reorder_destripe_helper_group:ro[4].rdhg" -section_id p051
+set_global_assignment -name LL_ORIGIN X126_Y51 -section_id p051
+set_global_assignment -name LL_PARENT pcs_rx -section_id p051
+set_global_assignment -name LL_PR_REGION OFF -section_id p051
+set_global_assignment -name LL_RESERVED OFF -section_id p051
+set_global_assignment -name LL_ROUGH OFF -section_id p051
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p051
+set_global_assignment -name LL_STATE LOCKED -section_id p051
+set_global_assignment -name LL_WIDTH 41 -section_id p051
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id pcs_rx
+set_global_assignment -name LL_ENABLED ON -section_id pcs_rx
+set_global_assignment -name LL_HEIGHT 30 -section_id pcs_rx
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id pcs_rx
+set_instance_assignment -name LL_MEMBER_OF pcs_rx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_pcs_ber:pcs_ber" -section_id pcs_rx
+set_instance_assignment -name LL_MEMBER_OF pcs_rx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_pcs_rx_testmode:pcs_rx_testmode" -section_id pcs_rx
+set_instance_assignment -name LL_MEMBER_OF pcs_rx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla" -section_id pcs_rx
+set_global_assignment -name LL_ORIGIN X113_Y27 -section_id pcs_rx
+set_global_assignment -name LL_PR_REGION OFF -section_id pcs_rx
+set_global_assignment -name LL_REGION_SECURITY_LEVEL UNSECURED -section_id pcs_rx
+set_global_assignment -name LL_RESERVED OFF -section_id pcs_rx
+set_global_assignment -name LL_ROUGH OFF -section_id pcs_rx
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id pcs_rx
+set_global_assignment -name LL_STATE LOCKED -section_id pcs_rx
+set_global_assignment -name LL_WIDTH 67 -section_id pcs_rx
+set_global_assignment -name PARTITION_COLOR 5545300 -section_id pcs_rx
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id pcs_rx
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id pcs_rx
+
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: pcs_tx
+############################################################################
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p056
+set_global_assignment -name LL_ENABLED ON -section_id p056
+set_global_assignment -name LL_HEIGHT 3 -section_id p056
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p056
+set_instance_assignment -name LL_MEMBER_OF p056 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp" -section_id p056
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p056
+set_global_assignment -name LL_ORIGIN X142_Y57 -section_id p056
+set_global_assignment -name LL_PARENT pcs_tx -section_id p056
+set_global_assignment -name LL_PR_REGION OFF -section_id p056
+set_global_assignment -name LL_RESERVED OFF -section_id p056
+set_global_assignment -name LL_ROUGH OFF -section_id p056
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p056
+set_global_assignment -name LL_STATE LOCKED -section_id p056
+set_global_assignment -name LL_WIDTH 21 -section_id p056
+set_global_assignment -name PARTITION_COLOR 8405859 -section_id p056
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p056
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p056
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p057
+set_global_assignment -name LL_ENABLED ON -section_id p057
+set_global_assignment -name LL_HEIGHT 3 -section_id p057
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p057
+set_instance_assignment -name LL_MEMBER_OF p057 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp|alt_e100_gearbox_66_20:tge" -section_id p057
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p057
+set_global_assignment -name LL_ORIGIN X163_Y57 -section_id p057
+set_global_assignment -name LL_PARENT pcs_tx -section_id p057
+set_global_assignment -name LL_PR_REGION OFF -section_id p057
+set_global_assignment -name LL_RESERVED OFF -section_id p057
+set_global_assignment -name LL_ROUGH OFF -section_id p057
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p057
+set_global_assignment -name LL_STATE LOCKED -section_id p057
+set_global_assignment -name LL_WIDTH 7 -section_id p057
+set_global_assignment -name PARTITION_COLOR 16047471 -section_id p057
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p057
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p057
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p058
+set_global_assignment -name LL_ENABLED ON -section_id p058
+set_global_assignment -name LL_HEIGHT 3 -section_id p058
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p058
+set_instance_assignment -name LL_MEMBER_OF p058 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp|alt_e100_gearbox_66_20:tgo" -section_id p058
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p058
+set_global_assignment -name LL_ORIGIN X170_Y57 -section_id p058
+set_global_assignment -name LL_PARENT pcs_tx -section_id p058
+set_global_assignment -name LL_PR_REGION OFF -section_id p058
+set_global_assignment -name LL_RESERVED OFF -section_id p058
+set_global_assignment -name LL_ROUGH OFF -section_id p058
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p058
+set_global_assignment -name LL_STATE LOCKED -section_id p058
+set_global_assignment -name LL_WIDTH 9 -section_id p058
+set_global_assignment -name PARTITION_COLOR 2235 -section_id p058
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p058
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p058
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p059
+set_global_assignment -name LL_ENABLED ON -section_id p059
+set_global_assignment -name LL_HEIGHT 3 -section_id p059
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p059
+set_instance_assignment -name LL_MEMBER_OF p059 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp" -section_id p059
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p059
+set_global_assignment -name LL_ORIGIN X142_Y60 -section_id p059
+set_global_assignment -name LL_PARENT pcs_tx -section_id p059
+set_global_assignment -name LL_PR_REGION OFF -section_id p059
+set_global_assignment -name LL_RESERVED OFF -section_id p059
+set_global_assignment -name LL_ROUGH OFF -section_id p059
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p059
+set_global_assignment -name LL_STATE LOCKED -section_id p059
+set_global_assignment -name LL_WIDTH 21 -section_id p059
+set_global_assignment -name PARTITION_COLOR 10476575 -section_id p059
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p059
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p059
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p060
+set_global_assignment -name LL_ENABLED ON -section_id p060
+set_global_assignment -name LL_HEIGHT 3 -section_id p060
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p060
+set_instance_assignment -name LL_MEMBER_OF p060 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp|alt_e100_gearbox_66_20:tge" -section_id p060
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p060
+set_global_assignment -name LL_ORIGIN X170_Y60 -section_id p060
+set_global_assignment -name LL_PARENT pcs_tx -section_id p060
+set_global_assignment -name LL_PR_REGION OFF -section_id p060
+set_global_assignment -name LL_RESERVED OFF -section_id p060
+set_global_assignment -name LL_ROUGH OFF -section_id p060
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p060
+set_global_assignment -name LL_STATE LOCKED -section_id p060
+set_global_assignment -name LL_WIDTH 9 -section_id p060
+set_global_assignment -name PARTITION_COLOR 13017642 -section_id p060
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p060
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p060
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p061
+set_global_assignment -name LL_ENABLED ON -section_id p061
+set_global_assignment -name LL_HEIGHT 3 -section_id p061
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p061
+set_instance_assignment -name LL_MEMBER_OF p061 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp|alt_e100_gearbox_66_20:tgo" -section_id p061
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p061
+set_global_assignment -name LL_ORIGIN X163_Y60 -section_id p061
+set_global_assignment -name LL_PARENT pcs_tx -section_id p061
+set_global_assignment -name LL_PR_REGION OFF -section_id p061
+set_global_assignment -name LL_RESERVED OFF -section_id p061
+set_global_assignment -name LL_ROUGH OFF -section_id p061
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p061
+set_global_assignment -name LL_STATE LOCKED -section_id p061
+set_global_assignment -name LL_WIDTH 7 -section_id p061
+set_global_assignment -name PARTITION_COLOR 626696 -section_id p061
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p061
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p061
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p062
+set_global_assignment -name LL_ENABLED ON -section_id p062
+set_global_assignment -name LL_HEIGHT 3 -section_id p062
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p062
+set_instance_assignment -name LL_MEMBER_OF p062 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp" -section_id p062
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p062
+set_global_assignment -name LL_ORIGIN X142_Y63 -section_id p062
+set_global_assignment -name LL_PARENT pcs_tx -section_id p062
+set_global_assignment -name LL_PR_REGION OFF -section_id p062
+set_global_assignment -name LL_RESERVED OFF -section_id p062
+set_global_assignment -name LL_ROUGH OFF -section_id p062
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p062
+set_global_assignment -name LL_STATE LOCKED -section_id p062
+set_global_assignment -name LL_WIDTH 21 -section_id p062
+set_global_assignment -name PARTITION_COLOR 16604359 -section_id p062
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p062
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p062
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p063
+set_global_assignment -name LL_ENABLED ON -section_id p063
+set_global_assignment -name LL_HEIGHT 3 -section_id p063
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p063
+set_instance_assignment -name LL_MEMBER_OF p063 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp|alt_e100_gearbox_66_20:tge" -section_id p063
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p063
+set_global_assignment -name LL_ORIGIN X170_Y63 -section_id p063
+set_global_assignment -name LL_PARENT pcs_tx -section_id p063
+set_global_assignment -name LL_PR_REGION OFF -section_id p063
+set_global_assignment -name LL_RESERVED OFF -section_id p063
+set_global_assignment -name LL_ROUGH OFF -section_id p063
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p063
+set_global_assignment -name LL_STATE LOCKED -section_id p063
+set_global_assignment -name LL_WIDTH 9 -section_id p063
+set_global_assignment -name PARTITION_COLOR 3067114 -section_id p063
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p063
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p063
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p064
+set_global_assignment -name LL_ENABLED ON -section_id p064
+set_global_assignment -name LL_HEIGHT 3 -section_id p064
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p064
+set_instance_assignment -name LL_MEMBER_OF p064 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp|alt_e100_gearbox_66_20:tgo" -section_id p064
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p064
+set_global_assignment -name LL_ORIGIN X163_Y63 -section_id p064
+set_global_assignment -name LL_PARENT pcs_tx -section_id p064
+set_global_assignment -name LL_PR_REGION OFF -section_id p064
+set_global_assignment -name LL_RESERVED OFF -section_id p064
+set_global_assignment -name LL_ROUGH OFF -section_id p064
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p064
+set_global_assignment -name LL_STATE LOCKED -section_id p064
+set_global_assignment -name LL_WIDTH 7 -section_id p064
+set_global_assignment -name PARTITION_COLOR 6692709 -section_id p064
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p064
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p064
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p065
+set_global_assignment -name LL_ENABLED ON -section_id p065
+set_global_assignment -name LL_HEIGHT 3 -section_id p065
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p065
+set_instance_assignment -name LL_MEMBER_OF p065 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp" -section_id p065
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p065
+set_global_assignment -name LL_ORIGIN X142_Y66 -section_id p065
+set_global_assignment -name LL_PARENT pcs_tx -section_id p065
+set_global_assignment -name LL_PR_REGION OFF -section_id p065
+set_global_assignment -name LL_RESERVED OFF -section_id p065
+set_global_assignment -name LL_ROUGH OFF -section_id p065
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p065
+set_global_assignment -name LL_STATE LOCKED -section_id p065
+set_global_assignment -name LL_WIDTH 21 -section_id p065
+set_global_assignment -name PARTITION_COLOR 1309116 -section_id p065
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p065
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p065
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p066
+set_global_assignment -name LL_ENABLED ON -section_id p066
+set_global_assignment -name LL_HEIGHT 3 -section_id p066
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p066
+set_instance_assignment -name LL_MEMBER_OF p066 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp|alt_e100_gearbox_66_20:tge" -section_id p066
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p066
+set_global_assignment -name LL_ORIGIN X170_Y66 -section_id p066
+set_global_assignment -name LL_PARENT pcs_tx -section_id p066
+set_global_assignment -name LL_PR_REGION OFF -section_id p066
+set_global_assignment -name LL_RESERVED OFF -section_id p066
+set_global_assignment -name LL_ROUGH OFF -section_id p066
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p066
+set_global_assignment -name LL_STATE LOCKED -section_id p066
+set_global_assignment -name LL_WIDTH 9 -section_id p066
+set_global_assignment -name PARTITION_COLOR 971609 -section_id p066
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p066
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p066
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p067
+set_global_assignment -name LL_ENABLED ON -section_id p067
+set_global_assignment -name LL_HEIGHT 3 -section_id p067
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p067
+set_instance_assignment -name LL_MEMBER_OF p067 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp|alt_e100_gearbox_66_20:tgo" -section_id p067
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p067
+set_global_assignment -name LL_ORIGIN X163_Y66 -section_id p067
+set_global_assignment -name LL_PARENT pcs_tx -section_id p067
+set_global_assignment -name LL_PR_REGION OFF -section_id p067
+set_global_assignment -name LL_RESERVED OFF -section_id p067
+set_global_assignment -name LL_ROUGH OFF -section_id p067
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p067
+set_global_assignment -name LL_STATE LOCKED -section_id p067
+set_global_assignment -name LL_WIDTH 7 -section_id p067
+set_global_assignment -name PARTITION_COLOR 13509746 -section_id p067
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p067
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p067
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p068
+set_global_assignment -name LL_ENABLED ON -section_id p068
+set_global_assignment -name LL_HEIGHT 3 -section_id p068
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p068
+set_instance_assignment -name LL_MEMBER_OF p068 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp" -section_id p068
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p068
+set_global_assignment -name LL_ORIGIN X142_Y69 -section_id p068
+set_global_assignment -name LL_PARENT pcs_tx -section_id p068
+set_global_assignment -name LL_PR_REGION OFF -section_id p068
+set_global_assignment -name LL_RESERVED OFF -section_id p068
+set_global_assignment -name LL_ROUGH OFF -section_id p068
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p068
+set_global_assignment -name LL_STATE LOCKED -section_id p068
+set_global_assignment -name LL_WIDTH 21 -section_id p068
+set_global_assignment -name PARTITION_COLOR 11970037 -section_id p068
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p068
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p068
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p069
+set_global_assignment -name LL_ENABLED ON -section_id p069
+set_global_assignment -name LL_HEIGHT 3 -section_id p069
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p069
+set_instance_assignment -name LL_MEMBER_OF p069 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp|alt_e100_gearbox_66_20:tge" -section_id p069
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p069
+set_global_assignment -name LL_ORIGIN X163_Y69 -section_id p069
+set_global_assignment -name LL_PARENT pcs_tx -section_id p069
+set_global_assignment -name LL_PR_REGION OFF -section_id p069
+set_global_assignment -name LL_RESERVED OFF -section_id p069
+set_global_assignment -name LL_ROUGH OFF -section_id p069
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p069
+set_global_assignment -name LL_STATE LOCKED -section_id p069
+set_global_assignment -name LL_WIDTH 7 -section_id p069
+set_global_assignment -name PARTITION_COLOR 15903658 -section_id p069
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p069
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p069
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p070
+set_global_assignment -name LL_ENABLED ON -section_id p070
+set_global_assignment -name LL_HEIGHT 3 -section_id p070
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p070
+set_instance_assignment -name LL_MEMBER_OF p070 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp|alt_e100_gearbox_66_20:tgo" -section_id p070
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p070
+set_global_assignment -name LL_ORIGIN X170_Y69 -section_id p070
+set_global_assignment -name LL_PARENT pcs_tx -section_id p070
+set_global_assignment -name LL_PR_REGION OFF -section_id p070
+set_global_assignment -name LL_RESERVED OFF -section_id p070
+set_global_assignment -name LL_ROUGH OFF -section_id p070
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p070
+set_global_assignment -name LL_STATE LOCKED -section_id p070
+set_global_assignment -name LL_WIDTH 9 -section_id p070
+set_global_assignment -name PARTITION_COLOR 10660734 -section_id p070
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p070
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p070
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p071
+set_global_assignment -name LL_ENABLED ON -section_id p071
+set_global_assignment -name LL_HEIGHT 3 -section_id p071
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p071
+set_instance_assignment -name LL_MEMBER_OF p071 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp" -section_id p071
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p071
+set_global_assignment -name LL_ORIGIN X142_Y72 -section_id p071
+set_global_assignment -name LL_PARENT pcs_tx -section_id p071
+set_global_assignment -name LL_PR_REGION OFF -section_id p071
+set_global_assignment -name LL_RESERVED OFF -section_id p071
+set_global_assignment -name LL_ROUGH OFF -section_id p071
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p071
+set_global_assignment -name LL_STATE LOCKED -section_id p071
+set_global_assignment -name LL_WIDTH 21 -section_id p071
+set_global_assignment -name PARTITION_COLOR 12789440 -section_id p071
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p071
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p071
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p072
+set_global_assignment -name LL_ENABLED ON -section_id p072
+set_global_assignment -name LL_HEIGHT 3 -section_id p072
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p072
+set_instance_assignment -name LL_MEMBER_OF p072 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp|alt_e100_gearbox_66_20:tge" -section_id p072
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p072
+set_global_assignment -name LL_ORIGIN X163_Y72 -section_id p072
+set_global_assignment -name LL_PARENT pcs_tx -section_id p072
+set_global_assignment -name LL_PR_REGION OFF -section_id p072
+set_global_assignment -name LL_RESERVED OFF -section_id p072
+set_global_assignment -name LL_ROUGH OFF -section_id p072
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p072
+set_global_assignment -name LL_STATE LOCKED -section_id p072
+set_global_assignment -name LL_WIDTH 7 -section_id p072
+set_global_assignment -name PARTITION_COLOR 12067797 -section_id p072
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p072
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p072
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p073
+set_global_assignment -name LL_ENABLED ON -section_id p073
+set_global_assignment -name LL_HEIGHT 3 -section_id p073
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p073
+set_instance_assignment -name LL_MEMBER_OF p073 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp|alt_e100_gearbox_66_20:tgo" -section_id p073
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p073
+set_global_assignment -name LL_ORIGIN X170_Y72 -section_id p073
+set_global_assignment -name LL_PARENT pcs_tx -section_id p073
+set_global_assignment -name LL_PR_REGION OFF -section_id p073
+set_global_assignment -name LL_RESERVED OFF -section_id p073
+set_global_assignment -name LL_ROUGH OFF -section_id p073
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p073
+set_global_assignment -name LL_STATE LOCKED -section_id p073
+set_global_assignment -name LL_WIDTH 9 -section_id p073
+set_global_assignment -name PARTITION_COLOR 12523750 -section_id p073
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p073
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p073
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p074
+set_global_assignment -name LL_ENABLED ON -section_id p074
+set_global_assignment -name LL_HEIGHT 3 -section_id p074
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p074
+set_instance_assignment -name LL_MEMBER_OF p074 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp" -section_id p074
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p074
+set_global_assignment -name LL_ORIGIN X142_Y75 -section_id p074
+set_global_assignment -name LL_PARENT pcs_tx -section_id p074
+set_global_assignment -name LL_PR_REGION OFF -section_id p074
+set_global_assignment -name LL_RESERVED OFF -section_id p074
+set_global_assignment -name LL_ROUGH OFF -section_id p074
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p074
+set_global_assignment -name LL_STATE LOCKED -section_id p074
+set_global_assignment -name LL_WIDTH 21 -section_id p074
+set_global_assignment -name PARTITION_COLOR 3999742 -section_id p074
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p074
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p074
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p075
+set_global_assignment -name LL_ENABLED ON -section_id p075
+set_global_assignment -name LL_HEIGHT 3 -section_id p075
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p075
+set_instance_assignment -name LL_MEMBER_OF p075 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp|alt_e100_gearbox_66_20:tge" -section_id p075
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p075
+set_global_assignment -name LL_ORIGIN X163_Y75 -section_id p075
+set_global_assignment -name LL_PARENT pcs_tx -section_id p075
+set_global_assignment -name LL_PR_REGION OFF -section_id p075
+set_global_assignment -name LL_RESERVED OFF -section_id p075
+set_global_assignment -name LL_ROUGH OFF -section_id p075
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p075
+set_global_assignment -name LL_STATE LOCKED -section_id p075
+set_global_assignment -name LL_WIDTH 7 -section_id p075
+set_global_assignment -name PARTITION_COLOR 5084452 -section_id p075
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p075
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p075
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p076
+set_global_assignment -name LL_ENABLED ON -section_id p076
+set_global_assignment -name LL_HEIGHT 3 -section_id p076
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p076
+set_instance_assignment -name LL_MEMBER_OF p076 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp|alt_e100_gearbox_66_20:tgo" -section_id p076
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p076
+set_global_assignment -name LL_ORIGIN X170_Y75 -section_id p076
+set_global_assignment -name LL_PARENT pcs_tx -section_id p076
+set_global_assignment -name LL_PR_REGION OFF -section_id p076
+set_global_assignment -name LL_RESERVED OFF -section_id p076
+set_global_assignment -name LL_ROUGH OFF -section_id p076
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p076
+set_global_assignment -name LL_STATE LOCKED -section_id p076
+set_global_assignment -name LL_WIDTH 9 -section_id p076
+set_global_assignment -name PARTITION_COLOR 2736618 -section_id p076
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p076
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p076
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p077
+set_global_assignment -name LL_ENABLED ON -section_id p077
+set_global_assignment -name LL_HEIGHT 3 -section_id p077
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p077
+set_instance_assignment -name LL_MEMBER_OF p077 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp" -section_id p077
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p077
+set_global_assignment -name LL_ORIGIN X142_Y78 -section_id p077
+set_global_assignment -name LL_PARENT pcs_tx -section_id p077
+set_global_assignment -name LL_PR_REGION OFF -section_id p077
+set_global_assignment -name LL_RESERVED OFF -section_id p077
+set_global_assignment -name LL_ROUGH OFF -section_id p077
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p077
+set_global_assignment -name LL_STATE LOCKED -section_id p077
+set_global_assignment -name LL_WIDTH 21 -section_id p077
+set_global_assignment -name PARTITION_COLOR 9979092 -section_id p077
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p077
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p077
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p078
+set_global_assignment -name LL_ENABLED ON -section_id p078
+set_global_assignment -name LL_HEIGHT 3 -section_id p078
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p078
+set_instance_assignment -name LL_MEMBER_OF p078 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp|alt_e100_gearbox_66_20:tge" -section_id p078
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p078
+set_global_assignment -name LL_ORIGIN X163_Y78 -section_id p078
+set_global_assignment -name LL_PARENT pcs_tx -section_id p078
+set_global_assignment -name LL_PR_REGION OFF -section_id p078
+set_global_assignment -name LL_RESERVED OFF -section_id p078
+set_global_assignment -name LL_ROUGH OFF -section_id p078
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p078
+set_global_assignment -name LL_STATE LOCKED -section_id p078
+set_global_assignment -name LL_WIDTH 7 -section_id p078
+set_global_assignment -name PARTITION_COLOR 15814956 -section_id p078
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p078
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p078
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p079
+set_global_assignment -name LL_ENABLED ON -section_id p079
+set_global_assignment -name LL_HEIGHT 3 -section_id p079
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p079
+set_instance_assignment -name LL_MEMBER_OF p079 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp|alt_e100_gearbox_66_20:tgo" -section_id p079
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p079
+set_global_assignment -name LL_ORIGIN X170_Y78 -section_id p079
+set_global_assignment -name LL_PARENT pcs_tx -section_id p079
+set_global_assignment -name LL_PR_REGION OFF -section_id p079
+set_global_assignment -name LL_RESERVED OFF -section_id p079
+set_global_assignment -name LL_ROUGH OFF -section_id p079
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p079
+set_global_assignment -name LL_STATE LOCKED -section_id p079
+set_global_assignment -name LL_WIDTH 9 -section_id p079
+set_global_assignment -name PARTITION_COLOR 12008232 -section_id p079
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p079
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p079
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p080
+set_global_assignment -name LL_ENABLED ON -section_id p080
+set_global_assignment -name LL_HEIGHT 3 -section_id p080
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p080
+set_instance_assignment -name LL_MEMBER_OF p080 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp" -section_id p080
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p080
+set_global_assignment -name LL_ORIGIN X142_Y81 -section_id p080
+set_global_assignment -name LL_PARENT pcs_tx -section_id p080
+set_global_assignment -name LL_PR_REGION OFF -section_id p080
+set_global_assignment -name LL_RESERVED OFF -section_id p080
+set_global_assignment -name LL_ROUGH OFF -section_id p080
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p080
+set_global_assignment -name LL_STATE LOCKED -section_id p080
+set_global_assignment -name LL_WIDTH 21 -section_id p080
+set_global_assignment -name PARTITION_COLOR 2181158 -section_id p080
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p080
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p080
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p081
+set_global_assignment -name LL_ENABLED ON -section_id p081
+set_global_assignment -name LL_HEIGHT 3 -section_id p081
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p081
+set_instance_assignment -name LL_MEMBER_OF p081 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp|alt_e100_gearbox_66_20:tge" -section_id p081
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p081
+set_global_assignment -name LL_ORIGIN X163_Y81 -section_id p081
+set_global_assignment -name LL_PARENT pcs_tx -section_id p081
+set_global_assignment -name LL_PR_REGION OFF -section_id p081
+set_global_assignment -name LL_RESERVED OFF -section_id p081
+set_global_assignment -name LL_ROUGH OFF -section_id p081
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p081
+set_global_assignment -name LL_STATE LOCKED -section_id p081
+set_global_assignment -name LL_WIDTH 7 -section_id p081
+set_global_assignment -name PARTITION_COLOR 16277001 -section_id p081
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p081
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p081
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p082
+set_global_assignment -name LL_ENABLED ON -section_id p082
+set_global_assignment -name LL_HEIGHT 3 -section_id p082
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p082
+set_instance_assignment -name LL_MEMBER_OF p082 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp|alt_e100_gearbox_66_20:tgo" -section_id p082
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p082
+set_global_assignment -name LL_ORIGIN X170_Y81 -section_id p082
+set_global_assignment -name LL_PARENT pcs_tx -section_id p082
+set_global_assignment -name LL_PR_REGION OFF -section_id p082
+set_global_assignment -name LL_RESERVED OFF -section_id p082
+set_global_assignment -name LL_ROUGH OFF -section_id p082
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p082
+set_global_assignment -name LL_STATE LOCKED -section_id p082
+set_global_assignment -name LL_WIDTH 9 -section_id p082
+set_global_assignment -name PARTITION_COLOR 10434269 -section_id p082
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p082
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p082
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p083
+set_global_assignment -name LL_ENABLED ON -section_id p083
+set_global_assignment -name LL_HEIGHT 3 -section_id p083
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p083
+set_instance_assignment -name LL_MEMBER_OF p083 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp" -section_id p083
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p083
+set_global_assignment -name LL_ORIGIN X142_Y84 -section_id p083
+set_global_assignment -name LL_PARENT pcs_tx -section_id p083
+set_global_assignment -name LL_PR_REGION OFF -section_id p083
+set_global_assignment -name LL_RESERVED OFF -section_id p083
+set_global_assignment -name LL_ROUGH OFF -section_id p083
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p083
+set_global_assignment -name LL_STATE LOCKED -section_id p083
+set_global_assignment -name LL_WIDTH 21 -section_id p083
+set_global_assignment -name PARTITION_COLOR 6847639 -section_id p083
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p083
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p083
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p084
+set_global_assignment -name LL_ENABLED ON -section_id p084
+set_global_assignment -name LL_HEIGHT 3 -section_id p084
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p084
+set_instance_assignment -name LL_MEMBER_OF p084 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp|alt_e100_gearbox_66_20:tge" -section_id p084
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p084
+set_global_assignment -name LL_ORIGIN X163_Y84 -section_id p084
+set_global_assignment -name LL_PARENT pcs_tx -section_id p084
+set_global_assignment -name LL_PR_REGION OFF -section_id p084
+set_global_assignment -name LL_RESERVED OFF -section_id p084
+set_global_assignment -name LL_ROUGH OFF -section_id p084
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p084
+set_global_assignment -name LL_STATE LOCKED -section_id p084
+set_global_assignment -name LL_WIDTH 7 -section_id p084
+set_global_assignment -name PARTITION_COLOR 12069887 -section_id p084
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p084
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p084
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id p085
+set_global_assignment -name LL_ENABLED ON -section_id p085
+set_global_assignment -name LL_HEIGHT 3 -section_id p085
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id p085
+set_instance_assignment -name LL_MEMBER_OF p085 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp|alt_e100_gearbox_66_20:tgo" -section_id p085
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id p085
+set_global_assignment -name LL_ORIGIN X170_Y84 -section_id p085
+set_global_assignment -name LL_PARENT pcs_tx -section_id p085
+set_global_assignment -name LL_PR_REGION OFF -section_id p085
+set_global_assignment -name LL_RESERVED OFF -section_id p085
+set_global_assignment -name LL_ROUGH OFF -section_id p085
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id p085
+set_global_assignment -name LL_STATE LOCKED -section_id p085
+set_global_assignment -name LL_WIDTH 9 -section_id p085
+set_global_assignment -name PARTITION_COLOR 13554153 -section_id p085
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id p085
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id p085
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id pcs_tx
+set_global_assignment -name LL_ENABLED ON -section_id pcs_tx
+set_global_assignment -name LL_HEIGHT 30 -section_id pcs_tx
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id pcs_tx
+set_global_assignment -name LL_ORIGIN X134_Y57 -section_id pcs_tx
+set_global_assignment -name LL_PR_REGION OFF -section_id pcs_tx
+set_global_assignment -name LL_RESERVED OFF -section_id pcs_tx
+set_global_assignment -name LL_ROUGH OFF -section_id pcs_tx
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id pcs_tx
+set_global_assignment -name LL_STATE LOCKED -section_id pcs_tx
+set_global_assignment -name LL_WIDTH 45 -section_id pcs_tx
+set_global_assignment -name PARTITION_COLOR 808791 -section_id pcs_tx
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id pcs_tx
+set_global_assignment -name PARTITION_NETLIST_TYPE POST_FIT -section_id pcs_tx
+
+
+############################################################################
+####    Settings of Logic Lock Regions and Partitions for: phy_csr
+############################################################################
+
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_ENABLED ON -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_HEIGHT 16 -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_instance_assignment -name LL_MEMBER_OF "alt_e100_phy_csr:phy_csr" -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_phy_csr:phy_csr" -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_ORIGIN X121_Y57 -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_PR_REGION OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_RESERVED OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_ROUGH OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_STATE LOCKED -section_id "alt_e100_phy_csr:phy_csr"
+set_global_assignment -name LL_WIDTH 13 -section_id "alt_e100_phy_csr:phy_csr"
+
+
+set_global_assignment -name LL_PARENT pcs_tx -section_id encode_and_scramble
+set_global_assignment -name LL_ENABLED ON -section_id encode_and_scramble
+set_global_assignment -name LL_AUTO_SIZE OFF -section_id encode_and_scramble
+set_global_assignment -name LL_STATE LOCKED -section_id encode_and_scramble
+set_global_assignment -name LL_ROUGH OFF -section_id encode_and_scramble
+set_global_assignment -name LL_RESERVED OFF -section_id encode_and_scramble
+set_global_assignment -name LL_SECURITY_ROUTING_INTERFACE OFF -section_id encode_and_scramble
+set_global_assignment -name LL_IGNORE_IO_BANK_SECURITY_CONSTRAINT OFF -section_id encode_and_scramble
+set_global_assignment -name LL_PR_REGION OFF -section_id encode_and_scramble
+set_global_assignment -name LL_WIDTH 13 -section_id encode_and_scramble
+set_global_assignment -name LL_HEIGHT 30 -section_id encode_and_scramble
+set_global_assignment -name LL_ORIGIN X134_Y57 -section_id encode_and_scramble
+set_instance_assignment -name LL_MEMBER_OF pcs_tx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_sync_arst:sync_arst_din" -section_id pcs_tx
+set_instance_assignment -name LL_MEMBER_OF pcs_tx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_sync_arst:sync_tla_arst" -section_id pcs_tx
+set_instance_assignment -name LL_MEMBER_OF pcs_tx -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla" -section_id pcs_tx
+set_instance_assignment -name LL_MEMBER_OF encode_and_scramble -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_mii_encode_multiple:menc" -section_id encode_and_scramble
+set_instance_assignment -name LL_MEMBER_OF encode_and_scramble -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_framed_scrambler:sc" -section_id encode_and_scramble
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+
+set_instance_assignment -name PARTITION_HIERARCHY adapt_ef9b1 -to "test:ior|alt_e100_top:test_inst|alt_e100_adapter_rx:GEN_AVALON_ST.GEN_AVALON_ST_RX.adapter_rx" -section_id "alt_e100_adapter_rx:adapter_rx"
+set_instance_assignment -name PARTITION_HIERARCHY adapt_45581 -to "test:ior|alt_e100_top:test_inst|alt_e100_adapter_tx:GEN_AVALON_ST.GEN_AVALON_ST_TX.adapter_tx" -section_id "alt_e100_adapter_tx:adapter_tx"
+set_instance_assignment -name PARTITION_HIERARCHY macrx_2b111 -to "test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_rx:mac_rx" -section_id "alt_e100_mac_rx:mac_rx"
+set_instance_assignment -name PARTITION_HIERARCHY mactx_8ee71 -to "test:ior|alt_e100_top:test_inst|alt_e100_mac:GEN_MAC.mac|alt_e100_mac_tx:mac_tx" -section_id "alt_e100_mac_tx:mac_tx"
+set_instance_assignment -name PARTITION_HIERARCHY p000 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp" -section_id p000
+set_instance_assignment -name PARTITION_HIERARCHY p001 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp|alt_e100_gearbox_20_66:rge" -section_id p001
+set_instance_assignment -name PARTITION_HIERARCHY p002 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[0].rlp|alt_e100_gearbox_20_66:rgo" -section_id p002
+set_instance_assignment -name PARTITION_HIERARCHY p003 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp" -section_id p003
+set_instance_assignment -name PARTITION_HIERARCHY p004 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp|alt_e100_gearbox_20_66:rge" -section_id p004
+set_instance_assignment -name PARTITION_HIERARCHY p005 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[1].rlp|alt_e100_gearbox_20_66:rgo" -section_id p005
+set_instance_assignment -name PARTITION_HIERARCHY p006 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp" -section_id p006
+set_instance_assignment -name PARTITION_HIERARCHY p007 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp|alt_e100_gearbox_20_66:rge" -section_id p007
+set_instance_assignment -name PARTITION_HIERARCHY p008 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[2].rlp|alt_e100_gearbox_20_66:rgo" -section_id p008
+set_instance_assignment -name PARTITION_HIERARCHY p009 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp" -section_id p009
+set_instance_assignment -name PARTITION_HIERARCHY p010 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp|alt_e100_gearbox_20_66:rge" -section_id p010
+set_instance_assignment -name PARTITION_HIERARCHY p011 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[3].rlp|alt_e100_gearbox_20_66:rgo" -section_id p011
+set_instance_assignment -name PARTITION_HIERARCHY p012 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp" -section_id p012
+set_instance_assignment -name PARTITION_HIERARCHY p013 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp|alt_e100_gearbox_20_66:rge" -section_id p013
+set_instance_assignment -name PARTITION_HIERARCHY p014 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[4].rlp|alt_e100_gearbox_20_66:rgo" -section_id p014
+set_instance_assignment -name PARTITION_HIERARCHY p015 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp" -section_id p015
+set_instance_assignment -name PARTITION_HIERARCHY p016 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp|alt_e100_gearbox_20_66:rge" -section_id p016
+set_instance_assignment -name PARTITION_HIERARCHY p017 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[5].rlp|alt_e100_gearbox_20_66:rgo" -section_id p017
+set_instance_assignment -name PARTITION_HIERARCHY p018 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp" -section_id p018
+set_instance_assignment -name PARTITION_HIERARCHY p019 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp|alt_e100_gearbox_20_66:rge" -section_id p019
+set_instance_assignment -name PARTITION_HIERARCHY p020 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[6].rlp|alt_e100_gearbox_20_66:rgo" -section_id p020
+set_instance_assignment -name PARTITION_HIERARCHY p021 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp" -section_id p021
+set_instance_assignment -name PARTITION_HIERARCHY p022 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp|alt_e100_gearbox_20_66:rge" -section_id p022
+set_instance_assignment -name PARTITION_HIERARCHY p023 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[7].rlp|alt_e100_gearbox_20_66:rgo" -section_id p023
+set_instance_assignment -name PARTITION_HIERARCHY p024 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp" -section_id p024
+set_instance_assignment -name PARTITION_HIERARCHY p025 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp|alt_e100_gearbox_20_66:rge" -section_id p025
+set_instance_assignment -name PARTITION_HIERARCHY p026 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[8].rlp|alt_e100_gearbox_20_66:rgo" -section_id p026
+set_instance_assignment -name PARTITION_HIERARCHY p027 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp" -section_id p027
+set_instance_assignment -name PARTITION_HIERARCHY p028 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp|alt_e100_gearbox_20_66:rge" -section_id p028
+set_instance_assignment -name PARTITION_HIERARCHY p029 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx|alt_e100_rx_lane_array:rla|alt_e100_rx_lane_pair:rlpl[9].rlp|alt_e100_gearbox_20_66:rgo" -section_id p029
+set_instance_assignment -name PARTITION_HIERARCHY p056 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp" -section_id p056
+set_instance_assignment -name PARTITION_HIERARCHY p057 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp|alt_e100_gearbox_66_20:tge" -section_id p057
+set_instance_assignment -name PARTITION_HIERARCHY p058 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[0].tlp|alt_e100_gearbox_66_20:tgo" -section_id p058
+set_instance_assignment -name PARTITION_HIERARCHY p059 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp" -section_id p059
+set_instance_assignment -name PARTITION_HIERARCHY p060 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp|alt_e100_gearbox_66_20:tge" -section_id p060
+set_instance_assignment -name PARTITION_HIERARCHY p061 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[1].tlp|alt_e100_gearbox_66_20:tgo" -section_id p061
+set_instance_assignment -name PARTITION_HIERARCHY p062 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp" -section_id p062
+set_instance_assignment -name PARTITION_HIERARCHY p063 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp|alt_e100_gearbox_66_20:tge" -section_id p063
+set_instance_assignment -name PARTITION_HIERARCHY p064 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[2].tlp|alt_e100_gearbox_66_20:tgo" -section_id p064
+set_instance_assignment -name PARTITION_HIERARCHY p065 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp" -section_id p065
+set_instance_assignment -name PARTITION_HIERARCHY p066 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp|alt_e100_gearbox_66_20:tge" -section_id p066
+set_instance_assignment -name PARTITION_HIERARCHY p067 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[3].tlp|alt_e100_gearbox_66_20:tgo" -section_id p067
+set_instance_assignment -name PARTITION_HIERARCHY p068 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp" -section_id p068
+set_instance_assignment -name PARTITION_HIERARCHY p069 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp|alt_e100_gearbox_66_20:tge" -section_id p069
+set_instance_assignment -name PARTITION_HIERARCHY p070 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[4].tlp|alt_e100_gearbox_66_20:tgo" -section_id p070
+set_instance_assignment -name PARTITION_HIERARCHY p071 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp" -section_id p071
+set_instance_assignment -name PARTITION_HIERARCHY p072 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp|alt_e100_gearbox_66_20:tge" -section_id p072
+set_instance_assignment -name PARTITION_HIERARCHY p073 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[5].tlp|alt_e100_gearbox_66_20:tgo" -section_id p073
+set_instance_assignment -name PARTITION_HIERARCHY p074 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp" -section_id p074
+set_instance_assignment -name PARTITION_HIERARCHY p075 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp|alt_e100_gearbox_66_20:tge" -section_id p075
+set_instance_assignment -name PARTITION_HIERARCHY p076 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[6].tlp|alt_e100_gearbox_66_20:tgo" -section_id p076
+set_instance_assignment -name PARTITION_HIERARCHY p077 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp" -section_id p077
+set_instance_assignment -name PARTITION_HIERARCHY p078 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp|alt_e100_gearbox_66_20:tge" -section_id p078
+set_instance_assignment -name PARTITION_HIERARCHY p079 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[7].tlp|alt_e100_gearbox_66_20:tgo" -section_id p079
+set_instance_assignment -name PARTITION_HIERARCHY p080 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp" -section_id p080
+set_instance_assignment -name PARTITION_HIERARCHY p081 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp|alt_e100_gearbox_66_20:tge" -section_id p081
+set_instance_assignment -name PARTITION_HIERARCHY p082 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[8].tlp|alt_e100_gearbox_66_20:tgo" -section_id p082
+set_instance_assignment -name PARTITION_HIERARCHY p083 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp" -section_id p083
+set_instance_assignment -name PARTITION_HIERARCHY p084 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp|alt_e100_gearbox_66_20:tge" -section_id p084
+set_instance_assignment -name PARTITION_HIERARCHY p085 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx|alt_e100_tx_lane_array:tla|alt_e100_tx_lane_pair:tlpl[9].tlp|alt_e100_gearbox_66_20:tgo" -section_id p085
+set_instance_assignment -name PARTITION_HIERARCHY pcsrx_f6571 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_rx:pcs_rx" -section_id pcs_rx
+set_instance_assignment -name PARTITION_HIERARCHY pcstx_3e841 -to "test:ior|alt_e100_top:test_inst|alt_e100_phy:GEN_PHY.phy|alt_e100_phy_pcs:GEN_40BIT_PCS.phy_pcs|alt_e100_pcs_tx:pcs_tx" -section_id pcs_tx

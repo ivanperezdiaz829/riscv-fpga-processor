@@ -1,0 +1,13 @@
+[Interfaces|Transceiver PHY]
+Arria V Transceiver PLL v13.1 = "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/tcl/altera_xcvr_pll_av_hw.tcl" --wizard:altera_xcvr_pll_av --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria V"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Arria V Transceiver PLL</ALIAS>
+<ALIAS>Arria V Transceiver PLL v12.1</ALIAS>
+<ALIAS>Arria V Transceiver PLL v13.0</ALIAS>
+</INFO>

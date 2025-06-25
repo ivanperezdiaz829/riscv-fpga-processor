@@ -1,0 +1,20 @@
+[Interfaces|PCI Express]
+PHY IP Core for PCI Express (PIPE) v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_xcvr_pipe_hw.tcl" --wizard:altera_xcvr_pipe --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on %f %o %h 
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V | Arria V GZ"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>PCI Express PHY (PIPE)</ALIAS>
+<ALIAS>PCI Express PHY (PIPE) v10.0</ALIAS>
+<ALIAS>PCI Express PHY (PIPE) v10.1</ALIAS>
+<ALIAS>PHY IP Core for PCI Express (PIPE) v11.0</ALIAS>
+<ALIAS>PHY IP Core for PCI Express (PIPE) v11.1</ALIAS>
+<ALIAS>PHY IP Core for PCI Express (PIPE) v12.0</ALIAS>
+<ALIAS>PHY IP Core for PCI Express (PIPE) v12.1</ALIAS>
+<ALIAS>PHY IP Core for PCI Express (PIPE) v13.0</ALIAS>
+</INFO>
+
+

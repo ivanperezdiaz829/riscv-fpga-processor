@@ -1,0 +1,34 @@
+open_core_plus {
+first_message       = "The Reed-Solomon Compiler MegaWizard will generate a time-limited
+ version of the Reed-Solomon Compiler MegaCore Function. This core is
+ not suited for production release. This core will function for
+ 270000000000 clock cycles of the clock input sysclk. Upon
+ expiration, the data output port (rsout) will remain at zero.
+ The device must be reconfigured to reset.";
+first_window_title  = "OpenCore+ Warning1";
+second_message      = "The Reed-Solomon Compiler MegaWizard will generate a time-limited
+ version of the Reed-Solomon Compiler MegaCore Function. This core is
+ not suited for production release. This core will function for
+ 270000000000 clock cycles of the clock input sysclk. Upon
+ expiration, the data output port (rsout) will remain at zero.
+ The device must be reconfigured to reset.";
+second_window_title = "OpenCore+ Warning2";
+clock_limit         = "270000000000";
+disable_behaviour   = "the core just stop...";
+}
+
+names_and_versions {
+short_name        = "RS";
+long_name         = "Reed-Solomon";
+short_pretty_name = "Reed-Solomon";
+long_pretty_name  = "Reed-Solomon Compiler";
+ver1              = "3";
+ver2              = "3.5";
+ver3              = "3.5.0";
+full_version      = "3.5.0";
+}
+
+plug_in_manager {
+source_lang       = "VHDL";
+section           = "DSP|Error Detection/Correction";
+}

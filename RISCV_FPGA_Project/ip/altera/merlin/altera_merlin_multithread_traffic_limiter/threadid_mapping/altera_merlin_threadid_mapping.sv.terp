@@ -1,0 +1,308 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/merlin/altera_merlin_multithread_traffic_limiter/threadid_mapping/altera_merlin_threadid_mapping.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2013/08/11 $
+// \$Author: swbranch $
+
+// -------------------------------------------------------
+// Merlin Thread ID Mapping
+//
+// With how many threads that the master needs
+// This components maps AXI transaction ID to different 
+// thread ID, is asserts the appropriate one-hot encoded 
+// channel to the Demux  
+// It is at command to route packet to correct limiter
+// and same for the response path
+
+// -------------------------------------------------------
+
+`timescale 1 ps / 1 ps
+module $output_name (
+
+		input wire                         clk, 
+		input wire                         reset,
+                      
+		output wire                        cmd_sink_ready, 
+		input wire                         cmd_sink_valid, 
+		input wire [$in_st_data_w-1:0]     cmd_sink_data, 
+		input wire [$in_st_channel_w-1:0]  cmd_sink_channel, 
+		input wire                         cmd_sink_startofpacket,
+		input wire                         cmd_sink_endofpacket,
+                      
+		input wire                         cmd_src_ready, 
+		output wire [$out_st_data_w-1:0]   cmd_src_data, 
+		output reg [$out_st_channel_w-1:0] cmd_src_channel,
+		output wire                        cmd_src_startofpacket, 
+		output wire                        cmd_src_endofpacket,
+        output reg [$valid_w-1:0]          cmd_src_valid,
+                      
+		output wire                        rsp_sink_ready, 
+		input wire                         rsp_sink_valid, 
+		input wire [$out_st_channel_w-1:0] rsp_sink_channel,
+		input wire [$out_st_data_w-1:0]    rsp_sink_data, 
+		input wire                         rsp_sink_startofpacket,
+		input wire                         rsp_sink_endofpacket,
+                      
+		input wire                         rsp_src_ready, 
+		output wire                        rsp_src_valid, 
+		output wire [$in_st_data_w-1:0]    rsp_src_data, 
+		output reg [$in_st_channel_w-1:0]  rsp_src_channel, 
+		output wire                        rsp_src_startofpacket,
+		output wire                        rsp_src_endofpacket   
+	);
+    //-----------------------------------------
+    // Local parameters and variables
+    //-----------------------------------------
+    localparam IN_ST_DATA_W      = $in_st_data_w;
+    localparam IN_ST_CHANNEL_W   = $in_st_channel_w;
+    localparam OUT_ST_DATA_W     = $out_st_data_w;
+    localparam OUT_ST_CHANNEL_W  = $out_st_channel_w;
+    localparam PKT_THREAD_ID_H   = $pkt_threadid_h;
+    localparam PKT_THREAD_ID_L   = $pkt_threadid_l;
+    localparam VALID_WIDTH       = $valid_w;
+    localparam PKT_THREAD_ID_W   = $pkt_threadid_h - $pkt_threadid_l + 1;
+    
+    
+@@ proc remove0x { addr } {
+@@    set len [ string length $addr ]
+@@    return [ string range $addr 2 [ expr $len - 1 ] ]
+@@ }                                   
+    //-----------------------------------------
+    // Untouched signals, just pass them
+    //-----------------------------------------
+    assign cmd_sink_ready         = cmd_src_ready;
+    
+    assign cmd_src_startofpacket  = cmd_sink_startofpacket;
+	assign cmd_src_endofpacket    = cmd_sink_endofpacket;
+
+    assign rsp_src_valid          = rsp_sink_valid;
+    assign rsp_sink_ready         = rsp_src_ready;
+    assign rsp_src_startofpacket  = rsp_sink_startofpacket;
+    assign rsp_src_endofpacket    = rsp_sink_endofpacket;
+
+    //-----------------------------------------------
+    // Special case to handle valid signal, it
+    // only at the response ID mapper, where it needs
+    // to connect to the Demux
+    //-----------------------------------------------
+@@ if {$command_threadid_mapper  == 0} {
+    wire [$out_st_channel_w-1:0] cmd_ori_channel;
+    assign cmd_ori_channel  = cmd_sink_data[$in_st_data_w-1:$out_st_data_w];
+    // ----------------------------
+    // Use the one-hot decoded
+    // ---------------------------
+    always_comb begin
+        if (VALID_WIDTH == 1)
+            cmd_src_valid  = cmd_sink_valid;
+        else
+            cmd_src_valid  = { VALID_WIDTH {cmd_sink_valid} } & cmd_ori_channel;
+    end
+                                          
+@@ } else {
+    // If this ID mapper at the command path, then just pass through as valid width is 1 bit.
+    assign cmd_src_valid          = cmd_sink_valid;
+@@ }
+
+    
+    //-------------------------------------------------------------
+    // Nothing to do with ST_DATA, only put the input channel (Qsys packet channel)
+    // information to the ST_DATA and send it over for command side
+    // because the channel inside  "merlin_order_enfocer" component, is internal
+    // to ID mapping, they are not real channel information that the network 
+    // (crossbar needs for route the packet to slave)
+    //-------------------------------------------------------------
+    // The ID mapper at the command path
+@@ if {$command_threadid_mapper  == 1} {
+    assign cmd_src_data     = {cmd_sink_channel, cmd_sink_data};
+    assign rsp_src_channel  = rsp_sink_data[$out_st_data_w-1:$in_st_data_w];
+    assign rsp_src_data  = rsp_sink_data[$in_st_data_w-1:0];
+                                        
+@@ } else {
+    // The ID mapper at the response path
+    assign cmd_src_data     = cmd_sink_data[$out_st_data_w-1:0];
+    assign cmd_src_channel  = cmd_sink_data[$in_st_data_w-1:$out_st_data_w];
+    assign rsp_src_data     = {rsp_sink_channel, rsp_sink_data};
+@@ }
+    
+    //-----------------------------------------
+    // AXI transaction ID decode to Thread ID
+    //-----------------------------------------
+@@ set pkt_threadid_w  [ expr $pkt_threadid_h - $pkt_threadid_l + 1 ]
+
+//@@ if {$command_threadid_mapper == 1} {
+        wire [PKT_THREAD_ID_W-1:0] command_threadid;
+        assign command_threadid  = cmd_sink_data[$pkt_threadid_h:$pkt_threadid_l];
+//@@ } else {
+        wire [PKT_THREAD_ID_W-1:0] response_threadid;
+        assign response_threadid  = rsp_sink_data[$pkt_threadid_h:$pkt_threadid_l];
+//@@ }
+
+    always_comb begin
+    // -----------------
+    // Defautl channel
+    // -----------------
+@@ set threadid_list  [split $threadid_info , ]
+@@ set num_threadids  [ llength $threadid_list ] 
+@@ set threadids_splited         [ split [lindex $threadid_list 0 ] : ]
+@@ set first_channel_decoded     [ lindex $threadids_splited 2 ]                                                       
+@@ if {$command_threadid_mapper == 1} {
+    cmd_src_channel = ${out_st_channel_w}'b$first_channel_decoded;
+@@ } else {
+    rsp_src_channel = ${in_st_channel_w}'b$first_channel_decoded;       
+@@ }
+                   
+@@ # Incase master use maximum number of thread: 4 bits AXID -> 16 threads
+@@ # Try to do optimization
+@@ set max_thread  [ expr pow(2,$pkt_threadid_w) ]
+@@ if {($num_threadids == $max_thread) && ($id_mapping_format eq "hex") } {
+	@@ if {$command_threadid_mapper  == 1} {
+		if (cmd_sink_valid)
+            cmd_src_channel  = 1 << command_threadid;
+	@@ } else {
+		if (rsp_sink_valid)
+            rsp_src_channel  = 1 << response_threadid;
+	@@ }                                    
+@@ } else {
+@@ for { set i 0 } { $i < $num_threadids } { incr i } {
+@@     set threadids_details   [ split [lindex $threadid_list $i ] : ]
+@@     set threadid            [ lindex $threadids_details 0 ]
+@@     set threadid_depth      [ lindex $threadids_details 1 ]
+@@     set channel_decoded     [ lindex $threadids_details 2 ]  
+
+@@ # We support two format of ID mapping: continous (hex - range for a to b) or dis-continous (binary - 00000xxxx001)
+@@ if { $id_mapping_format eq "hex" } {                                                     
+@@     set low_range           [ lindex $threadids_details 3 ]
+@@     set high_range          [ lindex $threadids_details 4 ]
+@@     set threadid_low_range  [ remove0x $low_range]
+@@     set threadid_high_range [ remove0x $high_range]
+@@ } else {
+@@     set binary_format     	[ lindex $threadids_details 3 ]
+@@     set binary_format_infos	[ lindex $threadids_details 4 ]
+
+@@ # Pre-process the binaty format ID mapping info to get stuffs we want
+@@ # (binary - 00000xxxx001)
+@@ # the transform give us this: "11-00000-6-4-001" 11: index
+@@ set id_format_info  			[split $binary_format_infos "-" ]
+@@ set id_width_msb        		[ lindex $id_format_info 0 ]
+@@ set first_constant_part    	[ lindex $id_format_info 1 ]
+@@ set dontcare_msb	    		[ lindex $id_format_info 2 ]
+@@ set dontcare_lsb	    		[ lindex $id_format_info 3 ]
+@@ set second_constant_part    	[ lindex $id_format_info 4 ]
+@@ set first_constant_part_w  	[ expr $id_width_msb - $dontcare_msb ]
+@@ set second_constant_part_w  	[ expr $dontcare_lsb - 0 ]
+@@ set id_width_w  	[ expr $id_width_msb + 1 ]
+@@ }
+@@ # Avoid Lint error, buy using net else if 
+@@ if { $id_mapping_format eq "hex" } {                                                     
+@@ # generate HDL code if use hex format
+@@ if {$command_threadid_mapper  == 1} {
+@@ if {$i == 0 } {
+	if ((${pkt_threadid_w}'h$threadid_low_range <= command_threadid) && (command_threadid <= ${pkt_threadid_w}'h$threadid_high_range))
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if ((${pkt_threadid_w}'h$threadid_low_range <= command_threadid) && (command_threadid <= ${pkt_threadid_w}'h$threadid_high_range))
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@ }
+@@ } else {
+@@ if {$i == 0 } {
+	if ((${pkt_threadid_w}'h$threadid_low_range <= response_threadid) && (response_threadid <= ${pkt_threadid_w}'h$threadid_high_range))
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ } else {
+	else if ((${pkt_threadid_w}'h$threadid_low_range <= response_threadid) && (response_threadid <= ${pkt_threadid_w}'h$threadid_high_range))
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ } else {
+@@ # generate HDL code if use binary format
+@@ if {$command_threadid_mapper  == 1} {
+@@ if { ($first_constant_part_w == 0) &&  ($second_constant_part_w == 0)} {
+@@ if {$i == 0 } {
+	if (${id_width_w}'b$first_constant_part == command_threadid[$id_width_msb:0])
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if (${id_width_w}'b$first_constant_part == command_threadid[$id_width_msb:0])
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w != 0) &&  ($second_constant_part_w != 0)} {
+@@ if {$i == 0 } {
+	if ((${first_constant_part_w}'b$first_constant_part == command_threadid[$id_width_msb:$dontcare_msb+1]) && (command_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part))
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if ((${first_constant_part_w}'b$first_constant_part == command_threadid[$id_width_msb:$dontcare_msb+1]) && (command_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part))
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w == 0) &&  ($second_constant_part_w != 0)} {
+@@ if {$i == 0 } {
+	if (command_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part)
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if (command_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part)
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w != 0) &&  ($second_constant_part_w == 0)} {
+@@ if {$i == 0 } {
+	if (${first_constant_part_w}'b$first_constant_part == command_threadid[$id_width_msb:$dontcare_msb+1])
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if (${first_constant_part_w}'b$first_constant_part == command_threadid[$id_width_msb:$dontcare_msb+1])
+		cmd_src_channel  = ${out_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ } else {
+@@ if { ($first_constant_part_w == 0) &&  ($second_constant_part_w == 0)} {
+@@ if {$i == 0 } {
+	if (${id_width_w}'b$first_constant_part == response_threadid[$id_width_msb:0])
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@	} else {
+	else if (${id_width_w}'b$first_constant_part == response_threadid[$id_width_msb:0])
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w != 0) &&  ($second_constant_part_w != 0)} {
+@@ if {$i == 0 } {
+	if ((${first_constant_part_w}'b$first_constant_part == response_threadid[$id_width_msb:$dontcare_msb+1]) && (response_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part))
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ } else {
+	else if ((${first_constant_part_w}'b$first_constant_part == response_threadid[$id_width_msb:$dontcare_msb+1]) && (response_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part))
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w != 0) &&  ($second_constant_part_w == 0)} {
+@@ if {$i == 0 } {
+	if (${first_constant_part_w}'b$first_constant_part == response_threadid[$id_width_msb:$dontcare_msb+1])
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ } else {
+	else if (${first_constant_part_w}'b$first_constant_part == response_threadid[$id_width_msb:$dontcare_msb+1])
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ if { ($first_constant_part_w == 0) &&  ($second_constant_part_w != 0)} {
+@@ if {$i == 0 } {
+	if (response_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part)
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ } else {
+	else if (response_threadid[$dontcare_lsb-1:0] == ${second_constant_part_w}'b$second_constant_part)
+		rsp_src_channel  = ${in_st_channel_w}'b$channel_decoded;
+@@ }
+@@ }
+@@ }
+@@ } 
+@@ }
+@@ }
+    end
+endmodule

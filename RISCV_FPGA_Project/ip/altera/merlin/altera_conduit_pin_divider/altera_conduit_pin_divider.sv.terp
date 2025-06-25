@@ -1,0 +1,371 @@
+@@ proc terp_write { hdl } {
+@@  global terp_out
+${hdl}
+@@ }
+@@ global LOCAL_GEN_VHDL
+@@ set LOCAL_GEN_VHDL ${GEN_VHDL}
+@@
+@@ if { ${GEN_VHDL} == 0 } {
+@@   proc create_signal {name direction width} {
+@@       global comma
+@@       uplevel "terp_write {                     ${comma}${direction} wire \[${width}-1:0\] ${name}}"
+@@       set comma ,
+@@   }
+@@
+@@   proc assign_signal {a b width_a width_b} {
+@@       global terp_out
+@@       uplevel "terp_write {       assign $a = $b;}"
+@@   }
+@@
+@@   proc assign_inout_module {a b width_a width_b} {
+@@       global terp_out
+@@       uplevel "terp_write {       altera_inout #(}"
+@@       uplevel "terp_write {           .WIDTH_A($width_a),}"
+@@       uplevel "terp_write {           .WIDTH_B($width_b)}"
+@@       uplevel "terp_write {       ) ${a}_inout_module (}"
+@@       uplevel "terp_write {           .a(${a}),}"
+@@       uplevel "terp_write {           .b(${b})}"
+@@       uplevel "terp_write {       );}"
+@@   }
+@@ } else {
+@@   proc create_signal {name direction width} {
+@@       global buffer
+@@       if { ${direction} == "output" } {
+@@          set direction "out"
+@@       }					  
+@@       if { ${direction} == "input" } {
+@@	   set direction "in"
+@@       }
+@@       lappend buffer "    ${name} : ${direction} std_logic_vector ([expr ${width} - 1] downto 0)"
+@@       
+@@   }
+@@
+@@   proc assign_signal {a b width_a width_b} {
+@@       global terp_out
+@@       if { $width_a >= $width_b } {
+@@           uplevel "terp_write {        ${a}([expr $width_b - 1] downto 0) <= ${b};}"
+@@       } else {
+@@           uplevel "terp_write {        ${a} <= ${b}([expr $width_a - 1] downto 0);}"
+@@       }
+@@   }
+@@
+@@   proc assign_inout_module {a b width_a width_b} {
+@@       global terp_out
+@@       uplevel "terp_write {       ${a}_inout_module : altera_inout }"
+@@       uplevel "terp_write {         generic map (  WIDTH_A => $width_a,}"
+@@       uplevel "terp_write {                        WIDTH_B => $width_b }"
+@@       uplevel "terp_write {       ) port map ( }"
+@@       uplevel "terp_write {            a => ${a},}"
+@@       uplevel "terp_write {            b => ${b} }"
+@@       uplevel "terp_write {       );}"
+@@   }
+@@ }
+@@	   
+@@ if { ${GEN_VHDL} == 0 } {
+
+`timescale 1 ns / 1 ns
+
+		    
+module ${OUTPUT_NAME} (
+@@ global comma
+@@ set comma ""
+@@
+@@ } else {
+@@
+@@ global buffer
+@@ set buffer ""
+library IEEE;
+use IEEE.STD_LOGIC_1164.all;
+	   
+entity ${OUTPUT_NAME} is
+  port (
+@@ }
+@@		     
+@@ set derived_lists(module_origin_list) $MODULE_ORIGIN_LIST
+@@ set derived_lists(signal_origin_list) $SIGNAL_ORIGIN_LIST
+@@ set derived_lists(signal_origin_type) $SIGNAL_ORIGIN_TYPE
+@@ set derived_lists(signal_origin_width) $SIGNAL_ORIGIN_WIDTH
+@@ set derived_lists(signal_output_names) ""
+@@ set derived_lists(signal_input_names) ""
+@@
+@@ set master_output_action {
+@@     create_signal ${role} output $width
+@@ }
+@@ set master_input_action {
+@@     create_signal ${role} input $width
+@@ }
+@@ set master_bidir_action {
+@@     create_signal ${role} inout $width
+@@ }
+@@ set master_tristatable_action {
+@@     create_signal ${role} output $width
+@@ }
+@@ set slave_unshared_output_action {
+@@     create_signal ${SLAVE_NAME}_${role} input $width
+@@ }
+@@ set slave_unshared_input_action {
+@@     create_signal ${SLAVE_NAME}_${role} output $width
+@@ }
+@@ set slave_unshared_bidir_action {
+@@     create_signal ${SLAVE_NAME}_${role} inout $width
+@@ }
+@@ set slave_unshared_tristatable_action {
+@@     create_signal ${SLAVE_NAME}_${role} input $width
+@@ }
+@@ set slave_shared_output_action {
+@@     create_signal ${SLAVE_NAME}_${shared_name} input $max_width
+@@ }
+@@ set slave_shared_input_action {
+@@     create_signal ${SLAVE_NAME}_${shared_name} output $max_width
+@@ }
+@@ set slave_shared_bidir_action {
+@@     create_signal ${SLAVE_NAME}_${shared_name} inout $max_width
+@@ }
+@@ set slave_shared_tristatable_action {
+@@     create_signal ${SLAVE_NAME}_${shared_name} input $max_width
+@@ }
+@@ set unshared_assign_output_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${role} $width $width
+@@ }
+@@ set unshared_assign_input_action {
+@@     assign_signal ${SLAVE_NAME}_${role} ${role} $width $width
+@@ }
+@@ set unshared_assign_bidir_action {
+@@     assign_inout_module ${role} ${SLAVE_NAME}_${role} $width $width
+@@ }
+@@ set unshared_assign_tristatable_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${role} $width $width
+@@ }
+@@ set shared_assign_output_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${shared_name} $width $max_width
+@@ }
+@@ set shared_assign_input_action {
+@@     global LOCAL_GEN_VHDL
+@@     global shared_inputs_not_declared
+@@     if { [lsearch $shared_inputs_not_declared $shared_name] == -1 } {
+@@         lappend shared_inputs_not_declared $shared_name
+@@         set bar ""
+@@         set roles ""
+@@         foreach shared_role $same_shared_name_signals shared_width ${same_shared_width_signals} {
+@@             set VHDL_WIDTH_MATCH ""
+@@
+@@             if { ${LOCAL_GEN_VHDL} == 1 } {
+@@	          for { set i ${shared_width} } { $i < ${max_width} } { incr i } {
+@@                  set VHDL_WIDTH_MATCH "${VHDL_WIDTH_MATCH}0"
+@@                }
+@@                if { ${shared_width} != ${max_width} } {
+@@                  set VHDL_WIDTH_MATCH "\"${VHDL_WIDTH_MATCH}\" & "
+@@                }
+@@             }
+@@
+@@             if { [string equal $bar " | "] | [string equal $bar " or "]} {
+@@                 set roles "${roles}${bar}"
+@@             }
+@@             set roles "${roles} ( ${VHDL_WIDTH_MATCH} ${shared_role} )"
+@@
+@@             if { ${LOCAL_GEN_VHDL} == 0 } {
+@@                 set bar " | "
+@@             } else {
+@@                 set bar " or "
+@@             }
+@@         }
+@@         assign_signal ${SLAVE_NAME}_${shared_name} ${roles} $max_width $max_width
+@@     }
+@@ }
+@@ set shared_assign_bidir_action {
+@@     assign_inout_module ${role} ${SLAVE_NAME}_${shared_name} $width $max_width
+@@ }
+@@ set shared_assign_tristatable_action {
+@@     assign_signal ${role} ${SLAVE_NAME}_${shared_name} $width $max_width
+@@ }
+@@
+@@ set master_includes {
+@@     master_output_action
+@@     master_input_action
+@@     master_bidir_action
+@@     master_tristatable_action
+@@ }
+@@ set slave_unshared_includes {
+@@     slave_unshared_output_action
+@@     slave_unshared_input_action
+@@     slave_unshared_bidir_action
+@@     slave_unshared_tristatable_action
+@@     SLAVE_NAME
+@@ }
+@@ set slave_shared_includes {
+@@     slave_shared_output_action
+@@     slave_shared_input_action
+@@     slave_shared_bidir_action
+@@     slave_shared_tristatable_action
+@@     SLAVE_NAME
+@@ }
+@@ set unshared_assign_includes {
+@@     unshared_assign_output_action
+@@     unshared_assign_input_action
+@@     unshared_assign_bidir_action
+@@     unshared_assign_tristatable_action
+@@     SLAVE_NAME
+@@ }
+@@ set shared_assign_includes {
+@@     shared_assign_output_action
+@@     shared_assign_input_action
+@@     shared_assign_bidir_action
+@@     shared_assign_tristatable_action
+@@     SLAVE_NAME
+@@ }
+@@ 
+@@ iterate_through_listinfo \
+@@     $derived_lists(module_origin_list) \
+@@     $derived_lists(signal_origin_list) \
+@@     $derived_lists(signal_origin_type) \
+@@     $derived_lists(signal_origin_width) \
+@@     {} {} {} {} \
+@@     {
+@@         set ta_includes {role width}
+@@         type_action $type \
+@@             ${master_output_action} \
+@@             ${master_input_action} \
+@@             ${master_bidir_action} \
+@@             ${master_tristatable_action} \
+@@             $ta_includes
+@@     } $master_includes
+@@
+@@ array set split_lists [segregate_shared_from_unshared \
+@@                            $derived_lists(module_origin_list) \
+@@                            $derived_lists(signal_origin_list) \
+@@                            $derived_lists(signal_origin_type) \
+@@                            $derived_lists(signal_origin_width) \
+@@                            {} {} {} \
+@@                            $SHARED_SIGNAL_LIST \
+@@                            {}]
+@@
+@@ iterate_through_listinfo \
+@@     $split_lists(unshared_module_origin_list) \
+@@     $split_lists(unshared_signal_origin_list) \
+@@     $split_lists(unshared_signal_origin_type) \
+@@     $split_lists(unshared_signal_origin_width) \
+@@     {} {} {} {} \
+@@     {
+@@         set ta_includes {SLAVE_NAME width role}
+@@         type_action $type \
+@@             ${slave_unshared_output_action} \
+@@             ${slave_unshared_input_action} \
+@@             ${slave_unshared_bidir_action} \
+@@             ${slave_unshared_tristatable_action} \
+@@             $ta_includes
+@@     } $slave_unshared_includes
+@@
+@@ iterate_through_listinfo \
+@@     $split_lists(shared_module_origin_list) \
+@@     $split_lists(shared_signal_origin_list) \
+@@     $split_lists(shared_signal_origin_type) \
+@@     $split_lists(shared_signal_origin_width) \
+@@     {} {} {} \
+@@     $split_lists(shared_signal_names) \
+@@     {
+@@	   set max_width $width
+@@	   foreach temp_width $signal_origin_width temp_shared $shared_signal_names {
+@@	       if { [string equal $temp_shared $shared_name] } {
+@@	           if { [expr $temp_width > $max_width] } {
+@@		       set max_width $temp_width
+@@		   }
+@@	       }
+@@	   }
+@@         set ta_includes {SLAVE_NAME max_width shared_name}
+@@         lappend already_declared ""
+@@         if { [lsearch $already_declared ${SLAVE_NAME}_${shared_name}] == -1 } {
+@@             type_action $type \
+@@                 ${slave_shared_output_action} \
+@@                 ${slave_shared_input_action} \
+@@                 ${slave_shared_bidir_action} \
+@@                 ${slave_shared_tristatable_action} \
+@@                 $ta_includes
+@@             lappend already_declared ${SLAVE_NAME}_${shared_name}
+@@         }
+@@     } $slave_shared_includes
+@@
+@@
+@@ if { ${GEN_VHDL} == 1 } {
+@@     for { set i 0 } { $i < [llength $buffer] } { incr i } {
+@@          set entry [lindex $buffer $i]
+@@         if { $i != [expr [llength $buffer] - 1] } {
+@@             terp_write "$entry;\n";
+@@         } else {
+@@             terp_write "$entry\n";
+@@         }
+@@     }  	   
+       );
+  end ${OUTPUT_NAME};
+
+architecture rtl of ${OUTPUT_NAME} is
+
+    component altera_inout
+      generic (
+            WIDTH_A : POSITIVE;
+            WIDTH_B : POSITIVE;
+            CHAIN_LENGTH : POSITIVE := ${CHAIN_LENGTH}
+      );
+      port (
+            a : INOUT STD_LOGIC_VECTOR(WIDTH_A-1 downto 0);
+            b : INOUT STD_LOGIC_VECTOR(WIDTH_B-1 downto 0)
+      );
+    end component;
+		
+  begin	    
+@@ } else {
+       );
+@@ }	   
+@@
+@@ iterate_through_listinfo \
+@@     $split_lists(unshared_module_origin_list) \
+@@     $split_lists(unshared_signal_origin_list) \
+@@     $split_lists(unshared_signal_origin_type) \
+@@     $split_lists(unshared_signal_origin_width) \
+@@     {} {} {} {} \
+@@     {
+@@         set ta_includes {SLAVE_NAME width role}
+@@         type_action $type \
+@@             ${unshared_assign_output_action} \
+@@             ${unshared_assign_input_action} \
+@@             ${unshared_assign_bidir_action} \
+@@             ${unshared_assign_tristatable_action} \
+@@             $ta_includes
+@@     } $unshared_assign_includes
+@@ 
+@@ global shared_inputs_not_declared
+@@ set shared_inputs_not_declared 1
+@@ iterate_through_listinfo \
+@@     $split_lists(shared_module_origin_list) \
+@@     $split_lists(shared_signal_origin_list) \
+@@     $split_lists(shared_signal_origin_type) \
+@@     $split_lists(shared_signal_origin_width) \
+@@     {} {} {} \
+@@     $split_lists(shared_signal_names) \
+@@     {
+@@	   set max_width $width
+@@         set same_shared_name_signals ""
+@@         set same_shared_width_signals ""
+@@	   foreach temp_r $signal_origin_list temp_w $signal_origin_width temp_s $shared_signal_names temp_t $signal_origin_type {
+@@	       if { [string equal $temp_s $shared_name] } {
+@@	           if { [expr $temp_w > $max_width] } {
+@@		       set max_width $temp_w
+@@		   }
+@@                 lappend same_shared_name_signals $temp_r
+@@                 lappend same_shared_width_signals ${temp_w}
+@@             }
+@@	   }
+@@         set ta_includes {SLAVE_NAME max_width width same_shared_name_signals role shared_name same_shared_width_signals}
+@@         type_action $type \
+@@             ${shared_assign_output_action} \
+@@             ${shared_assign_input_action} \
+@@             ${shared_assign_bidir_action} \
+@@             ${shared_assign_tristatable_action} \
+@@             $ta_includes
+@@     } $shared_assign_includes
+
+
+@@ if { ${GEN_VHDL} == 0 } {					     
+endmodule
+@@ } else {
+  end rtl;   
+@@ }								      

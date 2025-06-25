@@ -1,0 +1,92 @@
+CLASS altera_nios_multiply
+{
+   CALIFORNIA
+   {
+       Is_Hidden = "1";
+   }
+   ASSOCIATED_FILES
+   {
+       Add_Program  = "";
+       Edit_Program = "";
+       Generator_Program = "make_multiply.pl";
+   }
+   MODULE_DEFAULTS
+   {
+      class = "altera_nios_multiply";
+      class_version = "7.08131";
+      HDL_INFO
+      {
+      }
+      SLAVE s1
+      {
+         PORT_WIRING
+         {
+            PORT aclr
+            {
+               width = "1";
+               direction = "input";
+               type = "reset";
+            }
+            PORT clken
+            {
+               width = "1";
+               direction = "input";
+               type = "clk_en";
+            }
+            PORT clock
+            {
+               width = "1";
+               direction = "input";
+               type = "clk";
+            }
+            PORT dataa
+            {
+               width = "32";
+               direction = "input";
+               type = "dataa";
+            }
+            PORT datab
+            {
+               width = "32";
+               direction = "input";
+               type = "datab";
+            }
+            PORT result
+            {
+               width = "32";
+               direction = "output";
+               type = "result";
+            }
+         }
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "nios_custom_instruction";
+            Data_Width = "32";
+            Address_Alignment = "native";
+            Address_Width = "0";
+            Base_Address = "N/A";
+            Is_Visible = "0";
+         }
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Date_Modified = "";
+         Is_Enabled = "1";
+         Is_Visible = "0";
+         Instantiate_In_System_Module = "1";
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+         # These entries are only used by Nios I.
+         ci_cycles = "3";
+      }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+          name="multiply";
+          description="this is the multiply";
+      }
+   }
+}

@@ -1,0 +1,484 @@
+CLASS altera_avalon_jtag_uart
+{
+   ASSOCIATED_FILES {
+      Add_Program = "default";
+      Edit_Program = "default";
+      Generator_Program = "em_avalon_jtag.pl";
+   }
+   MODULE_DEFAULTS {
+      class = "altera_avalon_jtag_uart";
+      class_version = "7.08131";
+      iss_model_name = "altera_avalon_jtag_uart";
+      SLAVE avalon_jtag_slave {
+         SYSTEM_BUILDER_INFO {
+            Bus_Type = "avalon";
+            Is_Printable_Device = "1";
+            Address_Alignment = "native";
+            Address_Width = "1";
+            Data_Width = "32";
+            Has_IRQ = "1";
+            Read_Wait_States = "peripheral_controlled";
+            Write_Wait_States = "peripheral_controlled";
+# sld_node_ver    = "1";  # SLD Node Version
+# sld_node_id     = "128";# SLD Node Identifier 0x80
+# sld_mfg_id      = "110";# SLD MFG Identifier 0x6e for Altera
+# instance_id     = "0";  # SLD Hub Instance ID for jtag_uart
+# The sld_node_ver is NOT included in the _Base_Id to spare confusion in sw.
+# Otherwise, the _Base_Id would be "0x0C006E"
+            JTAG_Hub_Base_Id     = "0x04006E"; # sld_* composited as 24 bit hex
+            JTAG_Hub_Instance_Id     = "0"; # set via function during generate
+            Connection_Limit         = "1";
+         }
+         PORT_WIRING {
+            PORT clk {
+               type = "clk";
+               direction = "input";
+               width = "1";
+            }
+            PORT rst_n {
+               type = "reset_n";
+               direction = "input";
+               width = "1";
+            }
+            PORT av_chipselect {
+               type = "chipselect";
+               direction = "input";
+               width = "1";
+            }
+            PORT av_address {
+               type = "address";
+               direction = "input";
+               width = "1";
+            }
+            PORT av_read_n {
+               type = "read_n";
+               direction = "input";
+               width = "1";
+            }
+            PORT av_readdata {
+               type = "readdata";
+               direction = "output";
+               width = "32";
+            }
+            PORT av_write_n {
+               type = "write_n";
+               direction = "input";
+               width = "1";
+            }
+            PORT av_writedata {
+               type = "writedata";
+               direction = "input";
+               width = "32";
+            }
+            PORT av_waitrequest {
+               type = "waitrequest";
+               direction = "output";
+               width = "1";
+            }
+            PORT av_irq {
+               type = "irq";
+               direction = "output";
+               width = "1";
+            }
+         }
+      }
+      SYSTEM_BUILDER_INFO {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled = "1";
+         Iss_Launch_Telnet = "0";
+         Top_Level_Ports_Are_Enumerated = "1";
+#            Date_Modified = "--unknown--";
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+         write_depth     = "64"; # max entries in write fifo
+         read_depth      = "64"; # max entries in read fifo
+         write_threshold = "8";  # Chars remaining in write fifo to trigger irq
+         read_threshold  = "8";  # Spaces in read fifo to trigger irq
+         read_char_stream = "";  # simulated character input stream.
+         showascii = "1";        # (re)set by $INO/enable during finish
+         read_le = "0";          # 1=>use_eab=off; 0=>use_eab=on
+         write_le = "0";         # 1=>use_eab=off; 0=>use_eab=on
+         altera_show_unreleased_jtag_uart_features = "0";
+      }
+      SIMULATION
+      {
+         Fix_Me_Up = "";
+         DISPLAY
+         {
+# These signals are "of interest" and are added to the waveform window, etc.
+# The name of the section (e.g. "a2" or "f") doesn't "mean" anything, except
+# that the signals will be displayed in the waveform window in-order, as
+# sorted by these otherwise-meaningless names.
+            SIGNAL av_chipselect {
+               name = "av_chipselect";
+            }
+            SIGNAL av_address {
+               name = "av_address";
+               radix = "hexadecimal";
+            }
+            SIGNAL av_read_n {
+               name = "av_read_n";
+            }
+            SIGNAL av_readdata {
+               name = "av_readdata";
+               radix = "hexadecimal";
+            }
+            SIGNAL av_write_n {
+               name = "av_write_n";
+            }
+            SIGNAL av_writedata {
+               name = "av_writedata";
+               radix = "hexadecimal";
+            }
+            SIGNAL av_waitrequest {
+               name = "av_waitrequest";
+            }
+            SIGNAL av_irq {
+               name = "av_irq";
+            }
+            SIGNAL dataavailable {
+               name = "dataavailable";
+            }
+            SIGNAL readyfordata {
+               name = "readyfordata";
+            }
+         # next brace matches DISPLAY
+         }
+         INTERACTIVE_IN drive
+         {
+            enable = "0";
+            # file descriptors are really just suffixes for perl
+            file = "_input_data_stream.dat";
+            mutex = "_input_data_mutex.dat";
+            log = "_in.log";
+            rate = "100";
+            signals = "temp,list";
+            exe = "nios2-terminal";
+         }
+         INTERACTIVE_OUT log
+         {
+            enable = "1";
+            exe = "perl -- atail-f.pl";
+            file = "_output_stream.dat";
+            radix = "ascii";
+            signals = "temp,list";
+         }
+      # next brace matches SIMULATION
+      }
+   # next brace matches MODULE_DEFAULTS
+   }
+   USER_INTERFACE {
+      USER_LABELS {
+         name = "JTAG UART";
+         technology = "Communication";
+         license = "full";
+         provider = "Altera";
+      }
+      LINKS
+      {
+         LINK help
+         {
+            title="Data Sheet";
+            url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51009.pdf";
+         }
+      }
+      WIZARD_UI default
+      {
+         title="JTAG UART - {{ $MOD }}";
+         CONTEXT
+         {
+            WSA="WIZARD_SCRIPT_ARGUMENTS";
+            S_SBI="SLAVE avalon_jtag_slave/SYSTEM_BUILDER_INFO";
+            SBI="SYSTEM_BUILDER_INFO";
+            # simulation display signals_section
+            SDS="SIMULATION/DISPLAY";
+            INI = "SIMULATION/INTERACTIVE_IN drive";
+            INO = "SIMULATION/INTERACTIVE_OUT log";
+         }
+         ACTION initialize
+         {
+            $$text_file_tooltip =
+               "Put nice text here please!";
+         }
+         ACTION wizard_finish
+         {
+            # <br>Instance ID: {{ $S_SBI/JTAG_Hub_Instance_Id; }}
+            $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = 
+               "<br>Write Depth: {{ $WSA/write_depth; }}; Write IRQ Threshold: {{ $WSA/write_threshold; }}
+                <br>Read  Depth: {{ $WSA/read_depth; }}; Read  IRQ Threshold: {{ $WSA/read_threshold; }}";
+            $WSA/showascii = "{{ $INO/enable; }}";
+         }
+         # ADD PARAMETERS in GROUP HERE!
+         PAGES main
+         {
+            PAGE 1
+            {
+               spacing = "10";
+               title = "Configuration";
+               align = "right";
+               GROUP write_fifo
+               {
+                  # layout = "horizontal";
+                  title = "Write FIFO ( data from Avalon to JTAG )";
+                  align = "right";
+                  GROUP write_fifo_conf
+                  {
+                     glue = "0";
+                     layout = "horizontal";
+                     align = "center";
+                     COMBO write_depth
+                     {
+                        title = "Depth: ";
+                        justify = "right";
+                        tooltip = 
+                           "Maximum Bytes of data buffered from Avalon to JTAG";
+                        values =
+                           "8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768";
+                        DATA 
+                        {
+                           $WSA/write_depth = "$";
+                        }
+# suffix = "Bytes";
+# Next Brace matches COMBO w_depth
+                     }
+                     EDIT
+                     {
+                        title = "IRQ Threshold: ";
+                        justify = "right";
+                        tooltip =
+                           "Assert IRQ if Write FIFO has <= this many entries.";
+                        type = "integer";
+                        $$badval = "{{ $WSA/write_threshold < 0 ||
+                                    $WSA/write_threshold > 255; }}";
+                        error=
+                           "{{ if ($$badval)
+                              'Write_Threshold  must be in rage 0 to 255'; }}";
+                        $$warval = 
+                           "{{ ! $$badval &&
+                            $WSA/write_threshold >= $WSA/write_depth ;}}";
+                        warning=
+                           "{{ if ($$warval)
+                              'Write IRQ effectively disabled when threshold >= depth!';}}";
+                        columns = 4;
+                        DATA
+                        {
+                           $WSA/write_threshold = $;
+                        }
+# suffix = "Bytes";
+                     }
+                  }
+                  GROUP write_fifo_eab
+                  {
+                     glue = "0";
+                     layout = "horizontal";
+                     align = "center";
+                     CHECK
+                     {
+                        title =
+                          "Construct using registers instead of memory blocks";
+                        error =
+                          "{{ if (( $WSA/write_le ) && ($WSA/write_depth > 64))
+                   'Write FIFO must use Memory Blocks for sizes > 64 Bytes'}}";
+                        DATA
+                        {
+                           $WSA/write_le = "$";
+                        }
+                     }
+                  }
+               }
+               GROUP read_fifo
+               {
+                  # layout = "horizontal";
+                  title = " Read FIFO ( data from JTAG to Avalon )";
+                  align = "right";
+                  GROUP read_fifo_conf
+                  {
+                     glue = "0";
+                     layout = "horizontal";
+                     align = "center";
+                     COMBO r_depth
+                     {
+                        title = "Depth: ";
+                        justify = "right";
+                        tooltip = 
+                           "Maximum Bytes of data buffered from JTAG to Avalon";
+                        values =
+                           "8,16,32,64,128,256,512,1024,2048,4096,8192,16384,32768";
+                        DATA 
+                        {
+                           $WSA/read_depth = "$";
+                        }
+# Next Brace matches COMBO r_depth
+                     }
+                     EDIT
+                     {
+                        title = "IRQ Threshold: ";
+                        justify = "right";
+                        tooltip =
+                           "Assert IRQ if Read FIFO has <= this many entries.";
+                        type = "integer";
+                        $$badval = "{{ $WSA/read_threshold < 0 ||
+                                    $WSA/read_threshold > 255; }}";
+                        error=
+                        "{{ if ($$badval)
+                              'Read_Threshold  must be in rage 0 to 255'; }}";
+                        $$warval = 
+                           "{{ ! $$badval &&
+                            $WSA/read_threshold >= $WSA/read_depth ;}}";
+                        warning=
+                           "{{ if ($$warval)
+                              'Read IRQ effectively disabled when threshold >= depth!';}}";
+                        columns = 4;
+                        DATA
+                        {
+                           $WSA/read_threshold = $;
+                        }
+                     }
+                  }
+                  GROUP read_fifo_eab
+                  {
+                     glue = "0";
+                     layout = "horizontal";
+                     align = "center";
+                     CHECK
+                     {
+                        title =
+                          "Construct using registers instead of memory blocks";
+                        error =
+                          "{{ if (( $WSA/read_le ) && ($WSA/read_depth > 64))
+                    'Read FIFO must use Memory Blocks for sizes > 64 Bytes'}}";
+                        DATA
+                        {
+                           $WSA/read_le = "$";
+                        }
+                     }
+                  }
+               }
+            # Next Brace matches PAGE 1
+            }
+            PAGE 2
+            {
+               title = "Simulation";
+               # enable = 0;
+               GROUP input
+               {
+                  align = "right";
+                  title = "Simulated input character stream";
+                  tooltip = "This data is ignored if interactive stimulus/response is selected below.";
+                  EDIT stream
+                  {
+                     id="read_char_stream";
+                     enable = "{{ ! $INI/enable }}";
+                     DATA 
+                     {
+                        read_char_stream = "$";
+                     }
+                     rows = "10";
+                  }
+               }
+               GROUP interactive
+               {
+                  enable = 1;
+                  title = "Prepare Interactive Windows";
+                  align = "left";
+                  RADIO no_windows
+                  {
+                     id = "sim_no_windows";
+                     title = "Do not generate ModelSim aliases for interactive windows.";
+                     tooltip = "This setting actively supresses output to the ModelSim console.";
+                     DATA
+                     {
+                        $INO/enable = "0";
+                        $INI/enable = "0";
+                     }
+                  }
+                  RADIO output
+                  {
+                     id = "sim_interactive_output";
+                     title = "Create ModelSim alias to open a window showing output as ASCII text";
+                     tooltip = "Displays characters in new window without requiring an entire line to be complete.<br>The ModelSim console will update characters as entire lines complete.";
+                     DATA 
+                     {
+                        $INO/enable = "1";
+                        $INI/enable = "0";
+                     }
+                  }
+                  RADIO input
+                  {
+                     id = "sim_interactive_input";
+                     title = "Create ModelSim alias to open an interactive stimulus/response window";
+                     tooltip = "Drive input AND display output in one window.<br>This supercedes the 'Simulated input character stream'.<br>This setting actively supresses output to the ModelSim console.";
+                     DATA 
+                     {
+                        $INO/enable = "0";
+                        $INI/enable = "1";
+                     }
+                  }
+               }
+               REM GROUP simbaud
+               {
+                  title = "Simulated transmitter Baud Rate"; # this should be the default, but for some reason isn't:
+                  align = "left";
+                  RADIO accelerated
+                  {
+                     id = "sim_baud_accelerated";
+                     title = "accelerated (use divisor = 2)";
+                     DATA 
+                     {
+                        sim_true_baud = "0";
+                     }
+                  }
+                  RADIO actual
+                  {
+                     id = "sim_baud_actual";
+                     title = "actual (use true baud divisor)";
+                     DATA 
+                     {
+                        sim_true_baud = "1";
+                     }
+                  }
+               }
+            }
+            PAGE 3
+            {
+               title = "Unreleased Features";
+               visible = "{{ $WSA/altera_show_unreleased_jtag_uart_features; }}";
+
+               TEXT 
+               {
+                  title = "Use these options only on the advice of Altera Support.";
+               }
+
+               GROUP 
+               {
+                  title = "Miscellaneous";
+                  align = "left";
+                  layout = "vertical";
+
+                  TEXT 
+                  {
+                     title = "Usually this checkbox is set, and the user system dedicates<br>one JTAG UART to each master that desires one.<br><br>Clear this checkbox to allow any number of masters to<br>connect to this JTAG UART.  The JTAG UART protocol does<br>not support more than one connection; the customer<br>system must avoid protocol conflicts itself.";
+                  }
+
+                  # Sneaky sneaky.  According to the PTF specification,
+                  # Connection_Limit = "0" means "no limit", and when we
+                  # want there to be a connection limit, we want the limit
+                  # to be "1".  So I can use a checkbox for this.
+                  # I just need to give it the right title.
+                  CHECK
+                  {
+                     id = "connection_limit";
+                     title = "Enforce normal connection limitations";
+
+                     DATA 
+                     {
+                        $S_SBI/Connection_Limit = "$";
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}

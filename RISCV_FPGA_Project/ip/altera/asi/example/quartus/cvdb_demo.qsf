@@ -1,0 +1,268 @@
+# Copyright (C) 1991-2005 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic       
+# functions, and any output files any of the foregoing           
+# (including device programming or simulation files), and any    
+# associated documentation or information are expressly subject  
+# to the terms and conditions of the Altera Program License      
+# Subscription Agreement, Altera MegaCore Function License       
+# Agreement, or other applicable license agreement, including,   
+# without limitation, that your use is for the sole purpose of   
+# programming logic devices manufactured by Altera and sold by   
+# Altera or its authorized distributors.  Please refer to the    
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		cvdb_demo_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+# Project-Wide Assignments
+# ========================
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 4.1
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "15:41:54  NOVEMBER 17, 2004"
+set_global_assignment -name LAST_QUARTUS_VERSION 7.2
+
+# Pin & Location Assignments
+# ==========================
+set_location_assignment LC_X32_Y17_N0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_location_assignment LC_X33_Y17_N0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_location_assignment LC_X32_Y17_N1 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_location_assignment LC_X33_Y17_N1 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+#
+set_location_assignment LC_X32_Y4_N0 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_location_assignment LC_X33_Y4_N0 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_location_assignment LC_X32_Y4_N1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_location_assignment LC_X33_Y4_N1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+#
+set_location_assignment LC_X2_Y19_N0 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_location_assignment LC_X2_Y18_N0 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_location_assignment LC_X2_Y19_N1 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_location_assignment LC_X2_Y18_N1 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+#
+set_location_assignment PIN_5 -to button[0]
+set_location_assignment PIN_6 -to button[1]
+set_location_assignment PIN_7 -to button[2]
+set_location_assignment PIN_10 -to button[3]
+set_location_assignment PIN_27 -to header_gnd[0]
+set_location_assignment PIN_39 -to header_gnd[1]
+set_location_assignment PIN_40 -to header_tx_ena
+set_location_assignment PIN_41 -to header_rx_lock[0]
+set_location_assignment PIN_42 -to header_rx_eop
+set_location_assignment PIN_47 -to header_rx_sop
+set_location_assignment PIN_48 -to header_rx_ena
+set_location_assignment PIN_49 -to header_rx_dat[0]
+set_location_assignment PIN_50 -to header_rx_dat[1]
+set_location_assignment PIN_52 -to header_gnd[2]
+set_location_assignment PIN_53 -to header_gnd[3]
+set_location_assignment PIN_56 -to header_rx_dat[2]
+set_location_assignment PIN_57 -to header_gnd[4]
+set_location_assignment PIN_58 -to header_rx_dat[3]
+set_location_assignment PIN_59 -to header_gnd[5]
+set_location_assignment PIN_60 -to header_rx_dat[4]
+set_location_assignment PIN_61 -to header_rx_dat[6]
+set_location_assignment PIN_62 -to header_rx_dat[5]
+set_location_assignment PIN_67 -to header_gnd[6]
+set_location_assignment PIN_68 -to header_rx_dat[7]
+set_location_assignment PIN_31 -to header_tx_dat[0]
+set_location_assignment PIN_69 -to header_rx_lock[1]
+set_location_assignment PIN_70 -to header_clk
+set_location_assignment PIN_32 -to header_tx_dat[1]
+set_location_assignment PIN_33 -to header_tx_dat[2]
+set_location_assignment PIN_34 -to header_tx_dat[3]
+set_location_assignment PIN_35 -to header_tx_dat[4]
+set_location_assignment PIN_36 -to header_tx_dat[5]
+set_location_assignment PIN_37 -to header_tx_dat[6]
+set_location_assignment PIN_38 -to header_tx_dat[7]
+set_location_assignment PIN_1 -to led[0]
+set_location_assignment PIN_2 -to led[1]
+set_location_assignment PIN_3 -to led[2]
+set_location_assignment PIN_4 -to led[3]
+set_location_assignment PIN_84 -to asi_rx1
+set_location_assignment PIN_99 -to asi_rx0
+set_location_assignment PIN_106 -to asi_tx
+set_location_assignment PIN_144 -to sdi_rx
+set_location_assignment PIN_108 -to sdi_tx
+set_location_assignment PIN_72 -to switch[0]
+set_location_assignment PIN_73 -to switch[1]
+set_location_assignment PIN_74 -to switch[2]
+set_location_assignment PIN_75 -to switch[3]
+set_location_assignment PIN_76 -to switch[4]
+set_location_assignment PIN_77 -to switch[5]
+set_location_assignment PIN_78 -to switch[6]
+set_location_assignment PIN_96 -to switch[7]
+set_location_assignment PIN_16 -to clk0
+set_location_assignment PIN_17 -to clk1
+set_location_assignment PIN_93 -to clk2
+set_location_assignment PIN_92 -to clk3
+
+# Analysis & Synthesis Assignments
+# ================================
+set_global_assignment -name DEVICE_FILTER_PACKAGE "ANY QFP"
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 144
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE 6
+set_global_assignment -name FAMILY Cyclone
+set_global_assignment -name CYCLONE_OPTIMIZATION_TECHNIQUE SPEED
+set_global_assignment -name AUTO_ROM_RECOGNITION OFF
+set_global_assignment -name TOP_LEVEL_ENTITY cvdb_demo_mc
+set_global_assignment -name AUTO_ENABLE_SMART_COMPILE ON
+
+# Fitter Assignments
+# ==================
+set_global_assignment -name DEVICE EP1C6T144C6
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "IO PATHS AND MINIMUM TPD PATHS"
+set_instance_assignment -name IO_STANDARD LVDS -to asi_rx1
+set_instance_assignment -name IO_STANDARD LVDS -to asi_rx0
+set_instance_assignment -name IO_STANDARD LVDS -to asi_tx
+set_instance_assignment -name IO_STANDARD LVDS -to sdi_rx
+set_instance_assignment -name IO_STANDARD LVDS -to sdi_tx
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+
+# Assembler Assignments
+# =====================
+set_global_assignment -name ON_CHIP_BITSTREAM_DECOMPRESSION ON
+set_global_assignment -name STRATIX_JTAG_USER_CODE 04F23F03
+set_global_assignment -name APEX20K_CONFIGURATION_DEVICE EPC2
+set_global_assignment -name EXCALIBUR_CONFIGURATION_DEVICE EPC2
+set_global_assignment -name MERCURY_CONFIGURATION_DEVICE EPC2
+set_global_assignment -name FLEX6K_CONFIGURATION_DEVICE EPC1
+set_global_assignment -name FLEX10K_CONFIGURATION_DEVICE EPC2
+set_global_assignment -name CYCLONE_CONFIGURATION_DEVICE EPCS4
+set_global_assignment -name STRATIX_CONFIGURATION_DEVICE EPC2
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+
+# Simulator Assignments
+# =====================
+set_global_assignment -name GLITCH_INTERVAL "1 ns"
+
+# SignalTap II Assignments
+# ========================
+set_global_assignment -name ENABLE_SIGNALTAP ON
+set_global_assignment -name USE_SIGNALTAP_FILE debug.stp
+
+# LogicLock Region Assignments
+# ============================
+set_global_assignment -name LOGICLOCK_INCREMENTAL_COMPILE_ASSIGNMENT OFF
+
+set_instance_assignment -name CLOCK_SETTINGS rxclk -to "clkdiv_2p5:u_clkdiv|clkdiv"
+
+# --------------------
+# start CLOCK(rx_pclk)
+
+	# Timing Assignments
+	# ==================
+
+# end CLOCK(rx_pclk)
+# ------------------
+
+# ------------------
+# start CLOCK(rxclk)
+
+	# Timing Assignments
+	# ==================
+set_global_assignment -name DUTY_CYCLE 50 -section_id rxclk
+set_global_assignment -name FMAX_REQUIREMENT "135 MHz" -section_id rxclk
+
+# end CLOCK(rxclk)
+# ----------------
+
+# ----------------------------------------
+# start AUTO_INSERT_SLD_NODE_ENTITY(check)
+
+	# SignalTap II Assignments
+	# ========================
+
+# end AUTO_INSERT_SLD_NODE_ENTITY(check)
+# --------------------------------------
+
+# --------------------------------------
+# start AUTO_INSERT_SLD_NODE_ENTITY(rx0)
+
+	# SignalTap II Assignments
+	# ========================
+
+# end AUTO_INSERT_SLD_NODE_ENTITY(rx0)
+# ------------------------------------
+
+# --------------------------------------
+# start AUTO_INSERT_SLD_NODE_ENTITY(rx2)
+
+	# SignalTap II Assignments
+	# ========================
+
+# end AUTO_INSERT_SLD_NODE_ENTITY(rx2)
+# ------------------------------------
+
+# -------------------------------------
+# start AUTO_INSERT_SLD_NODE_ENTITY(tx)
+
+	# SignalTap II Assignments
+	# ========================
+
+# end AUTO_INSERT_SLD_NODE_ENTITY(tx)
+# -----------------------------------
+
+# -----------------------
+# start ENTITY(cvdb_demo)
+
+	# Pin & Location Assignments
+	# ==========================
+
+	# Timing Assignments
+	# ==================
+
+	# Fitter Assignments
+	# ==================
+
+# end ENTITY(cvdb_demo)
+# ---------------------
+
+set_instance_assignment -name FAST_INPUT_REGISTER OFF -to asi_rx1
+set_instance_assignment -name FAST_INPUT_REGISTER OFF -to asi_rx0
+set_instance_assignment -name SLOW_SLEW_RATE ON -to header_rx*
+set_instance_assignment -name AUTO_GLOBAL_CLOCK ON -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|rx_clk"
+set_global_assignment -name USER_LIBRARIES "../../lib"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx0 -to "asi_rx:u_rx0|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx1 -to "asi_rx:u_rx1|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx2 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_a[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx2 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_b[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx2 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_c[0]"
+set_instance_assignment -name REPORT_DELAY ON -from asi_rx2 -to "asi_rx:u_rx2|asi_megacore_top:asi_megacore_top_inst|asi_receive:asi_rx_gen.u_rx|serdes_s2p:u_s2p|sample_d[0]"
+
+
+
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name VERILOG_FILE ../source/ts_packet_gen/auk_ts_packet_gen.v
+set_global_assignment -name VERILOG_FILE ../source/ts_packet_gen/auk_ts_packet_check.v
+set_global_assignment -name VERILOG_FILE ../source/top/ddio_out.v
+set_global_assignment -name VERILOG_FILE ../source/mc_build/asi_rx.v
+set_global_assignment -name VERILOG_FILE ../source/mc_build/asi_tx.v
+set_global_assignment -name VERILOG_FILE ../source/asi_buffer/asi_buffer_ram.v
+set_global_assignment -name VERILOG_FILE ../source/asi_buffer/asi_buffer.v
+set_global_assignment -name VERILOG_FILE ../source/top/cvdb_demo_mc.v
+set_global_assignment -name VERILOG_FILE ../source/top/pll_x10_top.v
+set_global_assignment -name USE_TIMEQUEST_TIMING_ANALYZER OFF
+#set_instance_assignment -name CLOCK_SETTINGS rxclk -to rxclk -entity _mc
+
+set_instance_assignment -name PARTITION_HIERARCHY no_file_for_top_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 2147039 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_ENABLED ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_global_assignment -name ENABLE_CLOCK_LATENCY ON

@@ -1,0 +1,29 @@
+MEGACORE
+{
+
+   PLUGIN_SECTION
+   {
+      PLUGIN documentation
+      {
+         DOCUMENTS
+         {
+            CATEGORY User Guide
+            {
+               ENTRY an339 example design document
+               {
+                  src = "../../example/doc/an339.pdf";
+                  type = "document";
+                  version = "3.2";
+                  release_date = "August, 2006";
+                  size = "343 KB";
+               }
+               
+            }
+         }
+
+
+      }
+
+   }
+
+}

@@ -1,0 +1,488 @@
+################################################################
+# class.ptf for altera_avalon_uart
+# 
+# This PTF-file declares the Altera UART as an SOPC-Builder library
+# component.  This file should appear in a component-directory with several
+# "companion" files and directories.  If this component-directory is
+# anywhere on the SOPC-Builder's library search-path, then the UART
+# will be "discovered" as a library comonent and available for your
+# use in systems.
+# 
+# The UART-in-particular has a wizard which is defined by a section of
+# this PTF-file (below), and a generator-program which happens to be
+# built on the "Europa" object-library.
+# 
+################################################################
+   CLASS altera_avalon_uart
+   {
+      SDK_GENERATION 
+      {
+         SDK_FILES 0
+         {
+            cpu_architecture = "always";
+            printf_txchar_routine = "nr_uart_txchar";
+            printf_rxchar_routine = "nr_uart_rxchar";
+         }
+         SDK_FILES 1
+         {
+            cpu_architecture = "nios";
+            c_structure_type = "np_uart *";
+            short_type = "uart";
+            c_header_file = "sdk/uart_struct.h";
+            asm_header_file = "sdk/uart_struct.s";
+            sdk_files_dir = "sdk";
+         }
+         SDK_FILES 3
+         {
+            cpu_architecture = "else";
+            c_structure_type = "np_uart *";
+            short_type = "uart";
+            c_header_file = "sdk/uart_struct.h";
+            sdk_files_dir = "sdk_arm";
+         }
+         SDK_FILES 4
+         {
+            cpu_architecture = "else";
+            toolchain = "gnu";
+            asm_header_file = "sdk/uart_struct.s";
+         }
+      }
+      ASSOCIATED_FILES 
+      {
+         Add_Program = "default";
+         Edit_Program = "default";
+         Generator_Program = "em_uart.pl";
+         Software_Rebuild_Program = "em_uart.pl";
+      }
+      MODULE_DEFAULTS 
+      {
+         class = "altera_avalon_uart";
+         class_version = "7.08131";
+         iss_model_name = "altera_avalon_uart";
+         PORT_WIRING
+         {
+            # The number and kind of ports that appear on this module
+            # depends on the user's wizard-choices.
+            # This section will be filled-in by the Generator_Program
+            # after the module logic has been created and the ports are known.
+            
+            # The top level ports
+            PORT rxd
+            {
+               direction = "input";
+               width = "1";
+               Is_Enabled = "1";
+            }
+            PORT txd
+            {
+               direction = "output";
+               width = "1";
+               Is_Enabled = "1";
+            }
+            PORT cts_n
+            {
+               direction = "input";
+               width = "1";
+               Is_Enabled = "0";
+            }
+            PORT rts_n
+            {
+               direction = "output";
+               width = "1";
+               Is_Enabled = "0";
+            }
+         }
+         SLAVE s1
+         {
+            SYSTEM_BUILDER_INFO 
+            {
+               Bus_Type = "avalon";
+               Is_Printable_Device = "1";
+               Address_Alignment = "native";
+               Address_Width = "3";
+               Data_Width = "16";
+               Has_IRQ = "1";
+               Read_Wait_States = "1";
+               Write_Wait_States = "1";
+            }
+         }
+         SYSTEM_BUILDER_INFO 
+         {
+            Instantiate_In_System_Module = "1";
+            Is_Enabled = "1";
+            Iss_Launch_Telnet="0";
+            Top_Level_Ports_Are_Enumerated = "1";
+         }
+         SIMULATION 
+         {
+            DISPLAY 
+            {
+               SIGNAL a
+               {
+                  name = "  Bus Interface";
+                  format = "Divider";
+               }
+               SIGNAL b
+               {
+                  name = "chipselect";
+               }
+               SIGNAL c
+               {
+                  name = "address";
+                  radix = "hexadecimal";
+               }
+               SIGNAL d
+               {
+                  name = "writedata";
+                  radix = "hexadecimal";
+               }
+               SIGNAL e
+               {
+                  name = "readdata";
+                  radix = "hexadecimal";
+               }
+               SIGNAL f
+               {
+                  name = "  Internals";
+                  format = "Divider";
+               }
+               SIGNAL g
+               {
+                  name = "tx_ready";
+               }
+               SIGNAL h
+               {
+                  name = "tx_data";
+                  radix = "ascii";
+               }
+               SIGNAL i
+               {
+                  name = "rx_char_ready";
+               }
+               SIGNAL j
+               {
+                  name = "rx_data";
+                  radix = "ascii";
+               }
+            }
+            INTERACTIVE_OUT log
+            {
+               enable = "0";
+               file = "_log_module.txt"; # suffix to $module_name in em_uart.pl
+               radix = "ascii";
+               signals = "temp,list";
+               exe = "perl -- tail-f.pl";
+            }
+            INTERACTIVE_IN drive
+            {
+               enable = "0"; # file descriptors are really just suffixes used by perl...
+               file = "_input_data_stream.dat";
+               mutex = "_input_data_mutex.dat";
+               log = "_in.log";
+               rate = "100";
+               signals = "temp,list";
+               exe = "perl -- uart.pl";
+            }
+         }
+         WIZARD_SCRIPT_ARGUMENTS 
+         {
+            baud = "115200";
+            data_bits = "8";
+            fixed_baud = "1";
+            parity = "N";
+            stop_bits = "1";
+            use_cts_rts = "0";
+            use_eop_register = "0";
+            sim_true_baud = "0";
+            sim_char_stream = "";
+         }
+      }
+      USER_INTERFACE 
+      {
+         USER_LABELS 
+         {
+            name = "UART (RS-232 serial port)";
+            technology = "Communication";
+         }
+         LINKS
+         {
+            LINK help
+            {
+               title="Data Sheet";
+               url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51010.pdf";
+            }
+         }
+         WIZARD_UI default
+         {
+            title = "Avalon UART - {{ $MOD }}";
+            CONTEXT 
+            {
+               WSA = "WIZARD_SCRIPT_ARGUMENTS";
+               INI = "SIMULATION/INTERACTIVE_IN drive";
+               INO = "SIMULATION/INTERACTIVE_OUT log";
+            }
+
+            ACTION initialize
+            {
+                $$inputClock = "{{ sopc_get_clock_freq($MOD) }}";
+            }
+
+            ACTION wizard_finish
+            {
+               $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = "{{ $WSA/data_bits }}-bit UART with {{ $WSA/baud }} baud, <br>
+                    {{ $WSA/stop_bits }} stop bits and {{ $WSA/parity }} parity";
+               # Enable the appropriate ports for use by the pin assigner.
+               $MOD/PORT_WIRING/PORT cts_n/Is_Enabled = "{{ $WSA/use_cts_rts }}";
+               $MOD/PORT_WIRING/PORT rts_n/Is_Enabled = "{{ $WSA/use_cts_rts }}";
+            }
+            PAGES main
+            {
+               PAGE 1
+               {
+                  spacing = "10";
+                  title = "Configuration";
+                  GROUP
+                  {
+                     title = "Baud Rate";
+                     spacing = "5";
+                     align = "left";
+                     COMBO baud
+                     {
+                        title = "Baud Rate (bps): ";
+                        id="baud";
+                        values="115200,57600,38400,31250,28800,19200,14400,9600,4800,2400,1200,300";
+                        editable = "1";
+                        DATA 
+                        {
+                           baud = "$";
+                        }
+                     }
+                     TEXT 
+                     {
+                        title = "Input Clock Frequency: {{ $$inputClock / 1E6 }} MHz";
+                     }
+                     TEXT 
+                     {
+                        divisor = "{{ (($$inputClock / $WSA/baud) + 0.5) }}";
+                        divisor_bits = "{{ ceil(log2($divisor)); }}";
+                        min_baud = "{{ ceil($$inputClock / 65535); }}";
+                        baud_too_low = "{{ $divisor_bits > 16 }}";
+                        actual = "{{ $$inputClock / int($divisor) }}";
+                        b_error = "{{ 100 * ($actual - $WSA/baud) / $WSA/baud }}";
+                        round_err = "{{ int($b_error * 100) / 100 }}";
+                        too_small = "{{ $round_err == 0 }}";
+                        show_err = "{{ if ($too_small) '<0.01'; else $round_err }}";
+                        title = "Baud error: {{ $show_err }}%";
+                        valid = "{{ $b_error < 3.0 }}";
+                        valid2 = "{{ $divisor_bits <= 16 }}";
+                        foreground = "{{ if ($valid) 'black'; else 'red'; }}";
+                        warning = "{{ if (!$valid) 'Baud error too large, UART may not function.'; }}";
+                        error = "{{ if (!$valid2) 'Baud rate too low; must be >= '+$min_baud+' baud'; }}";
+                     }
+                     GROUP 
+                     {
+                        height = "5";
+                        width = "1";
+                     }
+#                     GROUP changeable
+#                     {
+#                        layout = "horizontal";
+#                        spacing = "0";
+                        CHECK programmable
+                        {
+                           id="baud_reg";
+                           title="&nbsp;Baud rate can be changed by software<br>&nbsp;&nbsp;(divisor register is writeable)";
+                           DATA 
+                           {
+                              fixed_baud = "!$";
+                           }
+                        }
+                        REM GROUP 
+                        {
+                           TEXT 
+                           {
+                              title = "Baud rate can be changed by software";
+                           }
+                           TEXT 
+                           {
+                              title = " (divisor register is writeable) ";
+                           }
+                        }
+#                     }
+                  }
+                  GROUP mode
+                  {
+                     layout = "horizontal";
+                     GROUP 
+                     {
+                        title = "Parity";
+                        COMBO parity
+                        {
+                           id = "parity";
+                           DATA 
+                           {
+                              parity = "$";
+                           }
+                           ITEM 
+                           {
+                              title = "None";
+                              value = "N";
+                           }
+                           ITEM 
+                           {
+                              title = "Even";
+                              value = "E";
+                           }
+                           ITEM 
+                           {
+                              title = "Odd";
+                              value = "O";
+                           }
+                        }
+                     }
+                     GROUP 
+                     {
+                        title = "Data Bits";
+                        COMBO bits
+                        {
+                           id = "data";
+                           DATA 
+                           {
+                              data_bits = "$";
+                           }
+                           ITEM 
+                           {
+                              title = "7";
+                           }
+                           ITEM 
+                           {
+                              title = "8";
+                           }
+                           ITEM 
+                           {
+                              title = "9";
+                           }
+                        }
+                     }
+                     GROUP 
+                     {
+                        title = "Stop Bits";
+                        COMBO stopbits
+                        {
+                           id = "stop";
+                           DATA 
+                           {
+                              stop_bits = "$";
+                           }
+                           ITEM 
+                           {
+                              title = "1";
+                           }
+                           ITEM 
+                           {
+                              title = "2";
+                           }
+                        }
+                     }
+                  }
+                  GROUP flowcontrol
+                  {
+                     title = "Flow Control";
+                     align = "left";
+                     CHECK flow_control
+                     {
+                        id = "flowctl";
+                        title = "Include CTS/RTS pins and control register bits";
+                        DATA 
+                        {
+                           use_cts_rts = "$";
+                        }
+                     }
+                  }
+                  GROUP dma
+                  {
+                     title = "Streaming Data (DMA) control";
+                     align = "left";
+                     CHECK dma
+                     {
+                        id = "streaming";
+                        title = "Include end-of-packet register";
+                        tooltip = "UART will automatically detect an end-of-packet character <br> and terminate a streaming (DMA) transfer.";
+                        DATA 
+                        {
+                           use_eop_register = "$";
+                        }
+                     }
+                  }
+               }
+               PAGE 2
+               {
+                  title = "Simulation";
+                  GROUP input
+                  {
+                     align = "right";
+                     title = "Simulated RXD-input character stream";
+                     EDIT stream
+                     {
+                        id="sim_char_stream";
+                        enable = "{{ ! $INI/enable }}";
+                        DATA 
+                        {
+                           sim_char_stream = "$";
+                        }
+                        rows = "10";
+                     }
+                  }
+                  GROUP interactive
+                  {
+                     title = "Prepare Interactive Windows";
+                     align = "left";
+                     CHECK output
+                     {
+                        id = "sim_interactive_output";
+                        title = "Create Modelsim Alias to open streaming output window";
+                        tooltip = "This interaction is not independent from Simulated Character Stream";
+                        DATA 
+                        {
+                           $INO/enable = "$";
+                        }
+                     }
+                     CHECK input
+                     {
+                        id = "sim_interactive_input";
+                        title = "Create Modelsim Alias to open interactive stimulus window";
+                        tooltip = "This interaction is not independent from Simulated Character Stream";
+                        DATA 
+                        {
+                           $INI/enable = "$";
+                        }
+                     }
+                  }
+                  GROUP simbaud
+                  {
+                     title = "Simulated transmitter Baud Rate"; # this should be the default, but for some reason isn't:
+                     align = "left";
+                     RADIO accelerated
+                     {
+                        id = "sim_baud_accelerated";
+                        title = "Accelerated (use divisor = 2)";
+                        DATA 
+                        {
+                           sim_true_baud = "0";
+                        }
+                     }
+                     RADIO actual
+                     {
+                        id = "sim_baud_actual";
+                        title = "Actual (use true baud divisor)";
+                        DATA 
+                        {
+                           sim_true_baud = "1";
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }

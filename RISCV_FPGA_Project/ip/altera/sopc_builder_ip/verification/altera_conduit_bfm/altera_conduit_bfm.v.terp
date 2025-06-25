@@ -1,0 +1,313 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/main/ip/sopc/components/verification/altera_tristate_conduit_bfm/altera_tristate_conduit_bfm.sv.terp#7 $
+// \$Revision: #7 $
+// \$Date: 2010/08/05 $
+// \$Author: klong $
+//-----------------------------------------------------------------------------
+// =head1 NAME
+// altera_conduit_bfm
+// =head1 SYNOPSIS
+// Bus Functional Model (BFM) for a Standard Conduit BFM
+//-----------------------------------------------------------------------------
+// =head1 DESCRIPTION
+// This is a Bus Functional Model (BFM) for a Standard Conduit Master.
+// This BFM sampled the input/bidirection port value or driving user's value to 
+// output ports when user call the API.  
+// This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
+// Generation parameters:
+// output_name:                                       $output_name
+// role:width:direction:                              $rolemap
+// $clocked
+//-----------------------------------------------------------------------------
+`timescale 1 ns / 1 ns
+
+module $output_name
+(
+@@ if { $clocked } {
+   clk,
+   reset,
+   reset_n,
+@@ }
+@@ set role_list [ split $rolemap , ]
+@@ set num_roles [ llength $role_list ]
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@    set triplet       [ split [ lindex $role_list $i ] : ]
+@@    set role     [ lindex $triplet 0 ]
+@@    if { $i < $num_roles-1 } {
+   sig_${role},
+@@    } else {
+   sig_${role}
+@@    }
+@@ }
+);
+
+   //--------------------------------------------------------------------------
+   // =head1 PINS 
+   // =head2 User defined interface
+   //--------------------------------------------------------------------------
+@@ if { $clocked } {
+   input clk;
+   input reset;
+   input reset_n;
+@@ }
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@    set triplet       [ split [ lindex $role_list $i ] : ]
+@@    set role     [ lindex $triplet 0 ]
+@@    set width    [ lindex $triplet 1 ]
+@@    set direction [ lindex $triplet 2 ]
+@@    set direction [ string tolower $direction ]
+@@    if {$width == 1} {
+@@       if { $direction == "bidir" } {
+   inout wire sig_${role};
+@@       } else {
+   $direction sig_${role};
+@@       }
+@@    } else {
+@@       set right 0
+@@       set left [expr $width - 1]
+@@          if { $direction == "bidir" } {
+   inout wire [${left} : ${right}] sig_${role};
+@@          } else {
+   $direction [${left} : ${right}] sig_${role};
+@@          }
+@@    }
+@@ }
+
+   // synthesis translate_off
+   import verbosity_pkg::*;
+   
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@    set triplet       [ split [ lindex $role_list $i ] : ]
+@@    set role          [ lindex $triplet 0 ]
+@@    set width         [ lindex $triplet 1 ]
+@@    if {$width == 1} {
+   typedef logic ROLE_${role}_t;
+@@    } else {
+@@       set right 0
+@@       set left [expr $width - 1]
+   typedef logic [${left} : ${right}] ROLE_${role}_t;
+@@    }
+@@ }
+
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@    set triplet       [ split [ lindex $role_list $i ] : ]
+@@    set role          [ lindex $triplet 0 ]
+@@    set width         [ lindex $triplet 1 ]
+@@    set direction [ lindex $triplet 2 ]
+@@    set direction [ string tolower $direction ]
+@@    if { $direction == "bidir" } {
+   logic ${role}_oe;
+   logic ${role}_oe_temp = 0;
+@@    }
+@@    if { $direction == "output" || $direction == "bidir" } {
+@@       if {$width == 1} {
+   reg ${role}_temp;
+   reg ${role}_out;
+@@       } else {
+@@          set right 0
+@@          set left [expr $width - 1]
+   reg [${left} : ${right}] ${role}_temp;
+   reg [${left} : ${right}] ${role}_out;
+@@       }
+@@    }
+@@    if { $direction == "input" || $direction == "bidir" } {
+@@       set right 0
+@@       set left [expr $width - 1]   
+   logic [${left} : ${right}] ${role}_in;
+   logic [${left} : ${right}] ${role}_local;
+@@    }
+@@ }
+
+   //--------------------------------------------------------------------------
+   // =head1 Public Methods API
+   // =pod
+   // This section describes the public methods in the application programming
+   // interface (API). The application program interface provides methods for 
+   // a testbench which instantiates, controls and queries state in this BFM 
+   // component. Test programs must only use these public access methods and 
+   // events to communicate with this BFM component. The API and module pins
+   // are the only interfaces of this component that are guaranteed to be
+   // stable. The API will be maintained for the life of the product. 
+   // While we cannot prevent a test program from directly accessing internal
+   // tasks, functions, or data private to the BFM, there is no guarantee that
+   // these will be present in the future. In fact, it is best for the user
+   // to assume that the underlying implementation of this component can 
+   // and will change.
+   // =cut
+   //--------------------------------------------------------------------------
+   
+@@ if { $clocked } {
+   event signal_reset_asserted;
+@@ }
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@    set triplet       [ split [ lindex $role_list $i ] : ]
+@@    set role          [ lindex $triplet 0 ]
+@@    set width         [ lindex $triplet 1 ]
+@@    set direction [ lindex $triplet 2 ]
+@@    set direction [ string tolower $direction ]
+@@    if { $direction == "input" || $direction == "bidir" } {
+   event signal_input_${role}_change;
+@@    }
+@@ }
+   
+   function automatic string get_version();  // public
+      // Return BFM version string. For example, version 9.1 sp1 is "9.1sp1" 
+      string ret_version = "13.1";
+      return ret_version;
+   endfunction
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@   set triplet       [ split [ lindex $role_list $i ] : ]
+@@   set role     [ lindex $triplet 0 ]
+@@   set width    [ lindex $triplet 1 ]
+@@   set direction [ lindex $triplet 2 ]
+@@   set direction [ string tolower $direction ]
+
+   // -------------------------------------------------------
+   // $role
+   // -------------------------------------------------------
+   @@ if {$direction == "input" || $direction == "bidir" } {
+   function automatic ROLE_${role}_t get_${role}();
+   
+      // Gets the ${role} input value.
+      $\sformat(message, "%m: called get_${role}");
+      print(VERBOSITY_DEBUG, message);
+      return ${role}_in;
+      
+   endfunction
+   @@ }
+   @@ if {$direction == "output" || $direction == "bidir" } {
+
+   function automatic void set_${role} (
+      ROLE_${role}_t new_value
+   );
+      // Drive the new value to ${role}.
+      
+      $\sformat(message, "%m: method called arg0 %0d", new_value); 
+      print(VERBOSITY_DEBUG, message);
+      
+      ${role}_temp = new_value;
+   endfunction
+   @@ }
+   @@ if {$direction == "bidir" } {
+   
+   function automatic void set_${role}_oe (
+      bit enable
+   );
+      // bidir port ${role} will work as output port when set to 1.
+      // bidir port ${role} will work as input port when set to 0.
+      
+      $\sformat(message, "%m: method called arg0 %0d", enable); 
+      print(VERBOSITY_DEBUG, message);
+      
+      ${role}_oe_temp = enable;
+   endfunction
+   @@ }
+@@ }
+
+@@ if { $clocked } {
+   always @(posedge clk) begin
+@@
+@@    foreach combined_triplet $role_list {
+@@       set triplet    [ split $combined_triplet : ]
+@@       set role       [ lindex $triplet 0 ]
+@@       set width      [ lindex $triplet 1 ]
+@@       set direction  [ lindex $triplet 2 ]
+@@       set direction [ string tolower $direction ]
+@@       if { $direction == "input" } {
+      ${role}_in <= sig_${role};
+@@       }
+@@       if { $direction == "output" } {
+      ${role}_out <= ${role}_temp;
+@@       }
+@@       if { $direction == "bidir" } {
+      ${role}_oe = ${role}_oe_temp;
+      if ( ${role}_oe ) begin
+         ${role}_in <= 'z;
+         ${role}_out <= ${role}_temp;
+      end else begin
+         ${role}_in <= sig_${role};
+         ${role}_out <= 'z;
+      end
+@@       }
+@@    }
+   end
+   
+@@    foreach combined_triplet $role_list {
+@@       set triplet    [ split $combined_triplet : ]
+@@       set role       [ lindex $triplet 0 ]
+@@       set width      [ lindex $triplet 1 ]
+@@       set direction  [ lindex $triplet 2 ]
+@@       set direction [ string tolower $direction ]
+@@       if { $direction == "output" || $direction == "bidir" } {
+   assign sig_${role} = ${role}_out;
+@@       }
+@@    }
+@@ } else {
+@@    for { set i 0 } { $i < $num_roles } { incr i } {
+@@       set triplet       [ split [ lindex $role_list $i ] : ]
+@@       set role     [ lindex $triplet 0 ]
+@@       set width    [ lindex $triplet 1 ]
+@@       set direction [ lindex $triplet 2 ]
+@@       set direction [ string tolower $direction ]
+@@       if { $direction == "input" } {
+   assign ${role}_in = sig_${role};
+@@       }
+@@       if { $direction == "output" } {
+   assign sig_${role} = ${role}_temp;
+@@       }
+@@       if {$direction == "bidir" } {
+   assign ${role}_oe = ${role}_oe_temp;
+   assign sig_${role} = (${role}_oe == 1)? ${role}_temp:'z;
+   assign ${role}_in = (${role}_oe == 0)? sig_${role}:'z;
+@@       }
+@@    }
+@@ }
+
+@@ if { $clocked } {
+   always @(posedge reset or negedge reset_n) begin
+      -> signal_reset_asserted;
+   end
+@@ }
+
+@@ for { set i 0 } { $i < $num_roles } { incr i } {
+@@   set triplet       [ split [ lindex $role_list $i ] : ]
+@@   set role     [ lindex $triplet 0 ]
+@@   set width    [ lindex $triplet 1 ]
+@@   set direction [ lindex $triplet 2 ]
+@@   set direction [ string tolower $direction ]
+   @@ if { $direction == "input" } {
+   always @(${role}_in) begin
+      if (${role}_local != ${role}_in)
+         -> signal_input_${role}_change;
+      ${role}_local = ${role}_in;
+   end
+   
+   @@ }
+   @@ if { $direction == "bidir" } {
+   always @(${role}_in) begin
+      if (${role}_oe == 0) begin
+         if (${role}_local != ${role}_in)
+            -> signal_input_${role}_change;
+         ${role}_local = ${role}_in;
+      end
+   end
+   
+   @@ }
+@@ }
+
+
+// synthesis translate_on
+
+endmodule

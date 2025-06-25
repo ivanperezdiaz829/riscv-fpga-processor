@@ -1,0 +1,77 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2009 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II
+# Version 9.1 Internal Build 176 08/02/2009 PN Full Version
+# Date created = 09:52:33  August 05, 2009
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		sdi_sim_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Stratix IV"
+set_global_assignment -name DEVICE EP4SGX530NF45C2ES
+set_global_assignment -name TOP_LEVEL_ENTITY tr_rx
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 9.1
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "09:52:33  AUGUST 05, 2009"
+set_global_assignment -name LAST_QUARTUS_VERSION 9.1
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name SEARCH_PATH ../../../lib
+set_global_assignment -name VERILOG_FILE tr_rx.v
+set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim (Verilog)"
+set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH tb_sdi_megacore_top -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_NAME tb_sdi_megacore_top -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME tr_rx -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_sdi_megacore_top -section_id tb_sdi_megacore_top
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMEQUEST_DO_CCPP_REMOVAL ON
+set_global_assignment -name VERILOG_FILE tr_rx.v
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -entity sdi_sim -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -entity sdi_sim -section_id "Root Region"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/siv_sdi_q80.mif -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/gen_colorbar_new.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/gen_patho.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/pattern_gen_sync.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/sdi_ancgen.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/sdi_ch0_rom_siv.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/sdi_makeframe.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/sdi_mif_intercept_siv.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/sdi_tr_reconfig_multi_siv.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/pattern_gen/alt4gxb_gxb_reconfig.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE testbench/tb_sdi_megacore_top.v -section_id tb_sdi_megacore_top
+set_global_assignment -name EDA_TEST_BENCH_FILE tr_tx.vo -section_id tb_sdi_megacore_top

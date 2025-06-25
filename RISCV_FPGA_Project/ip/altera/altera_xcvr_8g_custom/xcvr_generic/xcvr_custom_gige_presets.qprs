@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip><presets version="13.1">
+	<preset name="GIGE-1.25Gbps" kind="altera_xcvr_custom_phy" version="13.1" description="GIGE-1.25Gbps">
+		<parameter name="gui_parameter_rules" value="GIGE" />
+		<parameter name="gui_bonding_enable" value="FALSE" />
+		<parameter name="gui_deser_factor" value="8" />
+		<parameter name="gui_pcs_pma_width" value="10" />
+		<parameter name="data_rate" value="1250 Mbps" />
+		<parameter name="gui_tx_bitslip_enable" value="FALSE" />
+		<parameter name="gui_rx_use_coreclk" value="FALSE" />
+		<parameter name="gui_tx_use_coreclk" value="FALSE" />
+		<parameter name="gui_use_status" value="FALSE" />
+		<parameter name="gui_use_8b10b" value="TRUE" />
+		<parameter name="gui_use_8b10b_manual_control" value="FALSE" />
+		<parameter name="gui_use_8b10b_status" value="FALSE" />
+		<parameter name="word_aligner_mode" value="sync_state_machine" />
+		<parameter name="word_aligner_state_machine_datacnt" value="3" />
+		<parameter name="word_aligner_state_machine_errcnt" value="3" />
+		<parameter name="word_aligner_state_machine_patterncnt" value="3" />
+		<parameter name="gui_use_wa_status" value="FALSE" />
+		<parameter name="word_aligner_pattern_length" value="10" />
+		<parameter name="word_align_pattern" value="0101111100" />
+		<parameter name="gui_enable_run_length" value="FALSE" />
+		<parameter name="run_length_violation_checking" value="40" />
+		<parameter name="use_rate_match_fifo" value="1" />
+		<parameter name="rate_match_pattern1" value="10100010010101111100" />
+		<parameter name="rate_match_pattern2" value="10101011011010000011" />
+		<parameter name="byte_order_mode" value="none" />
+		<parameter name="gui_use_byte_order_block" value="FALSE" />
+		<parameter name="gui_byte_order_pld_ctrl_enable" value="FALSE" />
+		<parameter name="byte_order_pattern" value="111111011" />
+		<parameter name="byte_order_pad_pattern" value="0" />
+		<parameter name="plls" value="1" />
+	</preset>
+	<preset name="GIGE-2.50Gbps" kind="altera_xcvr_custom_phy" version="13.1" description="GIGE-2.50Gbps">
+		<parameter name="gui_parameter_rules" value="GIGE" />
+		<parameter name="gui_bonding_enable" value="FALSE" />
+		<parameter name="gui_deser_factor" value="16" />
+		<parameter name="gui_pcs_pma_width" value="10" />
+		<parameter name="data_rate" value="3125 Mbps" />
+		<parameter name="gui_tx_bitslip_enable" value="FALSE" />
+		<parameter name="gui_rx_use_coreclk" value="FALSE" />
+		<parameter name="gui_tx_use_coreclk" value="FALSE" />
+		<parameter name="gui_use_status" value="FALSE" />
+		<parameter name="gui_use_8b10b" value="TRUE" />
+		<parameter name="gui_use_8b10b_manual_control" value="FALSE" />
+		<parameter name="gui_use_8b10b_status" value="FALSE" />
+		<parameter name="word_aligner_mode" value="sync_state_machine" />
+		<parameter name="word_aligner_state_machine_datacnt" value="3" />
+		<parameter name="word_aligner_state_machine_errcnt" value="3" />
+		<parameter name="word_aligner_state_machine_patterncnt" value="3" />
+		<parameter name="gui_use_wa_status" value="FALSE" />
+		<parameter name="word_aligner_pattern_length" value="10" />
+		<parameter name="word_align_pattern" value="0101111100" />
+		<parameter name="gui_enable_run_length" value="FALSE" />
+		<parameter name="run_length_violation_checking" value="40" />
+		<parameter name="use_rate_match_fifo" value="1" />
+		<parameter name="rate_match_pattern1" value="10100010010101111100" />
+		<parameter name="rate_match_pattern2" value="10101011011010000011" />
+		<parameter name="byte_order_mode" value="none" />
+		<parameter name="gui_use_byte_order_block" value="FALSE" />
+		<parameter name="gui_byte_order_pld_ctrl_enable" value="FALSE" />
+		<parameter name="byte_order_pattern" value="111111011" />
+		<parameter name="byte_order_pad_pattern" value="0" />
+		<parameter name="plls" value="1" />
+	</preset>
+</presets></ip>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="9.1">
+  <preset
+     name="BackPlane_wo_1588"
+     kind="altera_xcvr_10gbase_kr"
+     version="13.1"
+     description="Preset for backplane application without 1588">
+   <parameter name="INITPOSTVAL" value="30" />
+   <parameter name="PREPREVAL" value="0" />
+   <parameter name="REF_CLK_FREQ_10G" value="322.265625 MHz" />
+   <parameter name="VMINRULE" value="9" />
+   <parameter name="PHY_IDENTIFIER" value="0" />
+   <parameter name="SYNTH_SGMII" value="1" />
+   <parameter name="SYNTH_SEQ" value="1" />
+   <parameter name="OPTIONAL_10G_RCVD" value="1" />
+   <parameter name="PLL_TYPE_10G" value="ATX" />
+   <parameter name="INITMAINVAL" value="52" />
+   <parameter name="BERWIDTH_gui" value="255" />
+   <parameter name="VODMINRULE" value="40" />
+   <parameter name="SYNTH_1588_10G" value="0" />
+   <parameter name="phy_mgmt_clk_freq" value="125.00" />
+   <parameter name="VPOSTRULE" value="31" />
+   <parameter name="SYNTH_AN" value="1" />
+   <parameter name="DEV_VERSION" value="0" />
+   <parameter name="SYNTH_1588_1G" value="0" />
+   <parameter name="OPTIONAL_UP" value="0" />
+   <parameter name="PREMAINVAL" value="60" />
+   <parameter name="sel_backplane_lineside" value="Backplane-KR" />
+   <parameter name="OPTIONAL_DM" value="0" />
+   <parameter name="VPRERULE" value="15" />
+   <parameter name="PREPOSTVAL" value="0" />
+   <parameter name="INITPREVAL" value="5" />
+   <parameter name="OPTIONAL_PLL_LCK" value="1" />
+   <parameter name="SYNTH_GIGE" value="1" />
+   <parameter name="REF_CLK_FREQ_1G" value="125.00 MHz" />
+   <parameter name="AN_PAUSE_C1" value="1" />
+   <parameter name="VMAXRULE" value="60" />
+   <parameter name="AN_PAUSE_C0" value="1" />
+   <parameter name="TRNWTWIDTH_gui" value="127" />
+   <parameter name="OPTIONAL_10G" value="1" />
+   <parameter name="LINK_TIMER_KR" value="504.00" />
+   <parameter name="SYNTH_LT" value="1" />
+   <parameter name="LINK_TIMER_KX" value="48.00" />
+  </preset>
+ </presets>
+</ip>

@@ -1,0 +1,860 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+//PACKAGE
+`include "../models/cpri_pkg/timescale.sv"
+`include "../models/cpri_pkg/reg_pkg.sv"
+
+module tb ;
+
+//PARAMETER
+@@ if { $device == 1 || $device == 3 } {
+parameter MULTIPLIER = 2; 
+@@ } elseif { $device == 0 || $device == 2 } { 
+parameter MULTIPLIER = 1; 
+@@ } else {
+parameter XCVR_FREQ = $xcvr_freq;
+@@ }
+@@ if { $device < 4 } {
+@@ if { $linerate == 614 || $linerate == 0 } {
+parameter XCVR_FREQ = 61.44;
+@@} elseif { $linerate == 1 } {
+parameter XCVR_FREQ = 61.44*MULTIPLIER;
+@@} elseif { $linerate == 2 } {
+parameter XCVR_FREQ = 76.80*MULTIPLIER;
+@@} elseif { $linerate == 3 } {
+parameter XCVR_FREQ = 122.88*MULTIPLIER;
+@@} elseif { $linerate == 4 } {
+parameter XCVR_FREQ = 153.6*MULTIPLIER;
+@@} 
+@@}
+parameter MAP_FREQ = 3.84;
+parameter MII_CHECK_EN = $mac_off;
+@@ if { $n_map != 0 } {
+parameter MAP_CHECK_EN = 1;
+@@} else {
+parameter MAP_CHECK_EN = 0;
+@@}
+@@ if { $hdlc == 0 } {
+parameter HDLC_CHECK_EN = 1;
+@@} else {
+parameter HDLC_CHECK_EN = 0;
+@@}
+@@ if { $n_map != 0 && $hdlc == 0 && $mac_off == 1 } {
+localparam SIM_TIME = 2300000;
+@@ } elseif { $n_map == 0 && $hdlc == 1 && $mac_off == 0 } {
+localparam SIM_TIME = 1500000;
+@@ } else {
+localparam SIM_TIME = 2300000;
+@@ }
+
+//CLOCK_RESET
+wire clk_out;
+
+wire reconfig_clk_out;
+wire clk_ex_delay_out;
+wire cpri_clkout;
+wire pll_clkout;
+wire reset_done;
+wire hw_reset_req;
+@@ if { $linerate == 5 && $device == 5 } {
+//For AVGT 
+wire usr_clk;
+wire usr_pma_clk;
+@@ }
+
+//STATUS
+wire [11:0] extended_rx_status_data;
+wire        datarate_en;
+wire [4:0]  datarate_set;
+
+//CPU
+wire [31:0] cpu_writedata;
+wire        cpu_read;
+wire        cpu_write;
+wire [31:0] cpu_readdata;
+wire        cpu_waitrequest;
+wire [13:0] cpu_address;
+wire        cpu_irq;
+wire [4:0]  cpu_irq_vector;
+
+//AUX
+wire [75:0] aux_rx_status_data;
+wire [43:0] aux_tx_status_data;
+wire [64:0] aux_tx_mask_data;
+
+@@ if { $mac_off == 1 } {
+//MII
+wire         cpri_mii_txclk;
+wire         cpri_mii_txrd;           
+wire         cpri_mii_rxclk;
+wire         cpri_mii_rxwr; 
+wire         cpri_mii_rxdv;
+wire         cpri_mii_rxer;
+wire [3:0]   cpri_mii_rxd;  
+wire         cpri_mii_txen;
+wire         cpri_mii_txer;
+wire [3:0]   cpri_mii_txd;  
+@@ }
+
+@@ if { $n_map != 0 } {
+//MAP
+wire         map_clk;
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+//MAP${i}
+wire         map${i}_tx_valid;         
+wire [31:0]  map${i}_tx_data;   
+wire         map${i}_tx_ready;      
+wire [2:0]   map${i}_tx_status_data;
+wire         map${i}_tx_reset;
+wire         map${i}_tx_resync;
+wire         map${i}_rx_valid;
+wire [31:0]  map${i}_rx_data;
+wire         map${i}_rx_ready;
+wire [2:0]   map${i}_rx_status_data;
+wire         map${i}_rx_reset;
+wire         map${i}_rx_resync;
+@@}
+@@}
+
+//GXB
+wire       gxb_pll_locked;
+wire       gxb_rx_pll_locked;
+wire       gxb_rx_freqlocked;
+wire [3:0] gxb_rx_errdetect;
+wire [3:0] gxb_rx_disperr;
+
+//RECONFIG
+@@ if { $device > 3 } { 
+   @@ if { $sync_mode == 0 } {
+      wire [91:0] reconfig_from_xcvr;
+//wire [139:0] reconfig_to_xcvr;
+   @@ } else {
+//wire [139:0] reconfig_to_xcvr_s_tx;
+//wire [69:0]  reconfig_to_xcvr_s_rx;
+wire [91:0]  reconfig_from_xcvr_s_tx;
+wire [45:0]  reconfig_from_xcvr_s_rx;
+@@ }}
+
+@@ if { $device < 3 } { 
+@@ if { $sync_mode == 0 } {
+wire [16:0] reconfig_fromgxb_m;
+//wire [3:0] reconfig_togxb_m;
+@@ } else {
+//wire [3:0] reconfig_togxb_s_tx;
+//wire [3:0] reconfig_togxb_s_rx;
+wire [16:0] reconfig_fromgxb_s_tx;
+wire [16:0] reconfig_fromgxb_s_rx;
+@@ }}
+
+@@ if { $device == 3 } {
+@@ if { $sync_mode == 0 } {
+//wire [3:0] reconfig_togxb_m;
+wire [4:0] reconfig_fromgxb_m;
+@@ } else { 
+//wire [3:0] reconfig_togxb_s_tx;
+//wire [3:0] reconfig_togxb_s_rx;
+wire [4:0] reconfig_fromgxb_s_tx;
+wire [4:0] reconfig_fromgxb_s_rx;
+@@ }
+@@ if { $autorate == 1 } {
+wire [1:0] pll_areset;               
+wire [1:0] pll_configupdate;
+wire [1:0] pll_scanclk;              
+wire [1:0] pll_scanclkena;           
+wire [1:0] pll_scandata;             
+wire [1:0] pll_reconfig_done;
+wire [1:0] pll_scandataout;    
+@@ } }
+
+
+// ------------
+// API Signals
+// ------------
+
+//CPU_API
+wire cpu_err;
+
+@@ if { $n_map != 0 } {
+//MAP_API
+wire [47:0] map_err;
+reg link_sync;
+integer map_start;
+@@}
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+wire [1:0] map${i}_err;
+wire map${i}_check;
+wire map${i}_en;
+integer map_cnt${i};
+@@}
+
+//MISC_API
+wire rec_loopback;
+wire global_reset;
+
+@@ if { $hdlc == 0 } {
+//HDLC_API
+reg [31:0] mem_hdlc[];
+wire hdlc_en;
+wire hdlc_err;
+wire hdlc_check;
+integer hdlc_cnt;
+integer hdlc_cnt2;
+integer hdlc_start;
+@@}
+
+@@ if { $mac_off == 1 } {
+//MII_API
+reg [3:0] mem_mii[];
+wire mii_en;
+wire mii_err;
+wire mii_check;
+integer mii_start;
+integer mii_cnt;
+@@}
+
+//AUX_API
+reg [31:0] mem_aux [];
+integer aux_cnt;
+wire aux_en;
+wire aux_check;
+wire aux_err;
+wire [27:0] addr_tx; 
+wire [27:0] addr_rx;
+wire valid;
+
+@@ if { $n_map != 0 } {
+// Signal Assignment
+assign map_err = {
+@@ for { set i [ expr { $n_map-1 } ] } { $i >=1 } { incr i -1} {
+map${i}_err,
+@@}
+map0_err};   
+@@}
+
+// Clear all the internal counter
+always @ (global_reset)
+begin
+   if (global_reset == 1) begin
+@@ if { $mac_off == 1 } {
+   mii_cnt = 0;
+   mii_start = 0;
+@@}
+   aux_cnt = 0;
+@@ if { $hdlc == 0 } {
+   hdlc_cnt = 0;
+   hdlc_cnt2 = 0;
+   hdlc_start = 0;
+@@}
+@@ if { $n_map != 0 } {
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+   map_cnt${i} = 0;
+@@}
+   map_start = 0;
+   link_sync = 1'b0;
+@@}
+   end
+end
+
+
+// CPU transaction
+initial 
+begin
+clk.display();
+clk.reset();
+#10 cpu.display_wr();
+// GENERAL
+@@ if { $linerate != 614 && $linerate > 2 } { 
+cpu.wr(REG_CPRI_TX_PROT_VER,32'h2);
+cpu.wr(REG_CPRI_TX_SCR_SEED,32'hF);
+@@ } else {
+cpu.wr(REG_CPRI_TX_PROT_VER,32'h1);
+@@ }
+@@ if { $linerate == 614 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h1);
+@@ } elseif { $linerate == 0 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h2);
+@@ } elseif { $linerate == 1 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h4);
+@@ } elseif { $linerate == 2 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h5);
+@@ } elseif { $linerate == 3 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h8);
+@@ } elseif { $linerate == 4 } {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'hA);
+@@ } else {
+cpu.wr(REG_CPRI_AUTO_RATE_CONFIG,32'h10);
+@@ }
+@@ if { $hdlc == 0 } {
+cpu.wr(REG_HDLC_CONFIG_1,32'h00);
+cpu.wr(REG_HDLC_CONFIG_2,32'h01);
+cpu.wr(REG_HDLC_CONFIG_3,32'h01);
+@@}
+cpu.wr(REG_CPRI_EX_DELAY_CONFIG,32'h7F);
+cpu.wr(REG_CPRI_CONFIG, 32'h21);
+@@ if { $n_map != 0 } {
+// MAP
+@@ if { $n_map < 10 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h${n_map}01);
+@@}
+@@ if { $n_map == 10 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hA01);
+@@}
+@@ if { $n_map == 11 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hB01);
+@@}
+@@ if { $n_map == 12 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hC01);
+@@}
+@@ if { $n_map == 13 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hD01);
+@@}
+@@ if { $n_map == 14 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hE01);
+@@}
+@@ if { $n_map == 15 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'hF01);
+@@}
+@@ if { $n_map == 16 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1001);
+@@}
+@@ if { $n_map == 17 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1101);
+@@}
+@@ if { $n_map == 18 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1201);
+@@}
+@@ if { $n_map == 19 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1301);
+@@}
+@@ if { $n_map == 20 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1401);
+@@}
+@@ if { $n_map == 21 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1501);
+@@}
+@@ if { $n_map == 22 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1601);
+@@}
+@@ if { $n_map == 23 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1701);
+@@}
+@@ if { $n_map == 24 } {
+cpu.wr(REG_CPRI_MAP_CNT_CONFIG,32'h1801);
+@@}
+cpu.wr(REG_CPRI_MAP_CONFIG, 32'h00);
+@@}
+
+cpu.display_rd();
+//GENERAL
+cpu.rd(REG_CPRI_TX_PROT_VER);
+@@ if { $linerate != 614 && $linerate > 2 } { 
+cpu.rd(REG_CPRI_TX_SCR_SEED);
+cpu.rd(REG_CPRI_RX_SCR_SEED); //READ ONLY
+@@ }
+cpu.rd(REG_CPRI_AUTO_RATE_CONFIG);
+@@ if { $hdlc == 0 } {
+// HDLC
+cpu.rd(REG_CPRI_CM_STATUS); //READ ONLY
+cpu.rd(REG_HDLC_CONFIG_1);
+cpu.rd(REG_HDLC_CONFIG_2);
+cpu.rd(REG_HDLC_CONFIG_3);
+@@ }
+cpu.rd(REG_CPRI_CONFIG);
+@@ if { $n_map != 0 } {
+// MAP
+cpu.rd(REG_CPRI_MAP_CNT_CONFIG);
+cpu.rd(REG_CPRI_MAP_CONFIG);
+@@}
+
+cpu.display_comp();
+@@ if { $linerate != 614 && $linerate > 2 } { 
+cpu.compare(REG_CPRI_TX_SCR_SEED);
+@@ }
+cpu.compare(REG_CPRI_AUTO_RATE_CONFIG);
+@@ if { $hdlc == 0 } {
+// HDLC
+cpu.compare(REG_HDLC_CONFIG_1);
+cpu.compare(REG_HDLC_CONFIG_2);
+cpu.compare(REG_HDLC_CONFIG_3);
+@@ }
+cpu.compare(REG_CPRI_CONFIG);
+@@ if { $n_map != 0 } {
+cpu.compare(REG_CPRI_MAP_CNT_CONFIG);
+cpu.compare(REG_CPRI_MAP_CONFIG);
+@@}
+end
+
+// Read in the input from file 
+initial \$readmemh("../models/cpri_api/aux_data.txt",mem_aux); 
+@@ if { $mac_off == 1 } {
+initial \$readmemh("../models/cpri_api/mii_data.txt",mem_mii); 
+@@ }
+@@ if { $hdlc == 0 } {
+initial \$readmemh("../models/cpri_api/hdlc_data.txt",mem_hdlc); 
+@@ }
+
+// Transactions
+always @ (posedge cpri_clkout)
+begin
+   if (extended_rx_status_data[6])
+   begin
+      //AUX
+      if (aux_en == 1'b0)
+      begin
+         aux.wr_start();
+         aux.display();
+         aux.wr(0,mem_aux[0],{{8{4'hF}}},addr_tx);      
+         for (aux_cnt=1; aux_cnt< mem_aux.size(); aux_cnt=aux_cnt+1) 
+         begin
+            aux.wr(0,mem_aux[aux_cnt],{8{4'hF}},addr_tx);          
+         end
+         aux.wr_end();
+      end
+      
+@@ if { $mac_off == 1 } {
+      //MII
+      if ((mii_en == 1'b0) && (aux_check == 1))
+      begin
+         mii.wr_start();
+         mii.display();
+         mii.wr(2,mem_mii[0],0,1); //wait for another cycle to start sending the first data
+         for (mii_cnt=1; mii_cnt< mem_mii.size(); mii_cnt=mii_cnt+1) 
+         begin
+            mii.wr(0,mem_mii[mii_cnt],1,mii_cnt+1);
+         end
+         mii.wr_end();
+      end
+   @@}
+	    
+	      // -----------------------------------------------
+         //  USER LOGIG (if additional transaction needed)
+         // -----------------------------------------------
+  end
+end
+
+@@ if { $hdlc == 0 } {
+//HDLC
+always @ (posedge cpri_clkout)
+begin
+@@ if { $mac_off == 1 } {
+   if ((hdlc_en == 0) && (mii_check == 1'b1))
+@@ } else {
+   if ((hdlc_en == 0) && (aux_check == 1'b1))
+@@ }
+   begin
+      cpu.hdlc_rd(REG_CPRI_STATUS,1); //Checking the link status
+      if (cpu_readdata == 32'h0E)
+      begin
+      @@ if { $linerate == 614 } {
+         cpu.wr(REG_CPRI_CM_CONFIG,32'h200);
+      @@} elseif { $linerate == 0 } {
+         cpu.wr(REG_CPRI_CM_CONFIG,32'h200);
+      @@} elseif { $linerate == 1 } {
+         cpu.wr(REG_CPRI_CM_CONFIG,32'h200);
+      @@} elseif { $linerate == 2 } {
+         cpu.wr(REG_CPRI_CM_CONFIG,32'h200);
+      @@} else {
+         cpu.wr(REG_CPRI_CM_CONFIG,32'h200);
+      @@}
+         cpu.hdlc_rd(REG_HDLC_RX_STATUS,1);
+         cpu.display_wr_hdlc();
+         hdlc_start++;
+      end
+   end
+      
+   // Transfer the HDLC data
+   if (hdlc_start == 1)
+   begin
+      for (hdlc_cnt=0; hdlc_cnt < mem_hdlc.size(); hdlc_cnt=hdlc_cnt+1)
+      begin
+         cpu.hdlc_rd(REG_HDLC_TX_STATUS,1); //Checking the status
+         if (cpu_readdata == 32'h05)
+         begin
+            cpu.hdlc_wr(REG_HDLC_TX_DATA, mem_hdlc[hdlc_cnt],hdlc_cnt);
+            if (hdlc_cnt == (mem_hdlc.size-2))
+               cpu.wr(REG_HDLC_TX_CONTROL,32'h0D);
+            else if (hdlc_cnt == (mem_hdlc.size-1))
+            begin
+               cpu.hdlc_end();
+               hdlc_start++;
+            end
+         end
+      end
+   end
+   
+   // HDLC Status Check
+   if ((hdlc_en == 1'b1) && (hdlc_start == 2))
+   begin
+      cpu.hdlc_rd(REG_HDLC_CNT_TX_FRAME,1); //Checking the status
+      if (cpu_readdata == 32'h01)
+      begin
+         cpu.hdlc_rd(REG_HDLC_RX_EX_STATUS,1);
+         cpu.hdlc_rd(REG_HDLC_CNT_RX_FRAME,1);
+         hdlc_start++;
+      end
+   end
+
+   // Retrieve the HDLC data
+   if (hdlc_start == 3)
+   begin
+      cpu.hdlc_rd(REG_HDLC_RX_STATUS,1); //Checking the status
+      if (cpu_readdata == 32'h0079)
+      begin
+         for (hdlc_cnt2=0; hdlc_cnt2 <= mem_hdlc.size()+1; hdlc_cnt2=hdlc_cnt2+1)
+            begin
+               cpu.hdlc_compare(REG_HDLC_RX_DATA,cpu_readdata);
+            end
+         hdlc_start++;
+      end
+   end
+end
+@@ }
+
+
+@@ if { $n_map != 0 } {
+always @ (posedge map_clk)
+   begin
+      if (extended_rx_status_data[6]== 1'b1)
+         link_sync = 1'b1;
+   end
+
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+always @ (posedge map_clk)
+   begin
+@@ if { $hdlc == 1 } {
+@@ if { $mac_off == 1 } {
+   if (mii_check == 1'b1)
+@@ } else {
+   if (aux_check == 1'b1)
+@@ }
+@@ } else {
+   if (hdlc_check == 1'b1)
+@@ }
+   begin
+           // WRITE
+           // MAP${i}
+           if ((map${i}_tx_ready == 1'b1) && (link_sync == 1'b1))
+           begin
+              if (map_cnt${i} == 0)
+              begin
+                 map${i}.wr(${i},10);
+                 map${i}.display(${i});
+                 map${i}.wr_end();
+                 map_cnt${i}++;
+              end
+           end
+         
+           // READ
+           // MAP${i}
+           if (map${i}_rx_valid == 1'b1)
+           begin
+              if (map_cnt${i} == 1)
+              begin
+                 map${i}.rd_start(0);
+                 map_cnt${i}++;
+              end
+           end
+        end
+    end
+@@}
+@@}
+ 
+@@ if { $mac_off == 1 } {
+// MII check
+always @ (posedge cpri_mii_rxclk) 
+   begin
+      if (cpri_mii_rxwr == 1'b1)
+      mii.compare(cpri_mii_rxd,cpri_mii_rxer);
+   end
+@@}
+// AUX check
+always @ (posedge cpri_clkout) 
+   begin
+      aux.compare(aux_rx_status_data[31:0],addr_rx);
+   end
+
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+// MAP_${i} check
+always @ (posedge map_clk) 
+   begin
+      if (map${i}_rx_ready == 1'b1)
+      begin
+         map${i}.compare(map${i}_rx_data,${i});
+      end
+   end
+@@}
+
+// Simulation Timeout
+initial
+begin
+   #SIM_TIME cpu.report(); 
+   common.terminate();
+end
+
+// -------------
+// Common
+// ------------
+common_api #(
+   .map_check_en (MAP_CHECK_EN),
+   .hdlc_check_en (HDLC_CHECK_EN),
+   .mii_check_en (MII_CHECK_EN)
+) common (
+@@ if { $n_map != 0 } {
+   .map_err(map_err),
+@@} else {
+   .map_err(48'h0),
+@@}
+@@ if { $mac_off == 1 } {
+   .mii_err(mii_err),
+@@} else {
+   .mii_err(1'b0),
+@@}
+@@ if { $hdlc == 0 } {
+   .hdlc_err(hdlc_err),
+@@} else {
+   .hdlc_err(1'b0),
+@@}
+   .cpu_err(cpu_err),
+   .aux_err(aux_err)
+);
+
+//------------
+// Clocks
+//------------
+clk_generator #(
+   .freq_clk (XCVR_FREQ),
+   .freq_map (MAP_FREQ)
+) clk (
+@@ if { $linerate == 5 && $device == 5 } {
+   .usr_clk(usr_clk),
+   .usr_pma_clk(usr_pma_clk), 
+@@}
+   .clk_out(clk_out),
+@@ if { $n_map != 0 } {
+   .map_clk_out(map_clk),
+@@}
+   .reconfig_clk_out(reconfig_clk_out),
+   .clk_ex_delay_out(clk_ex_delay_out),
+   .global_reset(global_reset)
+);
+
+//-------------
+// CPU
+//-------------
+cpu_api #(
+   .data_width(32),
+   .adr_width(14)
+) cpu (
+   .clk(cpri_clkout),
+   .rst(global_reset),
+   .adr(cpu_address),
+   .din(cpu_readdata),
+   .dout(cpu_writedata),
+   .hdlc_en(hdlc_en),
+   .hdlc_check(hdlc_check),
+   .hdlc_err(hdlc_err),
+   .cpu_err(cpu_err),
+   .en_wr(cpu_write),
+   .en_rd(cpu_read),
+   .ack(cpu_waitrequest)
+);
+
+//-------------
+// AUX
+//-------------
+aux_api aux (
+   .clk(cpri_clkout),
+   .rst(global_reset),
+   .valid(valid), 
+   .addr_aux_rx(aux_rx_status_data),
+   .addr_aux_tx(aux_tx_status_data),
+   .addr_tx(addr_tx),
+   .addr_rx(addr_rx),
+   .aux_err(aux_err),
+   .aux_en(aux_en),
+   .aux_check(aux_check),
+   .dout(aux_tx_mask_data)
+);
+
+@@ if { $mac_off == 1 } {
+//-------------
+// MII
+//-------------
+mii_api mii (
+   .mii_en(mii_en),
+   .mii_err(mii_err),
+   .mii_check(mii_check),
+   .rst(global_reset),
+   .mii_txclk(cpri_mii_txclk),          
+   .mii_txrd(cpri_mii_txrd),      
+   .mii_txen(cpri_mii_txen),
+   .mii_txer(cpri_mii_txer),
+   .mii_txd(cpri_mii_txd)
+);
+@@ }
+
+@@ if { $n_map != 0 } {
+//--------------
+// MAP
+//--------------
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+map_api map${i} (
+   .rst(global_reset),
+   .map_err(map${i}_err),
+   .map_check(map${i}_check),
+   .map_en(map${i}_en),
+   .tx_clk(map_clk),
+   .tx_rst(global_reset),
+   .tx_valid(map${i}_tx_valid),         
+   .tx_data(map${i}_tx_data),   
+   .tx_resync(map${i}_tx_resync),
+   .rx_clk(map_clk),
+   .rx_rst(global_reset),
+   .rx_ready(map${i}_rx_ready),
+   .rx_resync(map${i}_rx_resync)
+);
+@@}
+@@}
+
+//------------------
+// INSTANTIATION
+// ------------------
+altera_cpri altera_cpri_inst (
+   // CLOCK AND RESET
+   .clk_ex_delay            (clk_ex_delay_out),      
+   .reset_ex_delay          (global_reset),
+   .pll_clkout              (pll_clkout),
+   .reset                   (global_reset),
+   .reset_done              (reset_done),
+   .config_reset            (global_reset),
+    // MISC
+   .extended_rx_status_data (extended_rx_status_data), 
+   .hw_reset_assert         (1'b0),
+   .hw_reset_req            (hw_reset_req),
+   .datarate_en             (datarate_en),
+   .datarate_set            (datarate_set),  
+    // CPU
+   .cpu_clk                 (cpri_clkout),
+   .cpu_reset               (global_reset),
+   .cpu_writedata           (cpu_writedata),
+   .cpu_byteenable          (4'b1111),
+   .cpu_read                (cpu_read),
+   .cpu_write               (cpu_write),
+   .cpu_readdata            (cpu_readdata),
+   .cpu_address             (cpu_address),
+   .cpu_waitrequest         (cpu_waitrequest),
+   .cpri_clkout             (cpri_clkout),
+   .cpu_irq                 (cpu_irq),
+   .cpu_irq_vector          (cpu_irq_vector), 
+   // AUX
+   .aux_rx_status_data      (aux_rx_status_data),      
+   .aux_tx_status_data      (aux_tx_status_data),      
+   .aux_tx_mask_data        (aux_tx_mask_data),
+@@ if { $mac_off == 1 } {
+   // MII
+   .cpri_mii_txclk          (cpri_mii_txclk),
+   .cpri_mii_txrd           (cpri_mii_txrd),
+   .cpri_mii_rxclk          (cpri_mii_rxclk),
+   .cpri_mii_rxwr           (cpri_mii_rxwr),
+   .cpri_mii_rxdv           (cpri_mii_rxdv),
+   .cpri_mii_rxer           (cpri_mii_rxer),
+   .cpri_mii_rxd            (cpri_mii_rxd),
+   .cpri_mii_txen           (cpri_mii_txen),
+   .cpri_mii_txer           (cpri_mii_txer),
+   .cpri_mii_txd            (cpri_mii_txd),
+@@}
+@@ for { set i 0 } { $i < $n_map } { incr i } {
+   //MAP${i}
+   .map${i}_tx_valid           (map${i}_tx_valid),
+   .map${i}_tx_data            (map${i}_tx_data),
+   .map${i}_tx_ready           (map${i}_tx_ready),
+   .map${i}_tx_status_data     (map${i}_tx_status_data),
+   .map${i}_rx_valid           (map${i}_rx_valid),
+   .map${i}_rx_data            (map${i}_rx_data),
+   .map${i}_rx_ready           (map${i}_rx_valid),
+   .map${i}_rx_status_data     (map${i}_rx_status_data),
+   .map${i}_tx_clk             (map_clk),
+   .map${i}_rx_clk             (map_clk),
+   .map${i}_tx_reset           (global_reset),
+   .map${i}_tx_resync          (map${i}_tx_resync),
+   .map${i}_rx_reset           (global_reset),
+   .map${i}_rx_resync          (map${i}_rx_resync),
+@@}
+   //RECONFIG
+   .reconfig_clk            (reconfig_clk_out), 
+@@ if { $device < 3 } { 
+@@ if { $sync_mode == 0 } {
+   .reconfig_fromgxb_m      (reconfig_fromgxb_m),
+   .reconfig_togxb_m        (4'd0),
+@@ } else {
+   .reconfig_togxb_s_tx     (4'd0),
+   .reconfig_togxb_s_rx     (4'd0),
+   .reconfig_fromgxb_s_tx   (reconfig_fromgxb_s_tx),
+   .reconfig_fromgxb_s_rx   (reconfig_fromgxb_s_rx),
+@@ }}
+@@ if { $device == 3 } {
+@@ if { $sync_mode == 0 } {
+   .reconfig_togxb_m        (4'd0),
+   .reconfig_fromgxb_m      (reconfig_fromgxb_m),
+@@ } else { 
+   .reconfig_togxb_s_tx     (4'd0), 
+   .reconfig_togxb_s_rx     (4'd0), 
+   .reconfig_fromgxb_s_tx   (reconfig_fromgxb_s_tx),
+   .reconfig_fromgxb_s_rx   (reconfig_fromgxb_s_rx),
+@@ }
+@@ if { $autorate == 1 } {
+   .pll_areset              (pll_areset),               
+   .pll_configupdate        (pll_configupdate),         
+   .pll_scanclk             (pll_scanclk),              
+   .pll_scanclkena          (pll_scanclkena),           
+   .pll_scandata            (pll_scandata),             
+   .pll_reconfig_done       (pll_reconfig_done),        
+   .pll_scandataout         (pll_scandataout),         
+@@ }}
+@@ if { $device > 3 } {
+@@ if { $sync_mode == 0 } {
+   .reconfig_from_xcvr      (reconfig_from_xcvr),
+   .reconfig_to_xcvr        (140'd0),
+@@ } else {
+   .reconfig_to_xcvr_s_tx   (140'd0),
+   .reconfig_to_xcvr_s_rx   (70'd0),
+   .reconfig_from_xcvr_s_tx (reconfig_from_xcvr_s_tx),
+   .reconfig_from_xcvr_s_rx (reconfig_from_xcvr_s_rx),
+@@ } }
+@@ if { $linerate == 5 && $device == 5 } {
+   //For AVGT 
+   .usr_clk                 (usr_clk),
+   .usr_pma_clk             (usr_pma_clk),
+@@ }
+   //GXB
+@@ if { $device < 4 } {
+   .reconfig_busy          (1'b0),
+   .reconfig_done          (1'b0),
+   .reconfig_write         (1'b0),
+   .gxb_powerdown          (1'b0),
+   .gxb_cal_blk_clk        (reconfig_clk_out),
+@@}
+   .gxb_refclk             (clk_out),
+   .gxb_pll_inclk          (clk_out),
+   .gxb_pll_locked         (gxb_pll_locked),
+   .gxb_rx_pll_locked      (gxb_rx_pll_locked),
+   .gxb_rx_freqlocked      (gxb_rx_freqlocked),
+   .gxb_rx_errdetect       (gxb_rx_errdetect),
+   .gxb_rx_disperr         (gxb_rx_disperr), 
+   .gxb_los                (1'b0),
+   .gxb_txdataout          (rec_loopback),
+   .gxb_rxdatain           (rec_loopback)         
+);
+endmodule
+

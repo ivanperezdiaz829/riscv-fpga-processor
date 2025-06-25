@@ -1,0 +1,10 @@
+[DSP|Error Detection/Correction]
+Reed Solomon II v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_rs_ii_hw.tcl" --wizard:altera_rs_ii --cusp_ip:true --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="ALL | -MAX II | -MAX V" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Reed Solomon II v13.0</ALIAS>
+</INFO>

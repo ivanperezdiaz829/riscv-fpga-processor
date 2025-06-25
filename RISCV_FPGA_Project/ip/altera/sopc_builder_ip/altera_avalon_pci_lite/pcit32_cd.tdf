@@ -1,0 +1,149 @@
+-- File Name: pcit32_cd.tdf
+-- Function	: Optimized Address decoder for Configuration Space accesses
+-- Author	: Ziad M. Abu-Lebdeh
+-- Rev History
+--	6/97	Initial Entry
+--
+
+
+SUBDESIGN 'pcit32_cd'
+(
+	clk				: INPUT;	-- PCI Clock
+	rstn			: INPUT;	-- PCI Reset
+	ena				: INPUT;	-- Clock Enable
+--	dat[5..0]		: INPUT = GND;	-- Data Input
+	adr[7..0]		: INPUT = GND;
+	
+--	dec0R			: OUTPUT;	-- Data = B"000000"	-- 00H	Dev ID
+--	dec1R			: OUTPUT;	-- Data = B"000001"	-- 04H	CMD
+--	dec2R			: OUTPUT;	-- Data = B"000010"	-- 08H	Rev ID
+--	dec3R			: OUTPUT;	-- Data = B"000011"	-- 0CH	Cache
+--	dec4R			: OUTPUT;	-- Data = B"000100"	-- 10H	BAR0
+--	dec5R			: OUTPUT;	-- Data = B"000101"	-- 14H	BAR1	
+--	dec6R			: OUTPUT;	-- Data = B"000110"	-- 18H	BAR2
+--	dec7R			: OUTPUT;	-- Data = B"000111"	-- 1CH	BAR3
+--	dec8R			: OUTPUT;	-- Data = B"001000"	-- 20H	BAR4
+--	dec9R			: OUTPUT;	-- Data = B"001001"	-- 24H	BAR5
+--	dec10R			: OUTPUT; 	-- Data = B"001010"	-- 28H	CIS	
+-- 	dec11R			: OUTPUT;	-- Data = B"001011" -- 2CH	SUBS
+--	dec12R			: OUTPUT;	-- Data = B"001100"	-- 30H	EXP ROM
+--	dec13R			: OUTPUT;	-- Data = B"001101"	-- 34H	CAP PTR
+---- 	dec14R			: OUTPUT; 	-- Data = B"001110"	-- 38H	Reserved
+-- 	dec15R			: OUTPUT; 	-- Data = B"001111" -- 3CH	Int
+---- 	dec16R			: OUTPUT; 	-- Data = B"010000" -- 40H
+
+
+----	dec11R		: OUTPUT;	-- Data = B"001100"
+----	dec15R		: OUTPUT;	-- Data = B"001111"
+
+	selR[15..0]		: OUTPUT;
+
+)
+
+VARIABLE
+
+	
+	decR[15..0]		: DFFE;	-- Output Registers
+	decR_d[15..0] 	: NODE;	-- Register D Inputs
+	dec_up[3..0]	: LCELL;	-- Upper Bits Decode LCELLS
+	
+	no_op			: NODE;	-- This is a junk node to prevent warnings
+	
+		
+BEGIN
+
+--IF (P2P_BRIDGE == "YES") GENERATE
+
+	no_op			= adr0 or adr1 or no_op;
+	
+	dec_up0	= adr[7..4] == B"0000";
+	dec_up1	= adr[7..4] == B"0001";
+	dec_up2	= adr[7..4] == B"0010";
+	dec_up3	= adr[7..4] == B"0011";
+
+	decR_d0		= dec_up0 and adr[3..2] == B"00"; 
+	decR_d1		= dec_up0 and adr[3..2] == B"01";	
+	decR_d2		= dec_up0 and adr[3..2] == B"10";	
+	decR_d3		= dec_up0 and adr[3..2] == B"11";	
+	decR_d4		= dec_up1 and adr[3..2] == B"00";	
+	decR_d5		= dec_up1 and adr[3..2] == B"01";	
+	decR_d6		= dec_up1 and adr[3..2] == B"10";	
+	decR_d7		= dec_up1 and adr[3..2] == B"11";	
+	decR_d8		= dec_up2 and adr[3..2] == B"00";	
+	decR_d9		= dec_up2 and adr[3..2] == B"01";	
+	decR_d10	= dec_up2 and adr[3..2] == B"10";	
+	decR_d11  	= dec_up2 and adr[3..2] == B"11"; 	
+	decR_d12	= dec_up3 and adr[3..2] == B"00";	
+	decR_d13	= dec_up3 and adr[3..2] == B"01";	
+	decR_d14	= dec_up3 and adr[3..2] == B"10";	
+	decR_d15	= dec_up3 and adr[3..2] == B"11";	
+	
+	decR[]		= decR_d[];
+	decR[].clk	= clk;
+	decR[].clrn = rstn;
+	decR[].ENA	= ena;
+	
+	selR[15..0]	= decR[15..0];
+
+--ELSE GENERATE
+
+--	dec_up0	= !dat5 and !dat4 and !dat3 and !dat2;
+--	dec_up1	= !dat5 and !dat4 and !dat3 and dat2;
+--	dec_up2	= !dat5 and !dat4 and dat3  and !dat2;
+--	dec_up3	= !dat5 and !dat4 and dat3  and dat2;
+----	dec_up4 	= !dat5 and dat4  and !dat3 and !dat2;
+
+--	decR_d0		= dec_up0 and !dat1 and !dat0;  		-- Address = "00000000"	-- 00H 	Dev ID
+--	decR_d1		= dec_up0 and !dat1 and dat0;			-- Address = "00000100"	-- 04H 	CMD
+--	decR_d2		= dec_up0 and dat1 	and !dat0;			-- Address = "00001000"	-- 08H	Rev ID
+--	decR_d3		= dec_up0 and dat1 	and dat0;			-- Address = "00001100"	-- 0CH	Cache
+--	decR_d4		= dec_up1 and !dat1 and !dat0;			-- Address = "00010000"	-- 10H 	BAR0
+--	decR_d5		= dec_up1 and !dat1 and dat0;			-- Address = "00010100"	-- 14H	BAR1	
+--	decR_d6		= dec_up1 and dat1 	and !dat0;			-- Address = "00011000"	-- 18H	BAR2
+--	decR_d7		= dec_up1 and dat1 	and dat0;			-- Address = "00011100"	-- 1CH	BAR3
+--	decR_d8		= dec_up2 and !dat1 and !dat0;			-- Address = "00100000"	-- 20H	BAR4
+--	decR_d9		= dec_up2 and !dat1 and dat0;			-- Address = "00100100"	-- 24H	BAR5
+--	decR_d10	= dec_up2 and dat1 	and !dat0;			-- Address = "00101100"	-- 28H	CIS	
+--	decR_d11  	= dec_up2 and dat1 	and dat0; 			-- Address = "00110100" -- 2CH	SUBS
+--	decR_d12	= dec_up3 and !dat1	and !dat0;			-- Address = "00111100"	-- 30H	EXP ROM
+--	decR_d13	= dec_up3 and !dat1	and dat0;			-- Address = "00110000"	-- 34H	CAP PTR
+--	decR_d14	= dec_up3 and dat1	and !dat0;			-- Address = "00110000"	-- 38H	Reserved
+--	decR_d15	= dec_up3 and dat1	and dat0;			-- Address = "00110000"	-- 3CH	Int
+----	decR_d16	= dec_up4 and !dat1	and !dat0;			-- Address = "00110000"	-- 40H
+	
+----	decR_d11	= dec_up3 and dat1 and dat0;			-- Address = "00111100"	-- 3CH
+----	decR_d12  = dec_up4 and !dat1 and !dat0;			-- Address = "01000000"  -- 40H
+
+--	decR[]	= decR_d[];
+--	decR[].clk	= clk;
+--	decR[].clrn = rstn;
+--	decR[].ENA	= ena;
+	
+
+--	dec0R		= decR0;
+--	dec1R		= decR1;
+--	dec2R		= decR2;
+--	dec3R		= decR3;
+--	dec4R		= decR4;
+--	dec5R		= decR5;
+--	dec6R		= decR6;
+--	dec7R		= decR7;
+--	dec8R		= decR8;
+--	dec9R		= decR9;
+--	dec10R		= decR10;
+	
+--	dec11R		= decR11;
+--	dec12R		= decR12;
+--	dec13R   	= decR13;
+----	dec14R		= decR14;
+--	dec15R		= decR15;
+
+--	no_op		= no_op or decR14;
+---- 	dec15R	= decR11;
+----	dec16R	= decR12;
+
+--END GENERATE;
+	
+END ;
+
+

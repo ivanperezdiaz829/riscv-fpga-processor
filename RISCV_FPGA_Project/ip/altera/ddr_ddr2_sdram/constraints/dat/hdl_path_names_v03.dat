@@ -1,0 +1,91 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information about the path and the internal names for 
+-- the logic. 
+-- It will describe:  
+--  - path to the submodules  
+--  - name mapping from the lcell_placement file to HDL  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+-- $Revision: #1 $
+
+--------------------------------------------------------------------------------------------------------------------------------------
+--  Paths for the various submodules
+--------------------------------------------------------------------------------------------------------------------------------------
+
+    general_path		4.0 %4_auk_ddr_sdram:%4_auk_ddr_sdram_inst|%4_auk_ddr_datapath:ddr_io|%4_auk_ddr_dqs_group:g_datapath_%1_g_ddr_io|
+    dq_altddio_path		4.0 altddio_bidir:g_dq_io_%2_dq_io|
+    dqs_altddio_path	4.0	altddio_bidir:dqs_io|
+    dm_altddio_path		4.0	altddio_out:dm_pin|
+
+#   general_path		4.1	%4_auk_ddr_sdram:%4_auk_ddr_sdram_inst|%4_auk_ddr_datapath:ddr_io|%4_auk_ddr_dqs_group:\\g_datapath:%1:g_ddr_io|
+    general_path		4.1	%4_auk_ddr_datapath:ddr_io|%4_auk_ddr_dqs_group:\\g_datapath:%1:g_ddr_io|
+    dq_altddio_path		4.1	altddio_bidir:\\g_dq_io:%2:dq_io|
+    dqs_altddio_path	4.1	altddio_bidir:dqs_io|
+    dm_altddio_path		4.1	altddio_out:dm_pin|
+
+-- Note: change from v02 to v03: removed the bus index. Instead added a rollout. If the value is a parameter name or greater than 1,
+-- more than 1 of the bits apply. The generate_constraints script will then create as many items as necessary.
+-- The parameter to use will be %6 for the rollout
+--------------------------------------------------------------------------------------------------------------------------------------
+-- Cell Mnemonic | Quartus version | HDL signal name       |  		Where in the hierarchy  |  Number of items | specific placement --
+--------------------------------------------------------------------------------------------------------------------------------------
+
+    DQ_Ai       		4.0    			input_cell_H[0]             	altddio                			1					0
+    DQ_Bi       		4.0    			input_cell_L[0]             	altddio                 		1					0
+    DQ_Ci       		4.0    			input_latch_L[0]            	altddio                 		1					0
+                		       			
+                		       			
+    DQ_Bo       		4.0    			output_cell_H[0]            	altddio                 		1					0
+    DQ_MUX      		4.0    			mux[0]                      	altddio                 		1					0
+    DQS_Bo      		4.0    			output_cell_H[0]            	altddio                 		1					0
+    DQS_MUX     		4.0    			mux[0]                      	altddio                 		1					0
+    DM_Bo       		4.0    			output_cell_H[0]            	altddio                 		1					0
+    DM_MUX      		4.0    			mux[0]                      	altddio                 		1					0
+
+	-- Note: from Quartus 4.1, the mux packing has moved from the output_cell_L to output_cell_H
+	-- This is reflected here. As a result, the name do not match the reality . Bo is in fact Ao and mux is Bo               		       			
+    DQ_Bo       		4.1    			mux[0]          			  	altddio                 		1					0
+    DQ_MUX      		4.1    			output_cell_L[0]             	altddio                 		1					0
+    DQS_Bo      		4.1    			mux[0]          			  	altddio                 		1					0
+    DQS_MUX     		4.1    			output_cell_L[0]             	altddio                 		1					0
+    DM_Bo       		4.1    			mux[0]          			  	altddio                 		1					0
+    DM_MUX      		4.1    			output_cell_L[0]             	altddio                 		1					0
+                		       			
+                		       			
+    DQ_Aoe      		4.0    			oe_cell_1                   	altddio                 		1  					0
+                		       			
+    DQS_Aoe     		4.0    			oe_cell_1                   	altddio                 		1					0
+    DQS_Boe     		4.0    			oe_cell_2                   	altddio                 		1					0
+    DQS_AND     		4.0    			oe_input                    	altddio                 		1					0
+
+	-- Note: For DQ_S_Ai, we use %2 which will be the bit number from 0 to 7, for DQ_S_Bi, we use %2+ so that the bus is shifted by 8, so the 
+	-- numbering will be from 8 to 15
+    DQ_S_Ai         	4.0    			resynched_data[%2]          	user                    		1					0              	--  dataout[ 7:0]
+    DQ_S_Bi         	4.0    			resynched_data[%2+]          	user                    		1					0             	--  dataout[15:8]
+                    	       			
+    dq_enable       	4.0    			dq_enable[%2]               	user                    		1					1
+    dq_enable_reset 	4.0    			dq_enable_reset[%2]         	user                    		1					1
+
+	-- Note: there may be none or only 1 buffer used.                     	       			
+    stratix_dqsbuf0 	4.0    			stratix_dqs_delay_buffers[%6] 	user       stratix_undelayeddqsout_insert_buffers	0
+
+

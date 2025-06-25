@@ -1,0 +1,286 @@
+# class.ptf for the multi-processor mutex
+CLASS altera_avalon_mutex
+{
+    ASSOCIATED_FILES
+    {
+        Add_Program = "add_edit_ui";
+        Edit_Program = "add_edit_ui";
+        Generator_Program = "em_mutex.pl";
+    }
+    MODULE_DEFAULTS
+    {
+        class = "altera_avalon_mutex";
+        class_version = "7.08131";
+        HDL_INFO
+        {
+# The list of files associated with this module (for synthesis
+# and other purposes) depends on the users' wizard-choices.
+# This section will be filled-in by the Generator_Program
+# after the module logic has been created and the
+# various filenames are known.
+        }
+        PORT_WIRING
+        {
+# The number and kind of ports that appear on this module
+# depends on the user's wizard-choices.
+# This section will be filled-in by the Generator_Program
+# after the module logic has been created and the ports are known.
+#
+        }
+        SLAVE s1
+        {
+            PORT_WIRING
+            {
+# The number and kind of ports that appear on this module
+# depends on the user's wizard-choices.
+# This section will be filled-in by the Generator_Program
+# after the module logic has been created and the ports are known.
+#
+            }
+            SYSTEM_BUILDER_INFO
+            {
+                Bus_Type = "avalon";
+                Has_IRQ = "0";
+                IRQ_Number = "N/A";
+                Address_Width = "1";
+                Data_Width = "32";
+                Base_Address = "--unknown--";
+                Address_Alignment = "native";
+                Read_Wait_States = "1";
+                Write_Wait_States = "0";
+            }
+        }
+        SYSTEM_BUILDER_INFO
+        {
+           Date_Modified = "";
+           Is_Enabled = "1";
+           Instantiate_In_System_Module = "1";
+           Wire_Test_Bench_Values = "1";
+           Top_Level_Ports_Are_Enumerated = "1";
+        }
+        WIZARD_SCRIPT_ARGUMENTS
+        {
+           value_width = "16";
+           owner_width = "16";
+           value_init = "0x0";
+           owner_init = "0x0";
+        }
+        SIMULATION 
+        {
+           DISPLAY 
+           {
+              SIGNAL a
+              {
+                 name = "chipselect";
+              }
+              SIGNAL b
+              {
+                 name = "address";
+                 radix = "hexadecimal";
+              }
+              SIGNAL c
+              {
+                 name = "write";
+              }
+              SIGNAL d
+              {
+                 name = "data_from_cpu";
+                 radix = "hexadecimal";
+              }
+              SIGNAL e
+              {
+                 name = "read";
+              }
+              SIGNAL f
+              {
+                 name = "data_to_cpu";
+                 radix = "hexadecimal";
+              }
+              SIGNAL g
+              {
+                 name = "reset_reg";
+                 radix = "hexadecimal";
+              }
+              SIGNAL h
+              {
+                 name = "mutex_state";
+                 radix = "hexadecimal";
+              }
+              SIGNAL i
+              {
+                 name = "mutex_value";
+                 radix = "hexadecimal";
+              }
+              SIGNAL j
+              {
+                 name = "mutex_owner";
+                 radix = "hexadecimal";
+              }
+           }
+        }
+    }
+    USER_INTERFACE
+    {
+        USER_LABELS
+        {
+            name="Mutex";
+            description="Mutual Exclusion Device";
+            license = "full";
+            technology="Other";
+        }
+        LINKS 
+        {
+            LINK help
+            {
+                title = "Data Sheet";
+                url = "http://www.altera.com/literature/hb/nios2/n2cpu_nii51020.pdf";
+            }
+        }
+        WIZARD_UI add_edit_ui
+        {
+            title = "Avalon Mult-Processor Mutex - {{ $MOD }}";
+            ACTION wizard_finish
+            {
+                $WSA/value_init = "{{ int($WSA/value_init); }}";
+                $WSA/owner_init = "{{ int($WSA/owner_init); }}";
+                $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = " Mutex with
+                    {{ if (int($WSA/value_init) != 0) ' an initial value of <B>'+hex($WSA/value_init)+
+                        '</B><br> is initialy owned by the CPU with id <B>'+int($WSA/owner_init)+'</B>.'; }}
+                    {{ if (int($WSA/value_init) == 0) ' no initial value.'; }}
+                ";
+            }
+
+			# Shared text:  tooltip on "initial owner" box, and info displayed
+			# when initial value is nonzero
+			$$mutex_owner_tip = "The initial owner must release the mutex 
+				before it can be acquired by another owner.<br>
+				Nios II processors use their <b>cpuid</b> register 
+				value for the Owner field. <br>
+				SOPC Builder assigns <b>cpuid</b> values to each Nios II 
+				core, starting from 0x0000, <br>
+				and incrementing in the order that the Nios II components 
+				appear on the System Contents tab.";
+				
+			# Alternative tooltip for display when the "Initial Owner" box is
+			# greyed out.
+			$$mutex_owner_tip_disabled = "To select an initial owner, you must<br>
+				first set an initial mutex value.";
+
+            message = "{{
+                if ((int($$bad_owner_init) == 0) && (int($$bad_value_init) == 0))
+                {
+                    if (int($WSA/value_init) != 0)
+                    {
+                        $$mutex_owner_tip;
+                    }
+                }
+            }}";
+
+            PAGES main
+            {
+                PAGE 1
+                {
+                    title = "Settings";
+                    GROUP initial state
+                    {
+                        title = "Initial State";
+                        spacing = "5";
+                        align = "left";
+                        glue = "1";
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            align = "right";
+                            glue = "1";
+                            EDIT
+                            {
+                                title = "Initial Value ";
+                                width   = "1";
+                                columns  = "5";
+                                glue = "1";
+                                type = "hex";
+                                suffix = "     ";
+                                ACTION initialize
+                                {
+                                    $WSA/value_init = "{{ hex($WSA/value_init) ; }}";
+                                }
+                                DATA
+                                {
+                                    $WSA/value_init = "$";
+                                }
+                                $$max_value = "{{ 2 ^ $WSA/value_width - 1 ; }}";
+                                $$bad_value_init = "{{ int($WSA/value_init) >= $$max_value; }}";
+                                error = "{{ if ($$bad_value_init) 'Initial value too big for the Value field'; }}";
+                            }
+                        }
+                        TEXT
+                        {
+                            title = "The Initial Value must be between 0x0 and {{ hex($$max_value) }}.<br>Set to a non-zero value to allow an initial owner.";
+                            foreground = "{{ if ($$bad_value_init) 'red'; else 'black'; }}";
+                        }
+                        TEXT
+                        { # little text field to act as a spacer.  There must be an easier way.
+                            title = " ";
+                        }
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            align = "right";
+                            glue = "1";
+                            EDIT
+                            {
+                                title = "Initial Owner ";
+                                enable = "{{ (int($WSA/value_init) != 0); }}";
+                                width   = "1";
+                                columns  = "5";
+                                glue = "1";
+                                type = "hex";
+                                suffix = "     ";
+                                tooltip = 
+                                "{{ 
+                                	if ( int($WSA/value_init) == 0 )
+	                                	$$mutex_owner_tip_disabled;
+                                	else
+	                                	$$mutex_owner_tip
+                                }}";
+                                ACTION initialize
+                                {
+                                    $WSA/owner_init = "{{ hex($WSA/owner_init) ; }}";
+                                }
+                                DATA
+                                {
+                                    $WSA/owner_init = "$";
+                                }
+                                $$max_owner = "{{ 2 ^ $WSA/owner_width - 1 ; }}";
+                                $$bad_owner_init = "{{ int($WSA/owner_init) >= $$max_owner; }}";
+                                error = "{{ if ($$bad_owner_init) 'Initial owner too big for the Owner field'; }}";
+                            }
+                        }
+                        TEXT
+                        {
+                            enable = "{{ (int($WSA/value_init) != 0); }}";
+                            title = "The Initial Owner must be between 0x0 and {{ hex($$max_owner) }}.";
+                            foreground = "{{ if ($$bad_owner_init) 'red'; else 'black'; }}";
+                        }
+                    }
+                }
+            }
+            
+            # Make enough space in the message area for $$mutex_owner_tip
+	      	GROUP messages
+	      	{
+               	# Kind of a hack to make the message area wide enough
+               	# for conditional messages.
+	          	width = "500";
+	          	height = "100";
+		        LIST
+		        {
+		          	rows = "5";
+		          	glue = "0";
+		          	background = "lightGray";
+		        }
+	        }            
+            
+        }
+    }
+}

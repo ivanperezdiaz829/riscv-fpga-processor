@@ -1,0 +1,41 @@
+
+    
+    target_hold_over_setup_ratio_for_read_capture   =       1.0      -- Optimum setting would be when setup and hold margins are equal
+    min_acceptable_read_margin                      =       50       -- This could be reduced if there was supporting system char data
+
+    -- smaller for Stratix-II compared to Stratix
+    pes_t_rise_to_vref                             =   0
+    opt_t_rise_to_vref                             =   100       
+
+    -- +/- TBD (2 ?) counts of the control bus. 1 count value is TBD (12ps ? ) ps max
+    -- Total dll error is 
+    -- tDQSJITTER (3 buffers, industrial, phase jitter) 90 (*0.5 since p-p)
+    -- tDQS_PSERR (C5, 3 buffers) 105 (*0.5 since p-p)
+
+    t_dll_phase_error = 98   
+                 
+    -- This should no longer be required for Stratix II, or we do a proper analysis of the lock range.         
+    dll_shift_limit                                     =   2100        -- has no min since it's PVT compensated
+           
+    -- (needs updating)
+    tJITTER_pll = 200
+	-- clock network skew, same side = 63ps
+	-- tPLL_PSERR = +/- 30ps
+    pll_normal_mode_phase_offset                        = 0         -- 10000         -- completely unknown for Normal mode at this time (but lets try the very preliminary figure 10ns figure for ZDB mode)
+
+    -- The error on the setting of the FBC pll
+    -- Note that tJITTER_pll has already been taken out of the resync window. Just include quantisation error
+    pll_normal_mode_phase_error                         = 156         -- = 200           -- approx 400ps 'variation' for ZDB mode equates to an error of +/- 200ps
+
+    -- All DTM extraction min times are scaled by this (ie. exclude DQS delay table)
+    pes_scale_min_timing_from_minus_40_to_0degc         =   1.00       -- See SPR181352
+    opt_scale_min_timing_from_minus_40_to_0degc         =   1.00       -- Stratix II C fast model is now valid to 0c only 
+
+	-- DCD on clck_to_sdram outputs (ps)
+	-- For most families this is defined to be 0.05 tCK (ie tHP = 0.45)
+	-- for StratixII the DCD is defined as a number of ps.
+	dcd_on_clk_to_sdram_ps						= 80
+	dcd_on_clk_to_sdram_tck						= 0.00
+	
+	
+    -- 

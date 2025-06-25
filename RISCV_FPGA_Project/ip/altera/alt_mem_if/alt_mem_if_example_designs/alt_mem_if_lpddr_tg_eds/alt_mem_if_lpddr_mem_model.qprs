@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip><presets version="13.1">
+	<preset name="MICRON MT46H128M16LF-5" kind="alt_mem_if_lpddr_tg_eds" version="13.1" description="MICRON MT46H128M16LF-5">
+		<parameter name="MEM_VENDOR" value="Micron" />
+		<parameter name="MEM_FORMAT" value="DISCRETE" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="200" />
+		<parameter name="MEM_NUMBER_OF_DIMMS" value="1" />
+		<parameter name="MEM_NUMBER_OF_RANKS_PER_DIMM" value="1" />
+		<parameter name="MEM_CK_WIDTH" value="3" />
+		<parameter name="MEM_DQ_WIDTH" value="16" />
+		<parameter name="MEM_DQ_PER_DQS" value="16" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="2" />
+		<parameter name="MEM_COL_ADDR_WIDTH" value="11" />
+		<parameter name="MEM_ROW_ADDR_WIDTH" value="14" />
+		<parameter name="MEM_IF_DM_PINS_EN" value="1" />
+		<parameter name="AC_PARITY" value="0" />
+		<parameter name="TIMING_TIH" value="250" />
+		<parameter name="TIMING_TIS" value="175" />
+		<parameter name="TIMING_TDQSQ" value="200" />
+		<parameter name="TIMING_TDH" value="125" />
+		<parameter name="TIMING_TDS" value="50" />
+		<parameter name="TIMING_TQHS" value="300" />
+		<parameter name="TIMING_TDQSH" value="0.35" />
+		<parameter name="TIMING_TDQSCK" value="350" />
+		<parameter name="TIMING_TDQSS" value="0.25" />
+		<parameter name="TIMING_TDSH" value="0.2" />
+		<parameter name="TIMING_TDSS" value="0.2" />
+		<parameter name="MEM_TINIT_US" value="200" />
+		<parameter name="MEM_TMRD_CK" value="2" />
+		<parameter name="MEM_TRAS_NS" value="40" />
+		<parameter name="MEM_TRCD_NS" value="15" />
+		<parameter name="MEM_TRP_NS" value="15" />
+		<parameter name="MEM_TREFI_US" value="15.6" />
+		<parameter name="MEM_TRFC_NS" value="72" />
+		<parameter name="MEM_TWR_NS" value="15" />
+		<parameter name="MEM_TWTR" value="2" />
+		<parameter name="MEM_TWTR_NS" value="7.5" />
+		<parameter name="MEM_TFAW_NS" value="45" />
+		<parameter name="MEM_TRRD_NS" value="10" />
+		<parameter name="MEM_TRTP_NS" value="7.5" />
+	</preset>
+	<preset name="MICRON MT46H128M16LF" kind="alt_mem_if_lpddr_tg_eds" version="13.1" description="MICRON MT46H128M16LF">
+		<parameter name="MEM_VENDOR" value="Micron" />
+		<parameter name="MEM_FORMAT" value="DISCRETE" />
+		<parameter name="MEM_CLK_FREQ_MAX" value="200" />
+		<parameter name="MEM_NUMBER_OF_DIMMS" value="1" />
+		<parameter name="MEM_NUMBER_OF_RANKS_PER_DIMM" value="1" />
+		<parameter name="MEM_CK_WIDTH" value="3" />
+		<parameter name="MEM_DQ_WIDTH" value="16" />
+		<parameter name="MEM_DQ_PER_DQS" value="16" />
+		<parameter name="MEM_BANKADDR_WIDTH" value="2" />
+		<parameter name="MEM_COL_ADDR_WIDTH" value="11" />
+		<parameter name="MEM_ROW_ADDR_WIDTH" value="14" />
+		<parameter name="MEM_IF_DM_PINS_EN" value="1" />
+		<parameter name="AC_PARITY" value="0" />
+		<parameter name="TIMING_TIH" value="250" />
+		<parameter name="TIMING_TIS" value="175" />
+		<parameter name="TIMING_TDQSQ" value="200" />
+		<parameter name="TIMING_TDH" value="125" />
+		<parameter name="TIMING_TDS" value="50" />
+		<parameter name="TIMING_TQHS" value="300" />
+		<parameter name="TIMING_TDQSH" value="0.35" />
+		<parameter name="TIMING_TDQSCK" value="350" />
+		<parameter name="TIMING_TDQSS" value="0.25" />
+		<parameter name="TIMING_TDSH" value="0.2" />
+		<parameter name="TIMING_TDSS" value="0.2" />
+		<parameter name="MEM_TINIT_US" value="200" />
+		<parameter name="MEM_TMRD_CK" value="2" />
+		<parameter name="MEM_TRAS_NS" value="40" />
+		<parameter name="MEM_TRCD_NS" value="15" />
+		<parameter name="MEM_TRP_NS" value="15" />
+		<parameter name="MEM_TREFI_US" value="15.6" />
+		<parameter name="MEM_TRFC_NS" value="72" />
+		<parameter name="MEM_TWR_NS" value="15" />
+		<parameter name="MEM_TWTR" value="2" />
+		<parameter name="MEM_TWTR_NS" value="7.5" />
+		<parameter name="MEM_TFAW_NS" value="45" />
+		<parameter name="MEM_TRRD_NS" value="10" />
+		<parameter name="MEM_TRTP_NS" value="7.5" />
+	</preset>
+</presets></ip>

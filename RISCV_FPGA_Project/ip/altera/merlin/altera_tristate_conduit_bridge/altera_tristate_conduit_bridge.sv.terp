@@ -1,0 +1,198 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/merlin/altera_tristate_conduit_bridge/altera_tristate_conduit_bridge.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2013/08/11 $
+// \$Author: swbranch $
+
+//Defined Terp Parameters
+
+@@ # Parameters
+@@ # TRISTATECONDUIT_INFO => TRISTATECONDUIT_INFO system info (xml formatted)
+@@ # MODULE_NAME => Module Name
+
+@@ proc terp_write { hdl } {
+@@  global terp_out
+${hdl}
+@@ }
+			    
+@@ set sys_info [decode_tristate_conduit_masters ${TRISTATECONDUIT_INFO}]
+@@ set output_action      { uplevel "terp_write {    ,input  logic\[ [expr $width - 1 ] :0 \] ${slave_interface_name}_${output_name}}"
+@@                          uplevel "terp_write {    ,output  wire \[ [expr $width - 1 ] :0 \] ${output_name}}"
+@@                        }
+@@ set input_action       { uplevel "terp_write {    ,output logic\[ [expr $width - 1 ] :0 \] ${slave_interface_name}_${input_name}}"
+@@                          uplevel "terp_write {    ,input  logic\[ [expr $width - 1 ] :0 \] ${input_name}}"
+@@                        }
+@@ set bidir_action       { uplevel "terp_write {    ,output logic\[ [expr $width - 1] :0 \] ${slave_interface_name}_${input_name}}"
+@@                          uplevel "terp_write {    ,input  logic\[ [expr $width - 1] :0 \] ${slave_interface_name}_${output_name}}" 
+@@                          uplevel "terp_write {    ,input  logic ${slave_interface_name}_${output_enable_name}}"
+@@			    uplevel "terp_write {    ,inout  wire \[ [expr $width - 1] :0 \]  ${output_name}}"
+@@                        }
+@@ set tristatable_action { uplevel "terp_write {    ,input  logic\[ [expr $width - 1] :0 \] ${slave_interface_name}_${output_name}}"
+@@                          uplevel "terp_write {    ,input  logic ${slave_interface_name}_${output_enable_name}}"
+@@                          uplevel "terp_write {    ,output  wire \[ [expr $width - 1] : 0 \]  ${output_name}}"			    
+@@                        }
+@@ set includes {
+@@		 output_action
+@@		 input_action
+@@		 bidir_action
+@@		 tristatable_action
+@@		}
+
+`timescale 1 ns / 1 ns
+  				      
+module $MODULE_NAME (
+     input  logic clk
+    ,input  logic reset
+    ,input  logic request
+    ,output logic grant
+@@ iterate_through_sysinfo ${sys_info} {} {} {
+@@   set ta_includes {
+@@     width
+@@     output_name
+@@     input_name
+@@     output_enable_name
+@@     slave_interface_name
+@@   }
+@@   type_action ${type} ${output_action} ${input_action} ${bidir_action} ${tristatable_action} ${ta_includes}
+@@ } ${includes}
+		     
+   );
+@@
+   reg grant_reg;
+   assign grant = grant_reg;
+   
+   always@(posedge clk) begin
+      if(reset)
+	grant_reg <= 0;
+      else
+	grant_reg <= request;      
+   end
+   
+@@ #### Note you must ensure to set output_enable_name in the output action as output signals will not have a value in output_enable_name
+@@
+@@ set output_enable_constant {
+@@    reg                       ${output_enable_name}_reg;     
+@@  
+@@    always@(posedge clk) begin
+@@	 if( reset ) begin
+@@	   ${output_enable_name}_reg <= 'b0;
+@@	 end
+@@	 else begin
+@@	   ${output_enable_name}_reg <= 'b1;
+@@	 end
+@@     end		     
+@@ }
+@@
+@@ set output_enable_register { 
+@@    reg                       ${output_enable_name}_reg;
+@@  
+@@    always@(posedge clk) begin
+@@	 ${output_enable_name}_reg <= ${slave_interface_name}_${output_enable_name};
+@@     end
+@@ }
+@@
+@@ set output_register {
+@@    reg \[ [expr ${width} - 1] : 0 \] ${output_name}_reg;   
+@@
+@@     always@(posedge clk) begin
+@@	 ${output_name}_reg   <= ${slave_interface_name}_${output_name}\[ [expr ${width} - 1] : 0 \];
+@@      end
+@@ }
+@@
+@@ set output_assignment {
+@@    assign 	${output_name}\[ [expr $width - 1] : 0 \] = ${output_enable_name}_reg ? ${output_name}_reg : 'z ;
+@@ }
+@@
+@@ set input_register {
+@@    reg \[ [expr ${width} - 1] : 0 \] 	${input_name}_reg;
+@@								    
+@@    always@(posedge clk) begin
+@@	 ${input_name}_reg <= ${input_name};
+@@    end
+@@ }
+@@	  
+@@ set input_assignment {
+@@    assign      ${slave_interface_name}_${input_name}\[ [expr ${width} - 1] : 0 \] = ${input_name}_reg\[ [expr ${width} - 1] : 0 \];
+@@ }
+@@
+@@ set bidir_input_register {
+@@    reg \[ [expr ${width} - 1] : 0 \] 	${input_name}_reg;
+@@								    
+@@    always@(posedge clk) begin
+@@	 ${input_name}_reg <= ${output_name}\[ [expr ${width} - 1] : 0 \];
+@@    end
+@@ }					       
+@@	    		 
+@@ set output_action      { uplevel "set output_enable_name ${output_name}en"
+@@                          uplevel "terp_write {\n\n // ** Output Pin ${output_name} } "
+@@                          uplevel "terp_write \" ${output_enable_constant}  \" "
+@@                          uplevel "terp_write \" ${output_register}         \" "
+@@                          uplevel "terp_write \" ${output_assignment}       \" "
+@@                        }
+@@ set input_action       { 
+@@                          uplevel "terp_write {\n\n // ** Input Pin ${input_name} } "
+@@                          uplevel "terp_write \" ${input_register}          \" "
+@@                          uplevel "terp_write \" ${input_assignment}        \" "
+@@                        }
+@@ set bidir_action       { 
+@@                          uplevel "terp_write {\n\n // ** Bidirectional Pin ${output_name} } "
+@@                          uplevel "terp_write \"  ${output_enable_register} \" "
+@@                          uplevel "terp_write \"  ${output_register}        \" " 
+@@                          uplevel "terp_write \"  ${output_assignment}      \" "
+@@			    uplevel "terp_write \"  ${bidir_input_register}   \" "
+@@                          uplevel "terp_write \"  ${input_assignment}       \" "
+@@                        }
+@@ set tristatable_action { 
+@@                          uplevel "terp_write {\n\n // ** Tristatable Output Pin ${output_name} } "
+@@                          uplevel "terp_write \"  ${output_enable_register} \" "
+@@                          uplevel "terp_write \"  ${output_register}        \" "
+@@                          uplevel "terp_write \"  ${output_assignment}      \" "
+@@                        }
+@@
+@@							
+@@ set includes {
+@@		 output_action
+@@		 input_action
+@@		 bidir_action
+@@		 tristatable_action
+@@		 output_enable_register
+@@               output_enable_constant
+@@               output_register
+@@               output_assignment
+@@               input_register
+@@               input_assignment
+@@               bidir_input_register		  
+@@		}
+@@							
+@@ iterate_through_sysinfo ${sys_info} {} {} {
+@@   set ta_includes {
+@@     width
+@@     output_name
+@@     input_name
+@@     output_enable_name
+@@     slave_interface_name
+@@     output_enable_register
+@@     output_enable_constant
+@@     output_register
+@@     output_assignment
+@@     input_register
+@@     input_assignment
+@@     bidir_input_register		      
+@@   }
+@@   
+@@   type_action ${type} ${output_action} ${input_action} ${bidir_action} ${tristatable_action} ${ta_includes}
+@@ } ${includes}
+
+endmodule

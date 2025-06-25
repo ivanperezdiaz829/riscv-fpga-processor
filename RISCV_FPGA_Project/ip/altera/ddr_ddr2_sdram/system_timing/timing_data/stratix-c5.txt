@@ -1,0 +1,22 @@
+                                                                  
+    MIN_scaling                                         =   0.60        -- for 0degC (0.575 is for -40degC)    Stratix 0.58 0.53  0.46
+    
+    -- postamble buffer insertion to meet hold time ------------------------
+   
+    tPD_undelayed_out_to_resetreg_clk_no_buffers                                    =  1503    real numbers QII 4.1 IB-178 1S25F1020 longest paths across a 72-bit interface
+    tPD_undelayed_out_to_resetreg_clk_one_buffer                                    =  1903
+    tPD_undelayed_out_to_resetreg_clk_two_buffers                                   =  2469
+    
+    tPD_undelayed_out_to_resetreg_clk_three_buffers                                 =  3035 Estimates based on above numbers
+    tPD_undelayed_out_to_resetreg_clk_four_buffers                                  =  3601
+                
+-- MISC ========================================================================================
+
+    -- dedicated pll output not currently supported 
+    tPD_plle0_to_pin                                    =   2000         
+
+        
+
+
+
+

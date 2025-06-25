@@ -1,0 +1,9 @@
+[I/O]
+ALTERA OCT v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_oct_hw.tcl" --wizard:altera_oct --familyparameter:DEVICE_FAMILY --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Night Fury | ARRIAVI | STRATIXVI"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF"/>
+<PINPLAN SUPPORTED="OFF"/>
+</INFO>

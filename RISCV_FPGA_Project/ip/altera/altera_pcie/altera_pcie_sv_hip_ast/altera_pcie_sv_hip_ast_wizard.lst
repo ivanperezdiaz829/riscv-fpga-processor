@@ -1,0 +1,15 @@
+[Interfaces|PCI Express]
+Stratix V Hard IP for PCI Express v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_pcie_sv_hip_ast_hw.tcl" --wizard:altera_pcie_sv_hip_ast --familyparameter:device_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<ALIAS>Stratix V Hard IP for PCI Express v13.0</ALIAS>
+<ALIAS>Stratix V Hard IP for PCI Express v12.1</ALIAS>
+<ALIAS>Stratix V Hard IP for PCI Express v12.0</ALIAS>
+<ALIAS>Stratix V Hard IP for PCI Express v11.1</ALIAS>
+<ALIAS>Stratix V Hard IP for PCI Express v11.0</ALIAS>
+</INFO>
+

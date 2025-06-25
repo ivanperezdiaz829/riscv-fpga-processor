@@ -1,0 +1,40 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this
+-- file for any purpose do so at their own risk, and are responsible for
+-- the results of such use.  Altera Corporation does not guarantee that
+-- this file is complete, correct, or fit for any particular purpose.
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information for all supported device/packages
+-- It will describe:
+--  - which package exist for which device
+--  - number of row and columns for each device
+-- It will be used by the constraint script to apply all constraints to each
+-- pin and any logic related to that pin.
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+--
+--                             PLEASE DO NOT EDIT
+--
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+list 	input_register_delay		    =	q_pin_name
+list	global_signal_off				= 	cq_pin_name
+list 	setup_relationship		        = 	cq_pin_name
+list 	hold_relationship		        = 	cq_pin_name
+list 	remove_warning  		        = 	cq_pin_name
+list 	remove_fitter_warning           = 	cq_pin_name
+
+
+

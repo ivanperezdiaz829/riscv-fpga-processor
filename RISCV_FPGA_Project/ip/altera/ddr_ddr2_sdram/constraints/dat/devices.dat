@@ -1,0 +1,163 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this
+-- file for any purpose do so at their own risk, and are responsible for
+-- the results of such use.  Altera Corporation does not guarantee that
+-- this file is complete, correct, or fit for any particular purpose.
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information for all supported device/packages
+-- It will describe:
+--  - which package exist for which device
+--  - number of row and columns for each device
+-- It will be used by the constraint script to apply all constraints to each
+-- pin and any logic related to that pin.
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+--
+--                             PLEASE DO NOT EDIT
+--
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+-- -------------------------------------------------------------------
+--           device package(s)
+-- -------------------------------------------------------------------
+
+--  Cyclone
+pkg EP1C3                                               T144    T100
+pkg EP1C4       F400    F324
+pkg EP1C6                       F256    Q240            T144
+pkg EP1C12              F324    F256    Q240
+pkg EP1C20      F400    F324
+
+--  Cyclone II
+pkg EP2C5                                       Q208    T144
+pkg EP2C8                                       Q208    T144           F256
+pkg EP2C8A                                                             F256
+pkg EP2C15A                                                     F484   F256
+pkg EP2C20                                                      F484   F256
+pkg EP2C20A                                                     F484   F256
+pkg EP2C35                                      F672            F484
+pkg EP2C50                                      F672            F484
+pkg EP2C70                         F896         F672
+
+
+--  Stratix
+pkg EP1S10                              F780    F672    B672    F484
+pkg EP1S20                              F780    F672    B672    F484
+pkg EP1S25              F1020           F780    F672    B672
+pkg EP1S30              F1020   B956    F780
+pkg EP1S40      F1508   F1020   B956    F780
+pkg EP1S60      F1508   F1020   B956
+pkg EP1S80      F1508   F1020   B956
+
+
+--  StratixGX
+pkg EP1SGX10C	                                F672
+pkg EP1SGX10D	                                F672
+pkg EP1SGX25C	                                F672
+pkg EP1SGX25D	        F1020                   F672
+pkg EP1SGX25F	        F1020
+pkg EP1SGX40D	        F1020
+pkg EP1SGX40G	        F1020
+
+
+--  Stratix II
+pkg EP2S15                      				F672    		F484
+pkg EP2S30                      				F672    		F484
+pkg EP2S60              F1020   				F672    		F484
+pkg EP2S90      F1508   F1020			F780
+pkg EP2S130     F1508   F1020			F780
+pkg EP2S180     F1508   F1020
+
+
+--  Stratix II GX
+pkg EP2SGX30C	F780
+pkg EP2SGX30D	F780
+pkg EP2SGX60C	F780
+pkg EP2SGX60D	F780
+pkg EP2SGX60E		F1152
+pkg EP2SGX90E		F1152
+pkg EP2SGX90F			F1508
+pkg EP2SGX130G			F1508
+
+-- Hardcopy II
+pkg HC210                       				        		F484
+pkg HC220                       	F780        F672
+pkg HC230               F1020
+pkg HC240       F1508   F1020
+
+
+
+
+
+-- -------------------------------------------------------------------
+
+-- -------------------------------------------------------------------
+--           max row    max column
+-- -------------------------------------------------------------------
+size EP1C3         13         26
+size EP1C4         17         28
+size EP1C6         20         34
+size EP1C12        26         52
+size EP1C20        32         68
+
+size EP2C5         13         27
+size EP2C8         18         33
+size EP2C8A        18         33
+size EP2C15A       26         49
+size EP2C20        26         49
+size EP2C20A       26         49
+size EP2C35        35         64
+size EP2C50        43         79
+size EP2C70        50         94
+
+
+size EP1S10        30         52
+size EP1S20        41         66
+size EP1S25        46         78
+size EP1S30        57         84
+size EP1S40        61         95
+size EP1S60        73         112
+size EP1S80        91         124
+
+size EP1SGX10C     30         52
+size EP1SGX10D     30         52
+size EP1SGX25C     46         78
+size EP1SGX25D     46         78
+size EP1SGX25D     46         78
+size EP1SGX25F     46         78
+size EP1SGX40D     61         95
+size EP1SGX40G     61         95
+
+size EP2S15        26         39
+size EP2S30        36         61
+size EP2S60        51         77
+size EP2S90        68         88
+size EP2S130       87         100
+size EP2S180       96         123
+size EP2SGX30C	   36	      61
+size EP2SGX30D	   36	      61
+size EP2SGX60C     51         77
+size EP2SGX60D     51         77
+size EP2SGX60E     51         77
+size EP2SGX90E     68	      88
+size EP2SGX90F     68	      88
+size EP2SGX130G    87	      100
+
+-- dummy sizes
+size HC210         99         99
+size HC220         99         99
+size HC230         99         99
+size HC240         99         99
+
+-- -------------------------------------------------------------------

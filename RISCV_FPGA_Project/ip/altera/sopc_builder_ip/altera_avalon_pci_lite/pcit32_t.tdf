@@ -1,0 +1,4805 @@
+-- //////////////////////////////////////////////////////////////////////////////////////////////////
+-- //////////////////////////////////////////////////////////////////////////////////////////////////
+--       Logic Core:		PCI Megacore Function
+--  	Company:		Altera Corporation.
+--  					www.altera.com 
+--  	Author :		IPBU SIO Group
+--  
+--  	Description:	PCI Taget Module
+--  
+--  	Copyright © 2003 Altera Corporation. All rights reserved.  This source code is highly 
+--  	confidential and proprietary information of Altera and is being provided in accordance with 
+--  	and subject to the protections of a Non-Disclosure Agreement which governs its use and 
+--  	disclosure.  Altera products and services are protected under numerous U.S. and foreign 
+--  	patents, maskwork rights, copyrights and other intellectual property laws.  Altera assumes 
+--  	no responsibility or liability arising out of the application or use of this source code.
+--  
+--  	For Best Viewing Set tab stops to 4 spaces.
+-- 
+-- //////////////////////////////////////////////////////////////////////////////////////////////////
+-- //////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+FUNCTION pcit32_c    ( clk, rstn, cben_ir[3..0], ad_ir[31..0], adr_phase, dac_adr_phase_r, cfg_dat_vld, serr_det, 
+            adr_dec_ena, tabrt_set, tabrt_rcvd_set, mabrt_set, bar_hit_rst,l_stat_reg_rst[5..0], perr_det_set, 
+            perr_rep_set, lcfg_adr[7..0], lcfg_ben[3..0], lcfg_dat_in[31..0], lcfg_adr_vld, 
+            lcfg_dat_vld, dac_cfg, ad_ir_addr[31..0], cben_ir_addr[3..0],
+            stat_set[15..0], sec_stat_set_in[15..0], cfg_dat_in_a[207..0], cfg_dat_in_b[183..0],cfg_dat_in_c[191..0],
+            discard_set, lirqn)        
+    WITH      ( LOCAL_CONFIG_ENA, VENDOR_ID, DEVICE_ID, REVISION_ID, CLASS_CODE, 
+              INTERRUPT_PIN_REG, SUBSYSTEM_ID, SUBSYSTEM_VENDOR_ID, MIN_GRANT, MAX_LATENCY, BAR0, BAR1, 
+              BAR2, BAR3, BAR4, BAR5, NUMBER_OF_BARS, ENABLE_BITS, PRIMARY_INTERFACE, P2P_BRIDGE, 
+              PCI_32, CAP_PTR, CIS_PTR, EXP_ROM_BAR, PCI_66MHZ_CAPABLE, DISCARD_TIMER, SUBORDINATE_BUS,
+              PREFETCHABLE_MEMORY, TARGET_ONLY, VERSION_1_0_COMPATIBLE, TARGET_DEVICE, INTERNAL_ARBITER,
+              HARDWIRE_EXP_ROM, DATA_TIMEOUT
+              
+              )  
+                      
+    RETURNS     ( mem_bar_hit, io_ena, mem_ena, mstr_ena, mwi_ena, 
+              perr_ena, serr_ena, perr_rep, tabrt_sig, tabrt_rcvd, mabrt_rcvd, serr_sig, intr_disable, intr_stat,
+              perr_det, lat_dat[7..0], cache_dat[7..0], base_hit[5..0], lcfg_dat_out[31..0],
+              io_adr_vld, mem_adr_vld, prfch_mem_adr_vld, ad_dat_out[31..0], cfg_dat_out_a[207..0], cfg_dat_out_b[183..0],
+              cfg_dat_out_c[191..0],
+              exp_rom_bar_hit);
+
+-- Function prototype for pcit32_sr: pci_b set/reset flip flop with set dominant
+FUNCTION pcit32_sr   ( s, r, clk, clrn, prn)
+    RETURNS     ( q);
+
+DEFINE PCI_FAMILY_STRATIXII()		= (((DEVICE_FAMILY == "STRATIX II" ) OR (DEVICE_FAMILY == "HardCopy II" ) ) ? 1 : 0);     
+DEFINE PCI_FAMILY_CYCLONE()		= ((DEVICE_FAMILY == "CYCLONE")  ? 1 : 0);    
+
+INCLUDE "maxplus2.inc";
+--INCLUDE "pcit32.inc";
+
+PARAMETERS
+(
+  DEVICE_FAMILY			    = "Stratix", 
+  VERBOSE               = "NO",           
+  TARGET_ONLY           = "YES",
+  DISCARD_TIMER         = "NO",
+  SUBORDINATE_BUS       = "NO",
+  PREFETCHABLE_MEMORY   = "NO",
+  PCI_66MHZ_CAPABLE     = "YES",
+  PCI_32                = "YES",
+  P2P_BRIDGE            = "NO",
+  P2P_ENABLE_BITS       = H"00000000",  -- These are Enable bits especially for the P2P Bridge
+  PRIMARY_INTERFACE     = "NO",
+  OPTIMIZE_TARG         = "YES",
+  OPTIMIZE_TRDY         = "YES",
+  OPTIMIZE_STOP         = "YES",
+  OPTIMIZE_DEVSEL       = "YES",
+  OPTIMIZE_LT_ACKN      = "YES",
+  USE_NEW_LT_ADR        = "YES",
+  VERSION_1_0_COMPATIBLE = "NO",
+  INTERNAL_ARBITER      = "NO",     -- Determines if REQ signal should have a tristate buffer or not.
+  INTERRUPT_PIN_REG     = H"01",
+  VENDOR_ID             = H"1172",    -- Vendor ID Register
+  DEVICE_ID             = H"0004",    -- Device ID Register
+  REVISION_ID           = H"01",    -- Revision ID Register
+  CLASS_CODE            = H"FF0000",  -- Class Code Register
+  ENABLE_BITS           = H"00000000",  -- HARDWIRE_BAR3_ENA  HARDWIRE_BAR2_ENA     HARDWIRE_BAR1_ENA   HARDWIRE_BAR0_ENA
+                        -- EXP_ROM_ENA      HARDWIRE_EXP_ROM_ENA  HARDWIRE_BAR5_ENA   HARDWIRE_BAR4_ENA
+                        -- HOST_BRIDGE_ENA    INTERRUPT_ACK_ENA   CIS_PTR_ENA     CAP_LIST_ENA
+                        -- INTERNAL_ARBITER_EN
+  SUBSYSTEM_ID          = H"0000",    -- Subsystem ID Register
+  SUBSYSTEM_VENDOR_ID   = H"0000",    -- Subsystem Vendor ID Register
+  MIN_GRANT             = H"00",    -- Minimum Grant Register
+  MAX_LATENCY           = H"00",    -- Maximum Latency Register
+  CAP_PTR               = H"40",
+  CIS_PTR               = H"00000000",
+  EXP_ROM_BAR           = H"FFF00000",  -- EXpansion ROM Base Address Register
+  HARDWIRE_EXP_ROM      = H"FFF00000",
+  NUMBER_OF_BARS        = 1,      -- Number of Base Address Regisers to be used
+  BAR0                  = H"FFF00000",  -- Values in CFG_BAR0
+  BAR1                  = H"FFF00000",  --  Bit(0) = 0-Memory, 1-I/O Space
+  BAR2                  = H"FFF00000",  --  Bit(1) = Reserve for I/O Space
+  BAR3                  = H"FFF00000",  --  Bit(2,1) = Memory Type
+  BAR4                  = H"FFF00000",  --  Bit(3)  = Prefetchable Memory Address
+  BAR5                  = H"FFF00000",  --  Bits(31..n) = 1 for number of decode bits
+    
+    -- DEFAULT BAR VALUE
+    
+  HARDWIRE_BAR0         = H"F0000000",
+  HARDWIRE_BAR1         = H"FF000000",
+  HARDWIRE_BAR2         = H"FFF00000",    
+  HARDWIRE_BAR3         = H"FFFF0000",
+  HARDWIRE_BAR4         = H"FFFFF000",
+  HARDWIRE_BAR5         = H"FFFFFF00",    
+      
+  LOCAL_CONFIG_ENA      = "NO",     -- Enable Host Bridge Support
+  DATA_TIMEOUT      = 16      -- Load value for time counter on target
+      
+  
+);
+
+  CONSTANT  BAR0_64_BIT_LOC     =   ((((BAR0 & H"00000006") DIV 2) == 2) AND (NUMBER_OF_BARS >= 2)) ? 1:0 ;
+                                
+  CONSTANT  BAR1_64_BIT_LOC     = (((BAR0 & H"00000006") DIV 2) != 2) AND (((BAR1 & H"00000006") DIV 2) == 2) AND (NUMBER_OF_BARS >= 3) ? 1: 0;
+  CONSTANT  BAR_64_BIT_SET      =   (BAR1_64_BIT_LOC == 1 OR BAR0_64_BIT_LOC == 1) ? 1:0; -- 64-BIT BAR1
+    CONSTANT AVALON_BRIDGE_ENA   = (ENABLE_BITS & H"00100000") DIV H"100000";   -- 20 Avalon Bridge Enable Set when Avalon Bridge is instantiated.
+
+  
+-- Defining constant for the enable
+
+  CONSTANT HARDWIRE_BAR0_ENA    = (ENABLE_BITS & H"00000001");          -- 0
+  CONSTANT HARDWIRE_BAR1_ENA    = (ENABLE_BITS & H"00000002") DIV 2;      -- 1    
+  CONSTANT HARDWIRE_BAR2_ENA    = (ENABLE_BITS & H"00000004") DIV 4;      -- 2  
+  CONSTANT HARDWIRE_BAR3_ENA    = (ENABLE_BITS & H"00000008") DIV 8;      -- 3
+  CONSTANT HARDWIRE_BAR4_ENA    = (ENABLE_BITS & H"00000010") DIV 16;   -- 4  
+  CONSTANT HARDWIRE_BAR5_ENA    = (ENABLE_BITS & H"00000020") DIV 32;   -- 5
+  CONSTANT HARDWIRE_EXP_ROM_ENA = (ENABLE_BITS & H"00000040") DIV 64;   -- 6
+  CONSTANT EXP_ROM_ENA          = (ENABLE_BITS & H"00000080") DIV 128;    -- 7
+  CONSTANT CAP_LIST_ENA         = (ENABLE_BITS & H"00000100") DIV 256;    -- 8
+  CONSTANT CIS_PTR_ENA          = (ENABLE_BITS & H"00000200") DIV 512;    -- 9
+  CONSTANT INTERRUPT_ACK_ENA    = (ENABLE_BITS & H"00000400") DIV 1024;   -- 10
+  CONSTANT HARDWIRE_HB_ENA      = (ENABLE_BITS & H"00000800") DIV 2048;     -- 11 Hardwire Host Bridge ENable
+  CONSTANT INTERNAL_ARBITER_ENA = (ENABLE_BITS & H"00001000") DIV 4096;   -- 12
+  CONSTANT SCFG_HB_ENA          = (ENABLE_BITS & H"00002000") DIV 8192;   -- 13 Enable Host Bridge Capability and Self Configuration    
+  CONSTANT LOC_HDAT_MUX_ENA     = (ENABLE_BITS & H"00004000") DIV 16384;    -- 14 Insert Local Muxes on High Data and Byte enable outputs for 32 Xfers  
+  CONSTANT DISABLE_LAT_TMR      = (ENABLE_BITS & H"00008000") DIV 32768;    -- 15
+  CONSTANT PCI_64BIT_SYSTEM     = (ENABLE_BITS & H"00010000") DIV 65536;  -- 16 Indicates whether this is a pure 64bit system or not
+  CONSTANT DELAYED_XFR          = (ENABLE_BITS & H"00040000") DIV H"40000";   -- 18 delayed transaction support
+  
+-- Define constants for DEVICE FAMILY
+
+  -- ********************************************************************************************
+  -- P2P Enable Bits
+  --
+  -- 0 Enable driving CBEN from local side during Master Burst write after 1st data phase 
+  -- 1 Enable driving Par Par64 from local side for mstr writ and trgt read                 
+  -- 2 Disable I/O accesses for P2P Bridge                                                
+  -- 3 Enable Mem Base1, Mem Limit 1, Pref Mem Base 1, Pref Mem Limit 1                   
+  -- 4 Enable Mem Base1, Mem Limit 2, Pref Mem Base 1, Pref Mem Limit 2                   
+  -- 5 Enable Mem Base1, Mem Limit 3, Pref Mem Base 1, Pref Mem Limit 3                   
+  -- ********************************************************************************************
+  CONSTANT P2P_MW_CBEN_ENA      = (P2P_ENABLE_BITS & H"00000001") DIV H"00000001";  
+  CONSTANT P2P_LPARI_ENA        = (P2P_ENABLE_BITS & H"00000002") DIV H"00000002";  
+  CONSTANT P2P_IOACC_DIS        = (P2P_ENABLE_BITS & H"00000004") DIV H"00000004";  
+  CONSTANT P2P_MBS_MLMT_1_ENA   = (P2P_ENABLE_BITS & H"00000008") DIV H"00000008";  
+  CONSTANT P2P_MBS_MLMT_2_ENA   = (P2P_ENABLE_BITS & H"00000010") DIV H"00000010";  
+  CONSTANT P2P_MBS_MLMT_3_ENA   = (P2P_ENABLE_BITS & H"00000020") DIV H"00000020";  
+
+
+
+SUBDESIGN 'pcit32_t'
+(
+-- ==== Beginning of SUBDESIGN Section ---=========================================================
+
+---- PCI Signal Inputs ----------------------------------------------------------------------------
+  clk                   : INPUT = GND;  -- PCI Clock
+  rstn                  : INPUT = VCC;  -- PCI Reset
+  
+  ad_ir_address[31..0]  : INPUT = GND;  -- AD Input Registers Address
+  ad_ir_data[31..0]     : INPUT = GND;
+  cben_ir_data[3..0]    : INPUT = GND;
+  cben_IR_address[3..0] : INPUT = GND;  -- CommAND/Byte Enable Input Registers
+  lirqn                 : INPUT = VCC;
+  frame                 : INPUT;    -- Active High FRAMEn Input
+  irdy                  : INPUT;    -- Active High IRDYn Input
+  idsel                 : INPUT;    -- IDSEL Input Register
+  req64                 : INPUT;    -- Request 64 bit transactions
+  
+  -- Local Side Inputs
+  l_dis_64_ext          : INPUT = GND;
+  
+  low_lt_dati[31..0]    : INPUT = GND;  -- Local Target Data Input
+  high_lt_dati[31..0]   : INPUT = GND;  -- Local Target Data Input
+
+  lt_rdyn               : INPUT = VCC;  -- Local Target Ready Input
+  lt_discn              : INPUT = VCC;  -- Local Target Disconnect Input
+  lt_abortn             : INPUT = VCC;  -- Local Target AbORt Inpu
+    
+  perr_rep_set          : INPUT = GND;  -- Data Parity ErrOR Signaled
+  perr_det_set          : INPUT = GND;  -- Parity ErrOR Detected
+  serr_sig_set          : INPUT = GND;  -- System Parity ErrOR Signaled
+    
+  mstr_actv             : INPUT = GND;  -- Master is Active. Has PCI Bus.
+  mstr_cfg_cyc          : INPUT = GND;
+  mstr_dac_decode       : INPUT = GND;
+  mstr_abrt_set         : INPUT = GND;  -- Master AbORt Set
+  targ_abrt_set         : INPUT = GND;  -- Target AbORt Set
+  lm_ackn               : INPUT = GND;
+---------------------------------------------------------------------------------------------------
+  
+---- P2P Bridge Interface Inputs ------------------------------------------------------------------
+  lt_discard_set          : INPUT = GND;
+  serrn_in                : INPUT = VCC;  -- System errOR Input.  Used for P2P Bridge SuppORt
+  sec_stat_set_in[15..0]  : INPUT = GND;  -- Secondary Status Register Set Inputs
+  cfg_dat_in_a[207..0]    : INPUT = GND;  -- Configuration Data Input
+  cfg_dat_in_b[183..0]    : INPUT = GND;  -- Configuration Data Input 
+  cfg_dat_in_c[191..0]    : INPUT = GND;    -- Configuration Data input for addresses 40h-  54h
+  cfg_dat_out_a[207..0]   : OUTPUT;   -- Configuration Data Output
+  cfg_dat_out_b[183..0]   : OUTPUT;   -- Configuration Data Output  
+  cfg_dat_out_c[191..0]   : OUTPUT;   -- Configuration Data output for addresses 40h- 54h
+  sec_stat_set_out[15..0] : OUTPUT;   -- Secondary Stats Register Outputs
+---------------------------------------------------------------------------------------------------
+    
+  serr_vld                : OUTPUT;   -- SERR valid
+  perr_vld                : OUTPUT;   -- Parity ErrOR was detected
+  perr_oe                 : OUTPUT;   -- PERR Output Enable
+  par_oe                  : OUTPUT;   -- PAR Output Enable
+  
+  -- Local Side Outputs
+  lt_dxfrn                : OUTPUT;   -- Target data transfer is occurring 
+  lt_tsr[13..0]           : OUTPUT;   -- Target Transaction Status Registers
+                      -- 5..0: Target Base Address Register accessed
+                      -- 6: Target indicates an Expansion ROM hit
+                      -- 7: Target transaction is 64 bit
+                      -- 8: Target is accessed from PCI bus
+                      -- 9: Burst Transactions
+                      -- 10: I/O Cycle
+                      -- 11: Daul Address Phase Detected
+                      -- 12: Address Valid State
+                    
+  lt_adr[63..0]           : OUTPUT;   -- Local Target Address
+  lt_cmd[3..0]            : OUTPUT;   -- Local Target CommAND
+
+  low_lt_ben[3..0]        : OUTPUT;   -- Local Target Byte Enables
+  high_lt_ben[3..0]       : OUTPUT;   -- Local Target Byte Enables
+
+  lt_framen               : OUTPUT;   -- Local Target Frame
+  lt_ackn                 : OUTPUT;   -- Local target Acknowledge
+  lt_dato_vld_out         : OUTPUT;
+
+  lt_ldata_ackn           : OUTPUT;   -- Local low output data acknowledge
+  lt_hdata_ackn           : OUTPUT;   -- Local high output data acknowledge 
+  
+  irdyrn                  : OUTPUT;   -- This is a registered version of PCI irdyn signal
+    
+---- AD Bus Controls ------------------------------------------------------------------------------ 
+  low_data_out[31..0]     : OUTPUT;   -- Local Side Low Output Data to AD Output Register
+  high_data_out[31..0]    : OUTPUT;   -- Local Side High Output Data to AD Output Register
+  
+  cfg_ad_out[31..0]       : OUTPUT;     -- Configuration data Output to AD Output Register
+  cfg_cyc_out             : OUTPUT;   -- Configuratiob Cycle IndicatOR
+  hr_dat_sel              : OUTPUT;   -- Holding Register Select Signal
+  hi_low_sel              : OUTPUT;   -- Select the high data OR the low data
+  dati_HR_ena             : OUTPUT;   -- Holding Register Enable Signal
+  
+  ad_oe                   : OUTPUT;   -- Target AD OE Output
+  ad_sel                  : OUTPUT;   -- Target AD Output Mux Select
+    
+  ad_IR_ce_A              : OUTPUT;   -- AD Input Register Clock Enable Address
+  ad_IR_ce_D              : OUTPUT;   -- AD Input Register Clock Enable Data
+                          
+  cben_IR_ce_A            : OUTPUT;   -- CBEn Input Register Clock Enable Address
+  cben_IR_ce_D            : OUTPUT;   -- CBEn Input Register Clock Enable Data
+---------------------------------------------------------------------------------------------------
+  
+  -- Target Control Signal Outputs
+  targ_oeR                : OUTPUT;   -- Output Enable Signal for Target Controls
+  trdy_out                : OUTPUT;   -- PCI Target Ready Output
+  devsel_or_out           : OUTPUT;   -- PCI Device Select Output
+  stop_out                : OUTPUT;   -- PCI Stop Output
+  ack64_or_out            : OUTPUT;   -- PCI Ack64 Output
+      
+  -- Local CommAND Register Outputs 
+  io_ena                  : OUTPUT;   -- I/O Space Enable
+  mem_ena                 : OUTPUT;   -- MemORy Space Enable
+  mstr_ena                : OUTPUT;   -- Bus Master Enable
+  mwi_ena                 : OUTPUT;   -- MemORy Write AND Invalidate Enable
+  perr_ena                : OUTPUT;   -- Pariy ErrOR Response Enable 
+  serr_ena                : OUTPUT;   -- SERR Enable
+  intr_disable            : OUTPUT;
+ 
+    
+  -- Local Status Register Outputs  
+  cfg_perr_rep            : OUTPUT;   -- Data Parity ErrOR Signaled
+  cfg_tabrt_sig           : OUTPUT;   -- Signaled Target AbORt
+  cfg_tabrt_rcvd          : OUTPUT;   -- Recieved Target AbORt
+  cfg_mabrt_rcvd          : OUTPUT;   -- Recieved Master AbORt
+  cfg_serr_sig            : OUTPUT;   -- Signaled SERR
+  cfg_perr_det            : OUTPUT;   -- Detected Parity ErrOR
+  cfg_intr_stat           : OUTPUT;  
+  -- Other Local Configuration Register Outputs
+  lat_dat[7..0]           : OUTPUT;   -- Latency Timer Register Data
+  cache_dat[7..0]         : OUTPUT;   -- Cache Line Register Data
+  base_hit[5..0]          : OUTPUT;   -- Base Address Register Comparison Outputs
+  
+  l_stat_reg_rst[5..0]    : INPUT = GND;  -- Local Status Register Reset bits
+                      -- 0 : reset bit 8 (Master Data Parity Error)
+                      -- 1 : reset bit 11 (Signaled Target Abort)
+                      -- 2 : reset bit 12 (Received Target Abort)
+                      -- 3 : reset bit 13 (Received Master Abort)
+                      -- 4 : reset bit 14 (Signaled System Error)
+                      -- 5 : reset bit 15 ( Detected Parity Error)
+
+  -- Local Side Configuration Space SuppORt
+  lcfg_adr[7..0]          : INPUT = GND;  -- Local Configuration Address
+  lcfg_ben[3..0]          : INPUT = GND;  -- Local Configuration Byte enables
+  lcfg_dat_in[31..0]      : INPUT = GND;  -- Local Configuration Data Input Bus
+  lcfg_adr_vld            : INPUT = GND;  -- Local Configuration Address Valid
+  lcfg_dat_vld            : INPUT = GND;  -- Local Configuration data Valid
+  lcfg_wr_rdn             : INPUT = GND;  -- Local Configuration Write/Readn 1= write, 0 = read
+  lcfg_dat_out[31..0]     : OUTPUT;   -- Local Configuration Data Output
+
+  -- FOR CE on top level
+  ador_ena                : output;   -- AD output register enable
+  ador_hi_dena            : output;   -- AD high output register disable
+  lt_sel_w                : output;   -- Local Target Write IndicatOR
+  trans64_out             : output;
+  adr_phase_out           : OUTPUT;
+  rstn_out                : OUTPUT;
+  dac_sr_out              : OUTPUT;
+
+)
+-- ==== End of SUBDESIGN Section ==================================================================
+
+
+VARIABLE
+-- Beginning of VARIABLE Section ==================================================================
+---- OPTIMIZED/NON-OPTIMIZED State Machine Variables ----------------------------------------------
+  
+IF (OPTIMIZE_TARG == "NO") GENERATE
+    targ_sm         : MACHINE of bits( targ_smb[6..0]) WITH 
+                    STATES( TS_IDLE     = B"0000000", 
+                            TS_ADR_VLD  = B"0000011", 
+                            TS_ADR_CLMD = B"0000101",
+                            TS_DXFR     = B"0001001", 
+                            TS_DISC     = B"0100001", 
+                            TS_TURN_AR  = B"1000001"
+                          );
+                          
+    lw_sm         : MACHINE OF BITS ( lw_smb[3..0]) WITH
+                    STATES( LW_IDLE     = B"0000", 
+                            LW_LXFR     = B"0011",
+                            LW_WAIT     = B"0101",    
+                            LW_DONE     = B"1001"
+                        );      
+                                    
+    lr_sm         : MACHINE OF BITS ( lr_smb[6..0]) WITH
+                  STATES(   LR_IDLE      = B"0000000", 
+                            LR_PXFR     = B"0000011", 
+                            LR_LXFR     = B"0000101",
+                            LR_WAIT     = B"0001001",     
+                            LR_DONE     = B"0010001",
+                            LR_PXFR_32  = B"0100001",
+                            LR_WAIT_32  = B"1000001"
+                        );
+                        
+                        
+    -- Target Write Next State Nodes
+    LW_IDLE_d         : NODE;
+    LW_LXFR_d         : NODE;
+    LW_WAIT_d         : NODE;   
+    LW_DONE_d         : NODE;
+    -- Target Read Next State Nodes   
+    LR_IDLE_d         : NODE; 
+    LR_PXFR_d         : NODE; 
+    LR_LXFR_d         : NODE;
+    LR_WAIT_d         : NODE;     
+    LR_DONE_d         : NODE;
+    LR_PXFR_32_d      : NODE;
+    LR_WAIT_32_d      : NODE;
+
+    TS_DXFR_R         : DFFE;     
+    trdy_or_feedback_cascade : NODE;
+    stop_or_fb1_cascade      : NODE;
+
+
+  -- OPTIMIZE_TARG == "YES" 
+  ELSE GENERATE
+    IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+     pxfr_irdy           : NODE;
+     burst_trans_irdy    : NODE;
+     WAIT_wait32_irdy    : NODE;
+     lt_ack_R_r3_irdy    : NODE;
+     LW_WAIT_irdy        : NODE;
+     LW_DONE_irdy        : NODE;
+     LR_LXFR_irdy        : NODE;
+     LR_PXFR_32_r1_irdy  : NODE;
+     LR_PXFR_32_r2_irdy  : NODE;
+     LR_PXFR_r1_irdy     : NODE;
+     LR_PXFR_r2_irdy     : NODE;
+     LR_WAIT_irdy        : NODE;
+     LR_WAIT_32_irdy     : NODE;
+     
+    END GENERATE;
+    -- Main Target State Machine Registers  
+    TS_IDLE_NOT       : DFFE;     
+    TS_ADR_VLD        : DFFE;   
+    TS_ADR_CLMD       : DFFE;   
+    TS_DXFR           : DFFE;                       
+    TS_DISC           : DFFE;
+    TS_DXFR_R         : DFFE;     
+    TS_TURN_AR        : DFFE;
+    -- Next State Nodes: D-input to the Main Target State Machine Registers
+    TS_IDLE           : NODE;
+    TS_IDLE_d         : NODE;     
+    TS_ADR_VLD_d      : NODE;   
+    TS_ADR_CLMD_d     : NODE;   
+    TS_DXFR_d         : NODE;                       
+    TS_DISC_d_lc1     : LCELL;
+    TS_DISC_d_lc2     : LCELL;
+    TS_DISC_d_lc3     : NODE;
+    
+  IF(PCI_32 == "NO") GENERATE 
+    TS_DISC_cascade[4..1]   : LCELL;
+  ELSE GENERATE
+    TS_DISC_cascade[3..1]   : LCELL;
+  END GENERATE;
+      
+  TS_DXFR_d_lc1_cascade   : LCELL;
+  TS_DXFR_d_lc3_cascade   : LCELL;
+  TS_DISC_d               : NODE;     
+  TS_TURN_AR_d_lc1        : NODE;
+  TS_TURN_AR_d            : NODE;   
+  -- Named nodes for TS_IDLE state for timing optimization
+  TS_IDLE_d_lc            : NODE;
+  
+  IF(P2P_BRIDGE == "NO") GENERATE
+    TS_IDLE_d_lc1         : NODE;
+  END GENERATE;
+
+ -- Named nodes for TS_DXFR state for timing optimization    
+ TS_DXFR_d_lc[3..1]    : LCELL;
+  
+    -- Target Write State Machine Nodes
+    LW_IDLE_NOT              : DFFE; 
+    LW_IDLE                  : NODE;
+    LW_IDLE_lc1              : NODE;
+    LW_IDLE_d                : NODE;
+    LW_IDLE_lc1_cascade      : LCELL;
+    LR_LXFR_d_lc1            : NODE;
+    LR_WAIT_32_lc1a          : NODE;
+    trdy_or_feedback_cascade : NODE;
+    stop_or_fb1_cascade      : NODE;
+    LR_PXFR_r1_cascade       : NODE;
+    LW_LXFR_cascade          : NODE;
+    
+  IF(DELAYED_XFR == 1) GENERATE
+    lt_dato_vld_cascade      : NODE;
+  END GENERATE;
+  
+  LW_LXFR_d                  : NODE;
+  LW_LXFR                    : DFFE;
+  LW_LXFR_lc[3..1]           : NODE;
+  LW_LXFR_lc1_cascade[2..1]  : LCELL;
+
+  LW_WAIT_d                  : NODE;
+  LW_WAIT                    : DFFE;
+  
+
+  LW_DONE                    : DFFE;
+  LW_DONE_lc[2..1]           : NODE;
+  LW_DONE_d                  : NODE;
+  
+  
+  -- Target Read State Machine Nodes
+  LR_IDLE_NOT                : DFFE;
+  LR_IDLE                    : NODE;
+  LR_IDLE_d                  : NODE;     
+  LR_IDLE_lc1                : NODE;   
+  LR_IDLE_lc1_cascade        : LCELL;
+
+  LR_LXFR                    : DFFE;
+  LR_LXFR_d                  : NODE;
+  LR_LXFR_lc[6..1]           : NODE;
+  LR_LXFR_lc3_cascade        : LCELL;
+  LR_LXFR_lc5_cascade[2..1]  : LCELL;
+  
+  LR_PXFR_32_r1              : DFFE;
+  LR_PXFR_32_r2              : DFFE;
+  LR_PXFR_32                 : NODE;
+  LR_PXFR_32_r1_carry       : CARRY_SUM;
+  LR_PXFR_32_r1_d           : NODE;
+  LR_PXFR_32_r2_d           : NODE;
+  LR_PXFR_32_d              : NODE;
+  LR_PXFR_32_lc[2..1]       : NODE;
+  LR_PXFR_32_cc1            : LCELL;
+  
+  LR_PXFR_r1                : DFFE;
+  LR_PXFR_r2                : DFFE;
+  LR_PXFR                   : NODE;
+  LR_PXFR_r1_d              : NODE;
+  LR_PXFR_r2_d              : NODE;
+  LR_PXFR_d                 : NODE;
+  LR_PXFR_lc[4..1]          : NODE;
+  LR_PXFR_cc1               : LCELL;
+  LR_PXFR_32_r2_d_lc        : NODE;
+
+  LR_WAIT                   : DFFE;
+  LR_WAIT_d                 : NODE;   
+  LR_WAIT_lc[2..1]          : NODE;
+  
+  LR_WAIT_32                : DFFE;
+  LR_WAIT_32_d              : NODE;
+  LR_WAIT_32_lc1            : NODE;
+    
+  LR_DONE                   : DFFE;
+  LR_DONE_lc[3..1]          : NODE;
+--  LR_DONE_cc1               : LCELL;
+  LR_DONE_d                 : NODE;       
+    
+  END GENERATE; -- End OPTIMIZE_TARG == YES 
+---------------------------------------------------------------------------------------------------
+
+---- DEVSELN logic variables----------------------------------------------------------------------- 
+  IF (OPTIMIZE_DEVSEL == "NO") GENERATE
+    devsel_OR               : DFFE;
+    devsel_OR_d             : NODE;
+    ack64_OR                : DFFE;
+    ack64_OR_d              : NODE;
+  ELSE GENERATE
+    devsel_OR_lc[3..1]      : NODE;
+    devsel_OR_not           : DFFE;
+    devsel_OR               : NODE;
+    devsel_OR_lc2_cascade   : LCELL;
+    IF(PCI_FAMILY_STRATIXII()) GENERATE
+      devsel_or_irdy        : NODE;
+    END GENERATE;
+    devsel_OR_cascade       : NODE;
+    ack64_OR_cascade[3..1]  : LCELL;
+    devsel_or_cc2           : LCELL;
+    devsel_or_cc3           : LCELL;
+    ack64_OR_not            : DFFE;
+    ack64_OR_not_d          : LCELL;
+    ack64_OR                : NODE;
+    devsel_OR_not_d         : LCELL;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+  IF (OPTIMIZE_TRDY == "NO") GENERATE
+    trdy_OR                 : DFFE;
+  ELSE GENERATE
+    trdy_OR_NOT             : DFFE; 
+    trdy_OR_lc[6..1]        : NODE;
+    trdy_or_lc5_cascade     : LCELL;
+    trdy_or_lc6_cascade     : LCELL;
+    trdy_or_cascade         : LCELL;
+    IF(PCI_32 == "NO") GENERATE
+    trdy_or_cc3             : LCELL;
+    trdy_or_cc5             : LCELL;
+    trdy_or_cc6             : LCELL;
+    trdy_OR                 : NODE;
+     ElSE GENERATE
+       IF(PCI_32 == "NO") GENERATE
+         trdy_or_cc3        : CASCADE;
+       ELSE GENERATE
+         trdy_or_cc3        : NODE;
+       END GENERATE;
+     trdy_or_cc5            : CASCADE;
+     trdy_or_cc6            : CASCADE;
+     trdy_OR                : NODE;
+    END GENERATE;
+  
+   trdy_OR_NOT_d            : NODE;
+   trdy_OR_NOT_d2           : NODE;
+   trdy_or_feedback_d       : NODE;
+   trdy_or_feedback         : DFFE;
+  
+  END GENERATE;
+  
+  
+  --------------------------------------------------------------------------------------------------- 
+  
+---- STOPN logic variables ------------------------------------------------------------------------ 
+
+  IF (OPTIMIZE_STOP == "NO") GENERATE
+    stop_or                 : DFFE;
+  ELSE GENERATE
+    stop_OR_NOT             : DFFE;
+    stop_OR                 : NODE;
+    stop_or_lc[6..1]        : NODE;
+    stop_or_cc1             : LCELL;
+    stop_or_cc2             : LCELL;
+    stop_or_cc4             : LCELL;
+      IF(TARGET_ONLY == "NO") GENERATE
+        stop_or_cc3         : LCELL;
+      ELSE GENERATE
+        stop_or_cc3         : NODE;
+      END GENERATE;
+      stop_OR_NOT_d         : LCELL;
+      stop_OR_fb1           : DFFE;
+      stop_OR_fb2           : DFFE;
+      stop_OR_fb            : LCELL;
+      stop_or_cascade       : NODE;
+      
+      IF(PCI_FAMILY_STRATIXII()) GENERATE
+        stop_or_irdy        : NODE;
+      END GENERATE;
+  END GENERATE;
+  
+--------------------------------------------------------------------------------------------------- 
+  
+---- PERRN logic variables ------------------------------------------------------------------------ 
+  perr_vldR                 : DFFE;
+  perr_vldR_cascade         : LCELL;
+  TURN_AR_R                 : DFFE; -- Used to figure out when to turn off the tristate for perr
+--------------------------------------------------------------------------------------------------- 
+
+---- IDSEL input variables ------------------------------------------------------------------------
+  idsel_IR                  : DFFE;   -- IDSEL Input Register
+--------------------------------------------------------------------------------------------------- 
+  
+---- FRAMEN input variables -----------------------------------------------------------------------       
+  frame_IR                  : DFFE;   -- Active High FRAMEn Input Register
+  frame_I1R                 : DFFE;   -- Active High FRAMEn Delayed Two Clocks
+--------------------------------------------------------------------------------------------------- 
+
+---- REQ64N input variables -----------------------------------------------------------------------
+  IF (PCI_32 == "NO") GENERATE
+    req64_R                 : DFFE;
+  END GENERATE; 
+--------------------------------------------------------------------------------------------------- 
+
+
+---- ADDRESS/CBEN/DATA clock and output enable variables -----------------------------------------------  
+  ad_ir_ce_A_lc1           : LCELL;
+  ad_ir_ce_A_lc2           : LCELL;
+  ad_IR_ce_A_lc3           : LCELL;
+  ad_ir_ce_D_lc1           : LCELL;
+  dati_hr_ena_lc           : NODE;
+  adoe                     : DFFE;
+  adoe_lc                  : NODE;
+  adoe_cascade             : NODE;
+  
+  IF (PCI_32 == "NO") GENERATE
+    ador_hi_dena_lc        : NODE;
+    ador_hi_dena_lc1       : NODE;
+  END GENERATE;
+
+  trg_OR_advance           : DFFE;
+  
+
+---- Transaction-Accepted Indicator variables -----------------------------------------------------     
+
+  IF(P2P_BRIDGE == "YES") GENERATE
+    mem_bar_hit            : LCELL;  -- One of Memory BARs has a hit
+  ELSE GENERATE            
+    mem_bar_hit            : NODE;   -- One of Memory BARs has a hit
+  END GENERATE;
+  
+  targ_trig                : NODE;   -- Target Access Triggered
+
+  IF(P2P_BRIDGE == "YES") GENERATE
+      targ_trig_cc         : LCELL;
+    targ_trig_not          : NODE;
+  END GENERATE;
+  
+  IF ( PCI_32 == "NO" ) GENERATE
+  
+    IF (BAR_64_BIT_SET) GENERATE
+      dac_adr_phase_R      : DFFE;   -- DAC ADR Phase 2nd ADR Phase
+    ELSE GENERATE          
+      dac_adr_phase_R      : NODE ;
+    END GENERATE;
+      
+  ELSE GENERATE
+    dac_adr_phase_R         : NODE ;
+  END GENERATE;
+  
+  adr_phase_lc1             : NODE;
+  adr_phase                 : NODE;   -- Address Phase IndicatOR delayed one clock
+                            
+                            
+  targ_access               : NODE; 
+  targ_burst_lc             : NODE;
+                            
+  bar_hit_rst               : NODE;   -- This will reset the BAR_HIT after the current cycle is complete
+                            
+  exp_rom_hit               : NODE;
+
+  IF (P2P_BRIDGE == "YES") GENERATE
+  -- Begin P2P_BRIDGE == "YES"
+    IF (PREFETCHABLE_MEMORY == "YES") GENERATE
+    -- BEGIN P2P_BRIDGE == YES and PREFETCHABLE_MEMORY == YES
+      prfch_mem_hit         : SRFF;
+      targ_oeR_reg_not      : DFFE;
+      targ_oeR_reg          : NODE; 
+      targ_oeR_reg_lc[3..1] : NODE;
+      lt_frame_or_set_cc    : LCELL;
+    -- END P2P_BRIDGE == YES and PREFETCHABLE_MEMORY == YES
+    ELSE GENERATE
+    -- BEGIN P2P_BRIDGE == YES and PREFETCHABLE_MEMORY == NO
+      prfch_mem_hit         : NODE;
+      targ_oeR_reg          : DFFE; 
+      targ_oeR_reg_lc[4..1] : NODE; 
+    -- END P2P_BRIDGE == YES and PREFETCHABLE_MEMORY == NO
+    END GENERATE;
+  -- END P2P_BRIDGE == YES  
+  ELSE GENERATE
+  -- BEGIN P2P_BRIDGE == NO
+      targ_oeR_reg          : DFFE; 
+      targ_oeR_reg_lc[4..1] : NODE; 
+  -- END P2P_BRIDGE == NO
+  END GENERATE;
+--------------------------------------------------------------------------------------------------- 
+
+---- Transaction Cycle Indicator variables -------------------------------------------------------- 
+  wr_rdn                    : NODE;   -- Active-High Write/Active-Low Read
+  wr_rdn_FF                 : pcit32_sr; 
+  
+  IF (PCI_32 == "NO") GENERATE  
+  -- Begin PCI_32 == "NO"
+  
+    IF (P2P_BRIDGE == "YES") GENERATE
+    -- Begin PCI_32 == "NO" and P2P_BRIDGE == "YES"
+      cfg_type1_sr          : SRFF;
+    -- End PCI_32 == "NO" and P2P_BRIDGE == "YES"
+    END GENERATE;
+  
+  -- End PCI_32 == "NO"
+  END GENERATE; 
+
+  cfg_cyc                   : SRFF;     -- Configuration Cycle IndicatOR
+
+  IF (PCI_32 == "NO") GENERATE
+  
+    mem_cyc                 : SRFF;     -- Memory Cycle Indicator
+    mem_cyc_s_lc            : NODE;
+                            
+  END GENERATE;             
+                            
+  int_ack_cyc               : SRFF;     -- Interrupt Acknowledge Cycle Indicator
+
+  io_cyc                    : SRFF;     -- I/O Cycle IndicatOR
+  io_cyc_s_lc               : NODE;     -- lcell feeding s input of io_cyc sr flop
+                            
+  burst_trans_r             : NODE;
+  burst_trans               : pcit32_sr;   -- Burst Transaction
+  pxfr                      : DFFE;     -- This indicates that a PCI transferr has just occurred, Rising
+                          -- edge when trdyn AND irdyn are low will result in this going high           
+  
+  IF  (USE_NEW_LT_ADR == "NO") GENERATE
+  
+    IF (PCI_32 == "NO") GENERATE
+    -- Begin PCI_32 == "NO"
+    
+      hi_adr_hr[31..0]      : DFFE;     -- Holds the first address phase in a Dual Address cycle
+      hi_adr_hr_ena         : NODE;
+      
+      dac_cyc_reg           : pcit32_sr;   -- Dual-Address Cycle Indicator
+      dac_cyc               : NODE;
+      dac_cfg               : NODE;     -- To check during configuration time whether system placed target 
+                                  -- in the 32 memORy space although requested 64-bit memory space
+                                  -- (for 2Gbytes AND less memory size)
+      dac_cmd               : LCELL;    -- Daul Address Cycle Command LCELL
+    ELSE GENERATE
+      dac_cmd               : NODE;
+    END GENERATE;
+  
+  ELSE GENERATE
+    -- Dual Address cycle related logic
+    IF (PCI_32 == "NO") GENERATE
+    -- Begin PCI_32 == "NO"
+      IF (BAR_64_BIT_SET) GENERATE  
+        hi_adr_hr[31..0]    : DFFE;     -- Holds the first address phase in a Dual Address cycle
+        
+        dac_cyc_reg         : pcit32_sr;   -- Dual-Address Cycle Indicator
+        dac_cyc             : NODE;
+        dac_cfg             : NODE;     -- To check during configuration time whether system placed target 
+                                -- in the 32 memORy space although requested 64-bit memory space
+                                -- (for 2Gbytes AND less memory size)
+        dac_cmd             : LCELL;    -- Daul Address Cycle Command LCELL             
+
+      ELSE GENERATE
+        hi_adr_hr[2]        : NODE;
+        dac_cyc             : NODE;
+        dac_cfg             : NODE;
+        dac_cmd             : NODE;   -- Daul Address Cycle Command LCELL
+      END GENERATE;
+      
+    ELSE GENERATE -- 32-bit
+         dac_cmd           : NODE;
+    -- End PCI_32 == "NO"
+    
+    END GENERATE;
+  END GENERATE;
+  
+  lt_tsr7_node             : NODE;
+
+  IF (PCI_32 == "NO") GENERATE
+  -- Begin PCI_32 == "NO"
+  
+    trans64_reg            : pcit32_sr; -- 64 bit transaction indicator
+    trans64_reg_R          : DFFE;     -- Registered trans64_reg
+    trans64_dac_R          : DFFE;     -- Delayed rising Edge of trans64_reg and daul address cycle
+    trans64_R              : NODE;
+    low_dword_discard      : DFFE;
+    trans64_sr_edge        : pcit32_sr;
+    trans64_sr_edge_rst    : NODE;
+    trans64_reg_rst_lc1    : NODE; 
+    trans64_reg_rst_lc2    : NODE;
+    trans64_reg_set        : NODE;
+    trans64_reg_set_lc1    : NODE;
+
+  -- End PCI_32 == "NO"
+  ELSE GENERATE
+    trans64_R              : NODE;
+    low_dword_discard      : NODE;
+  END GENERATE;
+  direct_xfr               : NODE;
+---------------------------------------------------------------------------------------------------
+
+
+---- Target Termination variables -----------------------------------------------------------------
+  -- Target Abort
+  tabrt_set                : NODE;     -- Status Register Target AbORt Signaled Set    
+  tabrt_rcvd_set           : NODE;     -- Status Register Target AbORt Recieved Set
+  tabrt_sig_cyc_reg        : pcit32_sr;
+  tabrt_sig_cyc            : NODE;
+  -- Target Retry/Disconnect    
+  retry                   : SRFF;     -- Retry IndicatOR
+  retry_set               : NODE;
+  retry_set_lc            : NODE;
+  retry_rst_lc1           : NODE; 
+  retry_rst_lc2           : NODE;
+  lreg_busy               : SRFF;     -- Local Side did NOT  finish emptying the Write Pipeline
+  rd_backoff              : NODE;     -- Indicates that Read Cycle should be stopped.
+--------------------------------------------------------------------------------------------------- 
+
+---- LT_RDYN input variables ----------------------------------------------------------------------
+  lt_rdynR                : DFFE;     -- Register version of local target ready
+  lt_rdynR_R              : DFFE;
+--------------------------------------------------------------------------------------------------- 
+  
+---- LT_FRAMEN logic variables:  Local side indicator that target is accessed --------------------- 
+  lt_frame_or             : SRFF; -- Local Targer Frame Output Register
+  lt_frame_or_rst         : NODE;
+  lt_frame_or_rst_lc1     : NODE;
+  lt_frame_or_rst_lc2     : NODE;
+  lt_frame_or_rst_lc3     : NODE;
+  lt_frame_or_rst_lc4     : NODE;
+  lt_frame_or_rst_lc5     : NODE;
+  lt_frame_or_set         : NODE;
+---------------------------------------------------------------------------------------------------
+
+---- LT_ACKN logic variables:  PCI side is ready for data transfer --------------------------------
+  IF (OPTIMIZE_LT_ACKN == "NO") GENERATE
+  -- Begin OPTIMIZE_LT_ACKN == "NO"
+  lt_ack_R                : DFFE; -- Local Target Acknowledge Signal
+  lt_ack_OR               : NODE; -- Local Target Acknowledge Output Register
+
+  -- End OPTIMIZE_LT_ACKN == "NO"
+  ELSE GENERATE     -- OPTIMIZE LT_ACKN YES
+    -- Begin OPTIMIZE_LT_ACKN != "NO"
+    lt_ack_R_r1           : DFFE;
+    lt_ack_R_r1_lc[9..1]  : NODE;
+    lt_ack_R_r2           : DFFE; -- Local Target Acknowledge Register 2 Signal
+    lt_ack_R_r2_cascade   : LCELL;
+    lt_ack_R_r3           : DFFE; -- Local Target Acknowledge Register 2 Signal
+    lt_ack_R_r3_lc1       : NODE;
+    lt_ack_R_r3_lc2       : NODE;
+    lt_ack_R_r3_lc3       : NODE;
+    lt_ack_R_r4           : DFFE;
+    lt_ack_R_r4_cascade   : LCELL;
+    lt_ack_R              : NODE; -- Local Target Acknowledge Signal
+    lt_ack_OR             : NODE; -- Local Target Acknowledge Output Register
+
+  -- END OPTIMIZE_LT_ACKN != "NO"
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- LT_LDATA_ACKN and LT_HDATA_ACKN logic variables ----------------------------------------------
+  
+  IF (PCI_32 == "NO") GENERATE
+
+    lt_ldata_ack_r_ena     : NODE;
+    lt_ldata_ack_r_ena_lc1 : NODE;
+    lt_ldata_ack_r_ena_lc2 : NODE;
+    lt_ldata_ack_r_d[5..1] : NODE;
+    lw_lr_done             : NODE;
+    lt_ldata_ack_r         : DFFE;
+    lt_ldata_ack_r_prn1    : NODE;
+    lt_ldata_ack_r_prn3    : NODE;
+    lt_hdata_ack_r_ena     : NODE;
+    lt_hdata_ack_r_ena_lc1 : NODE;
+    lt_hdata_ack_r_d[4..1] : NODE;
+    lt_hdata_ack_r_d4_lc   : NODE;
+    lt_hdata_ack_r         : DFFE;
+    lt_hdata_ack_r_prn[3..1] : NODE;
+  ELSE GENERATE     
+    lt_ldata_ack_r         : NODE;
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+---- High/Low Select variables:  Whether the high or the low is transferred to/from ad[31..0] in --
+----                  32-bit PCI/64-bit local side transaction ----------------------
+  
+
+
+  wait_wait32_lc[4..1]     : NODE;
+  WAIT_wait32              : DFFE;
+  
+  IF(PCI_32 == "NO") GENERATE
+    hi_low_sel_carry1      : CARRY_SUM; 
+    hi_low_sel_carry2      : CARRY_SUM; 
+  END GENERATE;
+  
+---------------------------------------------------------------------------------------------------
+
+---- Instantiate Configuration File ---------------------------------------------------------------
+  cfg                      : pcit32_c;  -- Instantiate Configuration Registers
+  cfg_dat_vld              : LCELL;
+  cfg_adr_dec_ena          : NODE;     -- Enable Configuration Address Decoder
+  cfg_adr_dec_ena_lc1      : NODE; 
+  cfg_adr_dec_ena_lc2      : NODE; 
+  stat_set[15..0]          : NODE;
+---------------------------------------------------------------------------------------------------
+
+---- CAP_LIST_ENA == "YES":  Capabilities List Enabled -------------------------------------------- 
+  cap_ptr_ena              : NODE;
+  cap_ptr_ena_lc1          : NODE;
+  cap_ptr_ena_lc2          : NODE;
+
+  IF (PCI_32 == "NO" AND CAP_LIST_ENA == 1) GENERATE
+    cap_ptr_ena_sr         : SRFF;
+  ELSE GENERATE            
+    cap_ptr_ena_sr         : NODE;
+  END GENERATE;
+
+      
+--------------------------------------------------------------------------------------------------- 
+
+---- CIS_PTR_ENA == "YES":  CardBus CIS Pointer Enabled --------------------------------------------  
+  cis_ptr_en              : NODE;
+  cis_ptr_en_lc1          : NODE;
+  cis_ptr_en_lc2          : NODE;
+  IF (PCI_32 == "NO" ) GENERATE
+    cis_ptr_en_sr         : SRFF;
+  END GENERATE;
+--------------------------------------------------------------------------------------------------- 
+    cfg_type0_cyc         : NODE;     -- Indicates valid Configuration Type0
+
+---- P2P_BRIDGE related variables: PCI-to-PCI bridge ----------------------------------------------
+  IF (P2P_BRIDGE == "YES") GENERATE
+    mem_adr_vld           : LCELL;    -- Valid Memory Address has been Decoded
+    io_adr_vld            : LCELL;    -- VAlid I/O Address has been Decoded
+    prfch_mem_adr_vld     : LCELL;    -- Memory Address falls in the Prefetchable Memory space has been decoded
+    IF (PRIMARY_INTERFACE == "YES") GENERATE
+      sec_bus_range       : NODE;     -- Bus Number in address is in Secondary Bus Register Range 
+      sec_bus_range_comp  : lpm_compare WITH (
+                LPM_WIDTH = 8, 
+                LPM_REPRESENTATION = "UNSIGNED",
+                CHAIN_SIZE =8);
+
+      IF (SUBORDINATE_BUS == "YES") GENERATE
+        sub_bus_range   : NODE;   -- Bus Number in Address is in Subordinate Bus Register Range
+        sub_bus_range_comp  : lpm_compare WITH (
+                LPM_WIDTH = 8, 
+                LPM_REPRESENTATION = "UNSIGNED",
+                CHAIN_SIZE = 8);
+
+      END GENERATE;
+
+    END GENERATE;
+    
+    cfg_type1_cyc         : NODE;
+    lt_dato_vld           : DFFE; 
+    
+  ELSE GENERATE
+    IF(DELAYED_XFR == 1) GENERATE
+      lt_dato_vld         : DFFE; 
+    END GENERATE;
+  END GENERATE;
+  
+     
+  
+---------------------------------------------------------------------------------------------------
+
+  
+  
+
+  no_op_reg[3..0]         : DFFE;
+    
+---- No operation nodes: Used to remove warnings for unused nodes ---------------------------------   
+  no_op                   : NODE;
+---------------------------------------------------------------------------------------------------
+
+-- ==== End of VARIABLE Section ===================================================================
+    
+    
+BEGIN
+DEFAULTS
+        sec_stat_set_out[15..0] = GND;
+        low_lt_ben[3..0]     	= GND;  
+  	high_lt_ben[3..0]    	= GND;
+  	lt_dato_vld_out 	= GND;       
+  	lt_ldata_ackn        	= GND; 
+  	lt_hdata_ackn       	= GND; 
+  	irdyrn             	= GND; 
+  	ador_hi_dena      	= GND; 
+  	trans64_out      	= GND; 
+  	dac_sr_out      	= GND; 
+END DEFAULTS;
+Assert (VERBOSE == "NO") Report " PCI Target Module $Revision: 1.8 $, $JustDate:  2/10/03 $"
+severity INFO;
+
+
+-- ==== Beginning of LOGIC Section ================================================================
+
+---- no_op node used to removed node is declared but NOT  used warnings from max2 -----------------
+
+  
+    no_op   =   no_op OR LR_PXFR_32_d OR LR_PXFR_d 
+        OR serrn_in OR cap_ptr_ena_lc1 OR cap_ptr_ena_lc2
+        OR mstr_dac_decode OR lm_ackn OR req64
+        OR cis_ptr_en_lc1 OR cis_ptr_en_lc2
+        OR cis_ptr_en 
+        OR cap_ptr_ena
+        OR lt_discard_set
+        OR l_dis_64_ext
+        OR mstr_actv
+        OR mstr_cfg_cyc
+        OR cap_ptr_ena_sr
+        OR int_ack_cyc
+        OR io_cyc;
+
+IF (OPTIMIZE_STOP == "NO") GENERATE
+	stop_or_fb1_cascade      = GND;
+END GENERATE;
+
+IF (OPTIMIZE_TARG == "YES") GENERATE
+  no_op   = LR_LXFR_lc6
+        OR  LR_PXFR_lc4
+        OR  LR_WAIT_lc2;
+END GENERATE;
+    no_op_reg[].clk = clk;
+    no_op_reg[].clrn = rstn;
+    no_op_reg[].d = VCC;
+  IF(CAP_LIST_ENA == 0 OR PCI_32 == "YES" ) GENERATE
+    cap_ptr_ena_sr  = GND;
+  END GENERATE;
+
+
+  ---------------------------------------------------------------------------------------------------
+
+---- P2P_BRIDGE Information Messages for Debug ----------------------------------------------------
+  IF (P2P_BRIDGE == "YES") GENERATE 
+    IF (PRIMARY_INTERFACE == "YES") GENERATE    
+      ASSERT REPORT " ***** ----- Target is Primary ----- ****"
+      SEVERITY DEBUG;   
+      
+    ELSE GENERATE 
+      ASSERT REPORT " ***** ----- Target is Secondary ----- ****"
+      SEVERITY DEBUG;
+      no_op   = cfg_type0_cyc;    
+    END GENERATE; 
+  
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+    rstn_out      = VCC;
+---- P2P_BRIDGE Generated Logic -------------------------------------------------------------------
+  
+  IF (P2P_BRIDGE == "YES") GENERATE
+  -- Begin P2P_BRIDGE == "YES"
+
+  ---------------------------------
+  -- Secondary Interface RSTN Logic
+  ---------------------------------
+    IF (PRIMARY_INTERFACE == "YES") GENERATE
+    -- Begin P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES"
+    
+    -- If the interface is primay, the rstn_out is NOT  used AND therefORe
+    -- is set to VCC
+    rstn_out      = VCC;
+
+    ELSE GENERATE 
+    -- Begin P2P_BRIDGE == "YES" and PRIMARY_INTERFACE != "YES"
+    
+    -- Reset Output is an active low output which is set when
+    -- the pci reset signal is set OR when bit 6 of the control register is set 
+    rstn_out      = NOT (NOT  rstn
+              OR  cfg_dat_in_b[166]);
+  
+    END GENERATE;
+  
+  ----------------------
+  -- Address Claim Logic
+  ----------------------
+  
+  -- Memory/IO Base and Limit Valid Transactions  
+    mem_adr_vld     = cfg.mem_adr_vld;      -- Memory Address is valid
+    io_adr_vld      = cfg.io_adr_vld;     -- I/O Address Valid
+    
+    
+    IF (PREFETCHABLE_MEMORY == "YES") GENERATE
+      prfch_mem_adr_vld   = cfg.prfch_mem_adr_vld;
+    ELSE GENERATE
+      
+      prfch_mem_adr_vld   = GND;  -- GND if no Prefetchable memory is instantiated
+                    -- Ideally this should be in the configuration module
+
+  
+    END GENERATE;   
+    
+  
+  ----------------------
+  -- LT_DATO_VLDN logic
+  ----------------------  
+    -- Local Target Data Output Valid
+    -- This signal was added for the P2P Bridge Interface to allow
+    -- the local side to know when the data is valid before accepting the data
+    -- This signal is asserted only during write transactions
+    -- It is asserted when the irdy is asserted during a write even if trdy is NOT  asserted
+    
+    lt_dato_vld.clk   = clk;
+    lt_dato_vld.clrn  = rstn;
+    lt_dato_vld_out = lt_dato_vld;
+    
+   
+       lt_dato_vld.d   =   (wr_rdn AND irdy  AND (TS_DXFR OR TS_ADR_CLMD))   -- Master asserted irdy during write 
+                       OR  (LW_WAIT);
+      
+  -- End P2P_BRIDGE == "YES"
+  ELSE GENERATE
+   IF(DELAYED_XFR == 1) GENERATE
+     lt_dato_vld.clk     = clk;
+     lt_dato_vld.clrn    = rstn;
+     lt_dato_vld_out     = lt_dato_vld;
+     lt_dato_vld_cascade = LCELL(wr_rdn AND irdy);
+     lt_dato_vld.d       =    (lt_dato_vld_cascade AND (TS_DXFR OR TS_ADR_CLMD))    -- Master asserted irdy during write 
+                          OR  (LW_WAIT);  
+  END GENERATE;   
+END GENERATE;
+
+  -- cfg_type1_cyc Logic:  This signal indicates that a valid configuration type 1 is 
+  -- detected and the core should respond to it.
+  -- Configuration Type 1 cycles are accepted only on the Primary Side They are ignored on the secondary side
+  -- If the Subordinate Bus Registers is not instantiated, then the local side secondary bus is the only
+  -- downstream bus that is valid and therefor the bus number must match the secondary bus number for the
+  -- core to accept the type 1 configuration transaction.
+  -- If the subordinate bus register is instantiated then the core will accept all type 1 config transactions
+  -- if they fall in the range between the secondary bus number and the subordinate bus number.
+
+  
+  -- Configuration Type  1 Transactions
+  IF (P2P_BRIDGE == "YES") GENERATE     -- BRIDGE {
+  -- Begin P2P_BRIDGE == "YES"  
+    
+    IF (PRIMARY_INTERFACE == "YES") GENERATE  -- PRM {
+    -- Begin P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES" 
+      
+      IF (SUBORDINATE_BUS == "NO") GENERATE -- SUB_BUS NO {
+      -- Begin  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES" and SUBORDINATE_BUS == "NO"  
+      
+      -- bus number in the address == to the sec bus number register
+      
+        sec_bus_range_comp.dataa[] = cfg_dat_out_a[127..120];
+        sec_bus_range_comp.datab[] = ad_ir_address[23..16];
+        sec_bus_range              = sec_bus_range_comp.aeb;
+        cfg_type1_cyc   = LCELL(      adr_phase   AND (cben_IR_address[3..1] == B"101")   -- Address Phase and Command is configuration
+                                  AND (ad_ir_address[1..0] == B"01")    -- Type 1 configuration
+                                  AND (sec_bus_range)           -- Sec_bus == Bus Number
+                               );
+                               
+      -- End  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES" and SUBORDINATE_BUS == "NO"
+      ELSE GENERATE             -- SUB_BUS YES
+      -- Begin  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES" and SUBORDINATE_BUS != "NO"
+      
+      
+      -- Highest limit in the range is the secondary Bus number.
+      -- bus number in the address <= to the sec bus number register
+      
+        sec_bus_range_comp.dataa[] = cfg_dat_out_a[127..120];
+        sec_bus_range_comp.datab[] = ad_ir_address[23..16];
+        sec_bus_range              = sec_bus_range_comp.aleb;
+
+      -- Least limit in the range is the secondary Bus number.
+      -- bus number in the address >= to the subordinate bus number register
+
+        sub_bus_range_comp.dataa[]  = cfg_dat_out_a[135..128];
+        sub_bus_range_comp.datab[]  = ad_ir_address[23..16];
+        sub_bus_range               = sub_bus_range_comp.ageb;    
+  
+      
+        cfg_type1_cyc   = LCELL (   (ad_ir_address[1..0] == B"01")          -- Type 1 Configuration Cycle 
+                                 AND sec_bus_range             -- Within the Secondary Bus Range
+                                 AND sub_bus_range             -- Within Subordinate Bus Range
+                                 AND CASCADE((cben_IR_address[3..1] == B"101")   -- Command is configuration
+                                 AND adr_phase)                  -- Address Phase
+                                );
+
+
+      -- End  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES" and SUBORDINATE_BUS != "NO"      
+      END GENERATE;             -- END SUB_BUS NO }
+    
+    -- End  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE == "YES"      
+    
+    ELSE GENERATE
+    -- Begin  P2P_BRIDGE == "YES" and PRIMARY_INTERFACE != "YES"
+    
+      -- Secondary Bus Always Ignores the Configuration Type 1 Transactions
+      cfg_type1_cyc   = GND;      
+
+    END GENERATE;  --}
+  
+  END GENERATE; -- }
+  
+    -- Target Trig Logic
+    -- This signal indicates that a valid target transaction has been decoded
+    -- Configuration Type0 Transaction
+    -- One of the BARs have decoded Valid Address
+    -- Config Type 1 Cycle
+    -- Memory Address is in the Mem Base to Mem Limit Range
+    -- Memory Address is in the Prefetch Mem Base to Prefetch Mem Limit Range
+
+
+  IF (P2P_BRIDGE == "YES") GENERATE     -- BRIDGE {
+    
+--    targ_trig     =   cfg_type0_cyc
+--              OR  cfg_type1_cyc
+--              OR  mem_adr_vld
+--              OR  io_adr_vld
+--              OR  prfch_mem_adr_vld
+--              OR  mem_bar_hit ;
+
+
+
+    targ_trig_cc    =   NOT ( io_adr_vld
+                  OR  mem_adr_vld
+                  OR  cfg_type0_cyc
+                  OR  mem_bar_hit 
+                  );
+                          
+    targ_trig_not     =   LCELL(    
+                    (NOT  ( cfg_type1_cyc
+                         OR prfch_mem_adr_vld
+                        )
+                        )
+                  AND (  targ_trig_cc
+                     ) 
+                  );
+    
+    targ_trig       = NOT targ_trig_not;
+    
+            
+  ELSE GENERATE
+  
+    
+  -- The following code shows original Target Trig Code when outside the bridge
+  -- This code was commented out due to furhter optimizations where targ_trig is used
+  --
+    --
+  --  The following is the simplest rev of the targ_trig logic.  This logic is not used in the optimized code
+  --
+    targ_trig  =   cfg_type0_cyc OR  mem_bar_hit;
+  
+    -- No-op node will prevent unnecessary warnings
+    no_op = no_op and targ_trig;              
+  
+  END GENERATE;  --}
+
+  
+
+  -- Latency Timer Register Value is use by the master logic for the latency timer counter
+
+  IF (P2P_BRIDGE == "YES") GENERATE     -- BRIDGE --{
+    
+    IF (PRIMARY_INTERFACE == "YES") GENERATE    
+      
+      lat_dat[7..0]   =   cfg_dat_out_a[47..40];
+
+    ELSE GENERATE
+    
+      lat_dat[7..0]   =   cfg_dat_in_a[143..136];
+      
+    END GENERATE;
+  
+  ELSE GENERATE -- Not a bridge
+  
+    lat_dat[7..0]   = cfg.lat_dat[7..0];  -- Latency Timer Register Data
+
+  END GENERATE;     --- END BRIDGE   }
+
+
+
+-- Moved cfg_Type0_cyc outside the bridge logic due to its constant functionality across all paramters
+-- In the case of the secondary interface idsel_IR should be stuck at GND and therefore will synthesize the node away.
+--
+--  -- Configuration Type 0 Logic
+--  -- Config 0 Cycles are only accepted on the primary side
+--
+--  cfg_type0_cyc   = (   adr_phase               -- Address Phase
+--              AND   idsel_IR              -- idsel is asserted
+--              AND   (cben_IR_address[3..1] == B"101")   -- Configuration Command
+--              AND   (ad_ir_address[1..0] == B"00"))   -- Type 0
+--                );  
+    
+  cfg_type0_cyc   =  LCELL  (   CASCADE (idsel_IR AND (cben_IR_address[3..1] == B"101"))
+                  AND (adr_phase and ad_ir_address[1..0] == B"00")
+                  );
+
+-- Clean Up above Completed
+
+
+-- Instantiation of the Configuration File, pcit32_c.tdf ------------------------------------------
+
+--------------------------------------------
+-- Local Side COnfiguration Space Outputs
+--------------------------------------------
+
+  IF (P2P_BRIDGE == "YES") GENERATE          --{
+    IF (PRIMARY_INTERFACE == "YES") GENERATE --{
+      sec_stat_set_out[15..0]   = GND;
+      -- Command Register Outputs
+      io_ena            = cfg.cfg_dat_out_a[0];     -- I/O Space Enable
+      mem_ena           = cfg.cfg_dat_out_a[1];     -- MemORy Space Enable
+      mstr_ena          = cfg.cfg_dat_out_a[2];     -- Bus Master Enable
+      mwi_ena           = cfg.cfg_dat_out_a[4];     -- MemORy Write AND Invalidate Enable
+      perr_ena          = cfg.cfg_dat_out_a[6];     -- Pariy ErrOR Response Enable 
+      serr_ena          = cfg.cfg_dat_out_a[8];     -- SERR Enable    
+    ELSE GENERATE -- PRIMARY_INTERFACE == "NO"
+      sec_stat_set_out[4..0]  = B"00000";
+      
+      IF (PCI_66MHZ_CAPABLE == "YES") GENERATE
+      
+          sec_stat_set_out5 = VCC;                            -- Read Only, 66 MHz Capable
+      
+      ELSE GENERATE
+      
+          sec_stat_set_out5 = GND;                            -- Read Only, 66 MHz Capable  
+      
+      END GENERATE;
+      
+      sec_stat_set_out6       = GND;                                -- Read Only, UDF Supported
+      sec_stat_set_out7       = GND;                                -- Read Only, Fast Back-To-Back Capable
+      sec_stat_set_out[8]     = perr_rep_set;     -- Data Parity ErrOR Signaled
+      sec_stat_set_out[10..9] = GND;          -- Unused
+      sec_stat_set_out[11]    = tabrt_set;      -- Signaled Target AbORt  
+      sec_stat_set_out[12]    = tabrt_rcvd_set;   -- Recieved Target AbORt
+      sec_stat_set_out[13]    = mstr_abrt_set;    -- Recieved Master AbORt
+      sec_stat_set_out[14]    = NOT  serrn_in;      -- Signaled SERR
+      sec_stat_set_out[15]    = perr_det_set;     -- Detected Parity ErrOR
+      
+      -- Command Register Outputs
+      
+      io_ena        = cfg_dat_in_a[0];      -- I/O Space Enable
+      mem_ena       = cfg_dat_in_a[1];      -- MemORy Space Enable
+      mstr_ena      = cfg_dat_in_a[2];      -- Bus Master Enable
+      mwi_ena       = cfg_dat_in_a[4];      -- MemORy Write AND Invalidate Enable
+      perr_ena      = cfg_dat_in_a[6];      -- Pariy ErrOR Response Enable 
+      serr_ena      = cfg_dat_in_a[8];      -- SERR Enable
+    
+    END GENERATE;    -- }
+  
+  ELSE GENERATE -- P2P_BRIDGE == "NO"
+    cfg.lirqn     = lirqn;
+    -- Command Register Outputs
+    io_ena        = cfg.io_ena;     -- I/O Space Enable
+    mem_ena       = cfg.mem_ena;      -- MemORy Space Enable
+    mstr_ena      = cfg.mstr_ena;     -- Bus Master Enable
+    mwi_ena       = cfg.mwi_ena;      -- MemORy Write AND Invalidate Enable
+    perr_ena      = cfg.perr_ena;     -- Pariy ErrOR Response Enable 
+    serr_ena      = cfg.serr_ena;     -- SERR Enable  
+    intr_disable  = cfg.intr_disable;
+    
+  
+  END GENERATE; -- END OF P2P_BRIDGE--
+  IF (P2P_BRIDGE == "YES") GENERATE
+
+    IF (DISCARD_TIMER == "YES") GENERATE
+
+      cfg.discard_set = lt_discard_set;
+
+    END GENERATE;
+
+  END GENERATE; -- END OF P2P_BRIDGE }
+
+
+  IF (P2P_BRIDGE == "YES") GENERATE  
+
+    base_hit[1..0]    = cfg.base_hit[1..0];
+    base_hit[5..2]    = GND;
+    exp_rom_hit     =  cfg.exp_rom_bar_hit;
+
+  ELSE GENERATE
+
+    base_hit[5..0]    = cfg.base_hit[5..0]; -- Base Address Register Comparison Outputs   
+    exp_rom_hit     = cfg.exp_rom_bar_hit;
+
+  END GENERATE;
+
+  
+  IF (PCI_32 == "NO") GENERATE
+
+    cfg.dac_cfg     = dac_cfg;
+
+  ELSE GENERATE
+
+    cfg.dac_cfg     = GND;
+
+  END GENERATE;
+  
+  cfg.clk           = clk;          -- PCI Clock
+  cfg.rstn          = rstn;         -- PCI Reset
+  
+  cfg.ad_ir_addr[31..0]  = ad_ir_address[31..0];
+  cfg.ad_IR[31..0]       = ad_ir_data[31..0];    -- Registered PCI Address/Data Bus
+  cfg.cben_IR_addr[3..0] = cben_IR_address[3..0];  -- Registered cben signals
+  cfg.cben_IR[3..0]      = cben_ir_data[3..0];   -- Registered cben signals
+
+  cfg.adr_phase          = adr_phase;        -- High One Clock after Address Phase
+  cfg.dac_adr_phase_r    = dac_adr_phase_r;      -- High 2 Clocks after Address Phase and DAC Command
+  cfg.adr_dec_ena        = cfg_adr_dec_ena;      -- Enable Configuration Address Decoder
+  cfg.cfg_dat_vld        = cfg_dat_vld;        -- Configuration Data is valid at ad_IR[31..0]
+  mem_bar_hit            = cfg.mem_bar_hit;    -- One of the MemORy BARs has Positive Address Compare
+  
+  
+  cfg_ad_out[31..0]      = cfg.ad_dat_out[31..0];  -- Configuration Read Data Output
+  cfg_dat_out_a[207..0]  = cfg.cfg_dat_out_a[207..0];  -- Configuration File Data Output
+  cfg_dat_out_b[183..0]  = cfg.cfg_dat_out_b[183..0];  -- Configuration File Data Output
+  cfg_dat_out_c[191..0]  = cfg.cfg_dat_out_c[191..0];  -- Configuration File Data Output
+  
+  stat_set[7..0]         = GND;          -- Unused
+  stat_set[8]            = perr_rep_set;     -- Data Parity ErrOR Signaled
+  stat_set[10..9]        = GND;          -- Unused
+  stat_set[11]           = tabrt_set;      -- Signaled Target AbORt
+  stat_set[12]           = tabrt_rcvd_set;   -- Recieved Target AbORt
+  stat_set[13]           = mstr_abrt_set;    -- Recieved Master AbORt
+  stat_set[14]           = serr_sig_set;     -- Signaled SERR
+  stat_set[15]           = perr_det_set;     -- Detected Parity ErrOR
+
+  cfg.stat_set[15..0]         = stat_set[15..0];      -- Status Register Set Bits
+  cfg.sec_stat_set_in[15..0]  = sec_stat_set_in[15..0]; -- Secondary Status Register Set Bits
+  cfg.cfg_dat_in_a[207..0]    = cfg_dat_in_a[207..0];   -- Configuration File Data Input
+  cfg.cfg_dat_in_b[183..0]    = cfg_dat_in_b[183..0];   -- Configuration File Data Input  
+  cfg.cfg_dat_in_c[191..0]    = cfg_dat_in_c[191..0];   -- Configuration File Data Input  
+
+  cfg.serr_det            = serr_sig_set;     -- Signaled SERR
+  cfg.tabrt_set           = tabrt_set;      -- Signaled Target AbORt
+  cfg.tabrt_rcvd_set      = tabrt_rcvd_set;   -- Recieved Target AbORt
+  cfg.mabrt_set           = mstr_abrt_set;    -- Recieved Master AbORt
+  cfg.bar_hit_rst         = bar_hit_rst;      -- Reset the bar Hit bit at end of PCI access
+  cfg.perr_det_set        = perr_det_set;     -- Detected Parity ErrOR
+  cfg.perr_rep_set        = perr_rep_set;     -- Data Parity ErrOR Signaled
+
+  cfg.l_stat_reg_rst[5..0]  = l_stat_reg_rst[5..0]; -- Local Status Register Reset signals
+  -- Status Register Outputs
+  cfg_perr_rep              = cfg.perr_rep;     -- Data Parity ErrOR Signaled
+  cfg_tabrt_sig             = cfg.tabrt_sig;    -- Signaled Target AbORt
+  cfg_tabrt_rcvd            = cfg.tabrt_rcvd;   -- Recieved Target AbORt
+  cfg_mabrt_rcvd            = cfg.mabrt_rcvd;   -- Recieved Master AbORt
+  cfg_serr_sig              = cfg.serr_sig;     -- Signaled SERR
+  cfg_perr_det              = cfg.perr_det;     -- Detected Parity ErrOR
+  cfg_intr_stat     = cfg.intr_stat;
+  
+  -- Local Side Configuration Space SuppORt
+  cfg.lcfg_adr[7..0]        = lcfg_adr[7..0];     -- Local Configuration Address
+  cfg.lcfg_ben[3..0]        = lcfg_ben[3..0];     -- Local Configuration Byte enables
+  cfg.lcfg_dat_in[31..0]    = lcfg_dat_in[31..0];   -- Local Configuration Data Input Bus
+  cfg.lcfg_adr_vld          = lcfg_adr_vld;     -- Local Configuration Address Valid
+  cfg.lcfg_dat_vld          = lcfg_dat_vld;     -- Local Configuration data Valid
+  lcfg_dat_out[31..0]       = cfg.lcfg_dat_out[31..0];-- Local Configuration Data Output
+  cache_dat[7..0]           = cfg.cache_dat[7..0];  -- Cache Line Register Data
+---- END OF CONFIGURATION FILE INSTANTIATION ------------------------------------------------------
+
+---- Idsel Input Register -------------------------------------------------------------------------
+  
+  idsel_IR.clk    = clk;
+  idsel_IR.clrn   = rstn;
+  idsel_IR.d      = idsel;
+
+---------------------------------------------------------------------------------------------------
+
+---- Frame Input Register -------------------------------------------------------------------------
+
+  frame_IR.clk    = clk;
+  frame_IR.clrn   = rstn;
+  frame_IR.d      = frame;
+
+  -- Frame Delayed Two Clocks 
+  frame_I1R.clk   = clk;
+  frame_I1R.clrn  = rstn;
+  frame_I1R.d     = frame_IR;
+
+  -- Frame Delayed Three Clocks
+
+
+
+-------------------------------------------------------------------------------
+-- PCI Command Decode
+-------------------------------------------------------------------------------
+  IF(PCI_32 == "NO") GENERATE
+    IF (BAR_64_BIT_SET) GENERATE
+      dac_cmd = (cben_ir_address[3..0]==B"1101");
+    ELSE GENERATE
+      dac_cmd = GND;
+    END GENERATE;
+  ELSE GENERATE
+    dac_cmd = GND;
+  END GENERATE;
+  
+
+-------------------------------------------------------------------------------
+---- Address/Data/CBEN clock and output enable Logic --------------------------
+-------------------------------------------------------------------------------
+----  AD Address input Register Clock Enable 
+--  ad_ir_ce_A    =   ((TS_IDLE AND (NOT  adr_phase_lc1 OR dac_cmd)  AND NOT  cfg_cyc))
+--          OR  (TS_IDLE AND cfg_cyc) 
+--          OR  (TS_TURN_AR AND LW_LXFR);
+--
+--  ad_IR_ce_A    = LCELL (
+--                (TS_IDLE AND NOT  adr_phase AND NOT  cfg_cyc) 
+--                OR (TS_IDLE AND cben_ir_address[3..1]==B"101") 
+--              );
+--
+----  AD Data input Register Clock Enable 
+--
+--  ad_IR_ce_D    = LCELL (
+--                ((TS_ADR_CLMD # TS_DXFR # TS_DISC) AND NOT  LW_WAIT)
+--                OR (TS_TURN_AR AND cfg_cyc)
+--              );    -- Data enable during configuration write
+--
+----  CBEN Command input Register Clock Enable 
+--
+--  cben_IR_ce_A    = LCELL (
+--                  (TS_IDLE AND NOT  adr_phase AND NOT  cfg_cyc) 
+--                OR (TS_IDLE AND cben_ir_address[3..1]==B"101") 
+--              ); 
+--
+----  CBEN Byte Enable input Register Clock Enable 
+--
+--  cben_IR_ce_D    =   ((TS_ADR_CLMD # TS_DXFR # TS_ADR_VLD # TS_DISC) AND NOT  LW_WAIT)
+--            OR  TS_TURN_AR AND cfg_cyc;   -- Data enable during configuration write
+
+  --  AD Address input Register Clock Enable 
+  --
+
+  ad_IR_ce_A_lc3 = TS_IDLE AND (NOT  (adr_phase_lc1 OR dac_adr_phase_R) OR dac_cmd);
+  ad_IR_ce_A_lc1 = ad_IR_ce_A_lc3 AND ( NOT  cfg_cyc); 
+  ad_ir_ce_A_lc2 = (TS_IDLE AND cfg_cyc) OR (TS_TURN_AR AND LW_LXFR);
+                                
+  ad_ir_ce_A     =  ad_ir_ce_A_lc1 
+               OR   ad_ir_ce_A_lc2;
+
+                
+  --ad_ir_ce_A_lc2    =   (TS_IDLE AND cfg_cyc) OR (TS_TURN_AR AND LW_LXFR);
+  --                              
+  --ad_ir_ce_A      =   ad_ir_ce_A_lc1 
+  --          OR  ad_ir_ce_A_lc2;
+    
+  --  AD Data input Register Clock Enable 
+  --
+  -- If the host bridge capability is disabled, then the target is made to 
+  -- immediately retry all target transactions whenever the master is active
+  -- the reason for that is because of the possibility of local side bus contention
+  -- if the host bridge capability enabled the target is made to retry all
+  -- target transactions except configuration read/write.
+
+  -- In that case, the local side can have contention if the master read was incomplete
+  -- (local side still has data to xfr -- lm_ackn is asserted) and it is followed by 
+  -- a target configuration write.  This is because the data uses the same register.
+  -- In that case data will be corrupted on the master side even though lm_ackn remains
+  -- asserted.  In this case, the local side cannot wait for longer than 3 clocks on the
+  -- last master read transfer.  If the master has the need to wait longer than 3 clocks,
+  -- the Local side logic must add a local side register which will hold that data outside
+  -- the PCI Core.
+  IF (SCFG_HB_ENA == 0) GENERATE
+  
+  
+    ad_ir_ce_D_lc1    = ((TS_ADR_VLD OR TS_ADR_CLMD # TS_DXFR # TS_DISC) AND NOT LW_WAIT);
+    ad_IR_ce_D        =  (ad_ir_ce_D_lc1 AND NOT  mstr_actv)
+                      OR (TS_TURN_AR  AND cfg_cyc AND NOT mstr_actv);   -- Data enable during configuration write
+
+  ELSE GENERATE
+    Assert Report " Host Bridge Capability with Self Configuration is Enabled "
+    severity Info;
+  
+    ad_ir_ce_D_lc1    = ((TS_ADR_VLD # TS_ADR_CLMD # TS_DXFR # TS_DISC) AND NOT LW_WAIT);
+    ad_IR_ce_D      =  (ad_ir_ce_D_lc1)
+              OR (TS_TURN_AR  AND cfg_cyc);           -- Data enable during configuration write
+              
+  END GENERATE;
+  
+  --  CBEN Command input Register Clock Enable 
+  -- Made the clock enable the same as the AD input register
+  cben_ir_ce_A    = ad_ir_ce_A; 
+
+  --  CBEN Byte Enable input Register Clock Enable 
+  -- Made the clock enable the same as the AD input register
+  --
+  cben_IR_ce_D    =  ad_IR_ce_D;
+  
+-------------------------------------------------------------------------------
+-- Output Holding Register Clock Enable   
+-------------------------------------------------------------------------------
+  -- ZMA This node should have a different Name dati indicates a data input 
+  
+  -- LOW_AD_OR_HR_ENA: Low Address[31..0] Hold register clock enable
+  
+  -- dati_HR_ena      = (NOT  LR_WAIT AND NOT  TS_IDLE)
+  --               OR (NOT  LR_WAIT_32 AND NOT  TS_IDLE);     -- Enable signal for the holding register            
+  
+  IF (PCI_32 == "NO") GENERATE
+    dati_hr_ena_lc      = LCELL(LR_LXFR OR LR_PXFR OR LR_PXFR_32 OR LR_DONE);              
+  ELSE GENERATE
+    dati_hr_ena_lc      = LCELL(LR_LXFR OR LR_PXFR OR LR_DONE);
+  END GENERATE;               
+
+  dati_HR_ena     = (dati_hr_ena_lc AND NOT  TS_IDLE);
+
+  
+  -- Clock enable for the AD output registers for target read transactions
+
+  ador_ena        = trg_OR_advance OR LR_LXFR;
+
+  -- Advanced enable for AD output registers
+  trg_OR_advance.clk    = clk;
+  trg_OR_advance.clrn   = rstn;
+  trg_OR_advance.d      =   not wr_rdn AND (  (TS_ADR_CLMD) 
+                        OR  (TS_ADR_VLD AND cfg_cyc)
+                                           );
+  IF (PCI_32 == "NO") GENERATE
+    IF (P2P_BRIDGE == "NO") GENERATE
+      ador_hi_dena_lc1  = LCELL(((ad_ir_address[2] AND NOT  dac_cyc) OR (hi_adr_hr[2] AND dac_cyc)));
+      ador_hi_dena_lc   = LCELL(LR_PXFR_32 or (LR_LXFR and lt_ldata_ack_r and ador_hi_dena_lc1));
+    ELSE GENERATE -- 64-Bit PCI/P2PBridge
+      ador_hi_dena_lc1  = LCELL(((ad_ir_address[2] AND NOT  dac_cyc) OR (hi_adr_hr[2] AND dac_cyc)));
+      ador_hi_dena_lc   = LCELL(LR_PXFR_32 or (LR_LXFR and lt_ldata_ack_r and ador_hi_dena_lc1)); 
+    END GENERATE;
+    ador_hi_dena      =   ador_hi_dena_lc
+                OR  (LR_PXFR AND lt_rdynR AND NOT  direct_xfr) ;
+  END GENERATE;
+  
+  ---------------------
+  -- AD Control Signals
+  --------------------- 
+  
+  --  AD Output Enable
+  --
+  --  AD will be enabled whenever the cycle is read Cycle
+  --
+  adoe.clk      = clk;
+  adoe.clrn     = rstn;
+  
+  IF(PCI_FAMILY_STRATIXII()) GENERATE
+    adoe_cascade    = frame OR (NOT trdy_OR and not stop_or);
+  ELSE GENERATE
+    adoe_cascade    = LCELL(frame OR (NOT trdy_OR and not stop_or)); 
+  END GENERATE;
+  adoe_lc       = (NOT  wr_rdn AND NOT  TS_IDLE AND NOT  TS_TURN_AR);
+  adoe        = adoe_lc AND   adoe_cascade;
+  ad_oe       = adoe;
+  
+  -- High Address[61..32] Select in a Target Read
+  
+  ad_sel        = (NOT  TS_IDLE AND NOT  wr_rdn);
+---------------------------------------------------------------------------------------------------
+  
+---- Transaction-Accepted Indicator Logic ---------------------------------------------------------
+
+  IF (PCI_32 == "NO") GENERATE
+    IF (BAR_64_BIT_SET) GENERATE 
+      dac_adr_phase_r.clk   = clk;
+      dac_adr_phase_r.clrn  = rstn;
+      dac_adr_phase_r     = adr_phase and dac_cmd ; 
+
+    ELSE GENERATE
+      dac_adr_phase_r     = GND;
+    END GENERATE;
+    
+    adr_phase_lc1     = LCELL(frame_IR AND NOT  frame_I1R);
+  
+    adr_phase       = adr_phase_lc1;
+  
+    adr_phase_out     = adr_phase;
+
+  ELSE GENERATE
+
+    dac_adr_phase_r     = GND;
+    
+    adr_phase_lc1     = LCELL(frame_IR AND NOT  frame_I1R);
+  
+    adr_phase       = adr_phase_lc1;
+  
+    adr_phase_out     = adr_phase;
+
+  END GENERATE;
+
+
+  -----------------
+  -- Bar Hit Reset
+  -----------------
+  bar_hit_rst     = LCELL(TS_TURN_AR or serr_sig_set OR ( TS_IDLE AND NOT (adr_phase or dac_adr_phase_r)));
+  
+  --  Configuration Data valid on AD_IR[31..0] Used to enable the read/Write registers
+  --  In the configuration space
+
+  TS_DXFR_R.clk     = clk;
+  TS_DXFR_R.clrn      = rstn;
+  TS_DXFR_R       = TS_DXFR;
+  
+  cfg_dat_vld       = (TS_DXFR_R and cfg_cyc AND wr_rdn and NOT TS_DXFR);
+  
+  -- Configuration Address Decode Enable
+  -- May be able to delay it by one clock.
+  --  cfg_adr_dec_ena   =   (TS_IDLE AND adr_phase AND idsel_IR 
+  --                AND (cben_IR_address[3..1] == B"101") 
+  --                AND (ad_ir_address[1..0] == B"00");   
+  cfg_adr_dec_ena_lc1 = LCELL ( (TS_IDLE AND idsel_IR AND (ad_ir_address[1..0] == B"00"))
+                );
+  cfg_adr_dec_ena_lc2 = LCELL ( (cben_IR_address[3..1] == B"101")
+                );
+  cfg_adr_dec_ena   = LCELL (   (adr_phase AND cfg_adr_dec_ena_lc1 AND cfg_adr_dec_ena_lc2)
+                );  
+---------------------------------------------------------------------------------------------------
+
+---- Transaction Cycle Indicator Logic ------------------------------------------------------------
+  
+  -- Direct Transfer: Same Width transactions 
+  IF (PCI_32 == "NO") GENERATE
+  
+    direct_xfr    = LCELL(trans64_reg.q or io_cyc or int_ack_cyc);
+    
+    low_dword_discard.clk = clk;
+    low_dword_discard.clrn  = rstn;
+    low_dword_discard   = LR_LXFR AND NOT lt_dxfrn AND NOT lt_ldata_ack_r; 
+  
+  ELSE GENERATE
+  
+    direct_xfr        = VCC;
+    low_dword_discard   = GND;
+  END GENERATE;
+
+  -- Write (active high)/Read (active low) Indicator
+  wr_rdn_FF.clk       = clk;
+  wr_rdn_FF.clrn      = rstn;
+  wr_rdn_FF.prn       = vcc;
+  wr_rdn_FF.s         = (adr_phase or dac_adr_phase_r) AND (cben_IR_address[1..0] == B"11" )
+                      AND LW_IDLE;
+  wr_rdn_FF.r         = TS_IDLE AND LW_IDLE;
+  wr_rdn              = wr_rdn_FF.q;
+
+  -----------------------------
+  -- Configuration cycle output
+  ----------------------------- 
+      -- Logic for cfg_cyc should include ad_ir_address[1..0] == B"00"
+
+  IF (CAP_LIST_ENA == 0) GENERATE
+  
+    cfg_cyc.clk   = clk;
+    cfg_cyc.clrn  = rstn;
+    cfg_cyc.s   = adr_phase AND idsel_IR AND (cben_IR_address[3..1] == B"101") AND (ad_ir_address[1..0]==B"00");
+    cfg_cyc.r   = TS_IDLE AND NOT  adr_phase;
+
+    -- cfg_cyc_out is used by the data path output muxes to select configuration data.
+    -- cben_IR_address[0] indicates that it is a read cycle 
+    cfg_cyc_out   = cfg_cyc AND NOT cben_IR_address[0];     
+    
+
+  ELSE GENERATE
+    assert report "Instantiating Capabilities Pointer"
+    severity info;
+    
+    cfg_cyc.clk       = clk;
+    cfg_cyc.clrn      = rstn;
+    cfg_cyc.s       = adr_phase AND idsel_IR AND (cben_IR_address[3..1] == B"101") AND (ad_ir_address[10..6]==B"00000") AND (ad_ir_address[1..0]==B"00");
+    cfg_cyc.r       = TS_IDLE AND NOT  adr_phase;
+
+    -- cfg_cyc_out is used by the data path output muxes to select configuration data.
+    -- cben_IR_address[0] indicates that it is a read cycle 
+    cfg_cyc_out       = cfg_cyc AND NOT cben_IR_address[0];   
+
+  END GENERATE; 
+  ----------------
+  -- Memory Cycle
+  ----------------
+  
+  IF (PCI_32 == "NO") GENERATE --{
+  
+  mem_cyc.clk         = clk;
+  mem_cyc.clrn        = rstn;
+  mem_cyc.r         = TS_IDLE AND NOT  adr_phase; 
+
+    IF (INTERRUPT_ACK_ENA == 1) GENERATE --{
+    
+      mem_cyc_s_lc = LCELL( 
+                  ( cben_IR_address[3..1] == B"011" )   -- MR, MW   
+                OR  ( cben_IR_address[3..0] == B"0000") -- INT ACK                  
+                OR  ( cben_IR_address[3..0] == B"1100")   -- MRM      
+                OR  ( cben_IR_address[3..1] == B"111" )   -- MRL, MWI 
+                );
+    ELSE GENERATE
+
+      mem_cyc_s_lc = LCELL( 
+                  ( cben_IR_address[3..1] == B"011" )   -- MR, MW
+                OR  ( cben_IR_address[3..0] == B"1100") -- MRM
+                OR  ( cben_IR_address[3..1] == B"111" ) -- MRL, MWI
+                );
+    
+    END GENERATE;                         --}
+    
+    IF (P2P_BRIDGE == "YES") GENERATE  --{
+      
+      IF (CAP_LIST_ENA == 0) GENERATE --{
+      
+        mem_cyc.s =   (adr_phase or dac_adr_phase_r) AND  ( 
+                          mem_cyc_s_lc
+                        OR  cfg_type1_cyc
+                        );
+
+      ELSE GENERATE
+        mem_cyc.s =   (adr_phase or dac_adr_phase_r)  AND   ( 
+                          mem_cyc_s_lc
+                        OR  cfg_type1_cyc
+                        OR  cap_ptr_ena       
+                        );
+      END GENERATE;                 --}
+        
+    ELSE GENERATE
+      mem_cyc.s =   (adr_phase or dac_adr_phase_r)  AND   mem_cyc_s_lc  ;
+    
+    END GENERATE;                   --}
+  
+  END GENERATE;                  --}
+
+-------------------------------------
+-- Interrupt Acknowledge Cycle
+-------------------------------------
+  int_ack_cyc.clk     = clk;
+  int_ack_cyc.clrn    = rstn;
+  int_ack_cyc.s     = adr_phase AND (cben_IR_address[3..0]  == B"0000");
+  int_ack_cyc.r     = TS_IDLE AND NOT adr_phase;
+
+--------------- 
+-- I/O Cycle  
+--------------- 
+  io_cyc.clk        = clk;
+  io_cyc.clrn       = rstn;
+  io_cyc_s_lc       = LCELL(cben_IR_address[3..1] == B"001");
+  io_cyc.s        = adr_phase AND io_cyc_s_lc;
+  io_cyc.r        = TS_IDLE AND NOT  adr_phase;
+    
+----------------------------- 
+-- Capability Pointer Enable  
+-----------------------------
+  IF (CAP_LIST_ENA == 1) GENERATE --{
+
+    IF (PCI_32 == "NO") GENERATE 
+
+      cap_ptr_ena_sr.clk    = clk;
+      cap_ptr_ena_sr.clrn   = rstn;
+      cap_ptr_ena_sr.s      = cap_ptr_ena;
+      cap_ptr_ena_sr.r      = TS_IDLE AND NOT  adr_phase;
+
+      
+      
+      cap_ptr_ena_lc1     = LCELL(ad_ir_address[6] OR ad_ir_address[8] OR ad_ir_address[9] OR ad_ir_address[10]);
+      cap_ptr_ena_lc2     = LCELL(idsel_IR AND (cben_IR_address[3..1] == B"101"));    
+      cap_ptr_ena         = LCELL(( ad_ir_address[7] OR cap_ptr_ena_lc1) 
+                          AND adr_phase AND cap_ptr_ena_lc2);   
+      
+      ELSE GENERATE
+  
+      cap_ptr_ena_lc1     = LCELL(ad_ir_address[6] OR ad_ir_address[8] OR ad_ir_address[9] OR ad_ir_address[10]);
+      cap_ptr_ena_lc2     = LCELL(idsel_IR AND (cben_IR_address[3..1] == B"101"));    
+      cap_ptr_ena         = LCELL(( ad_ir_address[7] OR cap_ptr_ena_lc1) 
+                          AND adr_phase AND cap_ptr_ena_lc2);   
+    END GENERATE;
+    
+  ELSE GENERATE
+  
+    cap_ptr_ena_lc1     = GND;
+    cap_ptr_ena_lc2     = GND;
+    cap_ptr_ena         = GND;    
+  
+  END GENERATE;       --}
+    
+
+---------------------------
+-- CIS Pointer Enable
+---------------------------
+  IF (CIS_PTR_ENA == 1) GENERATE
+  
+    IF (PCI_32 == "NO") GENERATE 
+      
+      cis_ptr_en_sr.clk   = clk;
+      cis_ptr_en_sr.clrn  = rstn;
+      cis_ptr_en_sr.s     = cis_ptr_en;
+      cis_ptr_en_sr.r     = TS_IDLE AND NOT  adr_phase;
+  
+      cis_ptr_en_lc1      = LCELL(ad_ir_address[6] OR ad_ir_address[8] OR ad_ir_address[9] OR ad_ir_address[10]);
+      cis_ptr_en_lc2      = LCELL(idsel_IR AND (cben_IR_address[3..1] == B"101"));    
+      cis_ptr_en          = LCELL(( ad_ir_address[7] OR cis_ptr_en_lc1) 
+                          AND adr_phase AND cis_ptr_en_lc2);    
+    ELSE GENERATE
+
+      cis_ptr_en_lc1      = LCELL(ad_ir_address[6] OR ad_ir_address[8] OR ad_ir_address[9] OR ad_ir_address[10]);
+      cis_ptr_en_lc2      = LCELL(idsel_IR AND (cben_IR_address[3..1] == B"101"));    
+      cis_ptr_en          = LCELL(( ad_ir_address[7] OR cis_ptr_en_lc1) 
+                          AND adr_phase AND cis_ptr_en_lc2);    
+    END GENERATE;
+    
+  ELSE GENERATE
+    IF (PCI_32 == "NO") GENERATE
+    
+      cis_ptr_en_sr.clk   = clk;
+      cis_ptr_en_sr.clrn  = rstn;
+      cis_ptr_en_sr.s     = GND;
+      cis_ptr_en_sr.r     = VCC;
+    
+    END GENERATE;   
+      
+    cis_ptr_en_lc1      = GND;
+    cis_ptr_en_lc2      = GND;
+    cis_ptr_en          = GND;    
+
+  END GENERATE;
+
+-- Completed Clean Up above
+---------------------------------------------------------------------------------------------------
+
+---- Target Termination Logic ---------------------------------------------------------------------
+  -- Configuration Status Register errOR conditions
+  tabrt_sig_cyc_reg.clk   = clk;
+  tabrt_sig_cyc_reg.clrn  = rstn;
+  tabrt_sig_cyc_reg.prn   = VCC;
+  tabrt_sig_cyc_reg.s     = tabrt_set;
+  tabrt_sig_cyc_reg.r     = TS_ADR_VLD;
+  tabrt_sig_cyc           = tabrt_sig_cyc_reg.q;
+  tabrt_set               = NOT  lt_abortn; -- Signaled Target AbORt
+  tabrt_rcvd_set          = targ_abrt_set;  -- Recieved Target AbORt
+
+  -- Retry will be signaled if lt_discn is active druing TS_ADR_VLD
+  -- state AND the access is NOT  configuration access
+  -- Also a retry will be signaled if the local side has NOT  cleared
+  -- the write data pipeline.
+  
+  retry_set_lc    = LCELL ((TS_IDLE and adr_phase and mstr_actv and not mstr_cfg_cyc));   
+  retry_set       = LCELL ( (NOT  lt_discn OR lreg_busy OR NOT lt_abortn OR retry_set_lc) );
+  retry_rst_lc1   = LCELL ( ((LW_DONE OR LW_IDLE) AND lt_discn AND lt_abortn) );
+  retry_rst_lc2   = LCELL (  retry_rst_lc1 AND ((TS_IDLE AND NOT  adr_phase) OR (TS_ADR_CLMD and wr_rdn and not cfg_cyc)));
+  retry.clk       = clk;
+  retry.clrn      = rstn;
+  retry.s         = retry_set;  
+  retry.r         = retry_rst_lc2;
+
+  -- If any of these conditions is true, read Cycle should Stop.
+  rd_backoff      = LCELL(NOT  lt_abortn OR NOT  lt_discn OR TS_DISC);  
+
+
+  -- lreg_busy : Register indicating that the local side has NOT  retrieved all
+  -- the write data AND next target accesses should be retried, Except for
+  -- Configuration Cycles
+  lreg_busy.clk       = clk;
+  lreg_busy.clrn        = rstn;
+  lreg_busy.s         = NOT  LW_IDLE AND NOT  LW_DONE;  
+  lreg_busy.r         = (LW_DONE AND TS_IDLE) OR LW_IDLE;   
+---------------------------------------------------------------------------------------------------
+
+----  LT_RDYN Logic:  Local Target Ready - active low ---------------------------------------------
+
+  lt_rdynR.clk  = clk;
+  lt_rdynR.prn  = rstn;
+  lt_rdynR      = lt_rdyn;
+   
+  lt_rdynR_R.clk  = clk;
+  lt_rdynR_R.prn  = rstn;
+  lt_rdynR_R      = lt_rdynR;
+---------------------------------------------------------------------------------------------------
+
+---- Local Target Data Input ----------------------------------------------------------------------
+  low_data_out[31..0] = low_lt_dati[31..0];-- AND NOT  mstr_ms_ena;
+  high_data_out[31..0]= high_lt_dati[31..0];
+---------------------------------------------------------------------------------------------------
+
+---- LT_DXFRN Logic:  Local Target Data Transfer -------------------------------------------------- 
+  lt_dxfrn      = LCELL(NOT (NOT  lt_rdynR AND NOT  lt_ackn ));   -- Target data transfer is occurring 
+--------------------------------------------------------------------------------------------------- 
+
+---- Local Target Transaction Status Registers ----------------------------------------------------             
+  IF (P2P_BRIDGE == "NO") GENERATE  --{
+    IF (PCI_32 == "NO") GENERATE   --{
+      targ_burst_lc   = LCELL(burst_trans.q AND NOT  TS_IDLE);
+      lt_tsr[13..0] = ( retry,
+                TS_ADR_VLD,
+                dac_cyc AND NOT  TS_IDLE,
+                pxfr,
+                targ_burst_lc,
+                targ_access,              -- 8: Target is accessed from PCI bus
+                (lt_tsr7_node),     -- 7: Target transaction is 64 bit
+                exp_rom_hit,          -- 6: I/O cycle indicatOR                 
+                base_hit[5] and NOT TS_IDLE,            -- 5..0: Target Base Address Register accessed
+                base_hit[4] and NOT TS_IDLE,
+                base_hit[3] and NOT TS_IDLE,
+                base_hit[2] and NOT TS_IDLE,
+                base_hit[1] and NOT TS_IDLE,
+                base_hit[0] and NOT TS_IDLE
+                 );   
+    ELSE GENERATE
+      targ_burst_lc   = LCELL(burst_trans.q AND NOT  TS_IDLE);
+
+      lt_tsr[13..0] = ( retry,
+                TS_ADR_VLD,
+                GND,
+                pxfr,
+                targ_burst_lc,
+                targ_access,              -- 8: Target is accessed from PCI bus
+                lt_tsr7_node,     -- 7: Target transaction is 64 bit
+                exp_rom_hit,          -- 6: I/O cycle indicatOR                 
+                base_hit[5] AND NOT TS_IDLE,            -- 5..0: Target Base Address Register accessed
+                base_hit[4] and NOT TS_IDLE,
+                base_hit[3] and NOT TS_IDLE,
+                base_hit[2] and NOT TS_IDLE,
+                base_hit[1] and NOT TS_IDLE,
+                base_hit[0] and NOT TS_IDLE
+                 );   
+    END GENERATE;                       --}
+  ELSE GENERATE
+    IF (PCI_32 == "NO") GENERATE       --{
+      targ_burst_lc   = LCELL(burst_trans.q AND NOT  TS_IDLE);
+
+      lt_tsr[13..0] = ( prfch_mem_hit,
+                TS_ADR_VLD,
+                dac_cyc AND NOT  TS_IDLE,
+                pxfr,
+                targ_burst_lc,
+                targ_access,              -- 8: Target is accessed from PCI bus
+                (lt_tsr7_node),     -- 7: Target transaction is 64 bit
+                exp_rom_hit,          -- 6: I/O cycle indicatOR                 
+              
+                base_hit[5] and NOT TS_IDLE,
+                base_hit[4] and NOT TS_IDLE,
+                base_hit[3] and NOT TS_IDLE,
+                base_hit[2] and NOT TS_IDLE,
+                base_hit[1] and NOT TS_IDLE,
+                base_hit[0] and NOT TS_IDLE
+                 );   
+    ELSE GENERATE
+      targ_burst_lc   = LCELL(burst_trans.q AND NOT  TS_IDLE);
+
+      lt_tsr[13..0] = ( prfch_mem_hit,
+                TS_ADR_VLD,
+                GND,
+                pxfr,
+                targ_burst_lc,
+                targ_access,              -- 8: Target is accessed from PCI bus
+                lt_tsr7_node,     -- 7: Target transaction is 64 bit
+                exp_rom_hit,          -- 6: I/O cycle indicatOR                 
+                base_hit[5] AND NOT TS_IDLE,            -- 5..0: Target Base Address Register accessed
+                base_hit[4] and NOT TS_IDLE,
+                base_hit[3] and NOT TS_IDLE,
+                base_hit[2] and NOT TS_IDLE,
+                base_hit[1] and NOT TS_IDLE,
+                base_hit[0] and NOT TS_IDLE
+                 );   
+    END GENERATE;                      --}
+  END GENERATE;              --}
+    
+  IF (P2P_BRIDGE == "YES") GENERATE
+    IF (PREFETCHABLE_MEMORY == "YES") GENERATE
+      prfch_mem_hit.clk   = clk;
+      prfch_mem_hit.clrn  = rstn;
+      prfch_mem_hit.s     = prfch_mem_adr_vld;
+      prfch_mem_hit.r     = bar_hit_rst;
+    ELSE GENERATE
+      prfch_mem_hit     = GND;
+    END GENERATE;
+  END GENERATE;
+
+  -- Indicates a Dual Address Cycle Transaction
+  IF ( USE_NEW_LT_ADR == "NO") GENERATE  --{
+    IF (PCI_32 == "NO") GENERATE  --{
+        dac_cyc_reg.clk   = clk;
+        dac_cyc_reg.clrn  = rstn;
+        dac_cyc_reg.prn   = VCC;
+        dac_cyc_reg.s     = adr_phase AND dac_cmd;    
+        dac_cyc_reg.r     = TS_IDLE AND NOT  (adr_phase OR dac_adr_phase_R);
+        dac_cyc           = dac_cyc_reg.q;
+        dac_cfg           = dac_cyc;
+        dac_sr_out        = dac_cfg;
+    END GENERATE;                 --} 
+    
+  ELSE GENERATE
+    IF (PCI_32 == "NO") GENERATE   --{
+      IF (BAR_64_BIT_SET) GENERATE --{
+    
+        dac_cyc_reg.clk   = clk;
+        dac_cyc_reg.clrn  = rstn;
+        dac_cyc_reg.prn   = VCC;
+        dac_cyc_reg.s     = adr_phase AND dac_cmd;    
+
+        dac_cyc_reg.r     = TS_IDLE AND NOT  (adr_phase OR dac_adr_phase_R);
+        
+        dac_cyc       = dac_cyc_reg.q;
+        dac_cfg       = dac_cyc;
+        dac_sr_out    = dac_cfg;
+    
+      ELSE GENERATE
+    
+        dac_cyc       = GND;
+        dac_cfg       = GND;
+        dac_sr_out    = GND;
+      
+      END GENERATE;               --}
+  
+    END GENERATE;                 --}
+  END GENERATE;                   --}
+  
+  -- A Successful PCI transfer in the previous cycle
+
+    IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+      pxfr_irdy     = LCELL(irdy);
+      pxfr.clk      = clk;
+      pxfr.clrn     = rstn;
+      pxfr.d        = ((TS_DXFR OR TS_DISC) AND pxfr_irdy AND trdy_OR);
+    ELSE GENERATE
+      pxfr.clk      = clk;
+      pxfr.clrn     = rstn;
+      pxfr.d        = ((TS_DXFR OR TS_DISC) AND irdy AND trdy_OR);
+    END GENERATE;    
+    
+
+  -- Indicates a Burst Transaction
+  -- This signal will indicate it is a burst if frame an irdy is detected asserted
+  -- Notice that it is possible that the first data phase this signal will not be
+  -- true even if it is a burst if irdy is not asserted
+  -- This signal should be set in all cases where frame and irdy are asserted while
+  -- the target is active.
+  
+  IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+    burst_trans_irdy  = LCELL(irdy);
+    burst_trans.clk   = clk;
+    burst_trans.prn   = VCC;
+    burst_trans.clrn  = rstn;
+    burst_trans.s   = frame and burst_trans_irdy ;
+  ELSE GENERATE
+    burst_trans.clk   = clk;
+    burst_trans.prn   = VCC;
+    burst_trans.clrn  = rstn;
+    burst_trans.s   = frame and irdy ;
+  END GENERATE;
+   
+    
+  -- mstr_actv is not necessary
+  IF (TARGET_ONLY == "NO") GENERATE
+    burst_trans_r   = LCELL((TS_TURN_AR OR mstr_actv) OR (TS_IDLE));
+  ELSE GENERATE
+    burst_trans_r   = LCELL(TS_TURN_AR OR TS_IDLE);
+  END GENERATE; 
+  
+  burst_trans.r   = burst_trans_r;
+                
+  -- Targ_access is equivalent to lt_framen from PCI_B
+  IF (AVALON_BRIDGE_ENA) GENERATE
+	  targ_access     =  NOT  TS_IDLE AND NOT TS_TURN_AR;
+  ELSE GENERATE
+  
+	  targ_access     =  NOT  TS_IDLE;
+  
+  END GENERATE; 
+
+
+  -- Indicates a 64-bit Transaction
+  IF (PCI_32 == "NO") GENERATE
+    lt_tsr7_node  = trans64_reg.q AND NOT  TS_IDLE;
+  ELSE GENERATE
+    lt_tsr7_node  = GND;
+  END GENERATE;
+  
+  
+  IF (PCI_32 == "NO") GENERATE --{
+    req64_R.clk     = clk;
+    req64_R.clrn    = rstn;
+    req64_R.d       = req64;
+
+    trans64_reg.clk   = clk;
+    trans64_reg.clrn  = rstn;
+    trans64_reg.prn   = VCC;
+    trans64_reg_set   = LCELL ( (req64_R AND (adr_phase OR dac_adr_phase_R) ));
+    trans64_reg_rst_lc1   = LCELL ( ((LW_DONE OR LR_DONE) AND NOT  TS_DISC)
+                                OR  (tabrt_rcvd_set)
+                                OR  (TS_IDLE)
+                                  );
+    IF (TARGET_ONLY == "NO") GENERATE
+      trans64_reg_rst_lc2   = LCELL ( serr_sig_set OR mstr_abrt_set);
+    ELSE GENERATE
+      trans64_reg_rst_lc2   = serr_sig_set ;
+    END GENERATE; 
+        
+    trans64_reg_set_lc1 = trans64_reg_set and not l_dis_64_ext;             
+    trans64_reg.s       = trans64_reg_set_lc1;
+    trans64_reg.r       = ( trans64_reg_rst_lc1 OR  trans64_reg_rst_lc2);
+    
+    trans64_R     = LCELL(trans64_reg.q AND NOT  cfg_cyc AND NOT  io_cyc AND NOT  TS_IDLE);   
+   ELSE GENERATE -- 32 bit
+        trans64_R     = GND;  
+  END GENERATE;   --}
+      
+      
+  IF (PCI_32 == "NO") GENERATE
+    trans64_out     = trans64_reg.q;
+  END GENERATE;
+  
+---------------------------------------------------------------------------------------------------
+---- Local Target Address Output ------------------------------------------------------------------   
+IF (USE_NEW_LT_ADR == "NO") GENERATE --{
+
+  IF (PCI_32 == "NO") GENERATE --{
+    IF (TARGET_ONLY == "NO") GENERATE
+      lt_adr[31..0] =  (ad_ir_address[31..0] AND ((NOT  dac_cyc AND NOT  mstr_actv) OR (NOT  mstr_dac_decode AND mstr_actv)))
+                 OR (hi_adr_hr[] AND ((dac_cyc AND NOT  mstr_actv) OR (mstr_dac_decode AND mstr_actv)));
+    ELSE GENERATE
+      lt_adr[31..0] =  (ad_ir_address[31..0] AND NOT  dac_cyc)
+                 OR (hi_adr_hr[] AND dac_cyc);
+    END GENERATE;   
+
+    hi_adr_hr[].clk  = clk;
+    hi_adr_hr[].clrn = rstn;
+    hi_adr_hr[].d    = ad_ir_address[31..0];
+    hi_adr_hr_ena    = dac_cmd AND adr_phase;
+    hi_adr_hr[].ena  = hi_adr_hr_ena;
+
+    lt_adr[63..32]  = ad_ir_address[31..0]; 
+  ELSE GENERATE
+    lt_adr[31..0]   = (ad_ir_address[31..0]);   
+    
+    lt_adr[63..32]  = VCC; 
+  END GENERATE; --}
+ELSE GENERATE   --}
+
+
+  IF (PCI_32 == "NO") GENERATE
+  
+    IF (BAR_64_BIT_SET == 1) GENERATE
+      lt_adr[31..0]   = (ad_ir_address[31..0] AND NOT  dac_cyc)
+                OR  (hi_adr_hr[] AND dac_cyc);
+      hi_adr_hr[].clk  = clk;
+      hi_adr_hr[].clrn = rstn;
+      hi_adr_hr[].ena  = dac_cmd AND adr_phase;
+      hi_adr_hr[].d    = ad_ir_address[31..0];
+      lt_adr[63..32]   = ad_ir_address[31..0]; 
+    ELSE GENERATE
+      lt_adr[31..0]    = ad_ir_address[31..0] and no_op_reg[1];
+      lt_adr[63..32]   = ad_ir_address[31..0] and no_op_reg[1];
+      hi_adr_hr[2]     = GND; 
+    END GENERATE;
+    
+  ELSE GENERATE
+
+    lt_adr[31..0]   = ad_ir_address[31..0] and no_op_reg[1];    
+    lt_adr[63..32]  = ad_ir_address[31..0] and no_op_reg[1]; 
+
+  END GENERATE; 
+END GENERATE;
+
+---------------------------------------------------------------------------------------------------
+
+---- Local Target Command Output ------------------------------------------------------------------
+  lt_cmd[]    = (cben_IR_address[3..0] );
+---------------------------------------------------------------------------------------------------
+
+---- LT_LDATA_ACKN and LT_HDATA_ACKN logic --------------------------------------------------------
+  -- Indicates a local target write AND Target Read
+  lt_sel_w    = LCELL( (not LW_IDLE and not mstr_actv)
+                OR NOT  LR_IDLE);     -- Target Read transactions
+
+  IF (PCI_32 == "NO") GENERATE --{
+-- The following two registers were added to correct issues with the trans64_sr_edge being asserted inappropriately
+-- during 32-Bit transaction if the previous cycle is 64-Bits.  This issue was mainly due to the fact that
+-- set logic for trans64_sr_edge being depenent on the trans64_reg.q however the reset logic was totally independant
+-- due to that issue,  in some cases, trans64_reg.q would remain asserted for longer time than LW_DONE or LR_DONE
+-- This resulted in trans64_sr_edge being reasserted after it was successfully deasserted for the cycle.
+-- To fix this issue, the logic was modified to detect the rising edge of the trans64_reg.q instead.
+-- During SAC trans64_reg.q and not trans64_reg_R and not TS_IDLE will detect the logic necessary.  However 
+-- during DAC this logic was required to be delayed by one clock since the decode takes 2 clocks
+-- For this purpose, trans64_dac_R was utilized.  dac_sr is supposed to be set when dac is detected and remains
+-- asserted if the address compare logic is set.  It would deassert if that is not true
+    trans64_reg_R.clk     = clk;
+    trans64_reg_R.clrn    = rstn;
+    trans64_reg_R         = trans64_reg.q;
+
+    trans64_dac_R.clk     = clk;
+    trans64_dac_R.clrn    = rstn;
+    trans64_dac_R         = trans64_reg.q and not trans64_reg_R and dac_cyc;
+
+    trans64_sr_edge.clk   = clk;
+    trans64_sr_edge.clrn  = rstn;
+    trans64_sr_edge.prn   = VCC;
+    trans64_sr_edge.s     = ((trans64_reg.q and not trans64_reg_R) OR trans64_dac_R) and not TS_IDLE and not mstr_actv and not lw_lr_done ;
+    trans64_sr_edge.r     = trans64_sr_edge_rst;
+    
+    trans64_sr_edge_rst   = LCELL( lw_lr_done or (TS_IDLE and LR_IDLE and LW_IDLE) );
+    
+    lw_lr_done            = LCELL(LW_DONE OR LR_DONE);
+    
+    IF (P2P_BRIDGE == "NO") GENERATE  --{
+      lt_ldata_ack_r.clk  = clk;
+      lt_ldata_ack_r.clrn = rstn;
+
+      lt_ldata_ack_r_prn1 = LCELL( (not ad_ir_address[2] and not dac_cyc) or (not hi_adr_hr[2] and dac_cyc) );
+
+      lt_ldata_ack_r_prn3 = LCELL(   (
+                          (lt_ldata_ack_r_prn1 and (TS_ADR_CLMD or TS_ADR_VLD) and not retry and mem_cyc)
+                        )
+                    );  
+
+      lt_ldata_ack_r_ena_lc1  = LCELL ( not lt_dxfrn
+                      OR  (TS_IDLE and LW_IDLE)
+                      );
+
+      lt_ldata_ack_r_ena_lc2  = LCELL ( io_cyc                              
+                      OR  cap_ptr_ena_sr
+                      OR  cis_ptr_en_sr
+                      );
+
+      lt_ldata_ack_r_ena    =   LCELL(lt_ldata_ack_r_ena_lc1  
+                        OR lw_lr_done
+                        OR (lt_ldata_ack_r_prn3)
+                        OR lt_ldata_ack_r_ena_lc2); 
+
+      lt_ldata_ack_r.ena    = lt_ldata_ack_r_ena;
+      
+
+      
+      lt_ldata_ack_r_d1   = LCELL(not (LW_IDLE OR LW_DONE));
+      lt_ldata_ack_r_d2   = LCELL (NOT (LR_IDLE OR LR_DONE));       
+      lt_ldata_ack_r_d3   = LCELL((lt_ldata_ack_r_d2 and not TS_IDLE)
+                        OR (not wr_rdn and TS_ADR_VLD));
+    
+      lt_ldata_ack_r_d4 = LCELL(trans64_sr_edge.q
+                      OR (lt_ldata_ack_r_ena_lc2 and (lt_ldata_ack_r_d1 or lt_ldata_ack_r_d2))    
+                    );
+                
+      lt_ldata_ack_r_d5 = LCELL((lt_ldata_ack_r_d3 or lt_ldata_ack_r_d4 or lt_ldata_ack_r_prn3) and not mstr_actv); 
+      
+      lt_ldata_ack_r.d  = (not lt_ldata_ack_r and lt_ldata_ack_r_d1) 
+                    OR lt_ldata_ack_r_d5;
+
+    
+      lt_hdata_ack_r.clk  = clk;
+      lt_hdata_ack_r.clrn = rstn; 
+      lt_hdata_ack_r_prn1 = LCELL((ad_ir_address[2] and not dac_cyc) or (hi_adr_hr[2] and dac_cyc));
+      lt_hdata_ack_r_prn2 = LCELL(lt_hdata_ack_r_prn1 and (TS_ADR_CLMD OR TS_ADR_VLD) and not retry and mem_cyc);
+      lt_hdata_ack_r_prn3 = LCELL(lt_ldata_ack_r_prn1 and (TS_ADR_CLMD OR TS_ADR_VLD) and not retry and mem_cyc);
+      
+      lt_hdata_ack_r_ena_lc1  = LCELL(lt_hdata_ack_r_prn2
+                        OR (lt_hdata_ack_r_prn3 and not wr_rdn));
+      lt_hdata_ack_r_ena    = LCELL(  lt_ldata_ack_r_ena_lc1
+                        OR lw_lr_done
+                        OR lt_hdata_ack_r_ena_lc1
+                        OR trans64_reg.q
+                    ); 
+      lt_hdata_ack_r.ena  = lt_hdata_ack_r_ena;
+      lt_hdata_ack_r_d1 = LCELL(lt_ldata_ack_r_d1 and not (cap_ptr_ena_sr or cis_ptr_en_sr) and mem_cyc);
+      lt_hdata_ack_r_d2 = LCELL(lt_ldata_ack_r_d2 and not (cap_ptr_ena_sr or cis_ptr_en_sr) and mem_cyc);
+      lt_hdata_ack_r_d3 = LCELL(trans64_sr_edge.q 
+                      OR (not wr_rdn and TS_ADR_VLD and mem_cyc)
+                    );
+      lt_hdata_ack_r_d4_lc = LCELL ((not TS_IDLE AND lt_hdata_ack_r_d2) 
+                      OR lt_hdata_ack_r_d3
+                      OR lt_hdata_ack_r_ena_lc1);
+      lt_hdata_ack_r_d4   = LCELL( lt_hdata_ack_r_d4_lc and not mstr_actv);
+      lt_hdata_ack_r.d  = (not lt_hdata_ack_r and lt_hdata_ack_r_d1) 
+                  OR lt_hdata_ack_r_d4; 
+                  
+    ELSE GENERATE   -- P2P_BRIDGE = YES
+      
+      cfg_type1_sr.clk  = clk;
+      cfg_type1_sr.clrn = rstn;
+      cfg_type1_sr.s    = cfg_type1_cyc;
+      cfg_type1_sr.r    = TS_TURN_AR;
+
+
+      lt_ldata_ack_r.clk  = clk;
+      lt_ldata_ack_r.clrn = rstn;
+      lt_ldata_ack_r_prn1 = LCELL( (not ad_ir_address[2] and not dac_cyc) or (not hi_adr_hr[2] and dac_cyc));
+      lt_ldata_ack_r_prn3 = LCELL(   (
+                          (lt_ldata_ack_r_prn1 and (TS_ADR_CLMD or TS_ADR_VLD) and not retry and mem_cyc)
+                        )
+                    ); 
+
+      lt_ldata_ack_r_ena_lc1  = LCELL(not lt_dxfrn
+                        OR (TS_IDLE and LW_IDLE));
+      lt_ldata_ack_r_ena_lc2  = LCELL(io_cyc                              
+                        OR (cap_ptr_ena_sr and not ad_ir_address[2])
+                        OR cis_ptr_en_sr);
+      lt_ldata_ack_r_ena    =   LCELL(lt_ldata_ack_r_ena_lc1  
+                        OR lw_lr_done
+                        OR (lt_ldata_ack_r_prn3)
+                        OR lt_ldata_ack_r_ena_lc2);
+      lt_ldata_ack_r.ena    = lt_ldata_ack_r_ena;
+      
+      lt_ldata_ack_r_d1   = LCELL(not (LW_IDLE OR LW_DONE));
+      lt_ldata_ack_r_d2   = LCELL (NOT (LR_IDLE OR LR_DONE));       
+                                          
+      lt_ldata_ack_r_d3   = LCELL((lt_ldata_ack_r_d2 and not TS_IDLE)
+                        OR (not wr_rdn and TS_ADR_VLD));
+    
+      lt_ldata_ack_r_d4 = LCELL(trans64_sr_edge.q
+                      OR (lt_ldata_ack_r_ena_lc2 and (lt_ldata_ack_r_d1 or lt_ldata_ack_r_d2))    
+                    );
+                
+      lt_ldata_ack_r_d5 = LCELL((lt_ldata_ack_r_d3 or lt_ldata_ack_r_d4 or lt_ldata_ack_r_prn3) and not mstr_actv);
+      
+      lt_ldata_ack_r.d  = (not lt_ldata_ack_r and lt_ldata_ack_r_d1) 
+                    OR lt_ldata_ack_r_d5;
+
+    
+      lt_hdata_ack_r.clk  = clk;
+      lt_hdata_ack_r.clrn = rstn; 
+      lt_hdata_ack_r_prn1 = LCELL((ad_ir_address[2] and not dac_cyc) or (hi_adr_hr[2] and dac_cyc));
+      lt_hdata_ack_r_prn2 = LCELL(lt_hdata_ack_r_prn1 and (TS_ADR_CLMD OR TS_ADR_VLD) and not retry and (mem_cyc or cfg_type1_sr));
+      lt_hdata_ack_r_prn3 = LCELL(lt_ldata_ack_r_prn1 and (TS_ADR_CLMD OR TS_ADR_VLD) and not retry and mem_cyc);
+
+      lt_hdata_ack_r_ena_lc1  = LCELL(lt_hdata_ack_r_prn2
+                        OR (lt_hdata_ack_r_prn3 and not wr_rdn));
+      lt_hdata_ack_r_ena    = LCELL(  (lt_ldata_ack_r_ena_lc1)
+                        OR lw_lr_done
+                        OR lt_hdata_ack_r_ena_lc1
+                        OR trans64_reg.q
+                        OR (cap_ptr_ena_sr and ad_ir_address[2])
+                    ); 
+      lt_hdata_ack_r.ena  = lt_hdata_ack_r_ena;
+      lt_hdata_ack_r_d1 = LCELL(lt_ldata_ack_r_d1 and  (mem_cyc or cap_ptr_ena_sr));
+      lt_hdata_ack_r_d2 = LCELL(lt_ldata_ack_r_d2 and  (mem_cyc or cap_ptr_ena_sr));
+
+      lt_hdata_ack_r_d3 = LCELL(trans64_sr_edge.q 
+                      OR (not wr_rdn and TS_ADR_VLD and mem_cyc)
+                    );
+      lt_hdata_ack_r_d4_lc = LCELL ((not TS_IDLE AND lt_hdata_ack_r_d2) 
+                      OR lt_hdata_ack_r_d3
+                      OR lt_hdata_ack_r_ena_lc1);
+      lt_hdata_ack_r_d4   = LCELL( lt_hdata_ack_r_d4_lc and not mstr_actv);
+      lt_hdata_ack_r.d  = (not lt_hdata_ack_r and lt_hdata_ack_r_d1) 
+                  OR lt_hdata_ack_r_d4; 
+
+
+    END GENERATE;   -- P2P_BRIDGE   }
+                    
+      lt_ldata_ackn   = NOT  lt_ldata_ack_r; 
+      lt_hdata_ackn   = NOT  lt_hdata_ack_r; 
+
+  ELSE GENERATE     -- PCI_32 = "YES"
+    lt_ldata_ack_r    = VCC;    
+  END GENERATE; --}
+---------------------------------------------------------------------------------------------------
+
+---- 32-BIT PCI/ 64-BIT Local Side Data Path Logic ------------------------------------------------
+  -- Signal to select the hold register data
+  WAIT_wait32.clk   = clk;
+  WAIT_wait32.clrn  = rstn;
+  wait_wait32_lc1   = LCELL(LR_PXFR AND lt_abortn AND NOT  TS_DISC  AND NOT  lt_rdynR);
+  wait_wait32_lc2   = LCELL((wait_wait32_lc1 AND direct_xfr)
+                    OR (LR_WAIT AND lt_abortn));
+  wait_wait32_lc3   = LCELL((wait_wait32_lc1 AND NOT  direct_xfr)
+                    OR (LR_WAIT_32 AND lt_abortn));     
+  wait_wait32_lc4   = LCELL((wait_wait32_lc2 OR wait_wait32_lc3 ) AND NOT  cfg_cyc); 
+    
+    
+  IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+    WAIT_wait32_irdy =  LCELL(irdy);
+    WAIT_wait32 = wait_wait32_lc4 AND frame AND NOT WAIT_wait32_irdy;
+  ELSE GENERATE
+    WAIT_wait32 = wait_wait32_lc4 AND frame AND NOT irdy;
+  END GENERATE;
+ 
+  
+  hr_dat_sel      = WAIT_WAIT32; -- Signal to select the holding register
+---------------------------------------------------------------------------------------------------
+
+---- High/Low Select logic: Whether the high or low data is transferred to/from ad[31..0] in ------
+----              a 32-bit PCI/64-bit local side transaction ------------------------
+
+  IF(PCI_32 == "NO") GENERATE
+    hi_low_sel_carry1.cin = NOT lt_rdynR_R and not TS_ADR_CLMD and NOT trans64_reg.q;
+    hi_low_sel_carry1.sin = VCC;
+    hi_low_sel_carry2.cin = NOT io_cyc and lt_ldata_ack_r AND hi_low_sel_carry1.cout; 
+    hi_low_sel_carry2.sin = VCC;
+    hi_low_sel = LR_PXFR_32 OR (LR_LXFR AND hi_low_sel_carry2.cout);
+  ELSE GENERATE
+    hi_low_sel = LR_PXFR_32 OR (LR_LXFR AND lt_ldata_ack_r AND NOT  lt_rdynR_R);
+  END GENERATE;
+---------------------------------------------------------------------------------------------------
+  
+---- LT_FRAMEN Logic:  Local Target Frame Output --------------------------------------------------
+
+%-  
+  lt_frame_or.s   = (targ_trig AND cben_ir_address[3]==B"0" AND cben_ir_address[2]==B"1" AND cben_ir_address[1]==B"1");-- Set when an address hit is detected 
+
+    lt_frame_or.s     = (adr_phase AND (cben_IR_address[3..1] == B"011") AND mem_bar_hit)
+            OR    (adr_phase AND (cben_IR_address[3..0] == B"1100") AND mem_bar_hit)
+            OR    (adr_phase AND (cben_IR_address[3..1] == B"111") AND mem_bar_hit)
+            OR    (adr_phase AND (cben_IR_address[3..1] == B"001") AND io_bar_hit);
+
+  cap_ptr_ena   = ((ad_ir_address[6] OR ad_ir_address[7] OR ad_ir_address[8] OR ad_ir_address[9] OR ad_ir_address[10]) 
+                        AND adr_phase AND idsel_IR AND (cben_IR_address[3..1] == B"101"));
+
+  lt_frame_or.clk   = clk;
+  lt_frame_or.clrn  = rstn;
+    lt_frame_or.s     = lt_frame_or_set;
+  lt_frame_or.r   = lt_frame_or_rst;
+  
+  lt_frame_or_set = LCELL(
+                mem_bar_hit OR cap_ptr_ena 
+              );
+  lt_frame_or_rst = LCELL(
+                  LW_DONE                         -- Reset after last DWORD is transferred on local side
+                  OR   (TS_ADR_VLD AND (NOT  lt_abortn OR NOT  lt_discn))
+                  OR   (TS_ADR_VLD AND serr_sig_set)
+                  OR   (TS_ADR_CLMD  AND NOT  lt_abortn)
+                  OR  (TS_DISC AND (LR_PXFR OR LR_PXFR_32 OR retry) AND lt_rdynR)   -- Reset after last DWORD is transferred on local side
+                  OR  (LR_DONE)
+                  OR   ((LR_PXFR OR LR_PXFR_32) AND NOT  frame_IR)
+                  OR  cfg_cyc
+                );
+
+                OR  (LR_PXFR_d AND NOT  frame);  -- (LR_PXFR AND NOT  frame_IR) -- lt_framen one clock delay
+            OR   (TS_DISC AND LW_LXFR);
+  lt_framen     = NOT  lt_frame_or;
+
+-%
+  lt_frame_or.clk   = clk;
+  lt_frame_or.clrn  = rstn;
+
+  lt_frame_or.s     = lt_frame_or_set;
+  lt_frame_or.r     = lt_frame_or_rst;
+  
+  
+  IF (P2P_BRIDGE == "YES") GENERATE
+    IF (PREFETCHABLE_MEMORY == "YES") GENERATE
+        lt_frame_or_set =    NOT  LCELL ( NOT ( mem_adr_vld OR prfch_mem_adr_vld OR mem_bar_hit OR cfg_type1_cyc)
+                        AND lt_frame_or_set_cc
+                        );
+        lt_frame_or_set_cc =  NOT (cap_ptr_ena  OR cis_ptr_en OR  io_adr_vld );
+    ELSE GENERATE
+      lt_frame_or_set = (
+                    io_adr_vld OR mem_adr_vld OR mem_bar_hit OR cap_ptr_ena  OR cis_ptr_en OR cfg_type1_cyc 
+                  );
+    END GENERATE;   
+  ELSE GENERATE       -- NOT P2P_BRIDGE
+    lt_frame_or_set = (
+                    mem_bar_hit OR cap_ptr_ena OR cis_ptr_en 
+                );
+  END GENERATE;
+    
+  lt_frame_or_rst_lc1 = LCELL(
+                  (TS_ADR_VLD AND (NOT  lt_abortn OR NOT  lt_discn))
+                  OR   (TS_ADR_VLD AND serr_sig_set)
+                );
+  lt_frame_or_rst_lc2 = LCELL(
+                  (LR_DONE)
+                  OR   ((LR_PXFR OR LR_PXFR_32) AND NOT  frame_IR)
+                );
+  lt_frame_or_rst_lc3 = LCELL(
+                  (LR_PXFR OR LR_PXFR_32 OR retry) AND lt_rdynR
+                );
+  lt_frame_or_rst_lc4 = LCELL(
+                   (TS_DISC AND LW_IDLE and wr_rdn)
+                  OR  (TS_DISC AND lt_frame_or_rst_lc3 and not wr_rdn)    -- Reset after last DWORD is transferred on local side
+                );    
+
+  lt_frame_or_rst_lc5 = LCELL(  LW_DONE
+                  OR TS_ADR_CLMD  AND (NOT  lt_abortn )
+
+                );      
+  lt_frame_or_rst = LCELL(      
+                    lt_frame_or_rst_lc5             
+                  OR  lt_frame_or_rst_lc1   
+                  OR  lt_frame_or_rst_lc4 
+                  OR  lt_frame_or_rst_lc2
+                );
+  lt_framen     = NOT  lt_frame_or;
+---------------------------------------------------------------------------------------------------
+
+---- LT_ACKN Logic: Local Target Acknowledge ------------------------------------------------------ 
+  -- Local Target Acknowledge Output
+  -- lt_ackn is active only during mem_cyc or io_cyc.
+  -- In io_cyc Data is xferred during LAST_XFR.  AD_IR will have data during TS_TURN_AR
+  -- lt_ackn in write cycles will be active one clock before data is valid.
+  -- in mem_cyc with irdy before 1st trdy,
+
+    
+---------- lt_ackn Register-OR  Optimization
+
+  
+  IF ( OPTIMIZE_LT_ACKN == "NO") GENERATE
+    Assert REPORT "**** NOT  OPTIMIZING LT_ACKN ****"
+    Severity Warning;
+
+    lt_ack_R.clk = clk;
+    lt_ack_R.clrn = rstn;
+    
+    lt_ack_R =
+      LW_WAIT
+              
+  OR  LR_LXFR AND  lt_abortn  and lt_discn and not TS_DISC and (lt_ldata_ack_r OR TS_ADR_VLD OR TS_ADR_CLMD) 
+                      
+      AND  (    lt_rdynR AND lt_rdynR_R AND lt_discn
+          OR  lt_rdynR AND direct_xfr AND lt_discn
+          OR  lt_rdynR_R and NOT direct_xfr AND NOT lt_ldata_ack_r AND lt_discn 
+          OR NOT lt_rdynR AND lt_rdynR_R AND NOT direct_xfr AND NOT lt_ldata_ack_r
+          
+          )
+  OR  LR_IDLE AND TS_ADR_VLD AND NOT  wr_rdn AND NOT  cfg_cyc AND NOT  retry AND NOT  serr_sig_set AND NOT rd_backoff
+  
+  
+  OR  LR_LXFR AND  NOT rd_backoff AND NOT (NOT lt_discn and lt_rdynR)
+          AND (   (NOT  lt_rdynR AND direct_xfr)                
+                    OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r) 
+            )and frame
+   
+  OR LW_LXFR AND NOT TS_TURN_AR AND NOT  TS_DISC AND irdy
+  OR LW_LXFR and TS_DISC and trdy_OR and irdy
+  
+  OR  
+  ( LR_PXFR AND NOT lt_rdynR AND direct_xfr 
+  OR  LR_PXFR AND lt_rdynR and lt_ldata_ack_r
+  
+  OR  LR_PXFR AND lt_rdynR and TS_ADR_VLD
+  OR  LR_PXFR AND lt_rdynR and TS_ADR_CLMD  
+      
+  OR  LR_PXFR_32
+  
+  OR  LR_WAIT 
+  )     AND NOT rd_backoff  AND frame AND irdy      
+                
+  OR  LR_PXFR AND lt_abortn and lt_discn AND NOT TS_DISC  AND lt_rdynR AND frame AND NOT irdy    ;          
+    
+  ELSE GENERATE     -- OPTIMIZE_LT_ACKN YES
+
+  -------------- lt_ack_R_r1 optimization --------------------------
+  
+  lt_ack_R_r1_lc1 = LCELL ( NOT lt_rdynR AND lt_rdynR_R AND NOT direct_xfr AND NOT lt_ldata_ack_r);
+                
+  lt_ack_R_r1_lc2 = LCELL (   lt_rdynR AND lt_rdynR_R 
+                          OR  lt_rdynR AND direct_xfr
+                          OR  lt_rdynR_R and NOT direct_xfr AND NOT lt_ldata_ack_r 
+                           );
+                           
+  lt_ack_R_r1_lc3 = LCELL ( LR_LXFR and (lt_ldata_ack_r OR TS_ADR_VLD OR TS_ADR_CLMD)
+                          );      
+  
+  lt_ack_R_r1_lc4 = LCELL( lt_ack_R_r1_lc3 AND  ( lt_ack_R_r1_lc2 AND lt_discn  OR lt_ack_R_r1_lc1)
+                         );
+               
+  
+  lt_ack_R_r1_lc5 = LCELL(LR_IDLE AND TS_ADR_VLD AND NOT  wr_rdn AND NOT  cfg_cyc);
+  lt_ack_R_r1_lc6 = LCELL ( lt_ack_R_r1_lc5  AND NOT  retry AND NOT  serr_sig_set AND NOT rd_backoff);
+  lt_ack_R_r1_lc7 = LCELL (   LW_WAIT
+                           OR NOT rd_backoff AND lt_ack_R_r1_lc4 
+                           OR lt_ack_R_r1_lc6  
+                           );
+                
+  lt_ack_R_r1_lc8 = LCELL ( (NOT  lt_rdynR AND direct_xfr)                
+                    OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r) 
+                );
+                
+  lt_ack_R_r1_lc9   = LCELL ( LR_LXFR AND  NOT rd_backoff AND NOT (NOT lt_discn and lt_rdynR) );
+  lt_ack_R_r1.clk   = clk;
+  lt_ack_R_r1.clrn  = rstn;
+
+  lt_ack_R_r1.d     = lt_ack_R_r1_lc7 OR  (lt_ack_R_r1_lc9  AND  (lt_ack_R_r1_lc8 and frame)); 
+  
+  ---------------lt_ack_R_r2 optimization ---------------------------------
+  
+ 
+
+  lt_ack_R_r2.clk = clk;
+  lt_ack_R_r2.clrn = rstn;
+  
+  
+  lt_ack_R_r2_cascade = irdy and no_op_reg2 and no_op_reg3 AND LW_LXFR;
+  lt_ack_R_r2.d       =( NOT TS_TURN_AR AND NOT  TS_DISC
+                      OR TS_DISC and trdy_OR) and lt_ack_R_r2_cascade;
+  
+  
+  --------------- lt_ackn_R_r3 optimiation -------------------------------------
+
+  lt_ack_R_r3_lc1 = LCELL( LR_PXFR AND NOT lt_rdynR AND direct_xfr 
+                       OR  LR_PXFR AND lt_rdynR and lt_ldata_ack_r);
+            
+  lt_ack_R_r3_lc2 = LCELL(LR_PXFR AND lt_rdynR and TS_ADR_VLD
+                      OR  LR_PXFR AND lt_rdynR and TS_ADR_CLMD);
+                      
+  lt_ack_R_r3_lc3 = LCELL(lt_ack_R_r3_lc1 OR lt_ack_R_r3_lc2 OR LR_PXFR_32 OR LR_WAIT );
+
+  IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+    lt_ack_R_r3_irdy = LCELL(irdy);
+    lt_ack_R_r3.clk  = clk;
+    lt_ack_R_r3.clrn = rstn;
+    lt_ack_R_r3.d    =   lt_ack_R_r3_lc3 AND NOT rd_backoff AND frame AND lt_ack_R_r3_irdy;
+  ELSE GENERATE
+    lt_ack_R_r3.clk  = clk;
+    lt_ack_R_r3.clrn = rstn;
+    lt_ack_R_r3.d    =   lt_ack_R_r3_lc3 AND NOT rd_backoff AND frame AND irdy;
+  END GENERATE;
+  
+  --------------lt_ack_R_r4 optimization -----------------------------------------
+
+  lt_ack_R_r4.clk  = clk;
+  lt_ack_R_r4.clrn = rstn;
+  
+  
+  lt_ack_R_r4_cascade = lt_rdynR AND NOT irdy;
+  lt_ack_R_r4.d       = LR_PXFR  AND NOT rd_backoff AND frame AND lt_ack_R_r4_cascade;
+  lt_ack_R  = lt_ack_R_r1 OR lt_ack_R_r2 OR lt_ack_R_r3 OR lt_ack_R_r4;
+
+  END GENERATE;   -- OPTIMIZE_LT_ACKN
+
+  lt_ack_OR   = lt_ack_R;
+  lt_ackn     = NOT lt_ack_OR;
+
+    
+   
+---- PERR_VLD is used to for the parity checker to check for parity errORs ------------------------ 
+
+  perr_vldR.clk = clk;
+  perr_vldR.clrn  = rstn;
+  perr_vldR_cascade = trdy_OR AND irdy AND no_op_reg0 AND NOT  TS_IDLE;
+  perr_vldR   =  (wr_rdn ) AND  perr_vldR_cascade;
+  
+  perr_vld    = perr_vldR;
+
+  perr_oe   = wr_rdn AND (NOT TS_IDLE  OR TURN_AR_R) and NOT serr_sig_set;
+  
+  par_oe    = NOT  wr_rdn AND NOT  (TS_TURN_AR OR TS_IDLE) AND NOT serr_sig_set;
+
+  --  Turn Around Register.  Used to figure out when to turn off
+  --  the tristate for perr
+  TURN_AR_R.clk   = clk;      -- Turn Around State Delayed One clock
+  TURN_AR_R.clrn    = rstn;
+  TURN_AR_R.d     = TS_TURN_AR;
+--------------------------------------------------------------------------------------------------- 
+
+---- SERR_VLD is used to check for address phase parity errORs ------------------------------------
+  IF (TARGET_ONLY == "NO") GENERATE
+    serr_vld  = adr_phase OR dac_adr_phase_R;
+  ELSE GENERATE
+    serr_vld  = adr_phase OR dac_adr_phase_R;
+  END GENERATE; 
+--------------------------------------------------------------------------------------------------- 
+
+---------- DEVSELN Logic -------------------------------------------------------------------------- 
+%-- DEVSELn signal has the following rules
+  1.  Asserted on transtion between TS_ADR_VLD to TS_ADR_CLMD
+  2.  Stay Asserted until frame is high and trdy or stop are asserted
+  3.  Deassert if abort is signaled but the data phase has ended or if trdy is asserting waits.
+    data phase ending is indicated when trdy and irdy are asserted
+  3.  Goes high if lt_abortn is asserted while trdy and irdy is asserted
+  4.  In the case of signaling abort during the last data phase ie frame is high
+
+
+
+  devsel_OR.d     =   (TS_ADR_VLD AND NOT  serr_sig_set ) 
+            OR  (TS_DISC AND low_dword_discard)
+            OR  (TS_ADR_CLMD AND NOT  tabrt_sig_cyc AND lt_abortn)
+            OR  (TS_DXFR AND NOT  trdy_OR AND lt_abortn )
+            OR  (frame AND TS_DISC AND NOT  tabrt_sig_cyc)                      
+            OR  (frame AND TS_DXFR AND lt_abortn);
+-%
+IF (OPTIMIZE_DEVSEL == "NO") GENERATE
+  
+  Assert report " **** ---- Using non-optimized logic for devseln signal ---- ****" severity warning;
+    
+  devsel_OR.clk   = clk;
+  devsel_or.clrn    = rstn;
+
+  devsel_OR_d     =   (TS_ADR_VLD AND NOT  serr_sig_set )             -- First Assertion on transtion from TS_ADR_VLD to TS_ADR_CLMD                
+            OR  (TS_ADR_CLMD AND lt_abortn AND NOT tabrt_sig_cyc)     -- Assert on Transition to TS_DXFR if no Abort is signaled
+            OR  (TS_DXFR AND lt_abortn AND NOT (not frame and trdy_OR))   -- Assert when Abort is not signaled
+            OR  (TS_DXFR AND not lt_abortn and trdy_OR and not irdy)    -- Keep asserted if abort is signaled but trdy is asserted and irdy is deasserted
+            OR  (TS_DISC AND NOT tabrt_sig_cyc AND NOT( not frame and (stop_OR or trdy_OR)))          -- Keep asserted during TS_DISC if it is not an abort cycle
+            OR  (TS_DISC AND tabrt_sig_cyc AND trdy_OR and not irdy)    -- Keep asserted if trdy is deasserted and irdy is asserted during a target abort cycle
+            ;
+             
+  
+  devsel_OR     = devsel_OR_d;
+  
+  devsel_OR_out   = devsel_OR;
+  
+ELSE GENERATE
+
+  devsel_OR_not.clk = clk;  
+  devsel_OR_not.prn = rstn;
+  devsel_OR_not.d   = devsel_OR_not_d;
+  devsel_OR         = NOT devsel_OR_not;
+  devsel_OR_out     = devsel_OR;
+  devsel_OR_lc1     =   LCELL(  (TS_DISC AND NOT tabrt_sig_cyc)       
+                          OR  (TS_DXFR AND lt_abortn)
+                           );
+              
+  devsel_or_cc2       = ( NOT (TS_DISC AND NOT tabrt_sig_cyc AND not stop_OR and not trdy_OR));
+  
+  
+  devsel_OR_lc2_cascade = NOT (TS_DXFR AND not trdy_OR AND lt_abortn) AND devsel_or_cc2;
+  devsel_OR_lc2   =   LCELL( NOT  ( ( NOT (TS_ADR_CLMD AND NOT tabrt_sig_cyc AND lt_abortn)                     
+                    AND devsel_OR_lc2_cascade
+                    )
+                  ) );
+  
+  devsel_or_cc3       = (trdy_OR and no_op_reg[1]);                             
+  devsel_OR_lc3   =   LCELL(  ( tabrt_sig_cyc AND TS_DISC
+                  OR  NOT lt_abortn AND TS_DXFR
+                  )
+                AND  devsel_or_cc3
+                ); 
+  
+  
+                
+  -- Note: Frame and irdy were placed on the cascade chain to prevent hold time violations
+
+  IF(PCI_FAMILY_STRATIXII()) GENERATE
+  
+    devsel_or_irdy = LCELL(irdy);
+     
+    devsel_OR_cascade = LCELL(NOT ( (TS_ADR_VLD AND NOT  serr_sig_set )
+                OR  (devsel_OR_lc2) 
+                ));
+  
+    devsel_OR_not_d   =  NOT ( (devsel_OR_lc1 AND frame)       
+                    OR  (devsel_OR_lc3 AND not devsel_or_irdy)
+                    )
+              AND   devsel_OR_cascade
+                    
+              ;
+  ELSE GENERATE
+   
+    devsel_OR_cascade = LCELL(NOT ( (devsel_OR_lc1 AND frame)       
+                    OR  (devsel_OR_lc3 AND not irdy)
+                    ));
+  
+    devsel_OR_not_d   =   NOT ( (TS_ADR_VLD AND NOT  serr_sig_set )
+                OR  (devsel_OR_lc2) 
+                )
+              AND   devsel_OR_cascade
+                    
+              ;
+  END GENERATE;
+ 
+END GENERATE;
+
+
+---------------------------------------------------------------------------------------------------
+            
+----------- ack64n Logic --------------------------------------------------------------------------
+
+IF (OPTIMIZE_DEVSEL == "NO") GENERATE
+  ack64_OR.clk  = clk;
+  ack64_OR.clrn = rstn;
+
+  ack64_or_d    = devsel_or_d and trans64_R;
+
+  ack64_or.d    = ack64_or_d;
+  
+  ack64_or_out  = ack64_or;
+  
+  
+ELSE GENERATE
+  
+  
+--  ack64_OR_NOT_d      =   NOT ( (trans64_R AND  TS_ADR_VLD AND NOT  serr_sig_set )
+--                  OR  (trans64_R AND  devsel_OR_lc2)                    
+--                  OR  (trans64_R AND  devsel_OR_lc1 AND frame)        
+--                  OR  (trans64_R AND  devsel_OR_lc3 and not irdy)
+--                  );
+              
+
+  ack64_OR_not.clk  = clk;
+  ack64_OR_not.prn  = rstn;
+  ack64_OR_not.d    = ack64_OR_NOT_d;
+  
+  
+  ack64_OR_cascade1 = NOT (trans64_R AND  devsel_OR_lc2);
+  ack64_OR_cascade2 = NOT (trans64_R AND  TS_ADR_VLD AND NOT  serr_sig_set )
+                      AND ack64_OR_cascade1;
+  ack64_OR_cascade3 = NOT (trans64_R AND  devsel_OR_lc3 and not irdy)
+                AND ack64_OR_cascade2;
+  ack64_OR_not_d    =   NOT (trans64_R AND  devsel_OR_lc1 AND frame)
+                AND ack64_OR_cascade3;
+  
+                  
+  ack64_OR      = NOT ack64_OR_not;
+  ack64_or_out    = ack64_or;
+  
+                  
+END GENERATE;
+---------------------------------------------------------------------------------------------------
+    
+---- Target Output Enable Logic:  OE will be active until the trun around cycle. ------------------
+--  targ_oeR_reg.clk    = clk;
+--  targ_oeR_reg.clrn   = rstn;
+--  targ_oeR_reg.d  =  (TS_IDLE AND adr_phase AND idsel_IR AND (cben_IR_address[3..1] ==B"101") AND (ad_ir_address[1..0] == B"00"))
+--            OR (TS_IDLE AND (mem_bar_hit ))
+--            OR TS_ADR_VLD
+--            OR TS_ADR_CLMD
+--            OR TS_DXFR
+--            OR TS_LRD_WAIT    -- Enabled While Xfr is in progress
+--            OR TS_DISC;
+--  targ_oeR = targ_oeR_reg;  
+
+
+  IF (P2P_BRIDGE == "YES") GENERATE           
+    IF (PREFETCHABLE_MEMORY == "YES") GENERATE --{
+
+      targ_oeR_reg_not.clk  = clk;
+      targ_oeR_reg_not.prn  = rstn;
+  
+      targ_oeR_reg_lc1    = LCELL(idsel_IR AND (cben_IR_address[3] AND cben_ir_address[1] AND NOT  cben_ir_address[2]));-- ==B"101");
+      targ_oeR_reg_lc2    = LCELL(TS_IDLE  AND (NOT  ad_ir_address[1] AND NOT  ad_ir_address[0] )); --== B"00");
+      targ_oeR_reg_lc3    = LCELL( not TS_IDLE and NOT TS_TURN_AR );
+
+
+
+  --    targ_oeR_reg.d      =  (TS_IDLE AND (mem_adr_vld OR prfch_mem_adr_vld) )
+  --                OR (TS_IDLE AND ( io_adr_vld OR cfg_type1_cyc OR mem_bar_hit) )
+  --                OR (adr_phase AND targ_oeR_reg_lc1 AND targ_oeR_reg_lc2 )
+  --                OR targ_oeR_reg_lc3 ;
+
+
+      targ_oeR_reg_not.d    =  (   (  NOT (TS_IDLE AND (mem_adr_vld OR prfch_mem_adr_vld) ))
+                    AND cascade (   ( not(TS_IDLE AND ( io_adr_vld OR cfg_type1_cyc OR mem_bar_hit) ) ) 
+                          AND CASCADE ( NOT ( (adr_phase AND targ_oeR_reg_lc1 AND targ_oeR_reg_lc2 )
+                                    OR targ_oeR_reg_lc3
+                                    )
+                                )
+                          )
+                  ) ;
+
+    targ_oeR_reg      = LCELL(NOT targ_oeR_reg_not);
+
+      
+
+    ELSE GENERATE
+      targ_oeR_reg.clk    = clk;
+      targ_oeR_reg.clrn   = rstn;
+      targ_oeR_reg.d      =  (adr_phase AND targ_oeR_reg_lc1 AND targ_oeR_reg_lc2 )
+                        OR targ_oeR_reg_lc4;
+  
+      targ_oeR_reg_lc1    = LCELL(idsel_IR AND (cben_IR_address[3] AND cben_ir_address[1] AND NOT  cben_ir_address[2]));-- ==B"101");
+      targ_oeR_reg_lc2    = LCELL(TS_IDLE  AND (NOT  ad_ir_address[1] AND NOT  ad_ir_address[0] )); --== B"00");
+      targ_oeR_reg_lc3    = LCELL( not TS_IDLE and NOT TS_TURN_AR 
+                    );
+      targ_oeR_reg_lc4    = LCELL((TS_IDLE AND (mem_adr_vld OR io_adr_vld OR cfg_type1_cyc OR mem_bar_hit))
+                        OR targ_oeR_reg_lc3
+                      );
+    END GENERATE;          --}
+  ELSE GENERATE           -- NOT P2P_BRIDGE
+
+    targ_oeR_reg.clk    = clk;
+    targ_oeR_reg.clrn   = rstn;
+
+    targ_oeR_reg.d      = targ_oeR_reg_lc4 OR (TS_IDLE AND mem_bar_hit) ;
+  
+    targ_oeR_reg_lc1    = LCELL(idsel_IR AND (cben_IR_address[3] AND cben_ir_address[1] AND NOT  cben_ir_address[2]));-- ==B"101");
+    targ_oeR_reg_lc2    = LCELL(TS_IDLE AND (NOT  ad_ir_address[1] AND NOT  ad_ir_address[0] )); --== B"00");
+
+    targ_oeR_reg_lc3    = LCELL( not TS_IDLE and NOT TS_TURN_AR AND NOT serr_sig_set );
+  
+
+
+    targ_oeR_reg_lc4    = LCELL (
+                      (adr_phase AND targ_oeR_reg_lc1 AND targ_oeR_reg_lc2 ) OR targ_oeR_reg_lc3
+
+                      );
+
+  
+
+
+  END GENERATE;
+
+  targ_oeR = targ_oeR_reg;
+---------------------------------------------------------------------------------------------------
+
+---- TRDYN Logic ----------------------------------------------------------------------------------
+  -- Trdy will be active One clock after devsel in configuration read/write
+  -- trdy will be active one clock after devsel in memORy write if lt_rdyn is asserted
+  -- trdy will be active one clock after devsel in io write if lt_rdyn is asserted
+  
+
+
+
+
+%-
+
+
+  trdy_OR .clk  = clk;
+  trdy_OR .clrn = rstn;
+
+  trdy_OR     =   TS_ADR_CLMD AND lt_abortn  AND  cfg_cyc and not mstr_actv
+          OR  TS_ADR_CLMD AND lt_abortn AND wr_rdn AND NOT  retry AND NOT  lt_rdyn and not mstr_actv                     
+
+          OR  ( TS_DXFR AND wr_rdn AND lt_discn AND lt_abortn AND NOT  LW_IDLE AND NOT  lt_rdyn
+            ) AND NOT trdy_OR AND NOT mstr_actv
+
+          OR  ( LW_LXFR AND TS_DXFR AND lt_rdyn AND lt_abortn 
+            OR  trdy_OR AND lt_abortn
+            )   AND NOT irdy AND NOT mstr_actv      
+
+
+          OR  ( TS_DXFR AND wr_rdn AND lt_discn AND lt_abortn AND NOT  LW_IDLE AND NOT  lt_rdyn
+            ) AND NOT mstr_actv AND frame
+          OR  (   LR_PXFR_d
+            OR  LR_PXFR_32_d
+            OR  LR_WAIT_d
+            OR  LR_WAIT_32_d
+          
+          OR LR_LXFR AND TS_DISC and (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)
+            );
+                    
+  trdy_out      = trdy_OR;
+
+
+
+
+  
+  -- 1:  Transition to LW_LXFR.  This asserts trdy when transferring into LW_LXFR from LW_IDLE
+  -- 2:  This is the transtion from LW_WAIT to LW_LXFR
+  -- 3:  Asserts trdy in LW_LXFR when both PCI and Local are asserting wait states
+  -- 4:  Keeps trdy asserted in the case of wait states if PCI is asserting Wait states and trdy is asserted
+    
+        
+-%
+IF (OPTIMIZE_TRDY == "NO") GENERATE  --{
+  
+    Assert report " **** ---- Not Optimizing trdyn Logic ---- ****" Severity Warning; 
+
+    %-- Trdy Logic Requirements
+    1.  Assert trdy when data can be transferred
+    2.  Keep trdy asserted until irdy is asserted
+    3.  Do not turn off trdy with abort unless irdy is asserted
+    
+    Config Transactions
+    1.  Assert trdy during 1st transtion to TS_DXFR and keep it asserted as long as irdy is not asserted
+    
+    Write Transactions
+    1.  Assert on transtion to LW_LXFR
+    2.  Deassert on transtion to LW_WAIT, LW_DONE
+    
+    Read Transactions
+    1.  Assert on transtion to LR_PXFR, LR_PXRFR32, LR_WAIT, LR_WAIT32
+  
+  
+  -- 1 :  Assert during configuration cycle.  There is no reason to try mstr_actv, retry, lt_abortn in this term
+  -- 2 :  Initial assertion for write commands.  lt_rdyn is needed to ensure that cycle does not begin unless local side indicated
+  --    retry is needed to indicate when previous target cycle is still using internal pipeline, lt_abortn is needed in the case
+  --    of abort requests
+  -- 3 :  Write cycle still in progress, trdyn gets asserted on the transion from LW_WAIT to LW_LXFR
+  -- 4 :  write cycle, assert trdy if not already asserted but and lt_rdyn is asserted.  Very strange term.  Defenitly does not need
+  --    mstr_activ since that is guaranteed by previous transitions. ie. NOT LW_IDLE is not true if mstr_active is true.  This term
+  --    should be covered by term 3 since the only timer trdy_OR is not asserted and not LW_IDLE is LW_WAIT.
+  -- 5 :  This is the transion form LR_LXFR to LR_PXFR -- Xfr High DWORD or Entire Word
+  -- 6 :  This is the transition from LR_LXFR to LR_PXFR32 , Low DWORD
+  -- 7 :  This is the transition to LR_PXFR to xfer the High DWORD in 32/64 Bit xfr
+  -- 8 :  This term is not clear, I do not believe it makes any sense
+  -- 9 :  Very similar to 4.  Seems totally unneeded
+  -- 10:  Why do we need frame and irdy. trdy should be asserted during LR_WAIT.  why we need frame and irdy?  May be we need frame at the most
+  --    since by defenition LR_WAIT has data in the pipe.
+  -- 11:  LR_PXFR_32 should have trdy asserted why do we need frame and irdy?
+  -- 12:  LR_WAIT_32 trdy should be asserted if frame is asserted and lt_abortn is not asserted
+  -- 13:  This asserts trdy when transitioning from LR_PXFR to LR_PXFR32, LR_WAIT, LR_WAIT32 or LR_PXFR
+  -- 14:  Seems to be xfer from LR_PXFR to LR_PXFR since both irdy and lt_rdyn are not asserted.  Why is frame needed?
+  -- 15:  Transtion from LR_PXFR to LR_WAIT32
+  -- 16:  Transtion from LR_PXFR32 to LR_PXFR32
+  -- 17:  Keep trdy asserted during PCI waits.  No need for frame and mstr_actv.  Problem with the turnoff of trdy if lt_abort is asserted
+  -- 18:  Transition from LR_WAIT32 to LR_WAIT32.  Again why we need frame?  trdy will be deasserted if lt_abort is asserted
+  -- 19:  LW_LXFR but both local and pci are asserting wait states.  This will present a problem since if lt_rdyn is asserted for more than one 
+  --    clock it will result in a failure.  No Need for mstr_actv since it is guaranteed by earlier logic.
+  --
+  
+  trdy_OR     =     
+              -- Configuration transactions
+              (TS_ADR_CLMD and cfg_cyc and not mstr_actv and NOT  retry AND lt_abortn)              --1
+            OR  (TS_ADR_CLMD and wr_rdn AND NOT  lt_rdyn and not mstr_actv and NOT  retry AND lt_abortn)      --2
+            OR  (TS_DXFR AND LW_WAIT AND not lt_rdyn)                               --3
+            OR  (TS_DXFR AND wr_rdn  AND NOT  LW_IDLE AND NOT trdy_OR AND NOT mstr_actv AND lt_discn AND lt_abortn AND NOT  lt_rdyn) --4
+            OR  (TS_DXFR AND wr_rdn  AND NOT  LW_IDLE  AND NOT mstr_actv AND  lt_discn AND lt_abortn AND NOT  lt_rdyn AND frame) -- 9
+            OR  (LR_LXFR AND lt_abortn AND NOT TS_DISC AND NOT lt_rdynR and direct_xfr)               -- 5
+            OR  (LR_LXFR AND lt_abortn AND NOT TS_DISC AND NOT lt_rdynR and not direct_xfr and lt_ldata_ack_r)    -- 6
+            OR  (LR_LXFR and not direct_xfr   AND NOT rd_backoff AND lt_ldata_ack_r AND NOT lt_rdynR_R)       -- 7
+            OR  (LR_LXFR and not direct_xfr AND TS_DISC  and lt_ldata_ack_r AND NOT lt_rdynR_R)           -- 8
+            OR  (frame and irdy AND 
+                ( LR_WAIT  AND lt_abortn                                    -- 10
+                OR  LR_PXFR_32  AND lt_abortn                                 -- 11
+                OR  LR_WAIT_32 AND lt_abortn                                  -- 12
+                OR  LR_PXFR AND NOT TS_DISC AND NOT lt_rdynR AND lt_abortn                    -- 13
+                )
+              )
+            OR  (frame and NOT irdy AND
+                ( (LR_PXFR  AND NOT TS_DISC  AND lt_rdynR  AND lt_abortn)                   -- 14
+                OR  (LR_PXFR  AND NOT  TS_DISC AND NOT lt_rdynR AND NOT  direct_xfr AND lt_abortn)        -- 15
+                OR  (LR_PXFR_32 AND lt_abortn)                                  -- 16
+                OR  (trdy_OR  AND NOT mstr_actv AND lt_abortn)                          -- 17
+                OR  (LR_WAIT_32 AND lt_abortn)                                  -- 18
+                OR  (LW_LXFR AND TS_DXFR AND NOT mstr_actv and lt_rdyn  AND lt_abortn)              -- 19
+                )
+              );
+  
+    
+  -%
+
+  
+  trdy_OR.clk     = clk;
+  trdy_OR.clrn    = rstn;
+  
+  
+  trdy_OR     =     
+              -- Configuration transactions
+              (TS_ADR_CLMD and cfg_cyc and NOT  retry AND lt_abortn) 
+              -- Write Transactions
+            
+            OR  (LW_IDLE AND LW_LXFR_d) 
+            OR  (LW_LXFR_d and TS_DXFR and frame and lt_abortn) 
+            OR  (LW_WAIT AND TS_DXFR AND not lt_rdyn) 
+
+              -- Maintain trdy assertion until irdy is asserted
+            OR  (trdy_OR and not irdy)
+              -- Read Cycle
+            OR  (LR_PXFR_d)
+            OR  (LR_PXFR_32_d)
+            OR  (LR_WAIT_d)
+            OR  (LR_WAIT_32_d)
+              
+            ;
+
+              
+  trdy_out      = trdy_OR;
+  
+  
+
+  
+ELSE GENERATE
+--{
+%
+
+-- Output of bool minimization software
+--trdy_OR   =   lt_abortn & frame & LR_WAIT_32 
+--      # lt_abortn & frame & LR_WAIT 
+--      # lt_abortn & frame & !lt_rdynR & !TS_DISC & LR_PXFR 
+--      # lt_abortn & frame & LR_PXFR_32 
+--      #   lt_abortn & LR_LXFR & !lt_rdynR & !lt_rdynR_R & !direct_xfr & lt_ldata_ack_r 
+--      # lt_abortn & lt_discn & LR_LXFR & !lt_rdynR_R & !direct_xfr & lt_ldata_ack_r 
+--      # lt_abortn & LR_LXFR & !lt_rdynR & !TS_DISC & lt_ldata_ack_r 
+--      # lt_abortn & LR_LXFR & !lt_rdynR & !TS_DISC & direct_xfr 
+--      # !lt_rdyn & TS_DXFR & LW_WAIT 
+--      # lt_abortn & !lt_rdyn & LW_LXFR & TS_DXFR & frame & lt_discn 
+--      # trdy_OR & !irdy 
+--      # TS_ADR_CLMD & !retry & lt_abortn & LW_IDLE & !lt_rdyn & wr_rdn & !mstr_actv 
+--      # TS_ADR_CLMD & cfg_cyc & !retry & lt_abortn ;
+
+%   
+  
+  
+  
+
+  trdy_OR_lc1   = LCELL( lt_abortn AND NOT lt_rdynR_R AND NOT direct_xfr AND lt_ldata_ack_r);
+  trdy_OR_lc2   = LCELL( LR_LXFR AND lt_abortn AND NOT lt_rdynR AND NOT TS_DISC );
+  trdy_or_cc5    = (  NOT ( TS_ADR_CLMD AND NOT retry AND lt_abortn AND cfg_cyc
+                                  )
+                              );
+   trdy_or_cc6    = ( NOT ( LR_WAIT_32 
+                                  OR  LR_PXFR_32
+                                  OR  LR_WAIT
+                                  )
+                              );
+  IF(PCI_32 == "NO") GENERATE --{
+  trdy_or_cc3    = (  NOT ( trdy_OR_lc2 AND lt_ldata_ack_r 
+                            OR  trdy_OR_lc2 AND direct_xfr
+                            )
+                        );                            
+  trdy_OR_lc3   =   LCELL (NOT  ( NOT ( LR_LXFR AND NOT lt_rdynR AND trdy_OR_lc1 
+                      OR  LR_LXFR AND lt_discn AND trdy_OR_lc1 
+                      )
+                  AND trdy_or_cc3
+
+                  )
+                  
+                  ); 
+  ELSE GENERATE
+  trdy_or_cc3    =    LCELL(  LR_LXFR AND NOT lt_rdynR AND trdy_OR_lc1 
+                      OR  LR_LXFR AND lt_discn AND trdy_OR_lc1 
+                      );                    
+
+  trdy_OR_lc3   =   LCELL (NOT  ( NOT trdy_or_cc3
+                  AND (NOT  ( trdy_OR_lc2 AND lt_ldata_ack_r 
+                            OR  trdy_OR_lc2
+                            ))
+
+                  )
+                  
+                  ); 
+  
+  END GENERATE;   --}
+
+  IF (SCFG_HB_ENA  == 0) GENERATE  --{
+
+    IF(TARGET_ONLY == "NO") GENERATE  
+    
+      trdy_OR_lc4   =   LCELL (LW_IDLE AND NOT lt_rdyn AND wr_rdn AND NOT mstr_actv);
+      
+    ELSE GENERATE
+    
+      trdy_OR_lc4   =   LCELL (LW_IDLE AND NOT lt_rdyn AND wr_rdn);
+  
+    END GENERATE; 
+    
+  ELSE GENERATE
+    IF(TARGET_ONLY == "NO") GENERATE  
+    
+      trdy_OR_lc4   =   LCELL (LW_IDLE AND NOT lt_rdyn AND wr_rdn AND (NOT mstr_actv or cfg_cyc));
+      
+    ELSE GENERATE
+    
+      trdy_OR_lc4   =   LCELL (LW_IDLE AND NOT lt_rdyn AND wr_rdn );
+  
+    
+    END GENERATE; 
+  
+  END GENERATE;   --}
+  
+    trdy_or_lc5_cascade   = NOT (TS_ADR_CLMD AND NOT retry AND lt_abortn AND trdy_OR_lc4)
+                        AND trdy_or_cc5;
+    trdy_OR_lc5   =   (  LCELL( NOT ( LW_WAIT AND TS_DXFR AND NOT lt_rdyn  
+                      OR  trdy_OR_lc3
+                      )
+                  AND trdy_or_lc5_cascade
+                  ) );
+    trdy_or_lc6_cascade   = NOT ( LR_PXFR AND NOT TS_DISC AND NOT lt_rdynR)
+                        AND trdy_or_cc6;                
+    trdy_OR_lc6   = LCELL  (NOT ( NOT ( LW_LXFR AND TS_DXFR AND NOT lt_rdyn AND lt_discn)
+                  AND trdy_or_lc6_cascade
+                  )   );
+    
+     trdy_OR_NOT.clk      = clk;
+    trdy_OR_NOT.prn     = rstn;
+    trdy_OR_NOT.d       = trdy_OR_NOT_d2;
+
+    trdy_or_feedback.clk = clk;
+    trdy_or_feedback.clrn = rstn;
+    trdy_or_feedback.d = trdy_or_feedback_d;
+
+
+    trdy_OR       =  trdy_or_feedback;
+    trdy_out        = trdy_or_not;
+
+    trdy_or_cascade = NOT ( trdy_OR   AND NOT irdy and no_op_reg[2]
+                    OR  NOT trdy_OR_lc5
+                    );
+    trdy_OR_NOT_d = LCELL(   NOT (trdy_OR_lc6 AND lt_abortn AND frame)
+          AND trdy_or_cascade );
+
+    trdy_OR_NOT_d2 = lt_abortn AND not trdy_OR_NOT_d;
+
+  trdy_or_feedback_cascade  = LCELL((trdy_OR  AND NOT irdy)
+                    OR  ( NOT trdy_OR_lc5));
+
+    trdy_or_feedback_d =  lt_abortn AND ((trdy_OR_lc6 AND frame)
+          OR    trdy_or_feedback_cascade);  --}
+  
+END GENERATE;  --}
+
+---------------------------------------------------------------------------------------------------
+---- STOPN Logic ----------------------------------------------------------------------------------
+%-
+ 
+--  (ZMA 5/17/01) The following code was extracted to help understand the orignial code.  I have taken
+--  This code and came up with an equivelant functionality to help in optimizing the code
+
+  stop_or.d =     ( TS_ADR_CLMD   AND retry AND NOT cfg_cyc)          -- Assert when Previous Target cycle was not complete
+        OR    ( TS_ADR_CLMD AND mstr_actv)            -- Assert if master is active
+        OR    ( TS_ADR_CLMD   AND NOT cfg_cyc AND NOT  lt_abortn) -- Early target abort
+
+        OR    ( TS_ADR_CLMD   AND wr_rdn AND NOT cfg_cyc  AND NOT lt_discn)
+        OR    ( TS_DXFR     AND LW_WAIT AND NOT lt_discn) -- Target write disconnect
+
+        OR    ( LR_LXFR     AND TS_DISC )           -- Read with pipe empty and disconnect is requested
+
+        OR    ( LR_PXFR     AND lt_rdynR AND NOT lt_discn)    -- Xfer to LR_LXFR from LR_PXFR, pipe is going empty and trdy is deasserted
+        OR    ( LR_LXFR     AND lt_rdynR AND NOT lt_discn)    -- Read with pipe is empty and disconnect is requested without data
+        OR    ( LR_LXFR     AND NOT  lt_abortn)         -- Abort requested during LR_LXFR (Pipe is empty)
+        OR    ( frame AND ( (TS_DISC AND LR_DONE)         -- Frame is asserted and Local read is done
+                  OR  (TS_DISC AND mstr_actv)       -- Master is active and disconnet is requested
+                  OR  (TS_DISC AND cfg_cyc)       -- Disconnect is requested during config cycle (burst config)     
+                  OR  (TS_DISC AND LR_PXFR )        -- Xfer to Done from LR_LPXFR 
+                  OR  (TS_DISC AND LR_IDLE AND NOT  wr_rdn) -- Local state machine is not triggered 
+                  OR  (TS_DXFR AND  cfg_cyc AND lt_tsr9)    -- Burst Xfr in configuration
+                  OR  (TS_DXFR AND NOT  lt_abortn)      --  Abort requested ???? what about state of trdy and devsel????    
+                  OR  (TS_DISC AND (LW_IDLE or LW_DONE) and wr_rdn) -- Requested disconnect and Write state machine has completed
+                  OR  (TS_DISC AND LW_WAIT)         -- Disconnect and Local side waiting, trdy is not asserted and therefore local side can assert stop
+                  OR  (TS_DISC AND LW_LXFR AND stop_or) -- Keep stop asserted with data
+                  )
+            )
+        OR    ( (   (TS_DISC AND LW_LXFR)           -- Local write xfer (trdy) is asserted this is why irdy is needed -- keep stop asserted after initial assertion 
+              OR  (TS_DXFR AND NOT lt_discn AND LW_LXFR)    -- Local write xfer assert stop as soon as lt_discn is asserted
+              ) AND frame AND irdy
+            )
+        OR    (   ( ( TS_DXFR AND cfg_cyc AND lt_tsr9 )   -- Configuration burst transaction
+              OR  (TS_DISC AND mstr_actv)           -- Keep asserted during TS_DISC
+              OR  (TS_DISC AND cfg_cyc)           -- Keep asserted during TS_DISC
+              OR  (TS_DISC AND LR_WAIT)           -- Keep asserted during TS_DISC
+              ) AND frame AND (irdy or not trdy_OR)
+            );
+
+  stop_out    = stop_or;
+
+-%
+%-
+
+-- The stop logic has the following two functions:
+--  a.  When asserting stop, devsel must have already been asserted, i.e. after TS_ADR_CLMD
+--  b.  Never assert stop while trdy is asserted and irdy is asserted since this is a protocol violation
+--  c.  Keep stop asserted until frame is deasserted
+--
+--  Abort Cycles
+--  For abort cycles, stop should be asserted as soon as lt_abortn is asserted except in the cfg cycle
+--  lt_abortn does not have effect on config cycles.
+--
+--  Master Active
+--  Master can be signaled as active either due to the fact that it has an active PCI cycle or the Previous
+--  PCI cycle to the local side has not actually completed due to local side wait states.
+--  It is assumed that the Master will not generate cycles to internal target unless they are single cycle
+--  configuration transactions.  All other cycles are not allowed and the user must ensure that the master does 
+--  not generate any other cycles to internal target from internal master. 
+--  Therefore, the stop signal will be asserted in the case when the master is active but the cycle is not configuration.
+--  All other cycles will be terminated at TS_ADR_CLMD.
+--
+--  Configuration Cycles
+--  Stop should only be asserted during configuration cycles if the transaction is a burst
+--  Since local side state machines do not get triggered during configuration trasactions, one must
+--  use the main state machine states.
+--
+--  Write Cycles
+--  Memory and I/O write cycles including configurations beyone the 40H address trigger the LW state machine
+--  configuration cycles beyone 40H address are allowed when the capabilities list pointer is enabled.  In that
+--  case, the cfg_cyc logic checks to ensure the address is below 40H for that signal to be set.
+--  Stop will be asserted if:
+--      a.  Local side requests a disconnect or retry
+--      b.  Local side requests an abort
+--      c.  Previous target cycle still uses the data pipeline 
+--
+--  Read Cycles
+--  Memory and I/O read cycles including configuration read beyone 40H and Interrupt acknowldge cycles trigger
+--  the LR state machine.  cfg_cyc is not asserted for addresses beyone 40H and capabilities list is enabled.
+--  Interrupt acknowledge cycle will set mem_cyc when it is enabled.
+--  During read cycles, stop logic will be asserted if:
+--      a.  local side requests a disconnect or retry
+--      b.  Local side requests an abort
+--      c.  Previous target cycle still uses the data pipeline  
+--
+
+-%
+ IF (OPTIMIZE_STOP == "NO") GENERATE  -- {
+ 
+ --{
+  Assert report " **** ---- Not Optimizing stopn Logic ---- ****" Severity Warning; 
+  stop_or.clk   = clk;
+  stop_or.clrn  = rstn;
+  
+  stop_or   = TS_ADR_CLMD AND NOT cfg_cyc AND mstr_actv         -- Local side pipe is busy with Master activity
+        OR  TS_ADR_CLMD AND NOT cfg_cyc AND retry           -- Local side pipe is busy with Target Activity
+        OR  TS_ADR_CLMD AND NOT cfg_cyc AND not lt_abortn       -- Local side requested Early Abort
+        -- Write cycle
+
+        OR  ( TS_ADR_CLMD AND wr_rdn AND NOT cfg_cyc AND  NOT lt_discn)
+        OR  ( TS_DXFR AND LW_WAIT AND NOT lt_discn)           -- Target write disconnect
+
+        OR  (frame AND irdy AND TS_DXFR AND NOT lt_abortn)
+        OR  (not frame AND not trdy_OR and TS_DXFR AND NOT lt_abortn)
+        OR    ( (   (TS_DISC AND LW_LXFR)             -- Local write xfer (trdy) is asserted this is why irdy is needed -- keep stop asserted after initial assertion 
+              OR  (NOT lt_discn AND LW_LXFR)            -- Local write xfer assert stop as soon as lt_discn is asserted
+              ) AND frame AND irdy
+            )
+
+        -- Config Burst Cycle
+        OR  ( TS_DXFR AND cfg_cyc AND lt_tsr9 AND frame)
+
+        
+        -- Read Cycle
+        OR  ( LR_LXFR AND TS_DISC)                    -- lt_discn was asserted previously
+        OR  ( LR_LXFR AND not lt_discn and lt_rdynR)          -- Ensure that lt_rdynR is not asserted, otherwise data will be lost
+                                        -- Because of the TS_DISC term with LR_LXFR This term will take care of the case when local data transfer was signaled
+                                        -- at the same time as a disconnect
+        OR  (LR_LXFR AND not lt_rdynR and not lt_discn and direct_xfr)  -- Disconnect with data during read cycle 
+        OR  (LR_PXFR AND frame AND irdy AND ( TS_DISC         -- This term asserts stop while the pipe has one Word
+                          OR  (not lt_discn AND lt_rdynR)
+                          ) 
+          ) 
+                                        -- TS_DISC term indicates that disconnect was requested earlier thus lt_ackn is not asserted
+                                        -- lt_abortn term indicates that a target abort is being requested and no need to ensure that data is not lost
+                                        -- lt_discn term requires that lt_rdynR is not asserted, this indicates that this is the last data phase.
+                                        -- In all cases, since trdy is asserted during this state, irdy must be asserted so that stop does not get set in
+                                        -- the middle of an irdy wait state.  Doing that will violate the specification.
+        -- The follwoing term was added to fix a problem with stop not getting asserted when irdy inserts wait states on the last Data transfer
+        -- during a disconnect.  In that case, since we would be in LR_PXFR the state machine will go to done state and then to idle during the 
+        -- wait states.  This results in stop never getting asserted since all the read terms are related to actual data transfer states in 
+        -- the read state machine.  This term basically checks if the state machine is in either LR_DONE or LR_IDLE, trdy and irdy have been 
+        -- asserted and frame is still asserted.  If frame in not asserted, that would indicate a last data phase where stop should not get
+        -- asserted.                                  
+        OR  (Not wr_rdn AND TS_DISC AND trdy_OR AND irdy AND frame AND (LR_DONE OR LR_IDLE))
+        
+        OR  frame and stop_or;                -- Keep stop asserted until frame is deasserted
+
+  stop_out    = stop_or; --}
+
+
+ ELSE GENERATE --{
+  -- Output of bool minimization software
+--  stop_or     =   TS_DXFR AND cfg_cyc AND lt_tsr9 AND frame
+--          OR  stop_OR AND frame 
+--  
+--          OR  TS_DXFR AND NOT lt_abortn AND NOT trdy_OR AND NOT frame 
+--
+--          OR  LR_PXFR AND NOT lt_discn AND lt_rdynR AND frame AND irdy
+--          OR  LR_PXFR AND TS_DISC and frame AND irdy 
+--          OR  LW_LXFR AND TS_DISC AND frame AND irdy
+--          OR  LW_LXFR AND NOT lt_discn AND frame AND irdy
+--          OR  TS_DXFR AND NOT lt_abortn AND frame AND irdy 
+--
+--          OR  LR_LXFR AND NOT lt_discn AND direct_xfr 
+--          OR  LR_LXFR AND NOT lt_discn AND lt_rdynR 
+--          OR  LR_LXFR AND TS_DISC 
+--          OR  LW_WAIT AND TS_DXFR AND NOT lt_discn 
+--          OR  TS_ADR_CLMD AND NOT cfg_cyc AND wr_rdn AND NOT lt_discn 
+--          OR  TS_ADR_CLMD AND NOT cfg_cyc AND NOT lt_abortn 
+--          OR  TS_ADR_CLMD AND NOT cfg_cyc AND retry 
+--          OR  TS_ADR_CLMD AND NOT cfg_cyc AND mstr_actv ;
+  
+  stop_or_cc1 = (LR_LXFR and no_op_reg[1]);
+  stop_or_cc2 = ( TS_ADR_CLMD AND NOT cfg_cyc);
+  
+  IF(TARGET_ONLY == "NO") GENERATE
+  stop_or_cc3 = ( NOT ( stop_OR_lc2 
+                            OR  TS_ADR_CLMD AND NOT cfg_cyc AND mstr_actv
+                            )
+                        );
+  ELSE GENERATE
+  stop_or_cc3 = LCELL(  stop_OR_lc1 
+            OR  LW_WAIT AND TS_DXFR AND NOT lt_discn
+                      );
+  
+  END GENERATE;
+  stop_or_cc4 = ( NOT (LW_LXFR AND TS_DISC)
+        AND NOT (Not wr_rdn AND LCELL(TS_DISC AND trdy_OR AND (LR_DONE OR LR_IDLE)))
+          );
+  
+  
+  stop_OR_lc1   = LCELL ( ( NOT lt_discn AND direct_xfr 
+                  OR  NOT lt_discn AND lt_rdynR 
+                  OR  TS_DISC
+                  )
+                AND stop_or_cc1
+                );
+                
+                
+  stop_OR_lc2   =     LCELL(  ( wr_rdn AND NOT lt_discn 
+                  OR  NOT lt_abortn 
+                  OR  retry
+                  )
+                AND stop_or_cc2
+                );
+          
+  IF(TARGET_ONLY == "NO") GENERATE
+  stop_OR_lc3   =     ( LCELL(  NOT ( stop_OR_lc1 
+                      OR  LW_WAIT AND TS_DXFR AND NOT lt_discn
+                      )
+                  AND stop_or_cc3
+                  ));
+  ELSE GENERATE
+  stop_OR_lc3   =       LCELL(  NOT stop_or_cc3
+                      AND NOT  stop_or_lc2);
+  
+  
+  END GENERATE;
+  
+    --  not stratix cascaded yet.  -MH
+    stop_OR_lc4   =     LCELL( NOT  ( 
+                      NOT ( LR_PXFR AND NOT lt_discn AND lt_rdynR
+                        OR  LR_PXFR AND TS_DISC
+                        )
+                  AND CASCADE ( NOT ( TS_DXFR AND NOT lt_abortn
+                            OR  LW_LXFR AND NOT lt_discn
+                            )
+                            
+                        AND stop_or_cc4
+                        )
+                  ) );
+  
+
+  stop_OR_lc5   = LCELL ( TS_DXFR AND cfg_cyc AND lt_tsr9
+              OR  stop_OR
+              );
+  
+  stop_OR_lc6   = LCELL (TS_DXFR AND NOT lt_abortn AND NOT trdy_OR);
+   
+   
+
+  IF(PCI_FAMILY_STRATIXII()) GENERATE
+    
+    stop_or_irdy    = LCELL(irdy);
+    stop_or_cascade =( NOT ( stop_OR_lc4 AND frame AND stop_or_irdy
+                  OR  NOT stop_OR_lc3
+                  ));
+
+    stop_OR_not_d =   ( NOT ( stop_OR_lc5 AND frame 
+                OR  stop_OR_lc6  AND NOT frame
+                )
+            AND stop_or_cascade
+            );
+    
+  ELSE GENERATE
+     stop_or_cascade =LCELL( NOT ( stop_OR_lc4 AND frame AND irdy
+                  OR  NOT stop_OR_lc3
+                  ));
+
+    stop_OR_not_d =   ( NOT ( stop_OR_lc5 AND frame 
+                OR  stop_OR_lc6  AND NOT frame
+                )
+            AND stop_or_cascade
+            );
+  
+  END GENERATE;
+      
+
+  stop_OR_NOT.clk   = clk;
+  stop_OR_NOT.prn   = rstn;
+  stop_OR_NOT.d   = stop_or_not_d;
+  stop_out      = NOT stop_OR_NOT;
+  
+  
+  stop_or_fb1_cascade = LCELL( (stop_OR_lc4 AND irdy and no_op_reg3));
+
+  
+    
+  stop_OR_fb1.clk   = clk;
+  stop_OR_fb1.clrn  = rstn;
+    stop_OR_fb1     =   stop_OR_lc5 AND frame 
+            OR  stop_OR_lc6  AND NOT frame
+            OR  stop_or_fb1_cascade AND frame
+            ;
+
+    stop_OR_fb2.clk   = clk;
+    stop_OR_fb2.clrn  = rstn;
+    stop_OR_fb2     = NOT stop_OR_lc3;
+    
+    stop_OR_fb      = stop_OR_fb2 OR stop_OR_fb1;
+      
+
+  stop_OR       = stop_OR_fb;  --}
+   
+    
+    
+      
+END GENERATE;                   --}
+---------------------------------------------------------------------------------------------------
+---- State Machines Logic -------------------------------------------------------------------------
+
+IF (OPTIMIZE_TARG == "NO") GENERATE
+--{
+  Assert REPORT "**** NOT  OPTIMIZING TARGET ****"
+  Severity Warning;
+
+  -- Target Control State Machine
+  targ_sm.clk   = clk;
+  targ_sm.reset = NOT  rstn;
+
+  CASE targ_sm IS
+    WHEN TS_IDLE  =>  
+            
+            IF targ_trig then           -- Address Hit one Of BARs 
+    
+              targ_sm = TS_ADR_VLD ;
+    
+            ELSE
+    
+              targ_sm = TS_IDLE;
+    
+            END IF;
+            
+    -- Address Valid State, Turn on Otput Drivers     
+    WHEN TS_ADR_VLD =>  
+            
+            IF serr_sig_set then          -- Address Parity ErrOR Detected
+            
+              targ_sm = TS_IDLE;
+            
+            ELSE
+            
+              targ_sm = TS_ADR_CLMD;        -- Goto Address Claimed State
+            
+            END IF;
+    
+    -- Address Claimed State:  devseln is asserted
+    -- ZMA ( 5/13/01) Although I was certain that the code for Self configuring host bridge being set is the
+    --  correct way to implement this I chose to keep the other code since I know that regressions
+    --  is not as complete as needed
+    --
+    -- ZMA( 5/17/01) Important Note:
+    --  I believe that there is actually abug or a realy bad design practice.  The problem is that the read
+    --  state machine gets triggered by TS_ADR_VLD without any regard towards lt_rdyn state.  However, it seems
+    --  that the core will remain the TS_ADR_CLMD phase until irdyn is asserted.  This means that TS_DXFR is not
+    --  the state where the local side read state machine will remain.  In the least, this is against the purpose
+    --  of TS_DXFR. I did look into this briefly but was not able to discover a case where this is actually
+    --  a problem.
+    WHEN TS_ADR_CLMD  =>  
+      IF (SCFG_HB_ENA == 0) GENERATE
+              
+              IF (((retry OR NOT  lt_discn OR NOT  lt_abortn ) AND NOT cfg_cyc ) OR mstr_actv) THEN 
+              
+                targ_sm = TS_DISC;
+              
+              ELSIF ((NOT  lt_rdyn) OR cfg_cyc) THEN    -- MemORy Write Cycle
+              
+                targ_sm = TS_DXFR;
+              
+              ELSE
+              
+                targ_sm = TS_ADR_CLMD;    
+              
+              END IF;
+            
+      ELSE GENERATE
+              
+              IF (((retry OR NOT  lt_discn OR NOT  lt_abortn OR mstr_actv) AND NOT cfg_cyc )) THEN  
+              
+                targ_sm = TS_DISC;
+              
+              ELSIF ((NOT  lt_rdyn) OR cfg_cyc) THEN    -- MemORy Write Cycle
+              
+                targ_sm = TS_DXFR;
+              
+              ELSE
+              
+                targ_sm = TS_ADR_CLMD;    
+              
+              END IF;
+      END GENERATE;           
+            
+    -- Transfer Data state
+    -- ZMA(5/17/01): Important Note:
+    --  I believe there is a bug in the code with the transition from TS_DXFR to TS_DISC in burst configuration transactions
+    --  The problem is that lt_tsr9 is actually registered.  Therefore, if the master delays the initial assertion of irdyn 
+    --  by 4 clocks and it is a burst transaction the lt_tsr9 would not be set which means that the target sm will go to
+    --  to TS_TURN_AR and end the cycle even if the master has not completed the transaction. In this case the bus will hang.
+    --  the better thing to do is to add frame and irdy instead of the lt_tsr9 signal.
+    --  
+    WHEN  TS_DXFR =>  
+            
+            IF (   (NOT  frame AND trdy_OR) ) THEN-- NORmal Master Termination Detected
+                
+              targ_sm = TS_TURN_AR;
+            
+            
+            ELSIF ( NOT  lt_abortn 
+              OR  NOT  lt_discn
+              OR (cfg_cyc AND lt_tsr9)) Then
+                
+            
+              targ_sm = TS_DISC;
+            
+            ELSE
+            
+              targ_sm = TS_DXFR;
+            
+            END IF;
+            
+    
+      
+    -- Disconnect State, Retry, AbORt, Disconnect
+    WHEN TS_DISC  =>  
+            
+            IF (NOT  frame AND NOT low_dword_discard) Then        -- Master Terminated transactions
+            
+              targ_sm = TS_TURN_AR;
+            
+            ELSE
+            
+              targ_sm = TS_DISC;        -- Master Did NOT  terminate transaction
+            
+            END IF;
+    
+    -- Turn around State
+    WHEN TS_TURN_AR =>  
+            
+            targ_sm = TS_IDLE;
+
+  
+  END CASE ;
+  
+  -- Local Write State Machine
+
+  lw_sm.clk = clk;
+  lw_sm.reset = NOT  rstn;
+
+  CASE lw_sm IS
+  
+    WHEN LW_IDLE  =>
+
+            -- Only triggered in I/O OR Mem Cycles AND retry is NOT  signaled
+            -- Removed serr_sig_set from this transition since it would not get to TS_ADR_CLMD if it was set
+            IF (TS_ADR_CLMD AND NOT  lt_rdyn AND NOT  cfg_cyc AND NOT mstr_actv AND wr_rdn AND lt_abortn AND NOT  retry) THEN             
+              lw_sm = LW_LXFR;
+              LW_LXFR_d = VCC;
+            
+            ELSE
+            
+              lw_sm = LW_IDLE;
+              LW_IDLE_d = VCC;
+            
+            END IF;
+
+    -- Pipe Has ability to receive one data.  This is either because both PCI and local are ready, or both are not ready
+    -- If PCI is not ready, but local is ready, then remain in LXFR
+    -- If Local is not ready, but PCI is ready go to LW_WAIT
+    WHEN LW_LXFR  =>  
+          
+            IF (lt_rdyn AND irdy) THEN                  -- ORed lt_ack_OR AND irdy to account for wait state on first data phase  
+                                          -- pipe is full AND local is waiting          
+            
+              lw_sm = LW_WAIT;
+              LW_WAIT_d = VCC;
+            
+            ELSIF (NOT  lt_rdyn AND (TS_DISC or not lt_discn %or not lt_abortn%) AND irdy) THEN -- Pipe is empty AND targ_sm is finished
+            
+              lw_sm = LW_DONE;                    -- tmbw64_disc_2f.scf
+              LW_DONE_d = VCC;
+            
+            ELSIF (TS_TURN_AR) THEN                   -- Pipe is empty AND targ_sm is finished
+              
+              lw_sm = LW_DONE;                    -- tmbw32_64_1pw_1a.scf
+              LW_DONE_d = VCC;
+            
+            ELSE
+            
+              lw_sm = LW_LXFR;                    -- data is being transferred through pipe
+              LW_LXFR_d = VCC;
+            
+            END IF;
+          
+    -- Pipe Has Data  But Local Side is asserting Wait      
+    WHEN LW_WAIT  =>  
+            
+            IF (lt_rdyn) THEN
+
+              lw_sm = LW_WAIT;                  -- Local is still asserting wait
+              LW_WAIT_d = VCC;
+
+            ELSIF (NOT  lt_rdyn AND NOT  TS_DXFR) THEN        -- Pipe is empty AND no more data 
+
+              lw_sm = LW_DONE;
+              LW_DONE_d = VCC;
+            
+            ELSE
+
+              lw_sm = LW_LXFR;                  -- Pipe is NOT  empty AND local xferring data
+              LW_LXFR_d = VCC;
+
+            END IF;
+
+          
+    -- Pipe is empty AND Local Side recieve all Data AND PCI completed Transaction
+    WHEN LW_DONE  =>  
+            
+            lw_sm = LW_IDLE;
+            LW_IDLE_d = VCC;
+  
+  END CASE;
+
+
+  -- Local Read State Machine
+    
+  lr_sm.clk = clk;
+  lr_sm.reset = NOT  rstn;
+
+  CASE lr_sm IS
+
+    -- TS_IDLE State
+    WHEN LR_IDLE  =>  
+          
+            IF (TS_ADR_VLD AND NOT  wr_rdn AND NOT  cfg_cyc AND NOT  retry 
+                  AND NOT  serr_sig_set AND lt_abortn AND lt_discn ) THEN -- Begining of I/O OR Mem Read Cycle is detected
+              lr_sm = LR_LXFR;                        -- Go to the local Transfer State
+              LR_LXFR_d = VCC;
+          
+            ELSE
+          
+              lr_sm = LR_IDLE;
+              LR_IDLE_d = VCC;
+          
+            END IF;
+            
+    -- Local Xfr state.  Wait for local side to transfer First DWORD
+    -- trdyn is deasserted, lt_ackn is asserted
+    WHEN LR_LXFR  =>  
+          
+          
+            IF (    NOT  lt_abortn                    -- Abort is signaled, Loss of data is possible
+                OR (NOT lt_discn and lt_rdynR)              -- Disconnect is signaled, and no local data transfer
+                      )  THEN                   -- Local side signaled disconnect during other read states
+          
+              lr_sm = LR_DONE;                      -- Local DONE
+              LR_DONE_d = VCC;
+          
+            ELSIF ( TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)) THEN
+              lr_sm   = LR_DONE;
+              LR_DONE_d = VCC;
+                                                          
+            ELSIF (  (NOT  lt_rdynR AND direct_xfr)             -- It is direct xfr and local has transferred 1st WORD
+                OR (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)-- 
+                ) THEN                          -- Local Side transferred the First WORd
+                                  
+              lr_sm = LR_PXFR;
+              LR_PXFR_d = VCC;
+            
+            -- lt_ldata_ack_r is asserted at the same time as lt_framen (first entry to LXFR) if address is on low DWORD 
+            -- or after the transfer of the first Qword if Address is on high DWORD         
+            ELSIF (NOT  lt_rdynR AND NOT  direct_xfr and lt_ldata_ack_r ) THEN     
+          
+              lr_sm = LR_PXFR_32;
+              LR_PXFR_32_d = VCC;
+          
+            ELSE
+          
+              lr_sm = LR_LXFR;            -- Wait for wORd to xferred from Local side
+              LR_LXFR_d = VCC;
+          
+            END IF;
+
+    -- Local PCI transfer for 64 bit local to 32 bit PCI
+    -- Transfer the low bits
+    -- trdyn is asserted, lt_ackn is asserted
+    WHEN LR_PXFR_32 =>    
+          
+            IF (NOT  lt_abortn OR NOT  frame) THEN
+          
+              lr_sm = LR_DONE;
+              LR_DONE_d = VCC;
+          
+            ELSIF (irdy) THEN
+          
+              lr_sm = LR_PXFR;
+              LR_PXFR_d = VCC;
+          
+            ELSE
+          
+              lr_sm = LR_PXFR_32;
+              LR_PXFR_32_d = VCC;
+          
+            END IF;
+          
+    -- PCI XFR State, Pipe has One WORDs in it
+    -- FOR 64->64 all bits are transferred, for 64->32 the high bits are transfered in this state
+    -- trdyn is asserted, lt_ackn is asserted
+    WHEN LR_PXFR  =>
+          
+            IF (NOT  lt_abortn OR NOT  frame OR TS_DISC) THEN         	-- Target Abort OR Normal Termination by master
+          
+              lr_sm = LR_DONE;
+              LR_DONE_d = VCC;
+             
+            ELSIF (NOT  irdy AND NOT  lt_rdynR AND direct_xfr)  THEN    -- PCI side asserted wait states but local side transferred 
+          
+              lr_sm = LR_WAIT;                      					-- additional words
+              LR_WAIT_d = VCC;
+          
+            ELSIF (irdy AND lt_rdynR AND lt_discn) THEN					-- PCI side accepted data AND local side did NOT  xfr data
+          
+              lr_sm     = LR_LXFR;             
+              LR_LXFR_d   = VCC;      
+                        
+            ELSIF (irdy AND lt_rdynR AND NOT lt_discn) THEN				-- PCI side accepted data AND local side did NOT  xfr data
+          
+              lr_sm     = LR_DONE;             
+              LR_LXFR_d   = VCC;      
+
+            ELSIF (NOT  irdy AND NOT  lt_rdynR AND NOT  direct_xfr) THEN    -- Local Side xferred Data, PCI Asserted wait 
+                                              -- PCI Side is 32-Bits
+              lr_sm = LR_WAIT_32;
+              LR_WAIT_32_d = VCC;
+          
+            ELSIF (irdy AND NOT  lt_rdynR AND NOT  direct_xfr) THEN       -- Local Side Xferred Data, PCI Side Xferred Data
+                                              -- PCI Side is 32_Bits          
+              lr_sm = LR_PXFR_32;
+              LR_PXFR_32_d = VCC;
+              
+--            ELSIF (irdy and TS_DISC) THEN
+--              lr_sm = LR_DONE;
+--              LR_DONE_d = VCC;
+          
+            ELSE                                --    not irdy and lt_rdynR           -- both local and PCI assert wait states
+                                              -- OR irdy and not lt_rdynR and direct_xfr  -- Both local and PCI xfr Data with and PCI is 64-Bits  
+              lr_sm = LR_PXFR;
+              LR_PXFR_d = VCC;
+          
+            END IF;
+
+
+
+
+
+    -- PCI Wait State, Pipe has Two 64 bit WORDs in it
+    -- Wait for IRDY
+    -- trdy is asserted, lt_ackn is deasserted
+    WHEN LR_WAIT  =>
+          
+            IF (NOT  lt_abortn OR NOT  frame) THEN      -- Local Side signaled an abORt OR PCI is done
+          
+              lr_sm = LR_DONE;
+              LR_DONE_d = VCC;
+          
+            ELSIF(irdy ) THEN         -- Detected wait is ending AND other data is in pipe
+          
+              lr_sm = LR_PXFR;
+              LR_PXFR_d = VCC;
+          
+            ELSE
+          
+              lr_sm = LR_WAIT;
+              LR_WAIT_d = VCC;
+          
+            END IF;
+
+    -- PCI 32 bit Wait State, Pipe has Three 32 bit WORDs in it
+    -- FOR 64->32 the low bits of the previous word is transferred in this state
+    -- trdyn is asserted, lt_ackn is deasserted
+    WHEN LR_WAIT_32 =>
+          
+            IF (NOT  lt_abortn OR NOT  frame) THEN
+          
+              lr_sm = LR_DONE;
+              LR_DONE_d = VCC;
+          
+            ELSIF (irdy) THEN
+          
+              lr_sm = LR_PXFR_32;
+              LR_PXFR_32_d = VCC;
+          
+            ELSE 
+          
+              lr_sm = LR_WAIT_32;
+              LR_WAIT_32_d = VCC;
+          
+            END IF;
+
+    -- In some cases, trdyn is asserted during LR_DONE.  one case is with 32-Bit PCI 
+    -- to 64-Bit Local when the DWORD starts on High address.  With Local side requesting single cycle disconnect.
+    -- lt_rdyn is asserted for one clock before lt_discn thus requiring the core to stay in LXFR for one more clock
+    -- Then going to LR_DONE due to TS_DISC followed by 
+            
+    WHEN LR_DONE  =>  
+            
+            lr_sm = LR_IDLE;
+            LR_IDLE_d = VCC;
+
+    
+  END CASE;
+
+--}
+ELSE GENERATE
+--{
+  Assert REPORT "-------- *** OPTIMIZING TARGET *** ----------"
+  Severity Debug;
+
+  
+-- Target State Machine
+
+
+  TS_IDLE_NOT.clk = clk ;     
+  TS_ADR_VLD.clk = clk ;  
+  TS_ADR_CLMD.clk = clk ;   
+  TS_DXFR.clk = clk ;           
+  TS_DISC.clk = clk ;     
+  TS_TURN_AR.clk    = clk;
+
+
+  TS_IDLE_NOT.clrn = rstn ;     
+  TS_ADR_VLD.clrn = rstn ;  
+  TS_ADR_CLMD.clrn = rstn ;   
+  TS_DXFR.clrn = rstn ;           
+  TS_DISC.clrn = rstn ;     
+  TS_TURN_AR.clrn   = rstn;
+
+  TS_IDLE_NOT.d = NOT  TS_IDLE_d;   
+  TS_ADR_VLD.d =  TS_ADR_VLD_d;
+  TS_ADR_CLMD.d = TS_ADR_CLMD_d;  
+  TS_DXFR.d =   TS_DXFR_d;        
+  TS_DISC.d =   TS_DISC_d;  
+  TS_TURN_AR.d =  TS_TURN_AR_d;
+
+  TS_IDLE = NOT  TS_IDLE_NOT ;
+
+
+  IF(P2P_BRIDGE == "NO") GENERATE
+
+    TS_IDLE_d_lc = LCELL((TS_ADR_VLD AND  serr_sig_set)
+        OR (TS_TURN_AR));
+
+    TS_IDLE_d =  (
+          (TS_IDLE_d_lc1  AND NOT mem_bar_hit)
+          OR TS_IDLE_d_lc
+              );
+    
+    TS_IDLE_d_lc1 = LCELL(TS_IDLE AND  NOT(cfg_type0_cyc));
+
+    
+  ELSE GENERATE
+    TS_IDLE_d_lc = LCELL((TS_ADR_VLD AND  serr_sig_set)
+        OR (TS_TURN_AR));
+
+    TS_IDLE_d = LCELL((TS_IDLE AND NOT targ_trig)
+        OR TS_IDLE_d_lc);
+  END GENERATE;
+
+
+  IF(P2P_BRIDGE == "NO") GENERATE
+    TS_ADR_VLD_d = (  
+            (TS_IDLE AND (cfg_type0_cyc))
+             OR (mem_bar_hit AND TS_IDLE)
+            );
+  ELSE GENERATE
+    TS_ADR_VLD_d = (TS_IDLE AND targ_trig);
+  END GENERATE;
+
+  IF (SCFG_HB_ENA == 1) GENERATE
+              
+    TS_ADR_CLMD_d = (TS_ADR_VLD AND NOT serr_sig_set)
+            OR  TS_ADR_CLMD AND NOT (((retry OR NOT  lt_discn OR NOT  lt_abortn) AND NOT  cfg_cyc) OR mstr_actv ) 
+                    AND NOT ((NOT  lt_rdyn) OR cfg_cyc);
+            
+  ELSE GENERATE
+              
+    TS_ADR_CLMD_d = (TS_ADR_VLD AND NOT serr_sig_set)
+            OR  TS_ADR_CLMD AND NOT (((retry OR NOT  lt_discn OR NOT  lt_abortn OR mstr_actv) AND NOT  cfg_cyc) ) 
+                    AND NOT ((NOT  lt_rdyn) OR cfg_cyc);
+  
+  END GENERATE;           
+
+
+                  
+
+  
+  
+-- zz
+-- TS_DXFR_d Optimization
+--  The term for TS_ADR_CLMD is different depending on the hostbridge ability. See State machine for details.  This code 
+--  shows when the host bridge capability is disabled.
+--  TS_DXFR_d   = TS_ADR_CLMD   AND NOT ( (((retry OR NOT  lt_discn OR NOT  lt_abortn) AND NOT  cfg_cyc) OR mstr_actv)
+--                      )
+--                  AND   (NOT  lt_rdyn OR cfg_cyc)
+--                  
+--          OR  TS_DXFR   AND NOT ( (NOT  frame AND trdy_OR)
+--                      )
+--                  AND NOT ( ( NOT  lt_abortn 
+--                        OR  NOT  lt_discn
+--                        OR (cfg_cyc AND lt_tsr9)
+--                        )
+--                      );
+
+  IF (SCFG_HB_ENA == 1) GENERATE
+      --  moved lt_discn, lt_abortn up one level in cascade chain in stratix
+      TS_DXFR_d_lc1_cascade = NOT mstr_actv AND NOT retry AND lt_discn AND lt_abortn;
+      TS_DXFR_d_lc1 =   TS_ADR_CLMD AND (cfg_cyc OR (NOT  lt_rdyn AND TS_DXFR_d_lc1_cascade));
+                      
+  ELSE GENERATE
+      --  moved lt_discn, lt_abortn up one level in cascade chain in stratix
+      TS_DXFR_d_lc1_cascade = NOT mstr_actv AND NOT retry AND lt_discn AND lt_abortn;
+      TS_DXFR_d_lc1 =   TS_ADR_CLMD AND (cfg_cyc OR (NOT  lt_rdyn AND TS_DXFR_d_lc1_cascade));
+  END GENERATE;           
+                  
+
+  TS_DXFR_d_lc2 =   ( TS_DXFR )   
+          AND NOT (NOT lt_abortn OR NOT lt_discn OR TS_DISC_d_lc3);
+    TS_DXFR_d_lc3_cascade = TS_DXFR AND NOT trdy_OR AND lt_discn;
+    TS_DXFR_d_lc3 =   TS_DXFR_d_lc3_cascade
+          AND NOT (NOT lt_abortn OR (cfg_cyc AND lt_tsr9));
+  
+  
+  TS_DXFR_d   =   TS_DXFR_d_lc1
+
+          OR  TS_DXFR_d_lc2 AND frame
+          OR  TS_DXFR_d_lc3 ;
+  
+----- TS_DISC_d Optimization ------------------------------------------------------------------
+
+-- The code in the commented area is with self configuring host bridge capability turned off
+
+--  TS_DISC_d = (TS_ADR_CLMD AND (((retry OR NOT  lt_discn OR NOT  lt_abortn) AND NOT  cfg_cyc) OR mstr_actv))
+--        OR (TS_DXFR AND NOT ( NOT frame AND TRDY_OR) AND (NOT lt_abortn OR NOT lt_discn OR (cfg_cyc and lt_tsr9)) 
+--        OR (TS_DISC AND NOT  (NOT  frame AND NOT low_dword_discard));
+
+--  TS_DISC_d = (TS_ADR_CLMD AND (((retry OR NOT  lt_discn OR NOT  lt_abortn) AND NOT  cfg_cyc) OR mstr_actv))
+--        OR (TS_DXFR AND NOT TRDY_OR AND (NOT lt_abortn OR NOT lt_discn OR (cfg_cyc and lt_tsr9))  
+--        OR (TS_DISC AND low_dword_discard)
+--        
+--        OR (TS_DXFR AND frame AND (NOT lt_abortn OR NOT lt_discn OR (cfg_cyc and lt_tsr9))  
+--        OR (TS_DISC AND frame )
+
+  IF(PCI_32 == "NO") GENERATE 
+
+    IF (SCFG_HB_ENA == 1) GENERATE
+        -- not optimized for stratix.  cascade chains will be broken.  -MH
+        TS_DISC_cascade1  =   NOT ( (TS_DISC AND low_dword_discard ));  
+        TS_DISC_cascade2  =   NOT ( (TS_ADR_CLMD AND retry AND NOT  cfg_cyc)
+                                  OR  (TS_ADR_CLMD AND mstr_actv AND NOT cfg_cyc)
+                                  )
+                              AND TS_DISC_cascade1;
+        TS_DISC_cascade3  = NOT ( (TS_DXFR AND NOT  TRDY_OR AND (cfg_cyc and lt_tsr9))  
+                            )
+                        AND TS_DISC_cascade2;
+        TS_DISC_cascade4  = NOT (   (TS_DXFR AND NOT  TRDY_OR AND NOT lt_abortn)  
+                      OR  (TS_DXFR AND NOT  TRDY_OR AND NOT lt_discn) 
+                      )
+                  AND TS_DISC_cascade3;         
+        TS_DISC_d_lc1 = NOT ( (TS_ADR_CLMD AND NOT  lt_discn AND NOT  cfg_cyc)
+                OR  (TS_ADR_CLMD AND NOT  lt_abortn AND NOT  cfg_cyc)
+                )
+            AND TS_DISC_cascade4;
+      
+                      
+    ELSE GENERATE
+        --  not optimized for stratix.  cascade chains will be broken.
+        
+        TS_DISC_cascade1  = NOT ( (TS_DISC AND low_dword_discard ));  
+        TS_DISC_cascade2  = NOT ( (TS_ADR_CLMD AND retry AND NOT  cfg_cyc)
+                                    OR  (TS_ADR_CLMD AND mstr_actv)
+                                    )
+                                AND TS_DISC_cascade1;
+        TS_DISC_cascade3  = NOT ( (TS_DXFR AND NOT  TRDY_OR AND (cfg_cyc and lt_tsr9))  
+                              )
+                          AND TS_DISC_cascade2;
+        TS_DISC_cascade4  = NOT (   (TS_DXFR AND NOT  TRDY_OR AND NOT lt_abortn)  
+                        OR  (TS_DXFR AND NOT  TRDY_OR AND NOT lt_discn) 
+                        )
+                    AND TS_DISC_cascade3;
+        TS_DISC_d_lc1 = NOT ( (TS_ADR_CLMD AND NOT  lt_discn AND NOT  cfg_cyc)
+                  OR  (TS_ADR_CLMD AND NOT  lt_abortn AND NOT  cfg_cyc)
+                  )
+                  AND TS_DISC_cascade4;
+
+
+    END GENERATE;           
+    
+
+   ELSE GENERATE
+   
+    IF (SCFG_HB_ENA == 1) GENERATE
+        -- not optimized for stratix.  cascade chains will be broken.  -MH
+      
+        TS_DISC_cascade1  = NOT ( (TS_ADR_CLMD AND retry AND NOT  cfg_cyc)
+                                    OR  (TS_ADR_CLMD AND mstr_actv and NOT cfg_cyc)
+                                    );  
+        TS_DISC_cascade2  = NOT ( (TS_DXFR AND NOT  TRDY_OR AND (cfg_cyc and lt_tsr9))  
+                              )
+                          AND TS_DISC_cascade1;
+        TS_DISC_cascade3  = NOT (   (TS_DXFR AND NOT  TRDY_OR AND NOT lt_abortn)  
+                        OR  (TS_DXFR AND NOT  TRDY_OR AND NOT lt_discn) 
+                        )
+                    AND TS_DISC_cascade2;
+        TS_DISC_d_lc1 = NOT ( (TS_ADR_CLMD AND NOT  lt_discn AND NOT  cfg_cyc)
+                  OR  (TS_ADR_CLMD AND NOT  lt_abortn AND NOT  cfg_cyc)
+                  )
+              AND TS_DISC_cascade3;
+    
+                          
+    ELSE GENERATE
+          -- not optimized for stratix.  cascade chains will be broken.  -MH
+        TS_DISC_cascade1  =   NOT ( (TS_ADR_CLMD AND retry AND NOT  cfg_cyc)
+                                    OR  (TS_ADR_CLMD AND mstr_actv)
+                                    );  
+        TS_DISC_cascade2  =   NOT ( (TS_DXFR AND NOT  TRDY_OR AND (cfg_cyc and lt_tsr9))  
+                              )
+                          AND TS_DISC_cascade1;
+        TS_DISC_cascade3  =   NOT (   (TS_DXFR AND NOT  TRDY_OR AND NOT lt_abortn)  
+                        OR  (TS_DXFR AND NOT  TRDY_OR AND NOT lt_discn) 
+                        )
+                    AND TS_DISC_cascade2;
+        TS_DISC_d_lc1 = NOT ( (TS_ADR_CLMD AND NOT  lt_discn AND NOT  cfg_cyc)
+                  OR  (TS_ADR_CLMD AND NOT  lt_abortn AND NOT  cfg_cyc)
+                  )
+              AND TS_DISC_cascade3;
+      
+      
+      
+      
+    END GENERATE; 
+                
+    
+  END GENERATE; 
+                
+  TS_DISC_d_lc3 = lcell(cfg_cyc and lt_tsr9);
+  TS_DISC_d_lc2 =   (TS_DXFR) AND (NOT lt_abortn OR NOT lt_discn OR TS_DISC_d_lc3)  ;
+  
+  TS_DISC_d   = NOT TS_DISC_d_lc1
+          OR  TS_DISC_d_lc2 AND frame
+          OR  TS_DISC AND frame;
+
+------ TS_TURN_AR_d Optimization ---------------------------------------------------------------
+
+
+--  TS_TURN_AR_d =  (TS_DXFR AND NOT  frame AND trdy_OR)
+      --         OR (TS_DISC AND NOT  frame AND NOT low_dword_discard));
+
+  TS_TURN_AR_d_lc1  = LCELL((TS_DXFR AND trdy_OR));
+  
+  TS_TURN_AR_d    =   NOT frame AND ( TS_TURN_AR_d_lc1
+                      OR  TS_DISC AND NOT low_dword_discard
+                      );
+ 
+-- Target Write State Machine
+
+
+  LW_IDLE_NOT.clk   = clk;
+  LW_IDLE_NOT.clrn  = rstn;
+  LW_IDLE_NOT.d   = NOT LW_IDLE_d;
+  LW_IDLE       = NOT  LW_IDLE_NOT ;
+
+    LW_IDLE_lc1_cascade = (TS_ADR_CLMD AND NOT  retry and NOT mstr_actv AND  NOT  cfg_cyc);
+    LW_IDLE_lc1   = LCELL (NOT lt_rdyn AND lt_abortn AND wr_rdn AND LW_IDLE_lc1_cascade);
+  
+  
+  LW_IDLE_d = (LW_IDLE AND NOT  (LW_IDLE_lc1))
+        OR (LW_DONE);
+
+
+-------- LW_LXFR_d Optimization ---------------------------------------------------------
+--  LW_LXFR_d =   (LW_IDLE AND (TS_ADR_CLMD AND NOT  lt_rdyn AND NOT  cfg_cyc AND wr_rdn AND lt_abortn AND NOT  retry and not mstr_actv))
+--        OR  (LW_LXFR AND NOT  ( (lt_rdyn and irdy) 
+--                    OR  (NOT  lt_rdyn AND (TS_DISC OR NOT lt_discn) AND irdy) 
+--                    OR  (TS_TURN_AR)
+--                    )
+--        OR  (LW_WAIT AND NOT    ( (lt_rdyn)
+--                    OR  (NOT  lt_rdyn AND NOT  TS_DXFR)
+--                    );
+  
+% LW_LXFR_d =   (LW_IDLE AND ((TS_ADR_CLMD AND NOT  lt_rdyn AND NOT  cfg_cyc AND wr_rdn AND lt_abortn AND NOT  retry and not mstr_actv)))
+        OR  (LW_LXFR AND  ( NOT (lt_rdyn and irdy) 
+                  AND NOT (TS_DISC AND irdy) 
+                  AND NOT (NOT lt_discn AND irdy) 
+                  AND NOT (TS_TURN_AR)
+                    )
+        OR  (LW_WAIT AND  ( NOT (lt_rdyn)
+                  AND NOT (NOT  lt_rdyn AND NOT  TS_DXFR)
+                    );
+                    
+  LW_LXFR_d =   (LW_IDLE AND ((TS_ADR_CLMD AND NOT  lt_rdyn AND NOT  cfg_cyc AND wr_rdn AND lt_abortn AND NOT  retry and not mstr_actv)))
+        OR  (LW_LXFR AND  ( (NOT irdy AND NOT TS_TURN_AR) 
+                  OR  (NOT  lt_rdyn NOT TS_DISC AND lt_discn) 
+                  AND NOT (TS_TURN_AR)
+                    )
+        OR  (LW_WAIT AND  ( (NOT lt_rdyn)
+                  AND (TS_DXFR)
+                    );
+
+
+  LW_LXFR_d   =   (LW_IDLE AND ((TS_ADR_CLMD AND NOT  lt_rdyn AND NOT  cfg_cyc AND wr_rdn AND lt_abortn AND NOT  retry and not mstr_actv)))
+        OR  (LW_LXFR AND NOT irdy AND NOT TS_TURN_AR)
+        OR  (LW_LXFR AND NOT lt_rdyn AND NOT TS_DISC AND lt_discn AND NOT TS_TURN_AR)
+        OR  (LW_WAIT AND NOT lt_rdyn AND TS_DXFR)
+          ;
+
+  LW_LXFR_d   =   LW_LXFR_d_lc1
+        OR  LW_LXFR_d_lc2
+        OR  LW_LXFR_d_lc3
+        OR  (LW_LXFR AND NOT irdy AND NOT TS_TURN_AR)
+          ;
+% 
+  LW_LXFR.clk     = clk;
+  LW_LXFR.clrn    = rstn;
+  LW_LXFR.d     = LW_LXFR_d;
+  LW_LXFR_lc1_cascade1  = not mstr_actv AND NOT  retry;
+  LW_LXFR_lc1_cascade2  = TS_ADR_CLMD AND LW_IDLE  and NOT  cfg_cyc and LW_LXFR_lc1_cascade1;
+  LW_LXFR_lc1 = LCELL ( NOT  lt_rdyn AND lt_abortn AND wr_rdn
+                  AND LW_LXFR_lc1_cascade2
+                  );
+
+  
+  -- Converted the term NOT TS_DISC AND NOT TS_TURN_AR to TS_DXFR
+  LW_LXFR_lc2 =   LCELL (LW_LXFR AND NOT lt_rdyn AND TS_DXFR AND lt_discn);
+        
+  LW_LXFR_lc3 = LCELL (LW_WAIT AND NOT lt_rdyn AND TS_DXFR);
+  
+  -- Used Cascade because of Hold Time issues         
+    
+   
+  LW_LXFR_cascade = LCELL((LW_LXFR AND NOT irdy)
+            AND NOT TS_TURN_AR);
+
+  LW_LXFR_d = LW_LXFR_lc1
+        OR  LW_LXFR_lc2
+        OR  LW_LXFR_lc3
+        OR  LW_LXFR_cascade;
+   
+   
+
+
+--------- LW_WAIT_d Optimization ---------------------------------------------------------
+%-
+
+LW_WAIT_d     =   ( LW_WAIT AND lt_rdyn)
+        OR  (LW_LXFR AND lt_rdyn AND irdy) ;
+
+-%
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LW_WAIT_irdy  = LCELL(irdy);
+  LW_WAIT.clk   = clk;
+  LW_WAIT.clrn  = rstn;
+  LW_WAIT.d     = LW_WAIT_d;
+  LW_WAIT_d     =   (LW_WAIT AND lt_rdyn)
+                OR  (lt_rdyn AND LW_LXFR AND LW_WAIT_irdy);
+ELSE GENERATE
+  LW_WAIT.clk   = clk;
+  LW_WAIT.clrn  = rstn;
+  LW_WAIT.d     = LW_WAIT_d;
+  LW_WAIT_d     =   (LW_WAIT AND lt_rdyn)
+               OR  (lt_rdyn AND LW_LXFR AND irdy);
+END GENERATE;
+ 
+
+---------- LW_DONE_d Optimization -------------------------------------------------------
+%-
+  LW_DONE_d     =   (LW_WAIT AND NOT  lt_rdyn AND NOT  TS_DXFR )
+          OR  (LW_LXFR AND NOT (lt_rdyn AND irdy) AND TS_TURN_AR) -- IF TS_TURN_AR is true, irdy is Low, The term in the middle becomes Do not care
+          OR  (LW_LXFR AND NOT (lt_rdyn AND irdy) AND (NOT lt_rdyn AND (TS_DISC or not lt_discn) AND irdy));
+
+  LW_DONE_d     =   (LW_WAIT AND NOT  lt_rdyn AND NOT  TS_DXFR )
+          OR  (LW_LXFR AND TS_TURN_AR)
+          OR  (LW_LXFR AND (NOT lt_rdyn AND (TS_DISC or not lt_discn) AND irdy));
+-%
+
+  LW_DONE_lc1     = LCELL(NOT lt_rdyn AND (TS_DISC or not lt_discn));
+  
+  LW_DONE_lc2     = LCELL ( (LW_LXFR AND TS_TURN_AR)
+                OR  (LW_WAIT AND NOT  lt_rdyn AND NOT  TS_DXFR )
+                );
+                
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LW_DONE_irdy = LCELL(irdy);
+  LW_DONE_d   =     (LW_DONE_lc2 )
+                 OR (LW_LXFR AND LW_DONE_lc1 AND LW_DONE_irdy);
+ELSE GENERATE
+  LW_DONE_d   =     (LW_DONE_lc2 )
+                 OR (LW_LXFR AND LW_DONE_lc1 AND irdy);
+END GENERATE;
+
+  
+  LW_DONE.clk     = clk;
+  LW_DONE.clrn    = rstn;
+  LW_DONE.d     = LW_DONE_d;
+  
+  
+ 
+    
+    
+  
+----------------------------------------------------------------------------------------------
+
+-- Target Read State Machine
+
+
+  LR_LXFR.clk = clk;    
+  LR_WAIT.clk = clk;    
+  LR_DONE.clk = clk;      
+  LR_WAIT_32.clk  = clk;
+
+
+
+  LR_LXFR.clrn  = rstn;     
+  LR_WAIT.clrn  = rstn;     
+  LR_DONE.clrn  = rstn;       
+  LR_WAIT_32.clrn = rstn;
+
+
+  LR_LXFR.d =  LR_LXFR_d; 
+  LR_WAIT.d = LR_WAIT_d;  
+  LR_DONE.d = LR_DONE_d;    
+  LR_WAIT_32.d = LR_WAIT_32_d;  
+
+
+
+-------- LR_IDLE_d Optimization ----------------------------------------------------------------
+
+--LR_IDLE_d = LR_IDLE AND NOT (TS_ADR_VLD AND NOT  wr_rdn AND NOT  cfg_cyc AND NOT  retry 
+--                  AND NOT  serr_sig_set AND lt_abortn AND lt_discn )
+--      OR  LR_DONE;
+
+LR_IDLE_NOT.clk   = clk;
+LR_IDLE_NOT.clrn  = rstn;
+LR_IDLE_NOT.d   = NOT LR_IDLE_d;
+
+LR_IDLE = NOT  LR_IDLE_NOT ;
+
+LR_IDLE_lc1_cascade = TS_ADR_VLD AND NOT cfg_cyc AND NOT serr_sig_set AND NOT retry;
+LR_IDLE_lc1 = LCELL ( (lt_abortn AND lt_discn AND NOT wr_rdn)
+            AND LR_IDLE_lc1_cascade
+            );
+
+
+
+
+LR_IDLE_d   = (LR_IDLE AND NOT  LR_IDLE_lc1)
+      OR  (LR_DONE);
+
+-------- LR_LXFR_d Optimization ----------------------------------------------------------------
+
+%- 
+LR_LXFR_d =   
+        LR_LXFR AND NOT (NOT  lt_abortn OR (NOT lt_discn and lt_rdynR))
+            AND NOT ( ( TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)))
+            AND NOT (   (NOT  lt_rdynR AND direct_xfr)
+                    OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)
+                  )
+            AND NOT (NOT  lt_rdynR AND NOT  direct_xfr and lt_ldata_ack_r )
+            
+            
+      OR  LR_IDLE AND (TS_ADR_VLD AND NOT  wr_rdn AND NOT  cfg_cyc 
+                AND NOT  retry AND NOT  serr_sig_set AND lt_abortn AND lt_discn ) 
+
+
+      OR  LR_PXFR AND    lt_abortn  AND NOT TS_DISC  AND lt_rdynR AND irdy AND  frame; -- Because conditions are mutually exclusive, LR_WAIT condition not used
+        
+-%
+LR_LXFR.clk   = clk;
+LR_LXFR.clrn  = rstn;
+LR_LXFR.d   = LR_LXFR_d;
+
+
+LR_LXFR_lc1   = LCELL (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r);
+LR_LXFR_lc2   = LCELL (NOT  lt_rdynR AND NOT  direct_xfr and lt_ldata_ack_r );
+
+LR_LXFR_lc3_cascade = lt_abortn AND NOT LR_LXFR_lc2 AND NOT LR_LXFR_lc1 AND NOT TS_DISC;
+LR_LXFR_lc3   = LCELL (   
+                  NOT (NOT  lt_rdynR AND direct_xfr)
+                  AND NOT (NOT lt_discn and lt_rdynR)
+                  AND LR_LXFR_lc3_cascade
+                  );
+            
+            
+            
+LR_LXFR_lc4   = LCELL(  LR_PXFR AND NOT TS_DISC  AND lt_rdynR AND lt_discn);
+
+LR_LXFR_lc5_cascade1  = TS_ADR_VLD AND NOT cfg_cyc;
+LR_LXFR_lc5_cascade2  = NOT retry AND NOT serr_sig_set AND LR_IDLE AND LR_LXFR_lc5_cascade1;
+LR_LXFR_lc5   = LCELL ( (lt_abortn AND lt_discn  AND NOT wr_rdn)
+            AND LR_LXFR_lc5_cascade2
+            );
+
+
+LR_LXFR_lc6    = LCELL( (LR_LXFR AND LR_LXFR_lc3)
+                 OR (LR_LXFR_lc5));
+
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  IF(PCI_FAMILY_STRATIXII()) GENERATE
+    LR_LXFR_irdy  = LCELL(irdy);
+    LR_LXFR_d_lc1 = (frame AND LR_LXFR_irdy AND LR_LXFR_lc4 AND lt_abortn);
+  ELSE GENERATE
+    LR_LXFR_irdy  = LCELL(irdy);
+    LR_LXFR_d_lc1 = LCELL(frame AND LR_LXFR_irdy AND LR_LXFR_lc4 AND lt_abortn);
+  END GENERATE;
+ELSE GENERATE
+  LR_LXFR_d_lc1 = LCELL(frame AND irdy AND LR_LXFR_lc4 AND lt_abortn);
+END GENERATE;
+
+LR_LXFR_d =   LR_LXFR_lc6 OR LR_LXFR_d_lc1;
+            
+
+
+------- LR_PXFR_32_d Optimization --------------------------------------------------------------
+
+%-
+
+LR_PXFR_32_d =  LR_LXFR AND NOT (NOT  lt_abortn OR (NOT lt_discn and lt_rdynR) 
+                OR ( TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r))
+                )
+            AND NOT (   (NOT  lt_rdynR AND direct_xfr)
+                    OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)
+                  )
+            AND (NOT  lt_rdynR AND NOT  direct_xfr and lt_ldata_ack_r )
+
+      OR  LR_PXFR_32  AND NOT (NOT  lt_abortn OR NOT  frame)
+              AND NOT irdy 
+              
+      OR LR_PXFR  AND NOT (NOT  lt_abortn OR NOT  frame OR TS_DISC)
+            AND NOT (NOT  irdy AND NOT  lt_rdynR AND direct_xfr)
+            AND NOT (irdy AND lt_rdynR)
+            AND NOT (NOT  irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+            AND (irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+      
+      OR LR_WAIT_32 AND NOT (NOT  lt_abortn OR NOT  frame)
+              AND irdy ;
+
+
+
+
+LR_PXFR_32_d =  LR_PXFR_32_lc1  
+            
+
+      OR  LR_PXFR_32  AND lt_abortn AND frame AND NOT irdy 
+              
+      OR (LR_PXFR AND lt_abortn AND  frame AND NOT TS_DISC AND irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+      
+      OR LR_WAIT_32 AND lt_abortn AND frame AND irdy ;
+
+-%
+
+LR_PXFR_32_cc1  = ( ( NOT (NOT  lt_rdynR AND direct_xfr)
+                              AND  NOT LR_LXFR_lc1
+                              )
+                            );
+
+    --  not optimized for stratix.  cascade chains will be broken.  -MH
+LR_PXFR_32_lc1  =     LCELL(  (lt_abortn AND NOT (NOT lt_discn and lt_rdynR))
+              AND CASCADE ( (LR_LXFR AND LR_LXFR_lc2 AND  NOT ( TS_DISC AND NOT LR_LXFR_lc1 )
+                      )
+                    AND LR_PXFR_32_cc1                      )
+              );
+
+              
+LR_PXFR_32_lc2  = LCELL (LR_PXFR  AND NOT TS_DISC AND NOT  lt_rdynR AND NOT  direct_xfr);
+
+              
+--------- LR_PXFR_32 Register-OR Optimization --------------------------------------------------------------
+
+LR_PXFR_32_r1.clk   = clk;
+LR_PXFR_32_r1.clrn  = rstn;
+LR_PXFR_32_r1.d   = LR_PXFR_32_r1_d;
+
+LR_PXFR_32_r2.clk   = clk;
+LR_PXFR_32_r2.clrn  = rstn;
+LR_PXFR_32_r2.d   = LR_PXFR_32_r2_d;
+
+LR_PXFR_32_r1_carry.sin = VCC;
+LR_PXFR_32_r1_carry.cin = LR_PXFR_32 AND lt_abortn;
+
+
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+
+  LR_PXFR_32_r1_irdy    = LCELL(irdy);
+  LR_PXFR_32_r1_d       = LR_PXFR_32_lc1 OR (LR_PXFR_32_r1_carry.cout  AND NOT LR_PXFR_32_r1_irdy) AND frame;
+ELSE GENERATE
+  LR_PXFR_32_r1_d       = LR_PXFR_32_lc1 OR (LR_PXFR_32_r1_carry.cout  AND NOT irdy) AND frame;
+END GENERATE;
+
+  
+
+
+LR_PXFR_32_r2_d_lc  =     LCELL ((LR_PXFR_32_lc2  OR LR_WAIT_32) AND lt_abortn);
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LR_PXFR_32_r2_irdy = LCELL(irdy);
+  LR_PXFR_32_r2_d   =     LR_PXFR_32_r2_d_lc 
+                    AND LR_PXFR_32_r2_irdy and frame ;
+ELSE GENERATE
+  LR_PXFR_32_r2_d   =     LR_PXFR_32_r2_d_lc 
+                    AND irdy and frame ;
+END GENERATE;
+
+
+        
+
+
+LR_PXFR_32 = LCELL(LR_PXFR_32_r1.q OR LR_PXFR_32_r2.q);
+
+LR_PXFR_32_d = LR_PXFR_32_r1_d OR LR_PXFR_32_r2_d;
+
+
+-------- LR_PXFR_d Optimization ----------------------------------------------------------------
+%-
+
+LR_PXFR_d = LR_LXFR AND NOT   ( (NOT  lt_abortn)
+                OR  (NOT lt_discn and lt_rdynR) 
+                OR  (TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r))
+          AND ( (NOT  lt_rdynR AND direct_xfr)
+            OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)
+            )
+        
+    OR  LR_PXFR_32  AND NOT (NOT  lt_abortn OR NOT  frame)
+            AND irdy
+
+    OR  LR_PXFR   AND NOT (NOT  lt_abortn OR NOT  frame OR TS_DISC)
+            AND NOT (NOT  irdy AND NOT  lt_rdynR AND direct_xfr)
+            AND NOT (irdy AND lt_rdynR)
+            AND NOT(NOT  irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+            AND NOT (irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+            
+    OR LR_WAIT    AND NOT (NOT  lt_abortn OR NOT  frame) 
+            AND irdy;
+
+            
+LR_PXFR_d = LR_PXFR_lc1   
+    OR  LR_PXFR   AND lt_abortn AND frame AND NOT TS_DISC AND (NOT irdy AND lt_rdynR)
+    
+    OR  (LR_PXFR_32   AND lt_abortn AND frame AND irdy)
+    OR  LR_PXFR   AND lt_abortn AND frame AND NOT TS_DISC AND (irdy AND NOT lt_rdynR AND direct_xfr)
+    OR  LR_WAIT   AND lt_abortn AND frame AND irdy;
+
+-%
+--------- LR_PXFR Register-OR Optimization ----------------------------------------------------
+
+%-LR_PXFR_r1_d = LR_LXFR AND NOT   ( (NOT  lt_abortn)
+                OR  (NOT lt_discn and lt_rdynR) 
+                OR  (TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r))
+                )
+          AND ( (NOT  lt_rdynR AND direct_xfr)
+            OR  (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r)
+            )
+        
+    OR  LR_PXFR_32  AND NOT (NOT  lt_abortn OR NOT  frame)
+            AND irdy
+
+    OR  LR_PXFR   AND NOT ( (NOT  lt_abortn OR NOT  frame OR TS_DISC)
+                OR  (NOT  irdy AND NOT  lt_rdynR AND direct_xfr)
+                OR  (irdy AND lt_rdynR)
+                OR  (NOT  irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+                OR  (irdy AND NOT  lt_rdynR AND NOT  direct_xfr)
+                )
+            
+    OR LR_WAIT    AND NOT (NOT  lt_abortn OR NOT  frame) 
+            AND irdy; 
+-%
+
+LR_PXFR_cc1     = ( NOT (TS_DISC AND NOT LR_LXFR_lc1)
+                        AND ( (NOT  lt_rdynR AND direct_xfr)
+                          OR  LR_LXFR_lc1
+                          )
+                        );
+
+LR_PXFR_lc1   =   LCELL(  LR_LXFR AND lt_abortn AND NOT (NOT lt_discn and lt_rdynR)
+                  AND LR_PXFR_cc1           );
+      
+        
+LR_PXFR_lc2   =   LCELL (LR_PXFR AND NOT TS_DISC AND lt_rdynR);
+
+
+
+LR_PXFR_r1.clk  = clk;
+LR_PXFR_r1.clrn = rstn;
+LR_PXFR_r1.d  = LR_PXFR_r1_d;
+
+LR_PXFR_r1_cascade = LCELL(LR_PXFR_lc2  AND lt_abortn);
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LR_PXFR_r1_irdy   = LCELL(irdy);
+  LR_PXFR_r1_d      = LR_PXFR_lc1 OR (LR_PXFR_r1_cascade AND NOT LR_PXFR_r1_irdy AND frame);
+ELSE GENERATE
+  LR_PXFR_r1_d      = LR_PXFR_lc1 OR (LR_PXFR_r1_cascade AND NOT irdy AND frame);
+END GENERATE;
+
+
+LR_PXFR_lc3   = LCELL (LR_PXFR AND NOT TS_DISC AND NOT lt_rdynR AND direct_xfr);
+LR_PXFR_lc4     = LCELL ( (LR_PXFR_32)
+              OR  (LR_PXFR_lc3)
+              OR  (LR_WAIT)
+              );
+        
+LR_PXFR_r2.clk   = clk;
+LR_PXFR_r2.clrn  = rstn;
+LR_PXFR_r2.d     = LR_PXFR_r2_d ;
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LR_PXFR_r2_irdy   = LCELL(irdy);
+  LR_PXFR_r2_d      = LR_PXFR_lc4 AND (lt_abortn  AND LR_PXFR_r2_irdy AND frame);
+ELSE GENERATE
+  LR_PXFR_r2_d      = LR_PXFR_lc4 AND (lt_abortn  AND irdy AND frame);
+END GENERATE;
+
+LR_PXFR = LCELL(LR_PXFR_r1.q OR LR_PXFR_r2.q);
+LR_PXFR_d = LR_PXFR_r1_d OR LR_PXFR_r2_d;    
+
+
+ 
+--------- LR_WAIT_d Optimization --------------------------------------------------------------
+
+
+--  LR_WAIT_d   =   (LR_PXFR AND NOT  (NOT  lt_abortn OR NOT  frame OR TS_DISC) AND (NOT  irdy AND NOT  lt_rdynR AND direct_xfr))
+--        OR  (LR_WAIT AND NOT  (NOT  lt_abortn OR NOT  frame) AND NOT  (irdy));
+
+--  LR_WAIT_d   =   (LR_PXFR AND lt_abortn AND NOT  TS_DISC AND NOT lt_rdynR AND direct_xfr AND frame AND NOT  irdy )
+--        OR  (LR_WAIT AND lt_abortn AND frame AND NOT  irdy);
+
+LR_WAIT_lc1 =   LCELL(LR_PXFR AND NOT  TS_DISC);
+LR_WAIT_lc2 = LCELL ( (LR_WAIT_lc1 AND  NOT lt_rdynR AND direct_xfr)
+          OR  (LR_WAIT)
+          );
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LR_WAIT_irdy = LCELL(irdy);
+  LR_WAIT_d =   LR_WAIT_lc2 AND lt_abortn AND NOT  LR_WAIT_irdy AND frame;
+ELSE GENERATE
+  LR_WAIT_d =   LR_WAIT_lc2 AND lt_abortn AND NOT  irdy AND frame;
+END GENERATE;
+       
+
+
+
+---------- LR_WAIT_32_d Optimization -------------------------------------------------------
+
+
+--LR_WAIT_32_d = (LR_PXFR AND NOT  (NOT  lt_abortn OR NOT  frame OR TS_DISC ) 
+--            AND NOT  (NOT  irdy AND NOT  lt_rdynR AND direct_xfr)
+--            AND NOT  (irdy AND lt_rdynR)
+--            AND (NOT  irdy AND NOT  lt_rdynR AND NOT  direct_xfr))
+--        OR  (LR_WAIT_32 AND NOT  (NOT  lt_abortn OR NOT  frame) AND NOT  (irdy));
+
+
+
+--LR_WAIT_32_d =  (LR_PXFR AND NOT  TS_DISC AND NOT  lt_rdynR AND NOT  direct_xfr AND lt_abortn AND frame AND NOT  irdy)
+--        OR  (LR_WAIT_32 AND lt_abortn AND frame AND NOT  irdy);
+
+LR_WAIT_32_lc1  = LCELL(LR_PXFR AND NOT  TS_DISC AND NOT  lt_rdynR AND NOT  direct_xfr);
+
+
+LR_WAIT_32_lc1a = LCELL(   (LR_WAIT_32_lc1 )
+                   OR (LR_WAIT_32));
+
+IF(PCI_FAMILY_STRATIXII() or PCI_FAMILY_CYCLONE()) GENERATE
+  LR_WAIT_32_irdy = LCELL(irdy);
+  LR_WAIT_32_d  =   ( LR_WAIT_32_lc1a ) 
+             AND  (lt_abortn AND NOT  LR_WAIT_32_irdy AND frame );
+ELSE GENERATE
+  LR_WAIT_32_d  =   ( LR_WAIT_32_lc1a ) 
+             AND  (lt_abortn AND NOT  irdy AND frame );
+END GENERATE;
+
+
+
+--------- LR_DONE_d Optimization -----------------------------------------------------------
+
+
+--LR_DONE_d = (LR_LXFR AND  ( NOT  lt_abortn 
+--              OR  (NOT lt_discn and lt_rdynR) 
+--              OR  (TS_DISC AND NOT (NOT  lt_rdynR_R and not direct_xfr and lt_ldata_ack_r))
+--              )
+--      OR (LR_PXFR_32 AND (NOT  lt_abortn OR NOT  frame)) 
+--      OR (LR_PXFR AND (NOT  lt_abortn OR NOT  frame OR TS_DISC) )
+--      OR (LR_WAIT AND (NOT  lt_abortn OR NOT  frame))
+--      OR (LR_WAIT_32 AND (NOT  lt_abortn OR NOT  frame));   
+--      
+--LR_DONE_d = (LR_LXFR AND  ( NOT  lt_abortn 
+--              OR  (NOT lt_discn and lt_rdynR) 
+--              OR  (TS_DISC AND NOT LR_LXFR_lc1)
+--              )
+--      OR (LR_PXFR_32 AND (NOT  lt_abortn OR NOT  frame)) 
+--      OR (LR_PXFR AND (NOT  lt_abortn OR NOT  frame OR TS_DISC) )
+--		OR (LR_PXFR AND irdy AND lt_rdynR AND NOT lt_discn)
+--      OR (LR_WAIT AND (NOT  lt_abortn OR NOT  frame))
+--      OR (LR_WAIT_32 AND (NOT  lt_abortn OR NOT  frame));   
+--      
+
+--LR_DONE_cc1     = ( NOT ( (LR_LXFR AND TS_DISC AND NOT LR_LXFR_lc1)
+--                          OR  (LR_PXFR AND TS_DISC)
+--                          )
+--                      );
+--
+--LR_DONE_lc1   =     LCELL(  NOT ( (LR_LXFR AND NOT  lt_abortn)
+--                    OR  (LR_LXFR AND NOT lt_discn and lt_rdynR)
+--                    )
+--                AND LR_DONE_cc1               );
+--
+--
+--LR_DONE_lc2   =   LCELL ( LR_PXFR_32 
+--              OR  LR_PXFR
+--              OR  LR_WAIT
+--              OR  LR_WAIT_32
+--              );   
+--
+--                
+--LR_DONE_d   =   NOT LR_DONE_lc1
+--      OR  (LR_DONE_lc2 AND (NOT  lt_abortn OR NOT  frame));   
+   
+   
+LR_DONE_lc1   =     LCELL	( 	(LR_LXFR AND NOT  lt_abortn)
+                    		OR  (LR_LXFR AND NOT lt_discn and lt_rdynR)
+							OR	(LR_LXFR AND TS_DISC AND NOT LR_LXFR_lc1)
+    	               		OR  (LR_PXFR AND TS_DISC)
+							OR	(LR_DONE_lc2 AND NOT lt_abortn)
+							);
+                    	 
+
+LR_DONE_lc2   =   LCELL ( 	LR_PXFR_32 
+              			OR  LR_PXFR
+              			OR  LR_WAIT
+              			OR  LR_WAIT_32
+              			);   
+
+LR_DONE_lc3		= LCELL(irdy AND LR_PXFR AND lt_rdynR AND NOT lt_discn);
+ 
+ 
+
+                
+LR_DONE_d   =    LR_DONE_lc1
+			OR   LR_DONE_lc3
+			OR  (LR_DONE_lc2 AND NOT  frame);   
+
+
+
+END GENERATE;
+---------------------------------------------------------------------------------------------------
+
+END ;
+-- ==== END OF LOGIC SECTION ======================================================================          
+

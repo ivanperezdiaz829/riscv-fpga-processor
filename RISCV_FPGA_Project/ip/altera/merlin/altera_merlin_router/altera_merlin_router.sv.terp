@@ -1,0 +1,605 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/merlin/altera_merlin_router/altera_merlin_router.sv.terp#5 $
+// \$Revision: #5 $
+// \$Date: 2013/09/30 $
+// \$Author: perforce $
+
+// -------------------------------------------------------
+// Merlin Router
+//
+// Asserts the appropriate one-hot encoded channel based on 
+// either (a) the address or (b) the dest id. The DECODER_TYPE
+// parameter controls this behaviour. 0 means address decoder,
+// 1 means dest id decoder.
+//
+// In the case of (a), it also sets the destination id.
+// -------------------------------------------------------
+
+`timescale 1 ns / 1 ns
+
+module ${output_name}_default_decode
+  #(
+     parameter DEFAULT_CHANNEL = $default_channel,
+               DEFAULT_WR_CHANNEL = $default_wr_channel,
+               DEFAULT_RD_CHANNEL = $default_rd_channel,
+               DEFAULT_DESTID = $default_destid 
+   )
+  (output [$pkt_dest_id_h - $pkt_dest_id_l : 0] default_destination_id,
+   output [$st_channel_w-1 : 0] default_wr_channel,
+   output [$st_channel_w-1 : 0] default_rd_channel,
+   output [$st_channel_w-1 : 0] default_src_channel
+  );
+
+  assign default_destination_id = 
+    DEFAULT_DESTID[$pkt_dest_id_h - $pkt_dest_id_l : 0];
+
+  generate begin : default_decode
+    if (DEFAULT_CHANNEL == -1) begin
+      assign default_src_channel = '0;
+    end
+    else begin
+      assign default_src_channel = ${st_channel_w}'b1 << DEFAULT_CHANNEL;
+    end
+  end
+  endgenerate
+
+  generate begin : default_decode_rw
+    if (DEFAULT_RD_CHANNEL == -1) begin
+      assign default_wr_channel = '0;
+      assign default_rd_channel = '0;
+    end
+    else begin
+      assign default_wr_channel = ${st_channel_w}'b1 << DEFAULT_WR_CHANNEL;
+      assign default_rd_channel = ${st_channel_w}'b1 << DEFAULT_RD_CHANNEL;
+    end
+  end
+  endgenerate
+
+endmodule
+
+
+module $output_name
+(
+    // -------------------
+    // Clock & Reset
+    // -------------------
+    input clk,
+    input reset,
+
+    // -------------------
+    // Command Sink (Input)
+    // -------------------
+    input                       sink_valid,
+    input  [$st_data_w-1 : 0]    sink_data,
+    input                       sink_startofpacket,
+    input                       sink_endofpacket,
+    output                      sink_ready,
+
+    // -------------------
+    // Command Source (Output)
+    // -------------------
+    output                          src_valid,
+    output reg [$st_data_w-1    : 0] src_data,
+    output reg [$st_channel_w-1 : 0] src_channel,
+    output                          src_startofpacket,
+    output                          src_endofpacket,
+    input                           src_ready
+);
+
+    // -------------------------------------------------------
+    // Local parameters and variables
+    // -------------------------------------------------------
+    localparam PKT_ADDR_H = $pkt_addr_h;
+    localparam PKT_ADDR_L = $pkt_addr_l;
+    localparam PKT_DEST_ID_H = $pkt_dest_id_h;
+    localparam PKT_DEST_ID_L = $pkt_dest_id_l;
+@@ # kevtan : Qsys 13.0 Added protection bits for TZ.
+    localparam PKT_PROTECTION_H = $pkt_protection_h;
+    localparam PKT_PROTECTION_L = $pkt_protection_l;
+@@ # end kevtan edit
+    localparam ST_DATA_W = $st_data_w;
+    localparam ST_CHANNEL_W = $st_channel_w;
+    localparam DECODER_TYPE = $decoder_type;
+
+    localparam PKT_TRANS_WRITE = $pkt_trans_write;
+    localparam PKT_TRANS_READ  = $pkt_trans_read;
+
+    localparam PKT_ADDR_W = PKT_ADDR_H-PKT_ADDR_L + 1;
+    localparam PKT_DEST_ID_W = PKT_DEST_ID_H-PKT_DEST_ID_L + 1;
+
+@@ # -------------------------------------------------------
+@@ # Assumes addresses start with "0x"
+@@ # -------------------------------------------------------
+@@ proc remove0x { addr } {
+@@    set len [ string length $addr ]
+@@    return [ string range $addr 2 [ expr $len - 1 ] ]
+@@ }
+@@
+@@ # -------------------------------------------------------
+@@ # Is this address the maximum we support? 
+@@ # Expects a hex value 0x...
+@@ # -------------------------------------------------------
+@@ proc max_addr { addr } {
+@@    return [ expr [ string compare $addr 0x10000000000000000 ] == 0 ]
+@@ }
+@@
+
+@@ # -------------------------------------------------------
+@@ # Is there only one AXI slave/ mixed AXI and avalon slaves?
+@@ # -------------------------------------------------------
+@@ proc check_slaves { num_valid_addrs slaves_info } {
+@@	set slave_list      [ split $slaves_info , ]
+@@	set num_slaves      [ llength $slave_list ]
+@@	set start_addr_list             [list]
+@@	set start_end_list              [list]
+@@	set type_of_transaction_list    [list]
+@@  set non_secured_list            [list]
+@@
+@@	for { set i 0 } { $i < $num_slaves } { incr i } {
+@@		set slave_details       [ split [ lindex $slave_list $i ] : ]
+@@		set start_addr          [ lindex $slave_details 2 ] 
+@@		set end_addr            [ lindex $slave_details 3 ] 
+@@		set type_of_transaction [ lindex $slave_details 4 ]
+@@      set non_secured         [ lindex $slave_details 5 ]
+@@		set valid_addr          [ expr [ string compare $end_addr 0x0 ] != 0 ]
+@@		lappend start_addr_list             $start_addr
+@@		lappend end_addr_list               $end_addr
+@@		lappend type_of_transaction_list    $type_of_transaction
+@@      lappend non_secured_list            $non_secured
+@@     	}
+
+@@ # Return 1: there is only one AXI slave
+@@ # check number valid addrs = 2 and if start/end addresses are the same then 
+@@ # this is one AXI slave
+@@      if {($num_valid_addrs == 2) && ([ lindex $start_addr_list 0 ] == [lindex $start_addr_list 1 ]) && ([ lindex $end_addr_list 0 ] == [lindex $end_addr_list 1 ]) } {
+@@              return 1
+@@      } else {
+
+@@ # Return 2: There are AXI slaves, can be some or mix AXI and avalon slaves
+@@ # Return 0: There are only Avalon slaves
+@@ set count 0
+@@	foreach transaction ${type_of_transaction_list} {
+@@		if { (${transaction} == "write") || (${transaction} == "read") } {
+@@			incr count 
+@@		}
+@@	}
+@@ if {$count == 0} {
+@@ 		return 0
+@@ } else {
+@@		return 2
+@@ }
+@@    }
+@@ }
+@@ # --------------------------------------------------------
+@@ # Log base 2
+@@ # --------------------------------------------------------
+@@ proc terplog2 { x } {
+@@    set i 1
+@@    set log2ceil 0
+@@    set decimal_x [expr 0x$x]
+@@    while {$i < $decimal_x} {
+@@        set log2ceil  [expr $log2ceil + 1]
+@@        set i [expr $i*2]
+@@    }
+@@    return $log2ceil
+@@ }    
+@@ #+--------------------------------------------------
+@@ #| Insert if condition base on transaction type
+@@ #+-------------------------------------------------- 
+@@ proc insert_if_condition_based_on_trans { {transaction both} } {
+@@ if {$transaction == "write" || $transaction == "read" } {
+@@ 		return "if (${transaction}_transaction) begin"
+@@ } else {
+@@ 		return ""
+@@ }
+@@ }
+@@ #+--------------------------------------------------
+@@ #| Insert 'end' keyword base on transaction type
+@@ #+-------------------------------------------------- 
+@@ proc insert_end_keyword_based_on_trans { {transaction both} } {
+@@ if {$transaction == "write" || $transaction == "read" } {
+@@ 		return "end"
+@@ } else {
+@@ 		return ""
+@@ }
+@@ }
+@@ #+--------------------------------------------------
+@@ #| Get 'and' (&&) transaction type 
+@@ #+-------------------------------------------------- 
+@@ proc get_transaction { {transaction both} } {
+@@ if {$transaction == "write" || $transaction == "read" } {
+@@ 		return " && ${transaction}_transaction"
+@@ } else {
+@@ 		return ""
+@@ }
+@@ }
+@@
+
+@@ # -------------------------------------------------------
+@@ # The terp parameter $slaves_info is a comma-separated string
+@@ # consisting of quadruplets. Each element in the quadruplet is
+@@ # colon-separated. The first element is the destination id, the
+@@ # second is the channel as a binary string, and the last two are 
+@@ # the start (inclusive) and end (exclusive) address respectively 
+@@ # in hex.
+@@ # 
+@@ # Example: [1:001:0x2000:0x4000,4:100:0x8000:0x12000]
+@@ # Support AXI: each AXI slave has two channels: write and read, for avalon both 
+@@ # [1:001:0x2000:0x4000:write,1:001:0x2000:0x4000:read,4:100:0x8000:0x12000:both]
+@@ # The reason put "transaction type" at the end so that dont 
+@@ # need to change so much inside the strucutre of
+@@ # the old file and especially the test
+@@ # Here, we figure out the highest exclusive address and use
+@@ # that to optimize away unnecessary address bits. The highest
+@@ # exclusive address is equivalent to the accessible address
+@@ # range.
+@@ # -------------------------------------------------------
+@@ set addr_range 0x0
+@@ set addr_range_hex 0
+@@ set slave_list [ split $slaves_info , ]
+@@ set num_slaves [ llength $slave_list ]
+@@
+    // -------------------------------------------------------
+    // Figure out the number of bits to mask off for each slave span
+    // during address decoding
+    // -------------------------------------------------------
+@@ set num_valid_addrs 0
+@@ set num_secured_slaves 0
+@@ set num_secured_pairs 0
+@@ set num_of_addr_pairs 1
+@@
+@@ set max_width 64
+@@ for { set i 0 } { $i < $num_slaves } { incr i } {
+@@   set slave_details       [ split [ lindex $slave_list $i ] : ]
+@@   set start_addr             [ lindex $slave_details 2 ]
+@@   set end_addr               [ lindex $slave_details 3 ]
+@@   set type_of_transaction    [ lindex $slave_details 4 ]
+@@   set non_secured            [ lindex $slave_details 5 ]
+@@   set secured_range_pair_no  [ lindex $slave_details 6 ]
+@@   set start_hex  [ remove0x $start_addr ]
+@@   set end_hex    [ remove0x $end_addr ]
+@@   set valid_addr [ expr [ string compare $end_addr 0x0 ] != 0 ]
+@@   set width      64
+@@   if { [ max_addr $end_addr ] } {
+@@      set width 65
+@@      set max_width 65
+@@   }
+@@
+@@   if { $valid_addr && $decoder_type == 0 } {
+@@      incr num_valid_addrs;
+    localparam PAD$i = log2ceil(${width}'h$end_hex - ${width}'h$start_hex); 
+@@   }
+@@
+@@      if {$end_addr > $addr_range} {
+@@          set addr_range $end_addr
+@@      }
+@@   if { $non_secured == 0 } { 
+@@      incr num_secured_slaves; 
+@@   }
+@@   if { $secured_range_pair_no != 0 } {
+@@      incr num_secured_pairs;
+@@   }
+@@  # Need to figure out when RG<PAD*
+@@   if { $i == 0 } { 
+@@      set cur_st "$start_addr" 
+@@      set cur_ed "$end_addr"
+@@   }
+@@   if { $i > 0 && ( ($cur_st ne $start_addr) || ($cur_ed ne $end_addr) ) } {
+@@          incr num_of_addr_pairs;
+@@   }
+@@ }
+@@ 
+@@ set addr_range_hex [ remove0x $addr_range ]
+@@ set addr_range_width [terplog2 $addr_range_hex]
+@@ # 13.0 Added MEMORY_ALIASING_DECODE as a parameter to decode upper bits of
+@@ # address all the time. (memory aliasing will be not supported)
+    // -------------------------------------------------------
+    // Work out which address bits are significant based on the
+    // address range of the slaves. If the required width is too
+    // large or too small, we use the address field width instead.
+    // -------------------------------------------------------
+    localparam ADDR_RANGE = ${max_width}'h${addr_range_hex};
+    localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
+    localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
+                                  (RANGE_ADDR_WIDTH == 0) ?
+                                        PKT_ADDR_H :
+                                        PKT_ADDR_L + RANGE_ADDR_WIDTH - 1;
+@@ if {$memory_aliasing_decode == 1} {
+    localparam ADDRESS_ALIASING_W = PKT_ADDR_H > OPTIMIZED_ADDR_H + 1 ? PKT_ADDR_H - OPTIMIZED_ADDR_H - 1 : 0;
+@@ }
+
+@@ if { $num_of_addr_pairs > 1 } {
+    localparam RG = RANGE_ADDR_WIDTH-1;
+    localparam REAL_ADDRESS_RANGE = OPTIMIZED_ADDR_H - PKT_ADDR_L;
+@@ } else {
+    localparam RG = RANGE_ADDR_WIDTH;
+    localparam REAL_ADDRESS_RANGE = OPTIMIZED_ADDR_H - PKT_ADDR_L;
+@@ }
+
+@@ if { $decoder_type == 1 } {
+    reg [PKT_DEST_ID_W-1 : 0] destid;
+@@ } else {
+@@  if { ($num_valid_addrs > 1) || ($num_secured_pairs != 0) } {
+      reg [PKT_ADDR_W-1 : 0] address;
+      always @* begin
+        address = {PKT_ADDR_W{1'b0}};
+        address [REAL_ADDRESS_RANGE:0] = sink_data[OPTIMIZED_ADDR_H : PKT_ADDR_L];
+      end   
+@@  }
+@@ }
+
+    // -------------------------------------------------------
+    // Pass almost everything through, untouched
+    // -------------------------------------------------------
+    assign sink_ready        = src_ready;
+    assign src_valid         = sink_valid;
+    assign src_startofpacket = sink_startofpacket;
+    assign src_endofpacket   = sink_endofpacket;
+@@ if { $decoder_type == 0 } {
+    wire [PKT_DEST_ID_W-1:0] default_destid;
+@@ }
+@@ if { $default_channel != -1 || $default_wr_channel == -1 } {
+    wire [$st_channel_w-1 : 0] default_src_channel;
+@@ } else {
+    wire [$st_channel_w-1 : 0] default_rd_channel;
+    wire [$st_channel_w-1 : 0] default_wr_channel;
+@@ }
+
+@@ # Checking all slaves
+@@ set checking_all_slaves [check_slaves $num_valid_addrs $slaves_info]
+
+@@ # Check r/w settings
+@@  set has_read_slaves 0
+@@  set has_write_slaves 0
+@@  set slave_list      [ split $slaves_info , ]
+@@  set num_slaves      [ llength $slave_list ]
+@@  for { set i 0 } { $i < $num_slaves } { incr i } {
+@@      set slave_details       [ split [ lindex $slave_list $i ] : ]
+@@      set type_of_transaction [ lindex $slave_details 4 ]
+@@      if { $type_of_transaction == "write" } { set has_write_slaves 1 }
+@@      if { $type_of_transaction == "read" }  { set has_read_slaves 1 }
+@@  }
+
+@@ # Only use this when there is AXI slave, to avoit QIS warning that
+@@ # signals declared but not using
+
+@@# not equal 0 mean there is AXI slaves so add wrire/read signal
+@@# also append conditions for read/write if default rw channel is present
+@@# (for default slaves)
+@@ if { ($checking_all_slaves != 0) || ($default_rd_channel != -1) || ($default_wr_channel != -1) } {
+    // -------------------------------------------------------
+    // Write and read transaction signals
+    // -------------------------------------------------------
+@@  if { $has_write_slaves == 1 } {
+    wire write_transaction;
+    assign write_transaction = sink_data[PKT_TRANS_WRITE];
+@@  }
+@@  if { $has_read_slaves == 1 } {
+    wire read_transaction;
+    assign read_transaction  = sink_data[PKT_TRANS_READ];
+@@  }
+@@ }
+
+@@ if { $num_secured_slaves != 0 } {
+    // -------------------------------------------------------
+    // Secure / Non-secured signal
+    // -------------------------------------------------------
+    wire secured_transaction;
+    assign secured_transaction = ~sink_data[PKT_PROTECTION_L+1];
+
+@@ }
+
+    ${output_name}_default_decode the_default_decode(
+@@ if { $decoder_type == 0 } {
+      .default_destination_id (default_destid),
+@@ } else {
+      .default_destination_id (),
+@@ }
+@@ if { $default_channel != -1 || $default_wr_channel == -1 } {
+      .default_wr_channel   (),
+      .default_rd_channel   (),
+      .default_src_channel  (default_src_channel)
+@@ } else {
+      .default_wr_channel   (default_wr_channel),
+      .default_rd_channel   (default_rd_channel),
+      .default_src_channel  ()
+@@ }
+    );
+
+    always @* begin
+        src_data    = sink_data;
+@@ # Fbz 91922 : adding code for default with split channels
+@@ if { $default_channel != -1 || $default_wr_channel == -1 } {
+        src_channel = default_src_channel;
+@@ } else {
+        src_channel = write_transaction ? default_wr_channel : default_rd_channel;
+@@ }
+@@ if { $decoder_type == 0 } {
+        src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = default_destid;
+
+@@ if {$memory_aliasing_decode == 1} {
+        // --------------------------------------------------
+        // Addresss aliasing will be routed to default slave (if present)
+        // --------------------------------------------------
+        if ( PKT_ADDR_H == OPTIMIZED_ADDR_H || 
+             (|sink_data[PKT_ADDR_H:PKT_ADDR_H - ADDRESS_ALIASING_W] == 0) ) begin
+
+@@ }
+        // --------------------------------------------------
+        // Address Decoder
+        // Sets the channel and destination ID based on the address
+        // --------------------------------------------------
+@@ set slave_list [ split $slaves_info , ]
+@@ set num_slaves [ llength $slave_list ]
+@@ set secured_range_pair_list [ list ]
+@@ for { set i 0 } { $i < $num_slaves } { incr i } {
+@@   set slave_details       [ split [ lindex $slave_list $i ] : ]
+@@   set destid     [ lindex $slave_details 0 ]
+@@   set channel    [ lindex $slave_details 1 ]
+@@   set start_addr [ lindex $slave_details 2 ]
+@@   set end_addr   [ lindex $slave_details 3 ]
+@@   set type_of_transaction  [ lindex $slave_details 4 ]
+@@   set non_secured          [ lindex $slave_details 5 ]
+@@   set secured_range_pair_no  [ lindex $slave_details 6 ]
+@@   if {$secured_range_pair_no != 0} { 
+@@      set secured_range_pair_list [ split [ lindex $slave_details 7 ] - ]
+@@   }
+@@
+@@   # Fbz 131694: enable non-span start address:  just internally calculate offset based on assumption that end = start + span
+@@   set span_value  [ expr $end_addr - $start_addr ]
+@@   if { $span_value == 0 } { 
+@@     set span_offset 0
+@@   } else {
+@@     set span_offset [ format %x [ expr $start_addr % $span_value ] ]
+@@   }
+@@
+@@   set valid_addr [ expr [ string compare $end_addr 0x0 ] != 0 ]
+@@   
+@@   if { $valid_addr } {
+@@      set start_hex  [ remove0x $start_addr ]
+@@      set end_hex    [ remove0x $end_addr ]
+@@  
+@@      if { $non_secured == 0 && $secured_range_pair_no == 0 } { 
+@@          set insert_if_condition_for_security  "if (secured_transaction) begin"
+@@          set insert_end_condition_for_security "end"
+@@          set insert_condition_for_security "&& secured_transaction " 
+@@      } else { 
+@@          set insert_if_condition_for_security  ""
+@@          set insert_end_condition_for_security ""
+@@          set insert_condition_for_security "" 
+@@      }
+@@      set insert_secured_range_compare ""
+@@      if { $secured_range_pair_no != 0 } {
+@@          for { set j 0 } { $j < $secured_range_pair_no  } { incr j } {
+@@            set range1 [ remove0x [ lindex $secured_range_pair_list [ expr $j * 2] ] ]
+@@            set range2 [ remove0x [ lindex $secured_range_pair_list [ expr ($j * 2) +1 ] ] ]
+@@            set range1_opt [ format "%lx" [ expr [expr 0x$range1 ] - [expr 0x$start_hex ] ] ]
+@@            set range2_opt [ format "%lx" [ expr [expr 0x$range2 ] - [expr 0x$start_hex ] ] ]
+@@            if { $j > 0 } { append insert_secured_range_compare " || " }
+@@            append insert_secured_range_compare "( "
+@@            if { $span_offset != 0 } {
+@@            if { $range1 != $start_hex } { append insert_secured_range_compare "address\[PAD$i-1:0\] >=$addr_range_width'h$range1_opt" }
+@@            } else { 
+@@            if { $range1 != $start_hex } { append insert_secured_range_compare "sink_data\[PKT_ADDR_H:PKT_ADDR_L\] >= 'h$range1" }
+@@            }
+@@            if { $range1 != $start_hex && $range2 != $end_hex } { append insert_secured_range_compare " && " }
+@@            if { $span_offset != 0 } {
+@@            if { $range2 != $end_hex }   { append insert_secured_range_compare "address\[PAD$i-1:0\] < $addr_range_width'h$range2_opt" }
+@@            } else {
+@@            if { $range2 != $end_hex }   { append insert_secured_range_compare "sink_data\[PKT_ADDR_H:PKT_ADDR_L\] < 'h$range2" }
+@@            }
+@@            append insert_secured_range_compare " )\n\t\t"
+@@          }
+@@      }
+@@ # case when there is only ONE avalon or ONE AXI slave
+@@      if { ( ($num_valid_addrs == 1) || ($checking_all_slaves == 1) ) && ($secured_range_pair_no == 0) } {
+@@	    set insert_if_condition_for_trans [insert_if_condition_based_on_trans $type_of_transaction]
+@@
+        $insert_if_condition_for_security   
+         $insert_if_condition_for_trans
+          // ( $start_hex .. $end_hex )
+          src_channel = ${st_channel_w}'b$channel;
+          src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = $destid;
+@@	    set insert_end_keyword [insert_end_keyword_based_on_trans $type_of_transaction]
+	     $insert_end_keyword
+        $insert_end_condition_for_security
+@@      } else {
+@@      set insert_and_with_trans_type [get_transaction $type_of_transaction]
+
+    // ( $start_addr .. $end_addr )
+@@  if { $span_offset == 0 } {
+    if ( {address[RG:PAD$i],{PAD$i{1'b0}}} == ${addr_range_width}'h$start_hex $insert_and_with_trans_type $insert_condition_for_security ) begin
+@@  } else {
+    // ( no optimization for non-address-span aligned address range )
+    if ( ( ( sink_data[PKT_ADDR_H:PKT_ADDR_L] >= 'h$start_hex) && (sink_data[PKT_ADDR_H:PKT_ADDR_L] < 'h$end_hex) ) 
+            $insert_and_with_trans_type $insert_condition_for_security ) begin
+@@  }
+@@      if {$secured_range_pair_no != 0 } {
+        // Appending secured memory range decode
+        if ( ( ~($insert_secured_range_compare) | secured_transaction ) ) begin
+@@      }
+            src_channel = ${st_channel_w}'b$channel;
+            src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = $destid;
+@@  if { $span_offset != 0 } {
+            src_data[PKT_ADDR_H:PKT_ADDR_L] = sink_data[PKT_ADDR_H:PKT_ADDR_L] - 'h$span_offset;
+@@  } 
+@@      if {$secured_range_pair_no != 0 } {
+        end
+@@      }
+    end
+@@      }
+@@  }
+@@ }
+@@ if {$memory_aliasing_decode == 1} {
+        end // end for if-else for memory aliasing decode
+@@ }
+@@ } else {
+
+        // --------------------------------------------------
+        // DestinationID Decoder
+        // Sets the channel based on the destination ID.
+        // --------------------------------------------------
+        destid      = sink_data[PKT_DEST_ID_H : PKT_DEST_ID_L];
+
+
+@@ for { set i 0 } { $i < $num_slaves } { incr i } {
+@@   set slave_details       [ split [ lindex $slave_list $i ] : ]
+
+@@   set destid                 [ lindex $slave_details 0 ]
+@@   set channel                [ lindex $slave_details 1 ]
+@@   set type_of_transaction    [ lindex $slave_details 4 ]
+@@   set insert_and_with_trans_type [get_transaction $type_of_transaction]
+        if (destid == $destid $insert_and_with_trans_type) begin
+            src_channel = ${st_channel_w}'b$channel;
+        end
+@@ }
+
+@@ }
+
+end
+
+
+    // --------------------------------------------------
+    // Ceil(log2()) function
+    // --------------------------------------------------
+    function integer log2ceil;
+        input reg[65:0] val;
+        reg [65:0] i;
+
+        begin
+            i = 1;
+            log2ceil = 0;
+
+            while (i < val) begin
+                log2ceil = log2ceil + 1;
+                i = i << 1;
+            end
+        end
+    endfunction
+
+endmodule

@@ -1,0 +1,182 @@
+CLASS altera_avalon_cf
+{
+   ASSOCIATED_FILES
+   {
+      Add_Program = "default";
+      Edit_Program = "default";
+      Generator_Program = "em_cf.pl";
+   }
+   MODULE_DEFAULTS 
+   {
+      class = "altera_avalon_cf";
+      class_version = "7.08131";
+      SYSTEM_BUILDER_INFO 
+      {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled = "1";
+         Date_Modified = "--unknown--";
+         Top_Level_Ports_Are_Enumerated = "1";
+      }
+      SLAVE ide
+      {
+         # The timing parameters below ensure proper operation with "Mode 0"
+         # Compact Flash devices (the slowest speed), in True IDE mode. If 
+         # a different mode is used, these timing settings may be adjuste for
+         # higher performance.
+         SYSTEM_BUILDER_INFO 
+         {
+            Bus_Type = "avalon";
+            Address_Alignment = "native";
+            Address_Width = "4";
+            Data_Width = "16";
+            Has_IRQ = "1";
+            Read_Wait_States = "530ns";
+            Write_Wait_States = "500ns";
+            Setup_Time = "70ns";
+            Hold_Time = "30ns";
+            Is_Memory_Device = "0";
+            Uses_Tri_State_Data_Bus = "0";
+            Is_Enabled = "1";
+            IRQ_Number = "--unknown--";
+            Base_Address = "--unknown--";
+         }
+         PORT_WIRING
+         {
+            PORT addr
+            {
+               direction = "output";
+               type = "export";
+               width = "11";
+            }
+            PORT atasel_n
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT cs_n
+            {
+               direction = "output";
+               type = "export";
+               width = "2";
+            }
+            PORT data_cf
+            {
+               direction = "inout";
+               type = "export";
+               width = "16";
+            }
+            PORT intrq
+            {
+               direction = "input";
+               type = "export";
+               width = "1";
+            }
+            PORT iord_n
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT iordy
+            {
+               direction = "input";
+               type = "export";
+               width = "1";
+            }
+            PORT iowr_n
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT power
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT reset_n_cf
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT rfu
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+            PORT we_n
+            {
+               direction = "output";
+               type = "export";
+               width = "1";
+            }
+         }         
+      }
+      SLAVE ctl
+      {
+         SYSTEM_BUILDER_INFO 
+         {
+            Bus_Type = "avalon";
+            Address_Alignment = "native";
+            Address_Width = "2";
+            Data_Width = "32";
+            Has_IRQ = "1";
+            Read_Wait_States = "1";
+            Write_Wait_States = "1";
+            Setup_Time = "1";
+            Hold_Time = "1";
+            Is_Memory_Device = "0";
+            Uses_Tri_State_Data_Bus = "0";
+            Is_Enabled = "1";
+            IRQ_Number = "--unknown--";
+            Base_Address = "--unknown--";
+         }
+      }
+   }
+   USER_INTERFACE 
+   {
+      USER_LABELS 
+      {
+         name = "CompactFlash Interface (True IDE Mode)";
+         technology = "Other";
+      }
+      WIZARD_UI default
+      {
+         title = "CompactFlash Interface (True IDE Mode) - {{ $MOD }}";
+         GROUP
+         {
+            title = "Interface Details";
+            align = "Left";
+            TEXT
+            {
+              title = "
+The CompactFlash interface exports I/O pins suitable for<br>
+using the CompactFlash socket on Nios development boards.<br>
+This interface supports only <b>True IDE</b> mode.<br>
+<br>
+Software support includes: register definitions, I/O access<br>
+macros, and initialization routines with the Nios II HAL.<br>
+For complete access to the IDE interface additional software<br>
+is required; the Nios II eCOS distribution and Micrium uC/FS<br>
+file systems each include such support. Additional examples<br>
+may be available on the Nios Community Forum website at<br> 
+<b><a href=http://www.niosforum.com> http://www.niosforum.com</a></b>.";
+            }
+         }
+      }
+      LINKS
+      {
+         LINK help
+         {
+            title="Data Sheet";
+# Placeholder until compact flash datasheet URL is available (SPR:173068). 
+# Once this is taken care of & remove this comment please.
+            url="http://www.altera.com";
+         }
+      }
+   } # USER_INTERFACE
+} # CLASS

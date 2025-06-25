@@ -1,0 +1,12 @@
+[DSP|Transforms]
+FFT v13.1 = "%w../../common/ip_toolbench/v1.3.0/bin/ip_toolbench.exe" %f %o %h -lib_dir:"%w" -flow_dir:"%w../../common/ip_toolbench/v1.3.0/bin" -wizard:fft
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V GZ | Stratix IV | Stratix III | Stratix II GX | Stratix II | Stratix GX | Stratix | HardCopy IV | HardCopy III | HardCopy II | Arria GX | Arria II GX | Arria II GZ | Arria V | Cyclone V | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III | Cyclone II | Cyclone"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<CMDMODE SUPPORTED="OFF"/>
+<ALIAS>FFT v13.0</ALIAS>
+
+</INFO>

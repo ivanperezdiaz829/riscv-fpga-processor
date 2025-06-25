@@ -1,0 +1,157 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains pin placement information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - location of each possible DQ/DQS/DM pin in each group  
+--  - location of the LogicLock region if applicable  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+-- device ep1c20f400c6
+-- 06/15/2004 13:51:52
+
+    max_pads_per_row     3   
+    max_pads_per_column      2   
+    best_placement_constraint_file      cyclone_0   
+
+-------------------------------------------------------------
+
+
+group 0T
+
+	 	DQ0  	DQ0		B17   		66   	0   	0
+	 	DQ1  	DQ1		A17   		66   	1   	-1
+	 	DQ2  	DQ2		C16   		64   	0   	-1
+	 	DQ3  	DQ3		B16   		64   	1   	-1
+	 	DQS  	DQS		C15   		60   	0   	-1
+	 	DQ4  	DQ4		C14   		48   	0   	1
+	 	DQ5  	DQ5		D14   		48   	1   	-1
+	 	DQ6  	DQ6		A13   		46   	0   	-1
+	 	DQ7  	DQ7		B13   		46   	1   	-1
+	 	DM  	DM		B12   		40   	0   	-1
+
+group 1T
+
+	 	DM  	DM		C9   		28   	0   	-1
+	 	DQ0  	DQ0		E8   		18   	0   	0
+	 	DQ1  	DQ1		F8   		18   	1   	-1
+	 	DQ2  	DQ2		C7   		16   	0   	-1
+	 	DQ3  	DQ3		D7   		16   	1   	-1
+	 	DQS  	DQS		C6   		10   	0   	-1
+	 	DQ4  	DQ4		D6   		6   	0   	1
+	 	DQ5  	DQ5		D5   		6   	1   	-1
+	 	DQ6  	DQ6		A4   		4   	0   	-1
+	 	DQ7  	DQ7		B4   		4   	1   	-1
+
+-------------------------------------------------------------
+
+
+group 0B
+
+	 	DM  	DM		U12   		42   	0   	-1
+	 	DQ7  	DQ7		Y13   		46   	0   	-1
+	 	DQ6  	DQ6		W13   		46   	1   	-1
+	 	DQ5  	DQ5		U13   		48   	0   	-1
+	 	DQ4  	DQ4		V13   		48   	1   	1
+	 	DQS  	DQS		W15   		60   	0   	-1
+	 	DQ3  	DQ3		W16   		64   	0   	-1
+	 	DQ2  	DQ2		V16   		64   	1   	-1
+	 	DQ1  	DQ1		V17   		66   	0   	-1
+	 	DQ0  	DQ0		U16   		66   	1   	0
+
+group 1B
+
+	 	DQ7  	DQ7		T5   		6   	0   	-1
+	 	DQ6  	DQ6		U5   		6   	1   	-1
+	 	DQS  	DQS		T6   		10   	0   	-1
+	 	DQ5  	DQ5		Y6   		12   	0   	-1
+	 	DQ4  	DQ4		U6   		12   	1   	1
+	 	DQ3  	DQ3		R7   		16   	0   	-1
+	 	DQ2  	DQ2		T8   		16   	1   	-1
+	 	DQ1  	DQ1		V7   		18   	0   	-1
+	 	DQ0  	DQ0		U7   		18   	1   	0
+	 	DM  	DM		T9   		28   	0   	-1
+
+-------------------------------------------------------------
+
+
+group 0L
+
+	 	DQ0  	DQ0		E4   		30   	0   	0
+	 	DQ1  	DQ1		E5   		30   	1   	-1
+	 	DQS  	DQS		F3   		29   	0   	-1
+	 	DQ2  	DQ2		E3   		29   	1   	-1
+	 	DQ3  	DQ3		E2   		29   	2   	-1
+	 	DQ4  	DQ4		G7   		25   	0   	1
+	 	DQ5  	DQ5		G3   		25   	1   	-1
+	 	DQ6  	DQ6		G4   		25   	2   	-1
+	 	DQ7  	DQ7		H7   		24   	0   	-1
+	 	DM  	DM		H4   		23   	0   	-1
+
+group 1L
+
+	 	DM  	DM		M7   		11   	0   	-1
+	 	DQ0  	DQ0		N5   		9   	0   	0
+	 	DQ1  	DQ1		P2   		8   	0   	-1
+	 	DQ2  	DQ2		P1   		8   	1   	-1
+	 	DQ3  	DQ3		P6   		7   	0   	-1
+	 	DQ4  	DQ4		R3   		4   	0   	1
+	 	DQ5  	DQ5		R4   		4   	1   	-1
+	 	DQS  	DQS		T4   		4   	2   	-1
+	 	DQ6  	DQ6		T2   		3   	0   	-1
+	 	DQ7  	DQ7		T3   		3   	1   	-1
+
+-------------------------------------------------------------
+
+
+group 0R
+
+	 	DM  	DM		J16   		22   	0   	-1
+	 	DQ7  	DQ7		H16   		24   	0   	-1
+	 	DQ6  	DQ6		G17   		25   	0   	-1
+	 	DQ5  	DQ5		G18   		25   	1   	-1
+	 	DQ4  	DQ4		H15   		25   	2   	1
+	 	DQ3  	DQ3		E18   		29   	0   	-1
+	 	DQS  	DQS		F18   		29   	1   	-1
+	 	DQ2  	DQ2		F17   		30   	0   	-1
+	 	DQ1  	DQ1		E17   		30   	1   	-1
+	 	DQ0  	DQ0		D20   		30   	2   	0
+
+group 1R
+
+	 	DQ7  	DQ7		U18   		2   	0   	-1
+	 	DQ6  	DQ6		T18   		3   	0   	-1
+	 	DQS  	DQS		T19   		4   	0   	-1
+	 	DQ5  	DQ5		T17   		4   	1   	-1
+	 	DQ4  	DQ4		R16   		4   	2   	1
+	 	DQ3  	DQ3		P17   		7   	0   	-1
+	 	DQ2  	DQ2		P16   		8   	0   	-1
+	 	DQ1  	DQ1		P15   		8   	1   	-1
+	 	DQ0  	DQ0		N14   		9   	0   	0
+	 	DM  	DM		N16   		11   	0   	-1
+
+

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<system name="$${FILENAME}">
+ <component
+   name="$${FILENAME}"
+   displayName="$${FILENAME}"
+   version="1.0"
+   description=""
+   tags=""
+   categories="System" />
+ <parameter name="bonusData"><![CDATA[bonusData 
+{
+   element $${FILENAME}
+   {
+   }
+   element alt_ntrlkn_sample_channel_client_0
+   {
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element alt_ntrlkn_sample_channel_client_1
+   {
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+   element clk_0
+   {
+      datum _sortIndex
+      {
+         value = "3";
+         type = "int";
+      }
+   }
+   element interlaken_0
+   {
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+}
+]]></parameter>
+ <parameter name="clockCrossingAdapter" value="FIFO" />
+ <parameter name="deviceFamily" value="STRATIXIV" />
+ <parameter name="fabricMode" value="QSYS" />
+ <parameter name="generateLegacySim" value="false" />
+ <parameter name="globalResetBus" value="false" />
+ <parameter name="hdlLanguage" value="VERILOG" />
+ <parameter name="maxAdditionalLatency" value="0" />
+ <parameter name="projectName">alt_interlaken_8lane_6g.qpf</parameter>
+ <parameter name="sopcBorderPoints" value="false" />
+ <parameter name="systemHash" value="1" />
+ <parameter name="timeStamp" value="1286934550354" />
+ <interface name="clk_0_clk_in" internal="clk_0.clk_in" type="clock" dir="end" />
+ <interface
+   name="clk_0_clk_in_reset"
+   internal="clk_0.clk_in_reset"
+   type="reset"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_tx_clk"
+   internal="alt_ntrlkn_sample_channel_client_0.tx_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_tx_arst"
+   internal="alt_ntrlkn_sample_channel_client_0.tx_arst"
+   type="reset"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_rx_clk"
+   internal="alt_ntrlkn_sample_channel_client_0.rx_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_rx_arst"
+   internal="alt_ntrlkn_sample_channel_client_0.rx_arst"
+   type="reset"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_tx_counter"
+   internal="alt_ntrlkn_sample_channel_client_0.tx_counter"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_0_rx_counter"
+   internal="alt_ntrlkn_sample_channel_client_0.rx_counter"
+   type="conduit"
+   dir="end" />
+ <interface name="interlaken_0_tx_mac_clk" internal="interlaken_0.tx_mac_clk" />
+ <interface name="interlaken_0_rx_mac_clk" internal="interlaken_0.rx_mac_clk" />
+ <interface name="interlaken_0_tx_lane_clk" internal="interlaken_0.tx_lane_clk" />
+ <interface name="interlaken_0_tx_mac_arst" internal="interlaken_0.tx_mac_arst" />
+ <interface name="interlaken_0_rx_mac_arst" internal="interlaken_0.rx_mac_arst" />
+ <interface name="interlaken_0_tx_lane_arst" internal="interlaken_0.tx_lane_arst" />
+ <interface
+   name="interlaken_0_rx_fully_locked"
+   internal="interlaken_0.rx_fully_locked" />
+ <interface
+   name="interlaken_0_rx_error_count"
+   internal="interlaken_0.rx_error_count" />
+ <interface
+   name="interlaken_0_rx_per_lane_crc32_errs"
+   internal="interlaken_0.rx_per_lane_crc32_errs" />
+ <interface
+   name="interlaken_0_tx_force_transmit"
+   internal="interlaken_0.tx_force_transmit" />
+ <interface
+   name="interlaken_0_tx_channel_enable"
+   internal="interlaken_0.tx_channel_enable" />
+ <interface name="interlaken_0_ref_clk" internal="interlaken_0.ref_clk" />
+ <interface name="interlaken_0_cal_blk_clk" internal="interlaken_0.cal_blk_clk" />
+ <interface
+   name="interlaken_0_common_rx_clk"
+   internal="interlaken_0.common_rx_clk" />
+ <interface
+   name="interlaken_0_tx_serial_data0"
+   internal="interlaken_0.tx_serial_data0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_rx_serial_data0"
+   internal="interlaken_0.rx_serial_data0"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_serial_data1"
+   internal="interlaken_0.tx_serial_data1"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_rx_serial_data1"
+   internal="interlaken_0.rx_serial_data1"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_tx_clk"
+   internal="alt_ntrlkn_sample_channel_client_1.tx_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_tx_arst"
+   internal="alt_ntrlkn_sample_channel_client_1.tx_arst"
+   type="reset"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_rx_clk"
+   internal="alt_ntrlkn_sample_channel_client_1.rx_clk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_rx_arst"
+   internal="alt_ntrlkn_sample_channel_client_1.rx_arst"
+   type="reset"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_tx_counter"
+   internal="alt_ntrlkn_sample_channel_client_1.tx_counter"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="alt_ntrlkn_sample_channel_client_1_rx_counter"
+   internal="alt_ntrlkn_sample_channel_client_1.rx_counter"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_mac_c"
+   internal="interlaken_0.tx_mac_c"
+   type="clock"
+   dir="end" />
+ <interface
+   name="interlaken_0_rx_mac_c"
+   internal="interlaken_0.rx_mac_c"
+   type="clock"
+   dir="end" />
+ <interface
+   name="interlaken_0_rx_mac_r"
+   internal="interlaken_0.rx_mac_r"
+   type="reset"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_lane_r"
+   internal="interlaken_0.tx_lane_r"
+   type="reset"
+   dir="end" />
+ <interface
+   name="interlaken_0_rx_status"
+   internal="interlaken_0.rx_status"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_status"
+   internal="interlaken_0.tx_status"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_control"
+   internal="interlaken_0.tx_control"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_ref"
+   internal="interlaken_0.ref"
+   type="clock"
+   dir="end" />
+ <interface
+   name="interlaken_0_cal_blk"
+   internal="interlaken_0.cal_blk"
+   type="clock"
+   dir="end" />
+ <interface
+   name="interlaken_0_reset"
+   internal="interlaken_0.reset"
+   type="conduit"
+   dir="end" />
+ <interface
+   name="interlaken_0_tx_mac_r"
+   internal="interlaken_0.tx_mac_r"
+   type="reset"
+   dir="end" />
+ <module
+   kind="altera_interlaken"
+   version="10.1"
+   enabled="1"
+   name="interlaken_0">
+  <parameter name="DEVICE_FAMILY" value="Stratix IV" />
+  <parameter name="OPERATIONAL_MODE" value="0" />
+  <parameter name="LANES" value="8" />
+  <parameter name="LANE_RATE" value="6375.0" />
+  <parameter name="META_FRAME_LEN" value="64" />
+  <parameter name="NUM_CHANNELS" value="2" />
+  <parameter name="GUI_ENABLE_HSIO" value="0" />
+  <parameter name="GUI_ENABLE_OOB" value="0" />
+  <parameter name="AUTO_DEVICE_FAMILY" value="Stratix IV" />
+ </module>
+ <module
+   kind="alt_ntrlkn_sample_channel_client"
+   version="10.1"
+   enabled="1"
+   name="alt_ntrlkn_sample_channel_client_0">
+  <parameter name="DATAPATH_WIDTH" value="256" />
+ </module>
+ <module
+   kind="alt_ntrlkn_sample_channel_client"
+   version="10.1"
+   enabled="1"
+   name="alt_ntrlkn_sample_channel_client_1">
+  <parameter name="DATAPATH_WIDTH" value="256" />
+ </module>
+ <module kind="clock_source" version="10.1" enabled="1" name="clk_0">
+  <parameter name="clockFrequency" value="50000000" />
+  <parameter name="clockFrequencyKnown" value="true" />
+  <parameter name="inputClockFrequency" value="0" />
+  <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <connection
+   kind="avalon_streaming"
+   version="10.1"
+   start="interlaken_0.rx_ch0_dataout"
+   end="alt_ntrlkn_sample_channel_client_0.rx_datain" />
+ <connection
+   kind="avalon_streaming"
+   version="10.1"
+   start="alt_ntrlkn_sample_channel_client_0.tx_dataout"
+   end="interlaken_0.tx_ch0_datain" />
+ <connection
+   kind="avalon_streaming"
+   version="10.1"
+   start="alt_ntrlkn_sample_channel_client_1.tx_dataout"
+   end="interlaken_0.tx_ch1_datain" />
+ <connection
+   kind="avalon_streaming"
+   version="10.1"
+   start="interlaken_0.rx_ch1_dataout"
+   end="alt_ntrlkn_sample_channel_client_1.rx_datain" />
+</system>

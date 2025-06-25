@@ -1,0 +1,68 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- Placement Constraint Data for Implementing DDR I/O in 'Stratix' devices   
+-- This script is the default script                                         
+--
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+-- $Revision: #1 $
+
+  	max_pads_per_row     	1    
+    max_pads_per_column     6    
+
+--  Cell_Mnemonic. (based on Cyclone DDR-IO cell diagram - see User Guide Figure 17. )
+--  |
+--  |            ============
+--  |             LEFT/RIGHT 
+--  |            ============
+--  |             Column                                        Column:     Horizontal Position_From_Edge_of_chip. (1, 2, ...)
+--  |               |
+--  |               |   LE                                      LE:         Relative_LE_position_within_LAB. (0..9 for 1 group per LAB | 0..4 for 2 groups per LAB | 0..2 for 3 groups per LAB.)
+--  |               |   |
+--  |               |   |                                      (Row:        Only one row is ever used, so there's an implied '0' ie 'aligned with pins')
+--  |               |   |       ============
+--  |               |   |        TOP/BOTTOM
+--  |               |   |       ============
+--  |               |   |       Row                             Row:        Vertical Position_From_Edge_of_chip. (1, 2, ...)
+--  |               |   |        |
+--  |               |   |        |  Column                      Column:     0 means column aligned with pins, -1 means the column to the left of this) 
+--  |               |   |        |   |
+--  |               |   |        |   |   LE                     LE:         Relative_LE_position_within_LAB. (see layout)
+--  |               |   |        |   |   |               
+--  |               |   |        |   |   | 
+--  |               |   |        |   |   |
+--  |               |   |        |   |   |         For which DDR pins is this assignment required.
+--  |               |   |        |   |   |         |
+--  |               |   |        |   |   |         |        Demote to LAB. When set to 0 it will be a strict LE placement, when 1 a LAB assignment, 2 for LL region
+--  |               |   |        |   |   |         |        |       
+--  |               |   |        |   |   |         |        |       Comments
+--  |               |   |        |   |   |         |        |       |                                  
+--  v               v   v        v   v   v         v        v       v                                  
+--
+
+
+    dq_enable       3   0        1  -1   0         DQ       2       -- Value is irrelevant. Based on LogicLock region
+    dq_enable_reset 3   0        1  -1   0         DQ       2       -- Value is irrelevant. Based on LogicLock region
+                                                                    
+    DQ_S_Ai         3   0        1  -1   0         DQ       2       -- Value is irrelevant. Based on LogicLock region
+    DQ_S_Bi         3   1        1  -1   1         DQ       2       -- Value is irrelevant. Based on LogicLock region
+                                                                    
+    stratix_dqsbuf0 3   1        1  -1   1         DQS      2       -- Value is irrelevant. Based on LogicLock region

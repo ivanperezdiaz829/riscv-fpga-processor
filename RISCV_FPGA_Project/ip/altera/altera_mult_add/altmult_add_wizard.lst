@@ -1,0 +1,12 @@
+[Arithmetic]
+ALTERA_MULT_ADD v13.1= "%t" "%w/../common/lib/megawizard.pl" --wizard:altera_mult_add  --early_gen:on --wizard_file:"%w/source/top/altera_mult_add_hw.tcl" --family_parameter:device_family %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V | Cyclone V | Arria V GZ | Arria 10"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Altera Multiply Adder</ALIAS>
+<ALIAS>Altera Multiply Adder v13.0</ALIAS>
+<ALIAS>Altera Multiply Adder v13.1</ALIAS>
+</INFO>

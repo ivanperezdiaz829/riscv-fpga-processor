@@ -1,0 +1,11 @@
+[Interfaces|RapidIO]
+RapidIO v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/ip_toolbench/rapidio.jar" -parameterization.p_enable_parallel:0 -parameterization.p_enable_16bit_device_id:1 --familyParameter:intended_family --wizard:rapidio %f %o %h
+<INFO>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<QIP_FILE_ENABLED/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V GZ | Stratix IV | Stratix III | Arria II GX | Arria II GZ | Arria V | Cyclone V | Cyclone IV GX | Cyclone III LS | Cyclone III"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>RapidIO v13.0</ALIAS>
+
+</INFO>

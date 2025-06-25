@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<system name="chip_top">
+    <parameter valueString="-4004860475" name="systemHash"/>
+    <parameter valueString="1181791169708" name="timeStamp"/>
+    <parameter valueString="false" name="generateLegacySDK"/>
+    <parameter name="bonusData">bonusData 
+{
+   element onchip_memory_0.s1
+   {
+      datum baseAddress
+      {
+         value = "0";
+         type = "long";
+      }
+   }
+   element pci_compiler_0
+   {
+      datum _enabled
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum _sortIndex
+      {
+         value = "0";
+         type = "int";
+      }
+   }
+   element dma_0.control_port_slave
+   {
+      datum baseAddress
+      {
+         value = "16384";
+         type = "long";
+      }
+   }
+   element pci_compiler_0.PCI_Bus_Access
+   {
+      datum baseAddress
+      {
+         value = "1048576";
+         type = "long";
+      }
+   }
+   element pci_compiler_0.Control_Register_Access
+   {
+      datum baseAddress
+      {
+         value = "0";
+         type = "long";
+      }
+   }
+   element clk.clk
+   {
+      datum clock_domain
+      {
+         value = "clk";
+         type = "String";
+      }
+   }
+   element onchip_memory_0
+   {
+      datum _enabled
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum _sortIndex
+      {
+         value = "1";
+         type = "int";
+      }
+   }
+   element dma_0
+   {
+      datum _enabled
+      {
+         value = "1";
+         type = "boolean";
+      }
+      datum _sortIndex
+      {
+         value = "2";
+         type = "int";
+      }
+   }
+}
+</parameter>
+    <parameter valueString="false" name="hardcopyCompatible"/>
+    <parameter valueString="STRATIXII" name="deviceFamily"/>
+    <parameter valueString="true" name="generateLegacySim"/>
+    <parameter valueString="VHDL" name="hdlLanguage"/>
+    <module version="7.1" name="clk" kind="clock_source">
+        <parameter valueString="true" name="clockFrequencyKnown"/>
+        <parameter valueString="66000000" name="clockFrequency"/>
+    </module>
+    <module version="7.2" name="pci_compiler_0" kind="altera_avalon_pci_compiler">
+        <parameter valueString="false" name="p_pci_bar_4_used"/>
+        <parameter valueString="0x00000000" name="uiBar5PCIAddress"/>
+        <parameter valueString="0" name="p_pci_bar_0_avalon_address"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_14"/>
+        <parameter valueString="false" name="p_pci_bar_4_hardwired"/>
+        <parameter valueString="false" name="p_pci_bar_3_hardwired"/>
+        <parameter valueString="true" name="p_pci_impl_cra_av_slave_port"/>
+        <parameter valueString="0" name="p_pci_bar_2_size"/>
+        <parameter valueString="0" name="p_pci_bar_3_pci_address"/>
+        <parameter valueString="0" name="p_pci_bar_1_pci_address"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_07_type"/>
+        <parameter valueString="true" name="p_pci_non_pref_av_master_port"/>
+        <parameter valueString="0" name="p_pci_bar_2_avalon_address"/>
+        <parameter valueString="Prefectable32" name="uiPCIBar0Type"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress7"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_15_type"/>
+        <parameter valueString="false" name="p_pci_bar_4_auto_avalon_address"/>
+        <parameter valueString="true" name="p_pci_target_bursts"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_14_type"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_13"/>
+        <parameter valueString="0" name="actualBAR3AvalonAddress"/>
+        <parameter valueString="false" name="p_pci_bar_3_used"/>
+        <parameter valueString="Disable" name="uiPCIBar5Type"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress6"/>
+        <parameter valueString="true" name="p_pci_bar_2_auto_avalon_address"/>
+        <parameter valueString="false" name="p_pci_arbiter"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress3"/>
+        <parameter valueString="false" name="p_pci_master_concurrent_reads"/>
+        <parameter valueString="0" name="p_pci_bar_0_pci_address"/>
+        <parameter valueString="15" name="actualBAR1Size"/>
+        <parameter valueString="true" name="p_pci_bar_0_prefetchable"/>
+        <parameter valueString="0x0000" name="p_pci_ro_subsys_vendor_id"/>
+        <parameter valueString="0x0004" name="p_pci_ro_device_id"/>
+        <parameter valueString="0" name="p_pci_bar_4_pci_address"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_07"/>
+        <parameter valueString="burstSinglePending" name="uiPCIMasterPerformance"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_06"/>
+        <parameter valueString="0" name="actualBAR2AvalonAddress"/>
+        <parameter valueString="128" name="p_pci_maximum_burst_size_a2p"/>
+        <parameter valueString="0x30000000" name="uiAvalonHWPCIAddress0"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_10_type"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_11"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress13"/>
+        <parameter valueString="external" name="uiPCIBusArbiter"/>
+        <parameter valueString="Memory" name="p_pci_bar_4_type"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_12"/>
+        <parameter valueString="false" name="p_pci_user_specified_bars"/>
+        <parameter valueString="false" name="pref_nonp_independent"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress5"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_04_type"/>
+        <parameter valueString="Memory" name="p_pci_bar_0_type"/>
+        <parameter valueString="true" name="uiFixedTable"/>
+        <parameter valueString="STRATIXII" name="deviceFamily"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress15"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress9"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress14"/>
+        <parameter valueString="chip_top" name="SOPCSystemName"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_15"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress8"/>
+        <parameter valueString="false" name="p_pci_bar_5_hardwired"/>
+        <parameter valueString="1" name="p_avalon_pane_count"/>
+        <parameter valueString="true" name="p_pci_bar_5_auto_sized"/>
+        <parameter valueString="0" name="actualBAR4AvalonAddress"/>
+        <parameter valueString="2" name="p_pci_arbited_devices"/>
+        <parameter valueString="false" name="p_pci_bar_2_used"/>
+        <parameter valueString="false" name="uiAvalonTranslationTable"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_11_type"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_03_type"/>
+        <parameter valueString="true" name="uiBar4Prefetchable"/>
+        <parameter valueString="0xFF0000" name="p_pci_ro_class_code"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_09"/>
+        <parameter valueString="17" name="actualBAR0Size"/>
+        <parameter valueString="true" name="p_pci_avl_lite"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress2"/>
+        <parameter valueString="Disable" name="uiPCIBar2Type"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress1"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_13_type"/>
+        <parameter valueString="20" name="p_pci_bar_3_size"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress3"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress13"/>
+        <parameter valueString="Memory" name="p_pci_bar_2_type"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress1"/>
+        <parameter valueString="false" name="p_pci_bar_4_auto_sized"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress2"/>
+        <parameter valueString="false" name="p_pci_bar_0_hardwired"/>
+        <parameter valueString="1" name="uiPaneCount"/>
+        <parameter valueString="Memory" name="p_pci_bar_5_type"/>
+        <parameter valueString="clk" name="clockSource"/>
+        <parameter valueString="true" name="p_pci_pref_av_master_port"/>
+        <parameter valueString="0" name="p_pci_bar_5_avalon_address"/>
+        <parameter valueString="false" name="uiBar1Prefetchable"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress12"/>
+        <parameter valueString="SOPCContext" name="contextState"/>
+        <parameter valueString="0x00000000" name="uiBar1PCIAddress"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_04"/>
+        <parameter valueString="true" name="p_avalon_hardwired_address_map"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress4"/>
+        <parameter valueString="NonPrefectable32" name="uiPCIBar1Type"/>
+        <parameter name="translationTableSizeInfo">The bridge reserves a contiguous Avalon address range to access
+PCI Devices. This Avalon address range is segmented into one or
+more equal-sized pages that are individually mapped to PCI
+addresses. Select the number and size of the address pages.</parameter>
+        <parameter valueString="true" name="p_pci_master_bursts"/>
+        <parameter valueString="true" name="p_pci_66mhz"/>
+        <parameter valueString="20" name="p_avalon_pane_size"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_02"/>
+        <parameter valueString="true" name="p_pci_master"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_03"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_00_type"/>
+        <parameter valueString="0x00000000" name="uiBar3PCIAddress"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_05"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_08_type"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress0"/>
+        <parameter valueString="true" name="p_pci_bar_3_auto_sized"/>
+        <parameter valueString="true" name="p_pci_bar_5_auto_avalon_address"/>
+        <parameter valueString="false" name="p_pci_bar_3_auto_avalon_address"/>
+        <parameter valueString="Memory" name="p_pci_bar_1_type"/>
+        <parameter valueString="0x00000000" name="uiBar2PCIAddress"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress10"/>
+        <parameter valueString="0x00" name="p_pci_ro_minimum_grant"/>
+        <parameter valueString="true" name="p_pci_bar_2_prefetchable"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress11"/>
+        <parameter valueString="false" name="p_pci_allow_param_readback"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_09_type"/>
+        <parameter valueString="burstSinglePending" name="uiPCITargetPerformance"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress11"/>
+        <parameter valueString="0x0000000030000000" name="p_avalon_hw_pci_address_00"/>
+        <parameter valueString="masterTarget" name="uiPCIDeviceMode"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress14"/>
+        <parameter valueString="8" name="p_pci_maximum_pending_read_transactions_a2p"/>
+        <parameter valueString="false" name="uiPCIBarTable"/>
+        <parameter valueString="true" name="p_pci_bar_0_used"/>
+        <parameter valueString="0" name="p_pci_bar_5_size"/>
+        <parameter valueString="0" name="actualBAR0AvalonAddress"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress15"/>
+        <parameter valueString="0" name="p_pci_bar_5_pci_address"/>
+        <parameter valueString="0x01" name="p_pci_ro_revision_id"/>
+        <parameter valueString="true" name="p_pci_bar_4_prefetchable"/>
+        <parameter valueString="Memory" name="p_pci_bar_3_type"/>
+        <parameter valueString="0x00000000" name="uiBar0PCIAddress"/>
+        <parameter valueString="false" name="p_pci_altera_arbiter"/>
+        <parameter valueString="0" name="actualBAR1AvalonAddress"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress12"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress10"/>
+        <parameter valueString="0" name="actualBAR5Size"/>
+        <parameter valueString="false" name="p_pci_independent_avl_reset"/>
+        <parameter valueString="false" name="p_pci_bar_1_prefetchable"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_01"/>
+        <parameter valueString="true" name="p_pci_bar_5_prefetchable"/>
+        <parameter valueString="true" name="p_pci_bar_3_prefetchable"/>
+        <parameter valueString="20" name="uiPaneSize"/>
+        <parameter valueString="0" name="p_pci_bar_1_avalon_address"/>
+        <parameter valueString="Disable" name="uiPCIBar4Type"/>
+        <parameter valueString="true" name="uiBar5Prefetchable"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_08"/>
+        <parameter valueString="0x1172" name="p_pci_ro_vendor_id"/>
+        <parameter valueString="0" name="actualBAR5AvalonAddress"/>
+        <parameter valueString="20" name="p_pci_bar_4_size"/>
+        <parameter valueString="0" name="actualBAR4Size"/>
+        <parameter valueString="false" name="p_pci_host_bridge"/>
+        <parameter valueString="true" name="uiBar0Prefetchable"/>
+        <parameter valueString="32" name="p_pci_master_data_width"/>
+        <parameter valueString="false" name="p_pci_target_concurrent_reads"/>
+        <parameter valueString="false" name="p_pci_bar_0_auto_sized"/>
+        <parameter valueString="0x0000" name="p_pci_ro_subsys_device_id"/>
+        <parameter valueString="true" name="uiBar3Prefetchable"/>
+        <parameter valueString="15" name="p_pci_bar_1_size"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWAddress9"/>
+        <parameter valueString="0" name="actualBAR3Size"/>
+        <parameter valueString="128" name="p_pci_maximum_burst_size"/>
+        <parameter valueString="0x00000000" name="uiBar4PCIAddress"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress8"/>
+        <parameter valueString="false" name="p_pci_bar_2_hardwired"/>
+        <parameter valueString="false" name="p_pci_bar_1_hardwired"/>
+        <parameter valueString="other" name="uiCRAInfoPanel"/>
+        <parameter valueString="false" name="p_pci_64bit_bar"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_05_type"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_06_type"/>
+        <parameter valueString="0x0000000000000000" name="p_avalon_hw_pci_address_10"/>
+        <parameter valueString="0" name="p_pci_bar_3_avalon_address"/>
+        <parameter valueString="false" name="p_pci_single_clock"/>
+        <parameter valueString="0x00" name="p_pci_ro_maximum_latency"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress4"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress5"/>
+        <parameter valueString="true" name="p_pci_bar_1_used"/>
+        <parameter valueString="false" name="p_pci_bar_0_auto_avalon_address"/>
+        <parameter valueString="true" name="p_pci_not_target_only_port"/>
+        <parameter valueString="true" name="p_pci_reqn_gntn_pins"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress6"/>
+        <parameter valueString="true" name="p_pci_bar_1_auto_sized"/>
+        <parameter valueString="0" name="p_pci_bar_2_pci_address"/>
+        <parameter valueString="18" name="p_pci_bus_access_address_width"/>
+        <parameter valueString="false" name="p_pci_bar_5_used"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_02_type"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_01_type"/>
+        <parameter valueString="false" name="p_pci_bar_1_auto_avalon_address"/>
+        <parameter valueString="true" name="p_pci_bar_2_auto_sized"/>
+        <parameter valueString="17" name="p_pci_bar_0_size"/>
+        <parameter valueString="Memory32Bit" name="p_avalon_hw_pci_address_12_type"/>
+        <parameter valueString="true" name="uiBar2Prefetchable"/>
+        <parameter valueString="0x00000000" name="uiAvalonHWPCIAddress7"/>
+        <parameter valueString="false" name="p_pci_64bit_bus"/>
+        <parameter valueString="Disable" name="uiPCIBar3Type"/>
+        <parameter valueString="0" name="p_pci_bar_4_avalon_address"/>
+        <parameter valueString="0" name="actualBAR2Size"/>
+        <parameter valueString="true" name="p_pci_io_bar"/>
+    </module>
+    <module version="7.1" name="onchip_memory_0" kind="altera_avalon_onchip_memory2">
+        <parameter valueString="32" name="dataWidth"/>
+        <parameter valueString="false" name="dualPort"/>
+        <parameter valueString="true" name="writable"/>
+        <parameter valueString="1" name="slave1Latency"/>
+        <parameter valueString="false" name="initMemContent"/>
+        <parameter valueString="onchip_memory_0" name="initializationFileName"/>
+        <parameter valueString="false" name="useNonDefaultInitFile"/>
+        <parameter valueString="false" name="allowInSystemMemoryContentEditor"/>
+        <parameter valueString="1" name="slave2Latency"/>
+        <parameter valueString="false" name="simAllowMRAMContentsFile"/>
+        <parameter valueString="false" name="useShallowMemBlocks"/>
+        <parameter valueString="MRAM" name="blockType"/>
+        <parameter valueString="NONE" name="instanceID"/>
+        <parameter valueString="131072" name="memorySize"/>
+    </module>
+    <module version="7.1" name="dma_0" kind="altera_avalon_dma">
+        <parameter valueString="true" name="allowByteTransactions"/>
+        <parameter valueString="true" name="allowDoubleWordTransactions"/>
+        <parameter valueString="1023" name="minimumNumberOfByteTransfers"/>
+        <parameter valueString="true" name="allowWordTransactions"/>
+        <parameter valueString="128" name="maxBurstSize"/>
+        <parameter valueString="10" name="minimumDmaTransactionRegisterWidth"/>
+        <parameter valueString="true" name="burstEnable"/>
+        <parameter valueString="false" name="bigEndian"/>
+        <parameter valueString="true" name="allowHalfWordTransactions"/>
+        <parameter valueString="true" name="allowQuadWordTransactions"/>
+        <parameter valueString="20" name="actualDmaTransactionRegisterWidth"/>
+        <parameter valueString="false" name="useRegistersForFIFO"/>
+    </module>
+    <connection version="7.1" start="clk.clk" kind="clock" end="pci_compiler_0.avalon_clock_connection"/>
+    <connection version="7.1" start="clk.clk" kind="clock" end="onchip_memory_0.clk1"/>
+    <connection version="7.1" start="clk.clk" kind="clock" end="dma_0.clk"/>
+    <connection version="6.1" start="dma_0.write_master" kind="avalon" end="pci_compiler_0.PCI_Bus_Access">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x00100000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="dma_0.read_master" kind="avalon" end="pci_compiler_0.PCI_Bus_Access">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x00100000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="dma_0.read_master" kind="avalon" end="onchip_memory_0.s1">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x0000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="dma_0.write_master" kind="avalon" end="onchip_memory_0.s1">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x0000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="pci_compiler_0.bar0_Prefetchable" kind="avalon" end="onchip_memory_0.s1">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x0000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="pci_compiler_0.bar1_Non_Prefetchable" kind="avalon" end="pci_compiler_0.Control_Register_Access">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x0000" name="baseAddress"/>
+    </connection>
+    <connection version="6.1" start="pci_compiler_0.bar1_Non_Prefetchable" kind="avalon" end="dma_0.control_port_slave">
+        <parameter valueString="1" name="arbitrationPriority"/>
+        <parameter valueString="0x4000" name="baseAddress"/>
+    </connection>
+</system>
+

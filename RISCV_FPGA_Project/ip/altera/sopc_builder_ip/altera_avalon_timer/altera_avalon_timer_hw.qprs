@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="13.1">
+  <preset
+     name="Simple periodic interrupt"
+     kind="altera_avalon_timer"
+     version="all"
+     description="Simple periodic interrupt">
+   <parameter name="alwaysRun" value="true" />
+   <parameter name="timeoutPulseOutput" value="false" />
+   <parameter name="resetOutput" value="false" />
+   <parameter name="snapshot" value="false" />
+   <parameter name="fixedPeriod" value="true" />
+  </preset>
+  <preset
+     name="Full-featured"
+     kind="altera_avalon_timer"
+     version="all"
+     description="Full-featured">
+   <parameter name="alwaysRun" value="false" />
+   <parameter name="timeoutPulseOutput" value="false" />
+   <parameter name="resetOutput" value="false" />
+   <parameter name="snapshot" value="true" />
+   <parameter name="fixedPeriod" value="false" />
+  </preset>
+  <preset
+     name="Watchdog"
+     kind="altera_avalon_timer"
+     version="all"
+     description="Watchdog">
+   <parameter name="alwaysRun" value="true" />
+   <parameter name="timeoutPulseOutput" value="false" />
+   <parameter name="resetOutput" value="true" />
+   <parameter name="snapshot" value="false" />
+   <parameter name="fixedPeriod" value="true" />
+  </preset>
+ </presets>
+</ip>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="9.1">
+  <preset
+     name="Default Settings"
+     kind="altera_xcvr_reset_control"
+     version="All"
+     description="Initial default settings for reset controller.">
+   <parameter name="TX_PLL_ENABLE" value="1" />
+   <parameter name="T_TX_DIGITALRESET" value="20" />
+   <parameter name="gui_tx_auto_reset" value="1" />
+   <parameter name="T_PLL_LOCK_HYST" value="0" />
+   <parameter name="T_RX_DIGITALRESET" value="4000" />
+   <parameter name="RX_ENABLE" value="1" />
+   <parameter name="RX_PER_CHANNEL" value="0" />
+   <parameter name="REDUCED_SIM_TIME" value="1" />
+   <parameter name="SYNCHRONIZE_PLL_RESET" value="0" />
+   <parameter name="T_PLL_POWERDOWN" value="1000" />
+   <parameter name="TX_ENABLE" value="1" />
+   <parameter name="SYNCHRONIZE_RESET" value="1" />
+   <parameter name="gui_rx_auto_reset" value="0" />
+   <parameter name="T_RX_ANALOGRESET" value="40" />
+   <parameter name="TX_PER_CHANNEL" value="0" />
+  </preset>
+ </presets>
+</ip>

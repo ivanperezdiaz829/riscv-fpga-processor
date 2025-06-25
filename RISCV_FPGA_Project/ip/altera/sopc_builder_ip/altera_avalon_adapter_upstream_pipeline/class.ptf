@@ -1,0 +1,59 @@
+CLASS altera_avalon_adapter_upstream_pipeline
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program       = "default";
+    Edit_Program      = "default";
+    Generator_Program = "mk_altera_avalon_adapter_upstream_pipeline.pl";
+    Adapter_Program = "altera_avalon_adapter_upstream_pipeline.UpstreamPipelineAdapter";
+  }
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_adapter_upstream_pipeline";
+    class_version = "7.08131";
+
+    SLAVE upstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Read_Wait_States = "peripheral_controlled";
+        Write_Wait_States = "peripheral_controlled";
+        Well_Behaved_Waitrequest = "1";
+      }
+    }
+
+    MASTER downstream
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type = "avalon";
+      }
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      Rank_Order = "400";
+      Is_Adapter = "1";
+      Instantiate_In_System_Module = "1";
+      Is_Enabled                   = "1";
+      Clock_Source = "";
+      Maximum_Pending_Read_Transactions_Addend = "1";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      komodo_debug = "0";
+      do_sim_wave = "0";
+    }
+  }
+
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+       name="Avalon Upstream Pipeline Adapter";
+       description="Upstream Pipeline Adapter";
+       technology = "Special";
+       license = "full";
+       Is_Visible = "0";
+    }
+  }
+}

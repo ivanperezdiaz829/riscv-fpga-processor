@@ -1,0 +1,74 @@
+CLASS altera_nios_custom_instruction
+{
+   ASSOCIATED_FILES
+   {
+       Add_Program  = "";
+       Edit_Program = "";
+       Generator_Program = "make_custom_instruction.pl";
+   }
+   MODULE_DEFAULTS
+   {
+      class = "altera_nios_custom_instruction";
+      class_version = "7.08131";
+      do_black_box = "0";
+      HDL_INFO
+      {
+         Synthesis_HDL_Files = "";
+      }
+      SLAVE s1
+      {
+         PORT_WIRING
+         {
+         }
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "nios_custom_instruction";
+            Data_Width = "32";
+            Address_Width = "0";
+            Base_Address = "N/A";
+            Is_Custom_Instruction = "1";
+            Is_Visible = "0";
+         }
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Date_Modified = "";
+         Is_Enabled = "1";
+         Is_Visible = "0";
+         Instantiate_In_System_Module = "1";
+         Is_Custom_Instruction = "1";
+      }
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+         Module_Name = "";
+         Publish_Component = "0";
+         Synthesize_Imported_HDL = "1";
+         Simulate_Imported_HDL = "1";
+         Port_Type = "Custom Instruction";
+         HDL_Import = "1";
+
+         # These entries are used by Nios I and Nios II.
+         ci_macro_name = "custom_instruction";
+         ci_cycles = "1";
+         ci_instr_format = "RR";
+
+         # This entry is only used by Nios I.
+         # It should be removed for custom instructions that only
+         # support Nios II.
+         ci_has_prefix = "0";
+
+         # This entry is only used by Nios II.
+         # It should be removed for custom instructions that only
+         # support Nios I.
+         ci_inst_type = "combinatorial";
+      }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+          name="Import Custom Instruction";
+          description="Import Custom Instruction";
+      }
+   }
+}

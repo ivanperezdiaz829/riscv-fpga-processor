@@ -1,0 +1,12 @@
+[Interfaces|External Memory|DDR SDRAM]
+DDR SDRAM Controller with ALTMEMPHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" -wizard_file:"%w/ip_toolbench/ddr_high_performance_controller.jar" -wizard:altmemddr -familyParameter:family %f %o %h %s 
+<INFO>
+<QIP_FILE_ENABLED VALUE="ON"/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix II GX | Stratix II | HardCopy II | Arria GX | Arria II GX | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>DDR High Performance Controller v13.1</ALIAS>
+<ALIAS>DDR High Performance Controller v13.0</ALIAS>
+<ALIAS>DDR High Performance Controller v9.0</ALIAS>
+</INFO>

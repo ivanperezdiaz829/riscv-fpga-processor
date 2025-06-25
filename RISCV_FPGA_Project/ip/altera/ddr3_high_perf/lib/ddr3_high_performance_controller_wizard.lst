@@ -1,0 +1,12 @@
+[Interfaces|External Memory|DDR3 SDRAM]
+DDR3 SDRAM Controller with ALTMEMPHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" -wizard_file:"%w/ip_toolbench/ddr3_high_performance_controller.jar" -wizard:altmemddr3 -familyParameter:family %f %o %h %s 
+<INFO>
+<QIP_FILE_ENABLED VALUE="ON"/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria II GX"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>DDR3 High Performance Controller v13.1</ALIAS>
+<ALIAS>DDR3 High Performance Controller v13.0</ALIAS>
+<ALIAS>DDR3 High Performance Controller v9.0</ALIAS>
+</INFO>

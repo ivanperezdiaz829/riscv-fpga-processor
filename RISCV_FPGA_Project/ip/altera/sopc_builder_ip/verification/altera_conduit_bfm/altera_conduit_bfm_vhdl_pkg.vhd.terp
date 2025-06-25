@@ -1,0 +1,229 @@
+-- (C) 2001-2013 Altera Corporation. All rights reserved.
+-- Your use of Altera Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Altera Program License Subscription 
+-- Agreement, Altera MegaCore Function License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Altera and sold by 
+-- Altera or its authorized distributors.  Please refer to the applicable 
+-- agreement for further details.
+
+
+-- \$Id: //acds/main/ip/sopc/components/verification/altera_tristate_conduit_bfm/altera_tristate_conduit_bfm.sv.terp#7 $
+-- \$Revision: #7 $
+-- \$Date: 2010/08/05 $
+-- \$Author: klong $
+-------------------------------------------------------------------------------
+-- =head1 NAME
+-- altera_conduit_bfm
+-- =head1 SYNOPSIS
+-- Bus Functional Model (BFM) for a Standard Conduit BFM
+-------------------------------------------------------------------------------
+-- =head1 DESCRIPTION
+-- This is a Bus Functional Model (BFM) VHDL package for a Standard Conduit Master.
+-- This package provides the API that will be used to get the value of the sampled
+-- input/bidirection port or set the value to be driven to the output ports.
+-- This BFM's HDL is been generated through terp file in Qsys/SOPC Builder.
+-- Generation parameters:
+-- output_name:                  $output_name
+-- role:width:direction:         $rolemap
+-- clocked                       $clocked
+-------------------------------------------------------------------------------
+@@
+@@ proc get_io_name_format {io_name_length io_name} {
+@@    return [format "%-${io_name_length}s" $io_name]
+@@ }
+
+library ieee;
+use ieee.std_logic_1164.all;
+
+library work;
+use work.all;
+@@
+@@ set max_rolename_length 0
+@@ set roleinfo_list [split $rolemap ","]
+@@ set rolename_list ""
+@@ set num_of_output_and_bidir_role 0
+@@ foreach roleinfo $roleinfo_list {
+@@    set roleinfo   [split $roleinfo ":"]
+@@
+@@    set rolename   [lindex $roleinfo 0]
+@@    set width      [lindex $roleinfo 1]
+@@    set direction  [lindex $roleinfo 2]
+@@
+@@    set roleinfo_array($rolename,msb)   [expr $width - 1]
+@@    set roleinfo_array($rolename,direction) [string tolower $direction]
+
+@@    if {[string equal $direction "output"] || [string equal $direction "bidir"]} {
+@@       incr num_of_output_and_bidir_role
+@@    }
+@@
+@@    lappend rolename_list $rolename
+@@
+@@    set rolename_length  [string length $rolename]
+@@    if {$rolename_length > $max_rolename_length} {
+@@       set max_rolename_length $rolename_length
+@@    }
+@@ }
+@@ set io_name_length [expr $max_rolename_length + 12]
+
+package ${output_name}_vhdl_pkg is
+
+@@ if {$num_of_output_and_bidir_role > 0} {
+   -- output signal register
+   type ${output_name}_out_trans_t is record
+@@
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "output"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+      $io_name_fmt : std_logic_vector($roleinfo_array($rolename,msb) downto 0);
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "bidir"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+      $io_name_fmt : std_logic_vector($roleinfo_array($rolename,msb) downto 0);
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_oe]
+      $io_name_fmt : std_logic;
+@@    }
+@@ }
+@@
+   end record;
+   
+   shared variable out_trans        : ${output_name}_out_trans_t;
+@@ }
+
+   -- input signal register
+@@ if {$clocked} {
+@@    set io_name_fmt [get_io_name_format $io_name_length reset_in]
+   signal $io_name_fmt : std_logic;
+@@ }
+@@
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "input"] || [string equal $roleinfo_array($rolename,direction) "bidir"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+   signal $io_name_fmt : std_logic_vector($roleinfo_array($rolename,msb) downto 0);
+@@    }
+@@ }
+
+   -- VHDL Procedure API
+   
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "input"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+   -- get $rolename value
+   procedure get_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0));
+   
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "output"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+   -- set $rolename value
+   procedure set_${io_name_fmt} (signal_value : in std_logic_vector($roleinfo_array($rolename,msb) downto 0));
+   
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "bidir"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+@@
+   -- get $rolename value
+   procedure get_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0));
+   
+   -- set $rolename value
+   procedure set_${io_name_fmt} (signal_value : in std_logic_vector($roleinfo_array($rolename,msb) downto 0));
+   
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_oe]
+   -- set $rolename input / output direction
+   procedure set_${io_name_fmt} (signal_value : in std_logic);
+   
+@@    }
+@@ }
+@@
+   -- VHDL Event API
+@@
+@@ if {$clocked} {
+   procedure event_reset_asserted;
+@@ }
+@@
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "input"] || [string equal $roleinfo_array($rolename,direction) "bidir"]} {
+
+   procedure event_${rolename}_change;   
+@@    }
+@@ }
+
+end ${output_name}_vhdl_pkg;
+
+package body ${output_name}_vhdl_pkg is
+   
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "input"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+   procedure get_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+
+      signal_value := ${rolename}_in;
+   
+   end procedure get_${rolename};
+   
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "output"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+   procedure set_${io_name_fmt} (signal_value : in std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+      
+      out_trans.${rolename}_out := signal_value;
+      
+   end procedure set_${rolename};
+   
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "bidir"]} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}]
+@@
+   procedure get_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+
+      signal_value := ${rolename}_in;
+   
+   end procedure get_${rolename};
+   
+   procedure set_${io_name_fmt} (signal_value : in std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+      
+      out_trans.${rolename}_out := signal_value;
+      
+   end procedure set_${rolename};
+   
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_oe]
+   procedure set_${io_name_fmt} (signal_value : in std_logic) is
+   begin
+   
+      out_trans.${rolename}_oe := signal_value;
+   
+   end procedure set_${rolename}_oe;
+   
+@@    }
+@@ }
+@@
+@@ if {$clocked} {
+   procedure event_reset_asserted is
+   begin
+   
+      wait until (reset_in'event and reset_in = '1');
+      
+   end event_reset_asserted;
+@@ }
+@@
+@@ foreach rolename $rolename_list {
+@@    if {[string equal $roleinfo_array($rolename,direction) "bidir"]} {
+   procedure event_${rolename}_change is
+   begin
+
+      wait until (${rolename}_in'event and out_trans.${rolename}_oe = '0');
+
+   end event_${rolename}_change;
+@@
+@@    } elseif {[string equal $roleinfo_array($rolename,direction) "input"]} {
+   procedure event_${rolename}_change is
+   begin
+
+      wait until (${rolename}_in'event);
+
+   end event_${rolename}_change;
+@@    }
+@@ }
+
+end ${output_name}_vhdl_pkg;

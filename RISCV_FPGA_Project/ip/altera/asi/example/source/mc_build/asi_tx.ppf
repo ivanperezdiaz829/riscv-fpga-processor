@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<pinplan variation_name="asi_tx" megafunction_name="ASI" default_scope="internal" specifies="all_ports" >
+<global>
+<pin name="rst" direction="input"/>
+<pin name="tx_refclk" direction="input"/>
+<pin name="tx_data[7..0]"  direction="input"/>
+<pin name="tx_data[7]"  direction="input"/>
+<pin name="tx_data[6]"  direction="input"/>
+<pin name="tx_data[5]"  direction="input"/>
+<pin name="tx_data[4]"  direction="input"/>
+<pin name="tx_data[3]"  direction="input"/>
+<pin name="tx_data[2]"  direction="input"/>
+<pin name="tx_data[1]"  direction="input"/>
+<pin name="tx_data[0]"  direction="input"/>
+<pin name="tx_en" direction="input"/>
+<pin name="asi_tx" direction="output"/>
+<pin name="tx_clk270" direction="input"/>
+<pin name="asi_tx" description="ASI output" direction="output" source="logic" scope="external" />
+<pin name="tx_clk270" description="270MHz external PLL" direction="input" source="clock" scope="external" />
+<pin name="tx_refclk" description="27MHz transmitter reference clock" direction="input" source="clock" scope="external" />
+</global>
+</pinplan>

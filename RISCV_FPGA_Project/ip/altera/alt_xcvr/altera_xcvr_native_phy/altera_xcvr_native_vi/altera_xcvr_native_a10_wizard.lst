@@ -1,0 +1,15 @@
+[Interfaces|Transceiver PHY]
+Arria 10 Transceiver Native PHY v13.1 = "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/tcl/altera_xcvr_native_a10_hw.tcl" --wizard:altera_xcvr_native_a10 --familyparameter:DEVICE_FAMILY --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria VI | Arria 10"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Arria 10 Transceiver Native PHY</ALIAS>
+<ALIAS>Arria 10 Transceiver Native PHY v13.1</ALIAS>
+<ALIAS>Arria 10 Transceiver Native PHY v13.1.1</ALIAS>
+<ALIAS>Arria VI Transceiver Native PHY</ALIAS>
+<ALIAS>Arria VI Transceiver Native PHY v13.1</ALIAS>
+</INFO>

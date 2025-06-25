@@ -1,0 +1,769 @@
+CLASS altera_nios_dev_board_stratix_2s60_rohs
+{
+   BOARD_DEFAULTS
+   {
+      CONFIGURATION epcs
+      {
+         length = "";
+         menu_position = "2";
+         offset = "0x0";
+         reference_designator = "U69";
+      }
+      CONFIGURATION factory
+      {
+         length = "";
+         menu_position = "1";
+         offset = "0xC00000";
+         reference_designator = "U81";
+      }
+      CONFIGURATION user
+      {
+         length = "";
+         menu_position = "0";
+         offset = "0x800000";
+         reference_designator = "U81";
+      }
+      JTAG_device_index = "1";
+      REFDES U5
+      {
+         base = "0x01000000";
+      }
+      REFDES U69
+      {
+         base = "0x00060000";
+      }
+      altera_avalon_cfi_flash
+      {
+         reference_designators = "U81";
+      }
+      altera_avalon_epcs_flash_controller
+      {
+         reference_designators = "U69";
+      }
+      class = "altera_nios_dev_board_stratix_2s60_rohs";
+      class_version = "7.08131";
+      device_family = "STRATIXII";
+      reference_designators = "U69,U81";
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+         name = "Nios Development Board, Stratix II (EP2S60) RoHS";
+      }
+      WIZARD_UI bind
+      {
+         MENU
+         {
+            title = "System";
+            ITEM
+            {
+               title = "Auto-Assign Pins";
+               key = "P";
+               action = "auto_assign_pins";
+            }
+            ITEM
+            {
+               title = "Unassign All Pins";
+               key = "U";
+               action = "unassign_all_pins";
+            }
+         }
+         PINASSIGNER
+         {
+            java = "com.altera.pinassigner.ui.SopcPinAssigner";
+         }
+      }
+   }
+   SOPC_Builder_Version = "6.00";
+   NETLIST
+   {
+      netlist_file = "netlist/wirelist.net";
+      fpga_component = "U60";
+      NETLIST_INFO
+      {
+         IGNORE
+         {
+            net = "VCC.*";
+            net = "VTT.*";
+            net = "VUNREG.*";
+            net = "VREF.*";
+            net = "GND.*";
+            comp = "C[0-9]+";
+            # ignore the differential pair termination resistors
+            comp = "R418|R419|R420|R421|R422|R423";
+            # break the mictor connector differential pair resistor ladders
+            comp = "R446|R449|R452|R455|R458|R461|R464|R467";
+            net = "GND";
+            net = "N12500600";
+            net = "VCC5";
+            net = "VCC12";
+            net = "VCC-12";
+            net = "VCC1_2";
+            net = "VCC1_2_PLL";
+            net = "VCC2_5";
+            net = "VCC3_3";
+            net = "VCC_BUFFER1";
+            net = "VCC_BUFFER2";
+            net = "VCC_BUFFER1_98946";
+            net = "VCC_BUFFER1_816338";
+            net = "VCC_BUFFER2_99038";
+            net = "VCC_BUFFER2_816500";
+            net = "VCCA";
+            net = "VCCA_PLL5";
+            net = "VCCA_PLL6";
+            net = "VCCA_PLL1_2";
+            net = "VCCA_PLL3_4";
+            net = "VCCIO6";
+            net = "VCCIO_ENABLE";
+            net = "VCCIO_OUT";
+            net = "VCCIO_REG_IN";
+            net = "VREF_DDR";
+            net = "VREF_OUT_DDR";
+            net = "VSENSE1_2";
+            net = "VTT_DDR";
+            net = "VTT_OUT_DDR";
+            net = "VUNREG";
+            device = "1_2V1";
+            device = "1_2V2";
+            device = "3_3V1";
+            device = "3_3V2";
+            device = "5V1";
+            device = "5V2";
+            device = "C23";
+            device = "C24";
+            device = "C25";
+            device = "C26";
+            device = "C27";
+            device = "C28";
+            device = "C29";
+            device = "C30";
+            device = "C31";
+            device = "C32";
+            device = "C33";
+            device = "C34";
+            device = "C35";
+            device = "C36";
+            device = "C37";
+            device = "C38";
+            device = "C39";
+            device = "C40";
+            device = "C41";
+            device = "C42";
+            device = "C43";
+            device = "C44";
+            device = "C45";
+            device = "C46";
+            device = "C82";
+            device = "C86";
+            device = "C87";
+            device = "C88";
+            device = "C89";
+            device = "C95";
+            device = "C96";
+            device = "C97";
+            device = "C98";
+            device = "C115";
+            device = "C116";
+            device = "C136";
+            device = "C137";
+            device = "C147";
+            device = "C148";
+            device = "C149";
+            device = "C150";
+            device = "C151";
+            device = "C152";
+            device = "C153";
+            device = "C154";
+            device = "C155";
+            device = "C156";
+            device = "C169";
+            device = "C170";
+            device = "C171";
+            device = "C172";
+            device = "C173";
+            device = "C174";
+            device = "C175";
+            device = "C176";
+            device = "C177";
+            device = "C178";
+            device = "C179";
+            device = "C180";
+            device = "C181";
+            device = "C182";
+            device = "C183";
+            device = "C184";
+            device = "C185";
+            device = "C186";
+            device = "C187";
+            device = "C188";
+            device = "C189";
+            device = "C191";
+            device = "C192";
+            device = "C195";
+            device = "C196";
+            device = "C197";
+            device = "C198";
+            device = "C199";
+            device = "C200";
+            device = "C201";
+            device = "C202";
+            device = "C203";
+            device = "C204";
+            device = "C205";
+            device = "C206";
+            device = "C207";
+            device = "C208";
+            device = "C209";
+            device = "C210";
+            device = "C211";
+            device = "C212";
+            device = "C213";
+            device = "C214";
+            device = "C217";
+            device = "C218";
+            device = "C219";
+            device = "C220";
+            device = "C238";
+            device = "C239";
+            device = "C243";
+            device = "C244";
+            device = "C247";
+            device = "C248";
+            device = "C249";
+            device = "C250";
+            device = "C251";
+            device = "C252";
+            device = "C253";
+            device = "C254";
+            device = "C255";
+            device = "C266";
+            device = "C267";
+            device = "C268";
+            device = "C269";
+            device = "C270";
+            device = "C271";
+            device = "C272";
+            device = "C273";
+            device = "C274";
+            device = "C275";
+            device = "C276";
+            device = "C277";
+            device = "C278";
+            device = "C279";
+            device = "C280";
+            device = "C281";
+            device = "C282";
+            device = "C283";
+            device = "C343";
+            device = "C344";
+            device = "C345";
+            device = "C347";
+            device = "C348";
+            device = "C351";
+            device = "C352";
+            device = "C353";
+            device = "C354";
+            device = "C359";
+            device = "C360";
+            device = "C361";
+            device = "C362";
+            device = "C363";
+            device = "C364";
+            device = "C365";
+            device = "C366";
+            device = "C367";
+            device = "C368";
+            device = "C369";
+            device = "C370";
+            device = "C371";
+            device = "C372";
+            device = "C373";
+            device = "C374";
+            device = "C375";
+            device = "C376";
+            device = "C377";
+            device = "C378";
+            device = "C379";
+            device = "C380";
+            device = "C381";
+            device = "C382";
+            device = "C397";
+            device = "C398";
+            device = "C399";
+            device = "C401";
+            device = "C403";
+            device = "C404";
+            device = "C405";
+            device = "C406";
+            device = "C407";
+            device = "C410";
+            device = "C415";
+            device = "C416";
+            device = "C417";
+            device = "C418";
+            device = "C419";
+            device = "C420";
+            device = "C421";
+            device = "C422";
+            device = "C431";
+            device = "C432";
+            device = "C433";
+            device = "C434";
+            device = "C435";
+            device = "C436";
+            device = "C437";
+            device = "C438";
+            device = "C442";
+            device = "C443";
+            device = "C444";
+            device = "C445";
+            device = "C446";
+            device = "C447";
+            device = "C457";
+            device = "C458";
+            device = "C459";
+            device = "C460";
+            device = "C461";
+            device = "C462";
+            device = "C463";
+            device = "C464";
+            device = "C465";
+            device = "C466";
+            device = "C467";
+            device = "C468";
+            device = "C469";
+            device = "C470";
+            device = "C471";
+            device = "C472";
+            device = "C473";
+            device = "C474";
+            device = "C475";
+            device = "C476";
+            device = "C477";
+            device = "C478";
+            device = "C479";
+            device = "C480";
+            device = "C481";
+            device = "C482";
+            device = "C483";
+            device = "C484";
+            device = "C485";
+            device = "C486";
+            device = "C487";
+            device = "C488";
+            device = "C489";
+            device = "C490";
+            device = "C491";
+            device = "C492";
+            device = "C493";
+            device = "C494";
+            device = "C495";
+            device = "C496";
+            device = "C497";
+            device = "C498";
+            device = "C499";
+            device = "C500";
+            device = "C501";
+            device = "C502";
+            device = "C503";
+            device = "C504";
+            device = "C505";
+            device = "C506";
+            device = "C507";
+            device = "C508";
+            device = "C509";
+            device = "C510";
+            device = "C511";
+            device = "C512";
+            device = "C513";
+            device = "C514";
+            device = "C515";
+            device = "C516";
+            device = "C517";
+            device = "C518";
+            device = "C519";
+            device = "C520";
+            device = "C521";
+            device = "C522";
+            device = "C523";
+            device = "C524";
+            device = "C525";
+            device = "C526";
+            device = "C527";
+            device = "C528";
+            device = "C529";
+            device = "C530";
+            device = "C531";
+            device = "C532";
+            device = "C533";
+            device = "C534";
+            device = "C535";
+            device = "C536";
+            device = "C537";
+            device = "C538";
+            device = "C539";
+            device = "C540";
+            device = "C541";
+            device = "C542";
+            device = "C543";
+            device = "C544";
+            device = "C545";
+            device = "C546";
+            device = "C547";
+            device = "C548";
+            device = "C549";
+            device = "C550";
+            device = "C551";
+            device = "C552";
+            device = "C553";
+            device = "C554";
+            device = "C555";
+            device = "C556";
+            device = "C557";
+            device = "C558";
+            device = "C559";
+            device = "C560";
+            device = "C561";
+            device = "C562";
+            device = "C563";
+            device = "C564";
+            device = "C565";
+            device = "C566";
+            device = "C567";
+            device = "C568";
+            device = "C569";
+            device = "C570";
+            device = "C571";
+            device = "C572";
+            device = "C573";
+            device = "C574";
+            device = "C575";
+            device = "C576";
+            device = "C577";
+            device = "C578";
+            device = "C579";
+            device = "C580";
+            device = "C581";
+            device = "C582";
+            device = "C583";
+            device = "C584";
+            device = "C585";
+            device = "C586";
+            device = "C587";
+            device = "C588";
+            device = "C589";
+            device = "C590";
+            device = "C591";
+            device = "D27";
+            device = "D28";
+            device = "J4";
+            device = "J5";
+            device = "J24";
+            device = "J27";
+            device = "J28";
+            device = "J29";
+            device = "J30";
+            device = "J31";
+            device = "J33";
+            device = "R321";
+            device = "R418";
+            device = "R419";
+            device = "R420";
+            device = "R421";
+            device = "R422";
+            device = "R423";
+            device = "R446";
+            device = "R449";
+            device = "R452";
+            device = "R455";
+            device = "R458";
+            device = "R461";
+            device = "R464";
+            device = "R467";
+            device = "TP1";
+            device = "TP2";
+            device = "TP3";
+            device = "TP4";
+            device = "TP5";
+            device = "TP6";
+            device = "TP7";
+            device = "TP8";
+            device = "TP14";
+         }
+         PIN_CONNECTION_TYPE resistor
+         {
+            ids = "R[0-9]*";
+            CONNECT { pin1 = "1"; pin2 = "2"; }
+         }
+         PIN_CONNECTION_TYPE inductor
+         {
+            ids = "L[0-9]*";
+            CONNECT { pin1 = "1"; pin2 = "2"; }
+         }
+         PIN_CONNECTION_TYPE PI5C3384
+         {
+            kinds = "PI5C3384";
+            CONNECT { pin1 = "A0"; pin2 = "B0"; }
+            CONNECT { pin1 = "A1"; pin2 = "B1"; }
+            CONNECT { pin1 = "A2"; pin2 = "B2"; }
+            CONNECT { pin1 = "A3"; pin2 = "B3"; }
+            CONNECT { pin1 = "A4"; pin2 = "B4"; }
+            CONNECT { pin1 = "A5"; pin2 = "B5"; }
+            CONNECT { pin1 = "A6"; pin2 = "B6"; }
+            CONNECT { pin1 = "A7"; pin2 = "B7"; }
+            CONNECT { pin1 = "A8"; pin2 = "B8"; }
+            CONNECT { pin1 = "A9"; pin2 = "B9"; }
+         }
+         PIN_CONNECTION_TYPE resistorRN
+         {
+            ids = "RN[0-9]*";
+            CONNECT { pin1 = "1_A"; pin2 = "2_A"; }
+            CONNECT { pin1 = "1_B"; pin2 = "2_B"; }
+            CONNECT { pin1 = "1_C"; pin2 = "2_C"; }
+            CONNECT { pin1 = "1_D"; pin2 = "2_D"; }
+            CONNECT { pin1 = "1_E"; pin2 = "2_E"; }
+            CONNECT { pin1 = "1_F"; pin2 = "2_F"; }
+            CONNECT { pin1 = "1_G"; pin2 = "2_G"; }
+            CONNECT { pin1 = "1_H"; pin2 = "2_H"; }
+         }
+         PIN_CONNECTION_TYPE resistorRP
+         {
+            ids = "RP[0-9]*";
+            CONNECT { pin1 = "1"; pin2 = "8"; }
+            CONNECT { pin1 = "2"; pin2 = "7"; }
+            CONNECT { pin1 = "3"; pin2 = "6"; }
+            CONNECT { pin1 = "4"; pin2 = "5"; }
+         }
+         PIN_CONNECTION_TYPE MAX3237
+         {
+            kinds = "MAX3237";
+            CONNECT { pin1 = "R1IN"; pin2 = "R1OUT"; }
+            CONNECT { pin1 = "R2IN"; pin2 = "R2OUT"; }
+            CONNECT { pin1 = "R3IN"; pin2 = "R3OUT"; }
+            CONNECT { pin1 = "T1IN"; pin2 = "T1OUT"; }
+            CONNECT { pin1 = "T2IN"; pin2 = "T2OUT"; }
+            CONNECT { pin1 = "T3IN"; pin2 = "T3OUT"; }
+            CONNECT { pin1 = "T4IN"; pin2 = "T4OUT"; }
+            CONNECT { pin1 = "T5IN"; pin2 = "T5OUT"; }
+         }
+         PIN_CONNECTION_TYPE FDC6323L
+         {
+            kinds = "FDC6323L";
+            CONNECT { pin1 = "OFF_n"; pin2 = "Vout1"; }
+         }
+         DEVICE_GROUP D0-D7
+         {
+            name = "D0-D7";
+            kind = "8x_LED";
+            devices = "D[0..7]";
+            PIN { new_name = "D[7..0]"; old_name = "D[7..0].CATHODE"; }
+         }
+         DEVICE_GROUP SW0-SW3
+         {
+            name = "SW0-SW3";
+            kind = "4x_Switch";
+            devices = "SW[0..3]";
+            PIN { new_name = "SW[3..0]"; old_name = "SW[3..0].3"; }
+         }
+         DEVICE_GROUP U8-U9
+         {
+            name = "U8-U9";
+            kind = "2x_7SegmentDisplay";
+            devices = "U9,U8";
+         }
+         AUTOMAP
+         {
+             kind = "Mictor38P";
+             sopc_class = "altera_nios2";
+             MAP { path = "jtag_debug_offchip_trace_clk"; pin = "6"; }
+             MAP
+             {
+                path = "jtag_debug_offchip_trace_data[17..0]";
+                pin = "27,29,31,33,35,37,16,18,20,22,24,26,28,30,32,34,36,38";
+             }
+             MAP { path = "jtag_debug_trigout"; pin = "10"; }
+         }
+         AUTOMAP
+         {
+             kind = "2x7Header";
+             sopc_class = "altera_avalon_lcd_16207";
+             MAP { path = "LCD_E";          pin = "6"; }
+             MAP { path = "LCD_RS";         pin = "4"; }
+             MAP { path = "LCD_RW";         pin = "5"; }
+             MAP { path = "LCD_data[7..0]"; pin = "[14..7]"; }
+         }
+         AUTOMAP
+         {
+             kind = "8x_LED";
+             sopc_class = "altera_avalon_pio";
+             MAP { path = "out_port[7..0]"; pin = "D[7..0]"; }
+         }
+         AUTOMAP
+         {
+             kind = "4x_Switch";
+             sopc_class = "altera_avalon_pio";
+             MAP { path = "in_port[3..0]"; pin = "SW[3..0]"; }
+         }
+         AUTOMAP
+         {
+             kind = "DB9RF";
+             sopc_class = "altera_avalon_uart";
+             MAP { path = "rxd"; pin = "3"; }
+             MAP { path = "txd"; pin = "2"; }
+             MAP { path = "rts_n"; pin = "7"; }
+             MAP { path = "cts_n"; pin = "8"; }
+         }
+         AUTOMAP
+         {
+             kind = "LAN91C111";
+             sopc_class = "altera_avalon_lan91c111";
+             MAP { path = "s1/irq";               pin = "INTR0"; }
+             MAP { path = "s1/byteenablen[3..0]"; pin = "BE3_N,BE2_N,BE1_N,BE0_N"; }
+             MAP { path = "s1/address[15..2]";    pin = "A[15..2]"; }
+             MAP { path = "s1/data[31..0]";       pin = "D[31..0]"; }
+             MAP { path = "s1/iow_n";             pin = "WR_N"; }
+             MAP { path = "s1/ior_n";             pin = "RD_N"; }
+             MAP { path = "s1/ardy";              pin = "ARDY"; }
+             MAP { path = "s1/reset";             pin = "no_assignment"; }
+         }
+         AUTOMAP
+         {
+             kind = "EPM7256AETC100";
+             sopc_class = "altera_avalon_pio";
+             MAP { path = "bidir_port"; pin = "94"; }
+         }
+         AUTOMAP
+         {
+             kind = "2x_7SegmentDisplay";
+             sopc_class = "altera_avalon_pio";
+             MAP { path = "out_port[15..8]"; pin = "DP1,A1,B1,C1,D1,E1,F1,G1"; }
+             MAP { path = "out_port[7..0]";  pin = "DP0,A0,B0,C0,D0,E0,F0,G0"; }
+         }
+         AUTOMAP
+         {
+             kind = "7Segment_Display";
+             sopc_class = "altera_avalon_pio";
+             MAP { path = "out_port[15..8]"; pin = "DP,A,B,C,D,E,F,G"; }
+             MAP { path = "out_port[7..0]";  pin = "DP,A,B,C,D,E,F,G"; }
+         }
+         AUTOMAP
+         {
+             kind = "CY7C1380C-167AC";
+             sopc_class = "altera_avalon_cy7c1380_ssram";
+             MAP { path = "s1/address[20..2]"; pin = "A[18..0]"; }
+             MAP { path = "s1/adsc_n";         pin = "ADSC_n"; }
+             MAP { path = "s1/bw_n[3..0]";     pin = "BWD_n,BWC_n,BWB_n,BWA_n"; }
+             MAP { path = "s1/bwe_n";          pin = "BWE_n"; }
+             MAP { path = "s1/chipenable1_n";  pin = "CE1_n"; }
+             MAP { path = "s1/data[31..24]";   pin = "DQC[23..16]"; }
+             MAP { path = "s1/data[23..16]";   pin = "DQD[31..24]"; }
+             MAP { path = "s1/data[15..8]";    pin = "DQB[15..8]"; }
+             MAP { path = "s1/data[7..0]";     pin = "DQA[7..0]"; }
+             MAP { path = "s1/outputenable_n"; pin = "OE_n"; }
+         }
+         AUTOMAP
+         {
+             kind = "AM29LV128M";
+             sopc_class = "altera_avalon_cfi_flash";
+             MAP { path = "s1/data[7..0]";     pin = "D[7..0]"; }
+             MAP { path = "s1/address[23..1]"; pin = "A[22..0]"; }
+             MAP { path = "s1/address[0]";     pin = "D15.A1"; }
+             MAP { path = "s1/read_n";         pin = "OE_n"; }
+             MAP { path = "s1/write_n";        pin = "WE_n"; }
+             MAP { path = "s1/select_n";       pin = "CE_n"; }
+         }
+         AUTOMAP
+         {
+             kind = "CF_Header";
+             sopc_class = "altera_avalon_cf";
+             MAP { path = "ide/addr[10]";        pin = "A10"; }
+             MAP { path = "ide/addr[9..0]";      pin = "AO[9..0]"; }
+             MAP { path = "ide/atasel_n";        pin = "ATA_SEL_N"; }
+             MAP { path = "ide/cs_n[1..0]";      pin = "CS1_N,CS0_N"; }
+             MAP { path = "ide/data_cf[15..10]"; pin = "D[15..10]"; }
+             MAP { path = "ide/data_cf[9..0]";   pin = "DO[9..0]"; }
+             MAP { path = "ide/intrq";           pin = "INTRQ"; }
+             MAP { path = "ide/iord_n";          pin = "IORD_N"; }
+             MAP { path = "ide/iordy";           pin = "IORDY"; }
+             MAP { path = "ide/iowr_n";          pin = "IOWR_N"; }
+             MAP { path = "ide/power";           pin = "Vcc"; }
+             MAP { path = "ide/reset_n_cf";      pin = "no_assignment";  }
+             MAP { path = "ide/rfu";             pin = "REG_N"; }
+             MAP { path = "ide/we_n";            pin = "WE_N"; }
+         }
+         DEVICE_DESCRIPTIONS
+         {
+            DEVICE U2
+            {
+               description = "Clock Source";
+            }
+            DEVICE U3
+            {
+               description = "Configuration Controller";
+            }
+            DEVICE SW8
+            {
+               description = "Reset Switch";
+            }
+            DEVICE SW0-SW3
+            {
+               description = "User Switches";
+            }
+            DEVICE D0-D7
+            {
+               description = "LED Bank";
+            }
+            DEVICE U4
+            {
+               description = "Ethernet Adpater";
+            }
+            DEVICE U81
+            {
+               description = "CFI Flash Memory";
+            }
+            DEVICE U63
+            {
+               description = "DDR SDRAM";
+            }
+            DEVICE U69
+            {
+               description = "EPCS Flash Memory";
+            }
+            DEVICE U8-U9
+            {
+               description = "Seven Segment Display";
+            }
+            DEVICE U74
+            {
+               description = "SSRAM";
+            }
+            DEVICE J12
+            {
+               description = "LCD Display Connector";
+            }
+            DEVICE J19
+            {
+               description = "Main Serial Port";
+            }
+            DEVICE J27
+            {
+               description = "Debug Serial Port";
+            }
+            DEVICE CON3
+            {
+               description = "Compact Flash Header";
+            }
+            DEVICE J25
+            {
+               description = "Debug/Trace Connector";
+            }
+         }
+      }
+   }
+   ASSOCIATED_FILES 
+   {
+       Bind_Program = "bind";
+   }
+   type = "board";
+}

@@ -1,0 +1,501 @@
+# Copyright (C) 1991-2005 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic       
+# functions, and any output files any of the foregoing           
+# (including device programming or simulation files), and any    
+# associated documentation or information are expressly subject  
+# to the terms and conditions of the Altera Program License      
+# Subscription Agreement, Altera MegaCore Function License       
+# Agreement, or other applicable license agreement, including,   
+# without limitation, that your use is for the sole purpose of   
+# programming logic devices manufactured by Altera and sold by   
+# Altera or its authorized distributors.  Please refer to the    
+# applicable agreement for further details.
+
+
+# The default values for assignments are stored in the file
+#		chip_top_assignment_defaults.qdf
+# If this file doesn't exist, and for assignments not listed, see file
+#		assignment_defaults.qdf
+
+# Altera recommends that you do not modify this file. This
+# file is updated automatically by the Quartus II software
+# and any changes you make may be lost or overwritten.
+
+
+# Project-Wide Assignments
+# ========================
+set_global_assignment -name VHDL_FILE altera_vhdl_support.vhd
+
+# Pin & Location Assignments
+# ==========================
+set_location_assignment PIN_AM16 -to clk_pci_compiler_0
+set_location_assignment PIN_AL16 -to rstn_pci_compiler_0
+set_location_assignment PIN_AK17 -to irdyn_pci_compiler_0
+set_location_assignment PIN_AM17 -to trdyn_pci_compiler_0
+set_location_assignment PIN_AK13 -to framen_pci_compiler_0
+set_location_assignment PIN_AG13 -to idsel_pci_compiler_0
+set_location_assignment PIN_AF13 -to intan_pci_compiler_0
+set_location_assignment PIN_AJ12 -to par_pci_compiler_0
+set_location_assignment PIN_AE14 -to perrn_pci_compiler_0
+set_location_assignment PIN_AD14 -to serrn_pci_compiler_0
+set_location_assignment PIN_AM12 -to cben_pci_compiler_0[0]
+set_location_assignment PIN_AL10 -to cben_pci_compiler_0[1]
+set_location_assignment PIN_AH11 -to cben_pci_compiler_0[2]
+set_location_assignment PIN_AJ10 -to cben_pci_compiler_0[3]
+set_location_assignment PIN_AL13 -to stopn_pci_compiler_0
+set_location_assignment PIN_AM14 -to devseln_pci_compiler_0
+set_location_assignment PIN_AK4 -to ad_pci_compiler_0[31]
+set_location_assignment PIN_AM4 -to ad_pci_compiler_0[30]
+set_location_assignment PIN_AH5 -to ad_pci_compiler_0[29]
+set_location_assignment PIN_AJ5 -to ad_pci_compiler_0[28]
+set_location_assignment PIN_AK5 -to ad_pci_compiler_0[27]
+set_location_assignment PIN_AL5 -to ad_pci_compiler_0[26]
+set_location_assignment PIN_AH6 -to ad_pci_compiler_0[25]
+set_location_assignment PIN_AM6 -to ad_pci_compiler_0[24]
+set_location_assignment PIN_AH7 -to ad_pci_compiler_0[23]
+set_location_assignment PIN_AG8 -to ad_pci_compiler_0[22]
+set_location_assignment PIN_AH8 -to ad_pci_compiler_0[21]
+set_location_assignment PIN_AJ8 -to ad_pci_compiler_0[20]
+set_location_assignment PIN_AK8 -to ad_pci_compiler_0[19]
+set_location_assignment PIN_AL8 -to ad_pci_compiler_0[18]
+set_location_assignment PIN_AM8 -to ad_pci_compiler_0[17]
+set_location_assignment PIN_AG9 -to ad_pci_compiler_0[16]
+set_location_assignment PIN_AH9 -to ad_pci_compiler_0[15]
+set_location_assignment PIN_AK9 -to ad_pci_compiler_0[14]
+set_location_assignment PIN_AL9 -to ad_pci_compiler_0[13]
+set_location_assignment PIN_AD10 -to ad_pci_compiler_0[12]
+set_location_assignment PIN_AE10 -to ad_pci_compiler_0[11]
+set_location_assignment PIN_AF10 -to ad_pci_compiler_0[10]
+set_location_assignment PIN_AG10 -to ad_pci_compiler_0[9]
+set_location_assignment PIN_AC11 -to ad_pci_compiler_0[8]
+set_location_assignment PIN_AF11 -to ad_pci_compiler_0[7]
+set_location_assignment PIN_AG11 -to ad_pci_compiler_0[6]
+set_location_assignment PIN_AJ11 -to ad_pci_compiler_0[5]
+set_location_assignment PIN_AB12 -to ad_pci_compiler_0[4]
+set_location_assignment PIN_AC12 -to ad_pci_compiler_0[3]
+set_location_assignment PIN_AF12 -to ad_pci_compiler_0[2]
+set_location_assignment PIN_AB13 -to ad_pci_compiler_0[1]
+set_location_assignment PIN_AB14 -to ad_pci_compiler_0[0]
+set_location_assignment PIN_AG12 -to gntn_pci_compiler_0
+set_location_assignment PIN_AC16 -to reqn_pci_compiler_0
+
+# Analysis & Synthesis Assignments
+# ================================
+set_global_assignment -name TOP_LEVEL_ENTITY chip_top
+set_global_assignment -name FAMILY "Stratix II"
+
+# Fitter Assignments
+# ==================
+set_global_assignment -name DEVICE EP2S90F1020C3
+set_global_assignment -name DEVICE_TECHNOLOGY_MIGRATION_LIST "<None>"
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to clk_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to rstn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to devseln_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to framen_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to idsel_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to intan_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to irdyn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to par_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to perrn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to serrn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to stopn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to trdyn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[0]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[1]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[2]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[3]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[4]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[5]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[6]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[7]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[8]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[9]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[10]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[11]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[12]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[13]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[14]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[15]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[16]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[17]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[18]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[19]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[20]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[21]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[22]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[23]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[24]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[25]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[26]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[27]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[28]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[29]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[30]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to ad_pci_compiler_0[31]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to cben_pci_compiler_0[0]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to cben_pci_compiler_0[1]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to cben_pci_compiler_0[2]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to cben_pci_compiler_0[3]
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to reqn_pci_compiler_0
+set_instance_assignment -name IO_STANDARD "3.3-V PCI" -to gntn_pci_compiler_0
+
+# Assembler Assignments
+# =====================
+set_global_assignment -name RELEASE_CLEARS_BEFORE_TRI_STATES ON
+
+# -------------------------------
+# start CLOCK(clk_pci_compiler_0)
+
+	# Timing Assignments
+	# ==================
+set_global_assignment -name FMAX_REQUIREMENT "15 ns" -section_id clk_pci_compiler_0
+
+# end CLOCK(clk_pci_compiler_0)
+# -----------------------------
+
+# ----------------------
+# start ENTITY(chip_top)
+
+	# Timing Assignments
+	# ==================
+set_instance_assignment -name CLOCK_SETTINGS clk_pci_compiler_0 -to clk_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to devseln_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to devseln_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to devseln_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to framen_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to framen_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to framen_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to idsel_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to idsel_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to intan_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to irdyn_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to irdyn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to irdyn_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to par_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to par_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to par_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to perrn_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to perrn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to perrn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to serrn_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to stopn_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to stopn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to stopn_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to trdyn_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to trdyn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to trdyn_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[0]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[0]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[0]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[1]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[1]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[1]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[2]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[2]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[2]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[3]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[3]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[4]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[4]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[4]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[5]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[5]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[5]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[6]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[6]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[6]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[7]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[7]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[7]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[8]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[8]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[8]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[9]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[9]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[9]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[10]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[10]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[10]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[11]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[11]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[11]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[12]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[12]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[12]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[13]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[13]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[13]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[14]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[14]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[14]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[15]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[15]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[15]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[16]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[16]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[16]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[17]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[17]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[17]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[18]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[18]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[18]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[19]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[19]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[19]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[20]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[20]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[20]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[21]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[21]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[21]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[22]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[22]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[22]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[23]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[23]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[23]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[24]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[24]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[24]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[25]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[25]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[25]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[26]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[26]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[26]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[27]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[27]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[27]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[28]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[28]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[28]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[29]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[29]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[29]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[30]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[30]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[30]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to ad_pci_compiler_0[31]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to ad_pci_compiler_0[31]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to ad_pci_compiler_0[31]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to cben_pci_compiler_0[0]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to cben_pci_compiler_0[0]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to cben_pci_compiler_0[0]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to cben_pci_compiler_0[1]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to cben_pci_compiler_0[1]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to cben_pci_compiler_0[1]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to cben_pci_compiler_0[2]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to cben_pci_compiler_0[2]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to cben_pci_compiler_0[2]
+set_instance_assignment -name TSU_REQUIREMENT "3 ns" -to cben_pci_compiler_0[3]
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to cben_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to cben_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "6 ns" -to reqn_pci_compiler_0
+set_instance_assignment -name TH_REQUIREMENT "0 ns" -to gntn_pci_compiler_0
+set_instance_assignment -name TSU_REQUIREMENT "5 ns" -to gntn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[0]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[1]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[2]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[4]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[5]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[6]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[7]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[8]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[9]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[10]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[11]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[12]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[13]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[14]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[15]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[16]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[17]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[18]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[19]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[20]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[21]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[22]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[23]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[24]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[25]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[26]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[27]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[28]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[29]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[30]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|adoe" -to ad_pci_compiler_0[31]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|par_oeR" -to par_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|targ_oeR_reg" -to devseln_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|targ_oeR_reg" -to stopn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_t:trg|targ_oeR_reg" -to trdyn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|perr_oe_r" -to perrn_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[0]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[1]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[2]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[4]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[5]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[6]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[7]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[8]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[9]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[10]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[11]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[12]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[13]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[14]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[15]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[16]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[17]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[18]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[19]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[20]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[21]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[22]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[23]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[24]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[25]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[26]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[27]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[28]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[29]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[30]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|ad_oer" -to ad_pci_compiler_0[31]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|cbe_oer_not" -to cben_pci_compiler_0[0]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|cbe_oer_not" -to cben_pci_compiler_0[1]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|cbe_oer_not" -to cben_pci_compiler_0[2]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|cbe_oer_not" -to cben_pci_compiler_0[3]
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|cbe_oer_not" -to framen_pci_compiler_0
+set_instance_assignment -name TCO_REQUIREMENT "14 ns" -from "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|pcimt32_m:mstr|irdy_oer" -to irdyn_pci_compiler_0
+
+	# Analysis & Synthesis Assignments
+	# ================================
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to trdyn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to irdyn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to cben_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to devseln_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to framen_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to idsel_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to par_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to perrn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to serrn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to stopn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to gntn_pci_compiler_0
+set_instance_assignment -name SYNTH_CRITICAL_PIN ON -to reqn_pci_compiler_0
+set_instance_assignment -name IGNORE_LCELL_BUFFERS ON -to "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst"
+set_instance_assignment -name REMOVE_DUPLICATE_REGISTERS OFF -to "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst"
+
+	# Fitter Assignments
+	# ==================
+set_instance_assignment -name PCI_IO ON -to clk_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to rstn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to devseln_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to framen_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to idsel_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to intan_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to irdyn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to par_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to perrn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to serrn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to stopn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to trdyn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[0]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[1]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[2]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[3]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[4]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[5]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[6]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[7]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[8]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[9]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[10]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[11]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[12]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[13]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[14]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[15]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[16]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[17]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[18]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[19]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[20]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[21]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[22]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[23]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[24]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[25]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[26]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[27]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[28]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[29]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[30]
+set_instance_assignment -name PCI_IO ON -to ad_pci_compiler_0[31]
+set_instance_assignment -name PCI_IO ON -to cben_pci_compiler_0[0]
+set_instance_assignment -name PCI_IO ON -to cben_pci_compiler_0[1]
+set_instance_assignment -name PCI_IO ON -to cben_pci_compiler_0[2]
+set_instance_assignment -name PCI_IO ON -to cben_pci_compiler_0[3]
+set_instance_assignment -name PCI_IO ON -to reqn_pci_compiler_0
+set_instance_assignment -name PCI_IO ON -to gntn_pci_compiler_0
+set_instance_assignment -name GLOBAL_SIGNAL ON -to rstn_pci_compiler_0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to clk_pci_compiler_0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to irdyn_pci_compiler_0
+set_instance_assignment -name GLOBAL_SIGNAL "DUAL-REGIONAL CLOCK" -to trdyn_pci_compiler_0
+set_instance_assignment -name AUTO_PACKED_REGISTERS_STRATIXII OFF -to "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|low_ad_or_fb"
+set_instance_assignment -name AUTO_PACKED_REGISTERS_STRATIXII OFF -to "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|low_cben_or_fb"
+set_instance_assignment -name AUTO_PACKED_REGISTERS_STRATIXII OFF -to "pci_compiler_0:the_pci_compiler_0|altpciav:altpciav_inst|pci_mt32:pci_mt32_inst|low_cben_or_d"
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to devseln_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to framen_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to intan_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to irdyn_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to par_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to perrn_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to serrn_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to stopn_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to trdyn_pci_compiler_0
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[0]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[1]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[2]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[3]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[4]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[5]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[6]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[7]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[8]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[9]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[10]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[11]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[12]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[13]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[14]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[15]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[16]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[17]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[18]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[19]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[20]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[21]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[22]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[23]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[24]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[25]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[26]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[27]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[28]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[29]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[30]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to ad_pci_compiler_0[31]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to cben_pci_compiler_0[0]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to cben_pci_compiler_0[1]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to cben_pci_compiler_0[2]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to cben_pci_compiler_0[3]
+set_instance_assignment -name OUTPUT_PIN_LOAD 10 -to reqn_pci_compiler_0
+
+# end ENTITY(chip_top)
+# --------------------
+
+set_global_assignment -name VHDL_FILE altera_europa_support.vhd

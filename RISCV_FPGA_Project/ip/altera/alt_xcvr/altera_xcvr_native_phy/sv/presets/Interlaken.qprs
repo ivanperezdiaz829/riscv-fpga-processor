@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ip>
+ <presets version="13.1">
+  <preset
+     name="Interlaken"
+     kind="altera_xcvr_native_sv"
+     version="13.1"
+     description="">
+   <parameter name="enable_port_tx_10g_frame" value="1" />
+   <parameter name="enable_port_rx_10g_fifo_rd_en" value="1" />
+   <parameter name="enable_port_rx_10g_frame_lock" value="1" />
+   <parameter name="enable_port_tx_10g_frame_diag_status" value="1" />
+   <parameter name="teng_pld_pcs_width" value="67" />
+   <parameter name="teng_rxfifo_empty" value="0" />
+   <parameter name="enable_port_rx_10g_clk33out" value="0" />
+   <parameter name="enable_port_rx_10g_frame_diag_err" value="0" />
+   <parameter name="teng_rxfifo_pfull" value="23" />
+   <parameter name="enable_port_tx_10g_frame_burst_en" value="1" />
+   <parameter name="enable_port_rx_10g_blk_sh_err" value="0" />
+   <parameter name="teng_txfifo_empty" value="0" />
+   <parameter name="teng_tx_frmgen_user_length" value="2048" />
+   <parameter name="enable_port_rx_pma_clkout" value="0" />
+   <parameter name="enable_port_rx_10g_frame_mfrm_err" value="1" />
+   <parameter name="teng_rxfifo_mode" value="interlaken" />
+   <parameter name="enable_port_rx_10g_fifo_full" value="1" />
+   <parameter name="enable_port_rx_10g_descram_err" value="0" />
+   <parameter name="bonded_mode" value="non_bonded" />
+   <parameter name="tx_pma_clk_div" value="1" />
+   <parameter name="enable_port_rx_10g_crc32_err" value="1" />
+   <parameter name="enable_port_rx_10g_frame_diag_status" value="1" />
+   <parameter name="teng_tx_frmgen_burst_enable" value="1" />
+   <parameter name="channels" value="4" />
+   <parameter name="enable_port_tx_10g_fifo_insert" value="0" />
+   <parameter name="teng_rxfifo_full" value="31" />
+   <parameter name="enable_port_rx_10g_frame_skip_ins" value="0" />
+   <parameter name="enable_port_rx_10g_data_valid" value="1" />
+   <parameter name="enable_std" value="0" />
+   <parameter name="teng_pcs_pma_width" value="40" />
+   <parameter name="set_data_rate" value="6250" />
+   <parameter name="tx_enable" value="1" />
+   <parameter name="enable_port_rx_10g_fifo_align_clr" value="1" />
+   <parameter name="teng_protocol_hint" value="interlaken" />
+   <parameter name="enable_port_rx_10g_fifo_insert" value="0" />
+   <parameter name="enable_port_rx_10g_frame_sync_err" value="0" />
+   <parameter name="enable_port_rx_10g_highber_clr_cnt" value="0" />
+   <parameter name="teng_txfifo_mode" value="interlaken" />
+   <parameter name="enable_port_rx_10g_blk_lock" value="1" />
+   <parameter name="teng_rx_frmsync_user_length" value="2048" />
+   <parameter name="rx_enable" value="1" />
+   <parameter name="enable_port_rx_10g_fifo_pempty" value="1" />
+   <parameter name="enable_port_rx_10g_frame_pyld_ins" value="0" />
+   <parameter name="enable_port_tx_10g_fifo_empty" value="1" />
+   <parameter name="teng_rxfifo_align_del" value="0" />
+   <parameter name="enable_port_rx_is_lockedtoref" value="1" />
+   <parameter name="enable_port_rx_10g_fifo_empty" value="1" />
+   <parameter name="teng_txfifo_pempty" value="8" />
+   <parameter name="gui_pll_reconfig_pll0_refclk_freq" value="156.25 MHz" />
+   <parameter name="enable_port_rx_10g_fifo_align_val" value="1" />
+   <parameter name="enable_teng" value="1" />
+   <parameter name="enable_port_rx_10g_frame_skip_err" value="0" />
+   <parameter name="enable_port_rx_10g_fifo_align_en" value="1" />
+   <parameter name="teng_txfifo_full" value="31" />
+   <parameter name="set_cdr_refclk_freq" value="156.25 MHz" />
+   <parameter name="teng_tx_sh_err" value="0" />
+   <parameter name="enable_port_rx_10g_frame" value="1" />
+   <parameter name="teng_txfifo_pfull" value="23" />
+   <parameter name="enable_port_rx_10g_highber" value="0" />
+   <parameter name="teng_tx_scram_user_seed" value="123456789abcde" />
+   <parameter name="enable_port_tx_10g_fifo_pempty" value="1" />
+   <parameter name="teng_rxfifo_pempty" value="8" />
+   <parameter name="enable_port_tx_10g_fifo_pfull" value="1" />
+   <parameter name="enable_port_rx_10g_clr_errblk_count" value="0" />
+   <parameter name="enable_port_tx_10g_fifo_full" value="1" />
+   <parameter name="enable_port_tx_10g_fifo_del" value="0" />
+   <parameter name="enable_port_rx_10g_fifo_pfull" value="1" />
+   <parameter name="enable_port_rx_is_lockedtodata" value="1" />
+   <parameter name="enable_port_rx_10g_fifo_del" value="0" />
+   <parameter name="teng_rxfifo_control_del" value="0" />
+  </preset>
+ </presets>
+</ip>

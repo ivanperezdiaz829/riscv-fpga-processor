@@ -1,0 +1,647 @@
+-- (C) 2001-2013 Altera Corporation. All rights reserved.
+-- Your use of Altera Corporation's design tools, logic functions and other 
+-- software and tools, and its AMPP partner logic functions, and any output 
+-- files any of the foregoing (including device programming or simulation 
+-- files), and any associated documentation or information are expressly subject 
+-- to the terms and conditions of the Altera Program License Subscription 
+-- Agreement, Altera MegaCore Function License Agreement, or other applicable 
+-- license agreement, including, without limitation, that your use is for the 
+-- sole purpose of programming logic devices manufactured by Altera and sold by 
+-- Altera or its authorized distributors.  Please refer to the applicable 
+-- agreement for further details.
+
+
+-- \$Id: //acds/main/ip/sopc/components/verification/altera_tristate_conduit_bfm/altera_tristate_conduit_bfm.sv.terp#15 $
+-- \$Revision: #15 $
+-- \$Date: 2011/04/25 $
+-- \$Author: klong $
+-------------------------------------------------------------------------------
+-- =head1 NAME
+-- altera_tristate_conduit_bfm
+-- =head1 SYNOPSIS
+-- Bus Functional Model (BFM) for a Tristate Conduit BFM
+-------------------------------------------------------------------------------
+-- =head1 DESCRIPTION
+-- This is a Bus Functional Model (BFM) VHDL package for a Tristate Conduit Master.
+-- This package provides the API that will be used to construct the transaction
+-- and are then pushed into a dispatch queue, either one at a time or as entire
+-- sequences. Input transactions are popped out of a separate input transaction
+-- queue and inform the client of statistics such as latency cycles required until
+-- interface been granted. This BFM's HDL is been generated through terp file
+-- in Qsys. Generation parameters:
+-- output_name:                                       $output_name
+-- role:width:use_output:use_outputenable:use_input   $rolemap
+-- MAX_MULTIPLE_TRANSACTION                           $max_mult_trans
+-------------------------------------------------------------------------------
+@@
+@@ proc get_io_name_format {io_name_length io_name} {
+@@    return [format "%-${io_name_length}s" $io_name]
+@@ }
+
+use std.textio.all ;
+
+library ieee ;
+use ieee.std_logic_1164.all ;
+use ieee.numeric_std.all ;
+use ieee.math_real.all ;
+@@
+@@ set max_rolename_length 0
+@@ set num_input_signal    0
+@@ set num_output_signal   0
+@@
+@@ set roleinfo_list [split $rolemap ","]
+@@ set rolename_list ""
+@@ foreach roleinfo $roleinfo_list {
+@@    set roleinfo   [split $roleinfo ":"]
+@@    
+@@    set rolename      [lindex $roleinfo 0]
+@@    set width         [lindex $roleinfo 1]
+@@    set use_output    [lindex $roleinfo 2]
+@@    set use_outputen  [lindex $roleinfo 3]
+@@    set use_input     [lindex $roleinfo 4]
+@@    
+@@    set roleinfo_array(${rolename},msb) [expr $width - 1]
+@@    set roleinfo_array(${rolename},use_output) $use_output
+@@    set roleinfo_array(${rolename},use_outputen) $use_outputen
+@@    set roleinfo_array(${rolename},use_input) $use_input
+@@    
+@@    lappend rolename_list $rolename
+@@
+@@    if {$use_input == 1} {
+@@       incr num_input_signal
+@@    }
+@@
+@@    if {$use_output == 1} {
+@@       incr num_output_signal
+@@    }
+@@
+@@    set rolename_length  [string length $rolename]
+@@    if {$rolename_length > $max_rolename_length} {
+@@       set max_rolename_length $rolename_length
+@@    }
+@@ }
+@@ set io_name_length [expr $max_rolename_length + 9]
+
+package ${output_name}_vhdl_fifo_pkg is
+
+   constant MAX_MULTIPLE_TRANSACTION      : integer := ${max_mult_trans};
+
+   -- input transaction data structure
+   type ${output_name}_input_trans_t is record
+@@
+@@ if {$num_input_signal > 0} {
+@@    foreach rolename $rolename_list {
+@@       if {$roleinfo_array(${rolename},use_input) == 1} {
+@@          set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+         $io_name_fmt : std_logic_vector($roleinfo_array(${rolename},msb) downto 0);
+@@       }
+@@    }
+@@ }
+@@ set io_name_fmt [get_io_name_format $io_name_length latency]
+      $io_name_fmt : integer;
+   end record;
+   
+   -- input transaction fifo
+   type ${output_name}_input_trans_fifo_t;
+   type ${output_name}_input_trans_fifo_ptr is access ${output_name}_input_trans_fifo_t;
+   type ${output_name}_input_trans_fifo_t is record
+      trans          : ${output_name}_input_trans_t;
+      next_rec       : ${output_name}_input_trans_fifo_ptr;
+   end record;
+   
+   type ${output_name}_input_trans_fifo_o is protected
+      procedure clear;
+      procedure push (sampled_trans : ${output_name}_input_trans_t);
+      procedure pop;
+      impure function size return integer;
+@@ set io_name_fmt [get_io_name_format $io_name_length latency]
+      procedure get_trans_${io_name_fmt} (latency : out integer);
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array(${rolename},use_input) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+      procedure get_trans_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array(${rolename},msb) downto 0));
+@@    }
+@@ }
+   end protected ${output_name}_input_trans_fifo_o;
+   
+   -- output transaction data structure
+@@ if {$num_output_signal > 0} {
+   type ${output_name}_output_data_base_t is record
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array(${rolename},use_output) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+      $io_name_fmt : std_logic_vector($roleinfo_array(${rolename},msb) downto 0);
+@@       
+@@    }
+@@    if {$roleinfo_array(${rolename},use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_outen]
+      $io_name_fmt : std_logic;
+@@       
+@@    }
+@@ }
+   end record;
+@@
+   type ${output_name}_output_data_t is array((MAX_MULTIPLE_TRANSACTION - 1) downto 0) of ${output_name}_output_data_base_t;
+   
+@@ }
+   type ${output_name}_output_trans_t is record
+@@ if {$num_output_signal > 0} {
+      data                 : ${output_name}_output_data_t;
+@@ }
+      idles                : integer;
+      num_of_transactions  : integer range 2 to MAX_MULTIPLE_TRANSACTION;
+   end record;
+   
+   -- output transaction fifo
+   type ${output_name}_output_trans_fifo_t;
+   type ${output_name}_output_trans_fifo_ptr is access ${output_name}_output_trans_fifo_t;
+   type ${output_name}_output_trans_fifo_t is record
+      trans                : ${output_name}_output_trans_t;
+      next_rec             : ${output_name}_output_trans_fifo_ptr;
+   end record;
+   
+   type ${output_name}_output_trans_fifo_o is protected
+      procedure clear;
+      procedure push;
+      impure function pop return ${output_name}_output_trans_t;
+      impure function size return integer;
+      procedure set_trans_idles(idles : integer);
+      procedure set_num_of_trans (num_of_trans : integer);
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array(${rolename},use_output) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+      procedure set_trans_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length " "]
+                          ${io_name_fmt}  signal_value : std_logic_vector($roleinfo_array(${rolename},msb) downto 0));
+@@    }
+@@    if {$roleinfo_array(${rolename},use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_outen]
+      procedure set_trans_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length " "]
+                          ${io_name_fmt}  signal_value : std_logic);
+@@    }
+@@ }
+      procedure set_max_trans_qsize(size : integer);
+      procedure set_min_trans_qsize(size : integer);
+      impure function get_fifo_max_level return integer;
+      impure function get_fifo_min_level return integer;
+   end protected ${output_name}_output_trans_fifo_o;
+   
+end ${output_name}_vhdl_fifo_pkg;
+
+package body ${output_name}_vhdl_fifo_pkg is
+   
+   -- input transaction fifo implementation
+   type ${output_name}_input_trans_fifo_o is protected body
+      variable fifo_ptr    : ${output_name}_input_trans_fifo_ptr := null;
+      variable fifo_count  : integer := 0;
+      variable new_trans   : ${output_name}_input_trans_t;
+      
+      -- clear the fifo
+      procedure clear is
+      begin
+         fifo_count := 0;
+         fifo_ptr := null;
+      end procedure clear;
+      
+      -- returns transaction latency
+      procedure get_trans_latency(latency : out integer) is
+      begin
+         latency := new_trans.latency;
+      end procedure get_trans_latency;
+      
+      -- push input transaction to fifo
+      procedure push (sampled_trans : ${output_name}_input_trans_t) is
+         variable new_pkt : ${output_name}_input_trans_fifo_ptr;
+         variable tmp_ptr : ${output_name}_input_trans_fifo_ptr;
+      begin
+         if(fifo_count = 0) then
+            new_pkt := new ${output_name}_input_trans_fifo_t;
+            fifo_ptr := new_pkt;
+            -- copy the packet to the new space
+            new_pkt.trans := sampled_trans;
+            new_pkt.next_rec := null;
+            fifo_count := 1;
+         else
+            new_pkt := new ${output_name}_input_trans_fifo_t;
+            tmp_ptr := fifo_ptr;
+            -- get to the end of the fifo
+            while(tmp_ptr.next_rec /= null) loop
+               tmp_ptr := tmp_ptr.next_rec;
+            end loop;
+            -- copy the packet to the new space
+            new_pkt.trans := sampled_trans;
+            new_pkt.next_rec := null;
+            tmp_ptr.next_rec := new_pkt;
+            fifo_count := fifo_count + 1;
+         end if;
+      end procedure push;
+      
+      -- pop input transaction from fifo
+      procedure pop is
+         variable trans : ${output_name}_input_trans_t;
+         variable tmp_ptr : ${output_name}_input_trans_fifo_ptr;
+         variable prev_ptr : ${output_name}_input_trans_fifo_ptr;
+      begin
+         case fifo_count is
+            when 0 =>
+               new_trans := trans;
+            when 1 =>
+               fifo_count := 0;
+               trans := fifo_ptr.trans;
+               fifo_ptr := null;
+               new_trans := trans;
+            when others =>
+               tmp_ptr := fifo_ptr;
+               fifo_ptr := tmp_ptr.next_rec;
+               tmp_ptr.next_rec := null;
+               fifo_count := fifo_count - 1;
+               new_trans := tmp_ptr.trans;
+         end case;
+      end procedure pop;
+      
+      -- returns fifo depth
+      impure function size return integer is
+      begin
+         return fifo_count;
+      end function size;
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array($rolename,use_input)} {
+@@    set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+      
+      -- get ${rolename}_in value
+      procedure get_trans_${io_name_fmt} (signal_value : out std_logic_vector($roleinfo_array(${rolename},msb) downto 0)) is
+      begin
+         signal_value := new_trans.${rolename}_in;
+      end procedure get_trans_${rolename}_in;
+@@    }
+@@ }
+      
+   end protected body ${output_name}_input_trans_fifo_o;
+   
+   -- output transaction fifo implementation
+   type ${output_name}_output_trans_fifo_o is protected body
+      variable new_trans            : ${output_name}_output_trans_t;
+      variable fifo_ptr             : ${output_name}_output_trans_fifo_ptr := null;
+      variable fifo_count           : integer := 0;
+      variable fifo_max_level       : integer := 100;
+      variable fifo_min_level       : integer := 2;
+      
+      -- clear the fifo
+      procedure clear is
+      begin
+         fifo_count := 0;
+         fifo_ptr := null;
+      end procedure clear;
+      
+      -- set output transaction idles
+      procedure set_trans_idles (idles : integer) is
+      begin
+         new_trans.idles := idles;
+      end procedure set_trans_idles;
+      
+      procedure set_num_of_trans (num_of_trans : integer) is
+      begin
+         new_trans.num_of_transactions := num_of_trans;
+      end procedure set_num_of_trans;      
+      
+      -- push output transaction to fifo
+      procedure push is
+         variable new_pkt : ${output_name}_output_trans_fifo_ptr;
+         variable tmp_ptr : ${output_name}_output_trans_fifo_ptr;
+      begin
+         if(fifo_count = 0) then
+            new_pkt := new ${output_name}_output_trans_fifo_t;
+            fifo_ptr := new_pkt;
+            -- copy the packet to the new space
+            new_pkt.trans := new_trans;
+            new_pkt.next_rec := null;
+            fifo_count := 1;            
+         else
+            new_pkt := new ${output_name}_output_trans_fifo_t;
+            tmp_ptr := fifo_ptr;
+            -- get to the end of the fifo
+            while(tmp_ptr.next_rec /= null) loop
+               tmp_ptr := tmp_ptr.next_rec;
+            end loop;
+            -- copy the packet to the new space
+            new_pkt.trans := new_trans;
+            new_pkt.next_rec := null;
+            tmp_ptr.next_rec := new_pkt;
+            fifo_count := fifo_count + 1;
+         end if;
+      end procedure push;
+      
+      -- pop output transaction from fifo
+      impure function pop return ${output_name}_output_trans_t is
+         variable trans    : ${output_name}_output_trans_t;
+         variable tmp_ptr  : ${output_name}_output_trans_fifo_ptr;
+         variable prev_ptr : ${output_name}_output_trans_fifo_ptr;
+      begin
+         case fifo_count is
+            when 0 =>
+               return trans;
+            when 1 =>
+               fifo_count := 0;
+               trans := fifo_ptr.trans;
+               fifo_ptr := null;
+               return trans;
+            when others =>
+               tmp_ptr := fifo_ptr;
+               fifo_ptr := tmp_ptr.next_rec;
+               tmp_ptr.next_rec := null;
+               fifo_count := fifo_count - 1;
+               return tmp_ptr.trans;
+         end case;
+      end function pop;
+      
+      -- returns fifo depth
+      impure function size return integer is
+      begin
+         return fifo_count;
+      end function size;
+@@      
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array(${rolename},use_output) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+      
+      -- set ${rolename}_out value
+      procedure set_trans_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                          ${io_name_fmt}  signal_value : std_logic_vector($roleinfo_array(${rolename},msb) downto 0)) is
+      begin
+         new_trans.data(index).${rolename}_out := signal_value;
+      end procedure set_trans_${rolename}_out;
+@@    }
+@@    if {$roleinfo_array(${rolename},use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_outen]
+
+      -- set ${rolename}_outen value
+      procedure set_trans_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                          ${io_name_fmt}  signal_value : std_logic) is
+      begin
+         new_trans.data(index).${rolename}_outen := signal_value;
+      end procedure set_trans_${rolename}_outen;
+@@    }
+@@ }
+      
+      -- 
+      procedure set_max_trans_qsize(size : integer) is
+      begin
+         fifo_max_level := size;
+      end procedure set_max_trans_qsize;
+      
+      procedure set_min_trans_qsize(size : integer) is
+      begin
+         fifo_min_level := size;
+      end procedure set_min_trans_qsize;
+      
+      impure function get_fifo_max_level return integer is
+      begin
+         return fifo_max_level;
+      end function get_fifo_max_level;
+      
+      impure function get_fifo_min_level return integer is
+      begin
+         return fifo_min_level;
+      end function get_fifo_min_level;
+   
+   end protected body ${output_name}_output_trans_fifo_o;
+
+end ${output_name}_vhdl_fifo_pkg;
+
+use std.textio.all ;
+
+library ieee ;
+use ieee.std_logic_1164.all ;
+use ieee.numeric_std.all ;
+use ieee.math_real.all ;
+
+library work;
+use work.all;
+use work.${output_name}_vhdl_fifo_pkg.all;
+
+package ${output_name}_vhdl_pkg is
+
+   -- input and output transaction fifo
+   shared variable input_trans_fifo  : ${output_name}_input_trans_fifo_o;
+	shared variable output_trans_fifo : ${output_name}_output_trans_fifo_o;
+   
+   -- event signals
+   signal all_transactions_complete                         : std_logic := '0';
+   signal interface_granted                                 : std_logic := '0';
+   signal grant_deasserted_while_request_remain_asserted    : std_logic := '0';
+   signal max_transaction_queue_size                        : std_logic := '0';
+   signal min_transaction_queue_size                        : std_logic := '0';
+   
+   -- VHDL procedure APIs
+   
+   -- set transaction idles
+   procedure set_transaction_idles(idles : integer);
+   
+   -- set number of transaction per request and grant
+   procedure set_num_of_transactions(num_of_trans : integer);
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array(${rolename},use_output) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+   
+   -- set ${rolename}_out value   
+   procedure set_transaction_${io_name_fmt}       (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                             ${io_name_fmt}        signal_value : std_logic_vector($roleinfo_array(${rolename},msb) downto 0));
+@@    }
+@@    if {$roleinfo_array(${rolename},use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_outen]
+
+   -- set ${rolename}_outen value
+   procedure set_transaction_${io_name_fmt}       (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                             ${io_name_fmt}        signal_value : std_logic);
+@@    }
+@@    if {$roleinfo_array(${rolename},use_output) == 1 && $roleinfo_array(${rolename},use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+
+   -- set ${rolename}_out value and enable output
+   procedure set_valid_transaction_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                                   ${io_name_fmt}  signal_value : std_logic_vector($roleinfo_array(${rolename},msb) downto 0));
+@@    }
+@@ }
+   
+   -- push output transaction to fifo
+   procedure push_transaction;
+   
+   -- pop input transaction from fifo
+   procedure pop_transaction;
+
+   -- get transaction latency
+   procedure get_transaction_latency (latency : out integer);
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array($rolename,use_input) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+
+   -- get ${rolename}_in value
+   procedure get_transaction_${io_name_fmt}       (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0));
+@@    }
+@@ }
+   
+   -- set upper limit of output transaction fifo
+   procedure set_max_transaction_queue_size     (size : integer);
+   
+   -- set lower limit of output transaction fifo
+   procedure set_min_transaction_queue_size     (size : integer);
+   
+   -- get output transaction fifo size
+   procedure get_output_transaction_queue_size  (size : out integer);
+   
+   -- get input transaction fifo size
+   procedure get_input_transaction_queue_size   (size : out integer);
+   
+   -- VHDL event APIs
+   
+   -- event for all transactions completed
+   procedure event_all_transactions_complete;
+   
+   -- event for grant high
+   procedure event_interface_granted;
+   
+   -- event for grant deasserted during active transaction
+   procedure event_grant_deasserted_while_request_remain_asserted;
+   
+   -- event for output transaction fifo exceed maximum limit
+   procedure event_max_transaction_queue_size;
+   
+   -- event for output transaction fifo below minimum limit
+   procedure event_min_transaction_queue_size;
+
+end ${output_name}_vhdl_pkg;
+
+package body ${output_name}_vhdl_pkg is
+
+-- VHDL procedure APIs
+
+   procedure set_transaction_idles (idles : integer) is
+   begin
+      output_trans_fifo.set_trans_idles(idles);      
+   end procedure set_transaction_idles;
+   
+   procedure set_num_of_transactions (num_of_trans : integer) is
+   begin
+      output_trans_fifo.set_num_of_trans(num_of_trans);
+   end procedure set_num_of_transactions;
+@@   
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array($rolename,use_output) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+
+   procedure set_transaction_${io_name_fmt}       (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                             ${io_name_fmt}        signal_value : std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+      output_trans_fifo.set_trans_${rolename}_out(index, signal_value);
+   end procedure set_transaction_${rolename}_out;
+@@    }
+@@    if {$roleinfo_array($rolename,use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_outen]
+
+   procedure set_transaction_${io_name_fmt}       (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                             ${io_name_fmt}        signal_value : std_logic) is
+   begin
+      output_trans_fifo.set_trans_${rolename}_outen(index, signal_value);
+   end procedure set_transaction_${rolename}_outen;
+@@    }
+@@    if {$roleinfo_array($rolename,use_output) == 1 && $roleinfo_array($rolename,use_outputen) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_out]
+
+   procedure set_valid_transaction_${io_name_fmt} (index        : integer;
+@@       set io_name_fmt [get_io_name_format $io_name_length ""]
+                                   ${io_name_fmt}  signal_value : std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+      set_transaction_${rolename}_out(index, signal_value);
+      set_transaction_${rolename}_outen(index, '1');
+   end procedure set_valid_transaction_${rolename}_out;
+@@    }
+@@ }
+   
+   procedure push_transaction is
+   begin
+      output_trans_fifo.push;
+   end procedure push_transaction;
+   
+   procedure pop_transaction is
+   begin
+      input_trans_fifo.pop;
+   end procedure pop_transaction;
+   
+   procedure get_transaction_latency(latency : out integer) is
+   begin
+      input_trans_fifo.get_trans_latency(latency);
+   end procedure get_transaction_latency;
+@@
+@@ foreach rolename $rolename_list {
+@@    if {$roleinfo_array($rolename,use_input) == 1} {
+@@       set io_name_fmt [get_io_name_format $io_name_length ${rolename}_in]
+
+   procedure get_transaction_${io_name_fmt}       (signal_value : out std_logic_vector($roleinfo_array($rolename,msb) downto 0)) is
+   begin
+      input_trans_fifo.get_trans_${rolename}_in(signal_value);
+   end procedure get_transaction_${rolename}_in;
+@@    }
+@@ }
+   
+   procedure set_max_transaction_queue_size     (size : integer) is
+   begin
+      output_trans_fifo.set_max_trans_qsize(size);
+   end procedure set_max_transaction_queue_size;
+   
+   procedure set_min_transaction_queue_size     (size : integer) is
+   begin
+      output_trans_fifo.set_min_trans_qsize(size);
+   end procedure set_min_transaction_queue_size;
+   
+   procedure get_output_transaction_queue_size  (size : out integer) is
+   begin
+      size := output_trans_fifo.size;
+   end procedure get_output_transaction_queue_size;
+   
+   procedure get_input_transaction_queue_size   (size : out integer) is
+   begin
+      size := input_trans_fifo.size;
+   end procedure get_input_transaction_queue_size;
+
+-- VHDL event APIs
+   
+   procedure event_all_transactions_complete is
+   begin
+      wait until (all_transactions_complete = '1');
+   end procedure event_all_transactions_complete;
+   
+   procedure event_interface_granted is
+   begin
+      wait until (interface_granted = '1');
+   end procedure event_interface_granted;
+   
+   procedure event_grant_deasserted_while_request_remain_asserted is
+   begin
+      wait until (grant_deasserted_while_request_remain_asserted = '1');
+   end procedure event_grant_deasserted_while_request_remain_asserted;
+   
+   procedure event_max_transaction_queue_size is
+   begin
+      wait until (max_transaction_queue_size = '1');
+   end procedure event_max_transaction_queue_size;
+   
+   procedure event_min_transaction_queue_size is
+   begin
+      wait until (min_transaction_queue_size = '1');
+   end procedure event_min_transaction_queue_size;
+   
+end ${output_name}_vhdl_pkg;

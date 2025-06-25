@@ -1,0 +1,72 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this
+-- file for any purpose do so at their own risk, and are responsible for
+-- the results of such use.  Altera Corporation does not guarantee that
+-- this file is complete, correct, or fit for any particular purpose.
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information I/O standard for the all supported devices
+-- It will describe:
+--  - which pin will get an assignment
+--  - name mapping for some pins
+--  - width of buses
+-- It will be used by the constraint script to apply all constraints to each
+-- pin and any logic related to that pin.
+-- -------------------------------------------------------------------------
+
+-- $Revision: #1 $
+
+
+-- *************************************************************************
+--
+--                             PLEASE DO NOT EDIT
+--
+-- *************************************************************************
+list 	fast_output_reg_pin_list 		=	ras_n_pin_name cas_n_pin_name write_enable_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name cs_n_pin_name
+list 	sstl_2_pin_list 				=	ras_n_pin_name cas_n_pin_name write_enable_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name cs_n_pin_name dm_pin_name dq_pin_name dqs_pin_name
+list 	clk_sstl_2_pin_list 			=	clock_pos_pin_name clock_neg_pin_name 
+list    clk_diff_2_pin_list            =  clock_pos_pin_name
+list	cut_timing_path					= 	dqs_pin_name
+list 	dq_output_pin_cap_load_list		= 	dm_pin_name dq_pin_name dqs_pin_name
+list 	cmd_output_pin_cap_load_list	= 	ras_n_pin_name cas_n_pin_name write_enable_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name cs_n_pin_name
+list 	clk_output_pin_cap_load_list	= 	clock_pos_pin_name clock_neg_pin_name
+
+list    prot_plan_diff_clk_output_pin_list      =  clock_pos_pin_name
+list    prot_plan_dedicated_clk_output_pin_list =  diff_clock_neg_pin_name
+list    prot_plan_ddio_clk_output_pin_list      =  clock_pos_pin_name clock_neg_pin_name
+list    prot_plan_clk_output_pin_list           =  clock_pos_pin_name clock_neg_pin_name
+list    prot_plan_bidirectional_pin_list        =  dq_pin_name dqs_pin_name
+list    prot_plan_output_pin_list               =  dm_pin_name ras_n_pin_name cas_n_pin_name write_enable_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name cs_n_pin_name clock_pos_pin_name clock_neg_pin_name
+list    prot_plan_dq_output_pin_cap_load_list   =  dm_pin_name dq_pin_name dqs_pin_name
+list    prot_plan_cmd_output_pin_cap_load_list  =  ras_n_pin_name cas_n_pin_name write_enable_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name cs_n_pin_name   
+list    prot_plan_clk_output_pin_cap_load_list  =  clock_pos_pin_name clock_neg_pin_name 
+
+width 	address_pin_name 				= 	mem_row_bits
+width 	bank_address_pin_name			= 	mem_bank_bits
+width	clock_enable_pin_name 			= 	mem_chipsels
+width	cs_n_pin_name					= 	mem_chipsels
+width	dq_pin_name						= 	memory_width
+width	dqs_pin_name					= 	memory_width / mem_dq_per_dqs
+width 	dm_pin_name 					= 	memory_width / mem_dq_per_dqs
+width 	clock_pos_pin_name 				= 	num_output_clocks
+width 	clock_neg_pin_name				= 	num_output_clocks
+width 	clock_output_block_name			= 	num_output_clocks
+
+map_name address_pin_name 				= 	a
+map_name bank_address_pin_name 		= 	ba
+map_name clock_enable_pin_name 		= 	cke
+map_name cs_n_pin_name 					= 	cs_n
+map_name dq_pin_name 					= 	dq
+map_name dqs_pin_name 					= 	dqs
+map_name dm_pin_name 					= 	dm
+map_name clock_pos_pin_name 			= 	clk_to_sdram
+map_name clock_neg_pin_name 			= 	clk_to_sdram_n
+map_name write_enable_n_pin_name 		= 	we_n
+map_name ras_n_pin_name 				= 	ras_n
+map_name cas_n_pin_name 				= 	cas_n
+map_name clockfeedback_in_pin_name		= 	fedback_clk_in
+map_name clockfeedback_out_pin_name    = 	fedback_clk_out

@@ -1,0 +1,47 @@
+CLASS altera_sopc_builder
+{
+    MODULE_DEFAULTS
+    {
+        class = "altera_sopc_builder";
+        class_version = "7.08131";
+    }
+    USER_INTERFACE
+    {
+        USER_LABELS
+        {
+            name="Altera SOPC Builder";
+            description=
+            "<b>S</b>ystem <b>O</b>n a <b>P</b>rogrammable <b>C</b>hip Builder Tool<br>
+            &nbsp;<small>Copyright &copy; 1999-2005 Altera Corporation.&nbsp;&nbsp;All rights Reserved.</small>";
+        }
+        LINKS
+        {
+            LINK datasheet
+            {
+                title = "SOPC Builder Data Sheet";
+                url = "http://www.altera.com/literature/ds/ds_sopc.pdf";                
+            }
+            LINK homepage
+            {
+                title = "SOPC Builder Home Page";
+                url = "http://www.altera.com/sopcbuilder";
+            }
+            LINK literature
+            {
+                title = "SOPC Builder Literature Index...";
+                url = "http://www.altera.com/literature/lit-sop.html#";
+            }
+            LINK avalon
+            {
+                title = "Avalon Bus Spec";
+                url = "http://www.altera.com/literature/manual/mnl_avalon_bus.pdf";                
+            }
+            LINK tt_smm
+            {
+               url = "http://www.altera.com/literature/tt/tt_nios_smm.pdf";
+               title = "Multi-Mastering Tutorial";
+            }
+
+        }
+    }
+}

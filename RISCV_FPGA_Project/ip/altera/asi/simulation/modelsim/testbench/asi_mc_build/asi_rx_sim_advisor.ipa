@@ -1,0 +1,615 @@
+<optimization_record_list>
+<!-- ASI_INST -->
+<optimization_record>
+<recommendation_key>
+ASI_INST
+</recommendation_key>
+<recommendation>
+asi_rx_sim
+</recommendation>
+<recommendation_description>
+Follow the recommendations to configure your core.
+</recommendation_description>
+<description>
+MegaCore variation
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	NA
+	</action_description>
+	<action_link>
+	NA
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="100">
+	ASI
+	</parent>
+</parent_list>
+<logic_algorithm>
+NA
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+</tcl_script>
+</optimization_record>
+
+<!-- INFO -->
+<!-- ASI_INST\10 -->
+<optimization_record>
+<recommendation_key>
+INFO
+</recommendation_key>
+<recommendation>
+Information
+</recommendation>
+<recommendation_description>
+The following recommendations provide a flow for your ASI design.
+</recommendation_description>
+<description>
+The following recommendations provide a walkthrough for designing an ASI using the Quartus II sofware. This walkthrough can also be found in the ASI MegaCore Function User Guide.
+
+Altera provides an example design using an ASI MegaCore in the ip\altera\asi\example directory. This design is targeted at the Cyclone video demonstration board.
+More detailed information can be found in AN:344 ASI Demonstration in the ip\altera\asi\example\doc directory.
+
+</description>
+<more_info_link>
+http://www.altera.com/literature/ug/ug_asi.pdf
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Follow the steps outlined in this walkthrough to design an ASI.
+	</action_description>
+	<action_link>
+	NA
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="10">
+	ASI_INST
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+
+<!-- RTL_SIM -->
+<!-- ASI_INST\40 -->
+<!-- TBD ppt pg12: When simulation is completed, it should have a check.  can have a check mark only if launch simulation via tcl script -->
+<optimization_record>
+<recommendation_key>
+RTL_SIM
+</recommendation_key>
+<recommendation>
+Perform RTL/Functional Simulation (Optional)
+</recommendation>
+<recommendation_description>
+During the instantiation of the ASI, there is an option to generate a simulation model of the IP so you can perform functional simulation on your design.
+</recommendation_description>
+<description>
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Follow these recommendations to obtain and setup simulation models, and run functional simulation with NativeLink.
+	</action_description>
+	<action_link>
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+</image_path>
+<parent_list>
+	<parent priority="40">
+	ASI_INST
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+<!-- SETUP_SIM -->
+<!-- ASI_INST\RTL_SIM\10 -->
+<optimization_record>
+<recommendation_key>
+SETUP_SIM
+</recommendation_key>
+<recommendation>
+Setup Simulation Options in Quartus II software
+</recommendation>
+<recommendation_description>
+Setup Simulation Options in Quartus II software
+</recommendation_description>
+<description>
+Altera provides a Quartus II project for use with NativeLink in the ip\altera\asi\simulation directory.
+
+Browse to the directory and open the asi_sim.qpf.
+
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Setup the simulation model
+	</action_description>
+	<action_link>
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+</image_path>
+<parent_list>
+	<parent priority="10">
+	RTL_SIM
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+<!-- RUN_SIM -->
+<!-- ASI_INST\RTL_SIM\20 -->
+<optimization_record>
+<recommendation_key>
+RUN_SIM
+</recommendation_key>
+<recommendation>
+Run Simulation with Nativelink
+</recommendation>
+<recommendation_description>
+Run functional simulation with Nativelink
+</recommendation_description>
+<description>
+Set the absolute path to your third-party simulator executable.
+
+On the Assignments menu, point to EDA Tool Settings and click Simulation to open the Settings dialog box. In the Category list (left-hand side of the panel) click the "+" icon to expand EDA Tool Settings and click Simulation.
+
+In the Simulation panel, select ModelSim-Altera from the Tool list. In the NativeLink settings box, turn on Compile test bench. Enter the name of your testbench top-level module, simulation period, etc.
+
+After you have elaborated the design, point to the EDA Simulation Tool from the Tools menu and click Run EDA RTL Simulation.
+
+For more information about setting up a simulation model, please refer to the ASI MegaCore Function User Guide (Getting Started section).
+
+</description>
+<more_info_link>
+http://www.altera.com/literature/ug/ug_asi.pdf
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Setup NativeLink, and run the simulation
+	</action_description>
+	<action_link>
+	SETD
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+</image_path>
+<parent_list>
+	<parent priority="20">
+	RTL_SIM
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+
+
+<!-- TBD ppt pg14: Once all Action are completed, it should have a check to indicate the actions were performed.  can only have a check mark if done via tcl -->
+<!-- ADD -->
+<!-- ASI_INST\20 -->
+<optimization_record>
+<recommendation_key>
+ADD
+</recommendation_key>
+<recommendation>
+Add Constraints
+</recommendation>
+<recommendation_description>
+The following recommendations guide you in adding the correct constraints.
+</recommendation_description>
+<description>
+Add Constraints
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	NA
+	</action_description>
+	<action_link>
+	NA
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="20">
+	ASI_INST
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+<!-- ADD_TIMING -->
+<!-- ASI_INST\ADD\10 -->
+<!-- TBD ppt pg13: Once both Actions are completed, it should have a check. can only have a check mark if done via tcl -->
+<optimization_record>
+<recommendation_key>
+ADD_TIMING
+</recommendation_key>
+<recommendation>
+Add Timing Constraints
+</recommendation>
+<recommendation_description>
+For the ASI MegaCore function to work reliably, the proper timing constraints must be implemented.
+</recommendation_description>
+<description>
+Please refer to the ASI MegaCore Function User Guide (Appendix A) for more information on implementing timing constraints.
+</description>
+<more_info_link>
+http://www.altera.com/literature/ug/ug_asi.pdf
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Follow these recommendations to select the timing analyzer and add timing constraints.
+	</action_description>
+	<action_link>
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="10">
+	ADD
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+
+<!-- ADD_TOP -->
+<!-- ASI_INST\ADD\40 -->
+<optimization_record>
+<recommendation_key>
+ADD_TOP
+</recommendation_key>
+<recommendation>
+Set top-level entity
+</recommendation>
+<recommendation_description>
+Set the top-level entity to be the generated design file.
+</recommendation_description>
+<description>
+Before compiling the design, set the top level entity of the project to the desired entity.
+
+The generated ASI entity is called asi_rx_sim.v.
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Set the top-level file. You can do this on the general page of the Settings dialog box, or by opening the file and using the Set as Top-Level Entity in the Project menu.
+	</action_description>
+	<action_link>
+	SETD
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="TOP_LEVEL_ENTITY">
+		asi_rx_sim
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="40">
+	ADD
+	</parent>
+</parent_list>
+<logic_algorithm>
+SETTING
+</logic_algorithm>
+<tcl_script button_name="" quartus_exe="">
+
+</tcl_script>
+</optimization_record>
+
+
+
+<!-- CMP -->
+<!-- ASI_INST\70 -->
+<optimization_record>
+<recommendation_key>
+CMP
+</recommendation_key>
+<recommendation>
+Compile Design
+</recommendation>
+<recommendation_description>
+Compile your design
+</recommendation_description>
+<description>
+Once your design instantiates the ASI, you can compile your design.
+</description>
+<more_info_link>
+NA
+</more_info_link>
+<effect_list>
+	<fmax_effect>
+	NA
+	</fmax_effect>
+	<resource_effect>
+	NA
+	</resource_effect>
+	<compilation_effect>
+	NA
+	</compilation_effect>
+</effect_list>
+<action>
+	<action_description>
+	Compile the design
+	</action_description>
+	<action_link>
+	NA
+	</action_link>
+	<acf_variable_list>
+		<acf_variable name="NA">
+		
+		</acf_variable>
+	</acf_variable_list>
+</action>
+<device_family_list>
+	<device_family exclude="">
+	ALL
+	</device_family>
+</device_family_list>
+<conditions>
+</conditions>
+<image_path>
+
+</image_path>
+<parent_list>
+	<parent priority="70">
+	ASI_INST
+	</parent>
+</parent_list>
+<logic_algorithm>
+ALWAYS
+</logic_algorithm>
+<tcl_script button_name="Start Compilation" quartus_exe="quartus_sh">
+dummy.tcl
+</tcl_script>
+</optimization_record>
+
+
+
+
+
+
+</optimization_record_list>
+

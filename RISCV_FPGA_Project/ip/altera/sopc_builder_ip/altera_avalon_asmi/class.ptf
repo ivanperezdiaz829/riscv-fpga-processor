@@ -1,0 +1,166 @@
+# This file created by em_asmi.pm.
+CLASS altera_avalon_asmi
+{
+  SDK_GENERATION 
+  {
+    SDK_FILES 0
+    {
+      cpu_architecture = "always";
+      short_type = "asmi";
+      c_structure_type = "np_asmi *";
+      c_header_file = "sdk/asmi_struct.h";
+    }
+    SDK_FILES 1
+    {
+      cpu_architecture = "always";
+      toolchain = "gnu";
+      asm_header_file = "sdk/asmi_struct.s";
+    }
+    SDK_FILES 2
+    {
+      cpu_architecture = "nios";
+      toolchain = "gnu";
+      sdk_files_dir = "sdk";
+    }
+    SDK_FILES 3
+    {
+      cpu_architecture = "else";
+      sdk_files_dir = "sdk";
+    }
+  }
+  ASSOCIATED_FILES
+  {
+    Add_Program  = "default";
+    Edit_Program = "default";
+    Generator_Program = "em_asmi.pl";
+  }
+  MODULE_DEFAULTS
+  {
+    class      = "altera_avalon_asmi";
+    class_version = "7.08131";
+    SLAVE asmi_control_port
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type                     = "avalon";
+        Is_Nonvolatile_Storage       = "1";
+        Is_Printable_Device          = "0";
+        Address_Alignment            = "native";
+        Address_Width                = "3";
+        Data_Width                   = "16";
+        Has_IRQ                      = "1";
+        Read_Wait_States             = "1";
+        Write_Wait_States            = "1";
+      }
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      Is_Enabled= "1";
+      Instantiate_In_System_Module = "1";
+      Required_Device_Family = "CYCLONE,CYCLONEII,STRATIXII,STRATIXIIGX";
+      Fixed_Module_Name = "asmi";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      databits      = "8";
+      targetclock   = "20";
+      clockunits    = "MHz";
+      clockmult     = "1000000";
+      numslaves     = "1";
+      ismaster      = "1";
+      clockpolarity = "0";
+      clockphase    = "0";
+      lsbfirst      = "0";
+      extradelay    = "0";
+      targetssdelay = "100";
+      delayunits    = "us";
+      delaymult     = "1e-006";
+      prefix        = "asmi_";
+      CONSTANTS
+      {
+        CONSTANT na_asmi_64K
+        {   
+            value = "0";
+            comment = "ASMI part is 64k bits";
+        }
+        CONSTANT na_asmi_1M
+        {
+            value = "0";
+            comment = "ASMI part is 1M bits";
+        }
+        CONSTANT na_asmi_4M
+        {
+            value = "1";
+            comment = "ASMI part is 4M bits";
+        }
+      }
+    }
+  }
+  USER_INTERFACE
+  {
+        USER_LABELS
+        {
+            name="Active Serial Memory Interface";
+            technology="Legacy Components";
+        }
+        LINKS
+        {
+            LINK help
+            {
+               title="Data Sheet";
+               url="http://www.altera.com/literature/ds/ds_nios_asmi.pdf";
+            }
+            LINK Cyclone_Data_Sheet
+            {
+               title="Manual for Nios 1c20 Cyclone Board";
+               url="http://www.altera.com/literature/manual/mnl_nios_board_cyclone_1c20.pdf";
+            }
+            LINK Cyclone_Schematics
+            {
+               title="Schematics for Nios 1c20 Cyclone Board";
+               url="ftp://ftp.altera.com/outgoing/download/support/ip/processors/nios2/nios_cyclone_1c20/nios_1c20_board_schematic.pdf";
+            }
+        }
+
+        WIZARD_UI default
+        {
+            title = "Active Serial Memory Interface";
+            CONTEXT
+            {
+                WSA="WIZARD_SCRIPT_ARGUMENTS";
+                SBI="SLAVE/SYSTEM_BUILDER_INFO";
+                MSBI="SYSTEM_BUILDER_INFO";
+                CONSTANTS = "WIZARD_SCRIPT_ARGUMENTS/CONSTANTS";
+            }
+            GROUP
+            {
+                indent = "17";
+                align = "left";
+                RADIO 
+                { 
+                    title = "EPCS1 Serial Configuration Device (1 Mbit)"; 
+                    DATA
+                    {
+                        $CONSTANTS/CONSTANT na_asmi_64K/value = "0";
+                        $CONSTANTS/CONSTANT na_asmi_1M/value = "1";
+                        $CONSTANTS/CONSTANT na_asmi_4M/value = "0";
+                    }
+                }
+                RADIO 
+                { 
+                    title = "EPCS4 Serial Configuration Device (4 Mbit)"; 
+                    DATA
+                    {
+                        $CONSTANTS/CONSTANT na_asmi_64K/value = "0";
+                        $CONSTANTS/CONSTANT na_asmi_1M/value = "0";
+                        $CONSTANTS/CONSTANT na_asmi_4M/value = "1";
+                    }
+                }
+            }
+            IMAGE
+            {
+                file = "asmi.gif";
+            }
+        }
+  }
+}

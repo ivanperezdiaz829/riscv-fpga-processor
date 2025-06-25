@@ -1,0 +1,670 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+`timescale 1 ns / 1 ns
+
+import verbosity_pkg::*;
+import avalon_mm_pkg::*;
+@@
+@@ # header, at least tell that this is the wrapper for simulation for hps ip.
+@@ clear_array data
+@@ array set data ${interfacePeripheralList}
+@@
+@@ # signal look-up table format - name direction width role
+@@ set allSignalList {}
+@@
+@@ # interface look-up table format - name {type direction {signals} clock reset data_width bfm_type addr_width resetRole id_width}
+@@ set interfaceList {}
+@@ set clockList {}
+@@ set resetList {}
+@@
+@@ # interface simulation overrides
+@@ clear_array interfaceSimulationOverrides
+@@ array set   interfaceSimulationOverrides $interfaceSimulationOverridesStr
+@@
+@@ clear_array sim_properties
+@@ array set   sim_properties $data(properties)
+@@
+@@ set need_axi_pkg 0
+@@
+@@ clear_array interfaces
+@@ array set interfaces $data(interfaces)
+@@ set interfaceNames $interfaces(@orderednames)
+@@
+@@ ## procedure
+@@ foreach interfaceName $interfaceNames {
+@@    clear_array interfaceInfos
+@@    array set interfaceInfos $interfaces($interfaceName)
+@@
+@@    if {[info exists interfaceInfos(qsys_only)] && $interfaceInfos(qsys_only) == 1} {
+@@        continue
+@@    }
+@@
+@@    set type       $interfaceInfos(type)
+@@    set dir        $interfaceInfos(direction)
+@@
+@@    if {$type == "axi"} {
+@@       set need_axi_pkg 1
+@@    }
+@@
+@@    if {[info exists interfaceInfos(data_width)]} {
+@@       set data_width $interfaceInfos(data_width)
+@@    } else {
+@@       set data_width ""
+@@    }
+@@
+@@    if {[info exists interfaceInfos(address_width)]} {
+@@       set addr_width $interfaceInfos(address_width)
+@@    } else {
+@@       set addr_width ""
+@@    }
+@@
+@@    if {[info exists interfaceInfos(bfm_type)]} {
+@@       set bfm_type $interfaceInfos(bfm_type)
+@@    } else {
+@@       set bfm_type ""
+@@    }
+@@
+@@    if {[info exists interfaceInfos(id_width)]} {
+@@       set id_width $interfaceInfos(id_width)
+@@    } else {
+@@       set id_width ""
+@@    }
+@@
+@@    # list all signals and also group them according to its interface
+@@    clear_array signals
+@@    array set signals $interfaceInfos(signals)
+@@    set signalNames $signals(@orderednames)
+@@    set signalInfo {}
+@@    set resetRole ""
+@@    foreach signalName $signalNames {
+@@
+@@        clear_array signalInfos
+@@        array set signalInfos  $signals($signalName)
+@@        set signalRole   $signalInfos(role)
+@@        set signalDir    [sanitize_direction $signalInfos(direction)]
+@@        set signalWidth  $signalInfos(width)
+@@
+@@        # comment on intention, not what the code is written, procedure
+@@        lappend signalInfo     $signalRole $signalName
+@@        lappend allSignalList  [list $signalName $signalDir $signalWidth]
+@@
+@@        if {[string equal $signalRole "reset"]} {
+@@           set resetRole "activeHigh"
+@@        } elseif {[string equal $signalRole "reset_n"]} {
+@@           set resetRole "activeLow"
+@@        }
+@@    }
+@@
+@@    # group interfaces to clock, reset and others
+@@    clear_array propertiesInfos
+@@    array set propertiesInfos $interfaceInfos(properties)
+@@    set clock ""
+@@    set reset ""
+@@    if {[info exists propertiesInfos(associatedClock)]} {
+@@       set clock $propertiesInfos(associatedClock)
+@@    }
+@@    if {[info exists propertiesInfos(associatedReset)]} {
+@@       set reset $propertiesInfos(associatedReset)
+@@    }
+@@
+@@    set interfaceInfo [list $type $dir $signalInfo $clock $reset $data_width $bfm_type $addr_width $resetRole $id_width]
+@@    if {[string equal $type "clock"]} {
+@@       lappend clockList $interfaceName $interfaceInfo
+@@    } elseif {[string equal $type "reset"]} {
+@@       lappend resetList $interfaceName $interfaceInfo
+@@    }
+@@    lappend interfaceList $interfaceName $interfaceInfo
+@@ }
+@@
+@@ if {$need_axi_pkg} {
+import mgc_axi_pkg::*;
+@@ }
+
+module ${output_name}
+(
+@@ # print IO list
+@@ set signalCount [llength $allSignalList]
+@@ for {set i 0} {$i < $signalCount} {incr i} {
+@@    set signal [lindex $allSignalList $i]
+@@
+@@    set name    [lindex $signal 0]
+@@    set dir     [lindex $signal 1]
+@@    set width   [lindex $signal 2]
+@@    set msb     [expr $width - 1]
+@@
+@@#    if {$width > 1} {
+@@       set ioDeclaration [format "%-6s wire \[%3u:%3u\] %s" $dir $msb 0 $name]
+@@#    } else {
+@@#       set ioDeclaration [format "%-6s wire %9s %s" $dir "" $name]
+@@#    }
+@@
+@@     if {$i == [expr $signalCount - 1]} {
+   ${ioDeclaration}
+@@     } else {
+   ${ioDeclaration},
+@@     }
+@@ }
+);
+
+
+@@ # associative memory array for f2sdram avalon and axi interfaces
+@@ if {[info exists sim_properties(IMPLEMENT_F2SDRAM_MEMORY_BACKED_SIM)]
+@@     && $sim_properties(IMPLEMENT_F2SDRAM_MEMORY_BACKED_SIM)} {
+   reg [8-1:0] f2h_sdram_data_mem [*];
+@@ }
+
+@@
+@@ # convert interface list to array
+@@ clear_array clockArray
+@@ array set clockArray $clockList
+@@ clear_array resetArray
+@@ array set resetArray $resetList
+@@ clear_array interfaceArray
+@@ array set interfaceArray $interfaceList
+@@
+@@ # instantiate bfms according to interfaces
+@@ set interfaceNames [array names interfaceArray]
+@@ foreach iName $interfaceNames {
+@@    if {[info exists interfaceSimulationOverrides($iName)]} {
+@@       continue
+@@    }
+@@    set interfaceInfo $interfaceArray($iName)
+@@    
+@@    set iType            [lindex $interfaceInfo 0]
+@@    set iDir             [lindex $interfaceInfo 1]
+@@    set iSignals         [lindex $interfaceInfo 2]
+@@    set iClock           [lindex $interfaceInfo 3]
+@@    set iReset           [lindex $interfaceInfo 4]
+@@    set iDataWidth       [lindex $interfaceInfo 5]
+@@    set iBfmType         [lindex $interfaceInfo 6]
+@@    set iAddrWidth       [lindex $interfaceInfo 7]
+@@    set iResetPolarity   [lindex $interfaceInfo 8]
+@@    set iIdWidth         [lindex $interfaceInfo 9]
+@@
+@@    clear_array iSignalInfo
+@@    array set iSignalInfo $iSignals
+@@
+@@    if {[is_to_be_connected_to_conduit_bfm $iType $iDir]} {
+@@       set use_conduit_clock 0
+@@       set use_conduit_reset 0
+@@
+@@       if {![string equal $iClock ""]} {
+@@          if {[info exist clockArray($iClock)]} {
+@@             set use_conduit_clock 1
+@@          }
+@@       }
+@@
+@@       if {![string equal $iReset ""]} {
+@@          if {[info exist resetArray($iReset)]} {
+@@             set use_conduit_reset 1
+@@          }
+@@       }
+@@
+@@       # conduit interface instantiation part
+@@       set bfmModuleName ${output_name}_${iName}
+
+   ${bfmModuleName} ${iName}_inst (
+@@
+@@       if {$use_conduit_clock} {
+@@          set clockInfo     $clockArray($iClock)
+@@          set clockSignals  [lindex $clockInfo 2]
+@@
+@@          clear_array clockSignalArray
+@@          array set clockSignalArray $clockSignals
+@@
+@@          set clockPort $clockSignalArray(clk)
+      .clk(${clockPort}),
+@@       }
+@@
+@@       if {$use_conduit_reset} {
+@@          set resetInfo $resetArray($iReset)
+@@          set resetSignals  [lindex $resetInfo 2]
+@@
+@@          clear_array resetSignalArray
+@@          array set resetSignalArray $resetSignals
+@@
+@@          if {[info exists resetSignalArray(reset)]} {
+@@             set resetPort $resetSignalArray(reset)
+@@          } else {
+@@             set resetPort "1'b0"
+@@          }
+@@          if {[info exists resetSignalArray(reset_n)]} {
+@@             set resetNPort $resetSignalArray(reset_n)
+@@          } else {
+@@             set resetNPort "1'b1"
+@@          }
+      .reset(${resetPort}),
+      .reset_n(${resetNPort}),
+@@       }
+@@
+@@       set signalRoles [array names iSignalInfo]
+@@       set signalCount [llength $signalRoles]
+@@       foreach signalRole $signalRoles {
+@@          incr  signalCount -1
+@@          set   signalPort    $iSignalInfo($signalRole)
+@@
+@@          if {$signalCount == 0} {
+      .sig_${signalPort}(${signalPort})
+@@          } else {
+      .sig_${signalPort}(${signalPort}),
+@@          }
+@@       }
+   );
+@@       
+@@    } else {
+@@
+@@    # other interface instantiation part
+@@    set bfmModuleName [get_bfm $iType $iDir]
+
+   ${bfmModuleName} #(
+@@ 
+@@       # print bfm parameters
+@@       set bfmParamList  [get_bfm_parameters $bfmModuleName]
+@@       set paramCount    [llength $bfmParamList]
+@@
+@@       # we'll need these values later
+@@       set use_burstcount  0
+@@       set av_burstcount_w 0
+@@       set av_address_w    0
+@@       set av_numsymbols   0
+@@       set av_symbol_w     0
+@@
+@@       for {set i 0} {$i < $paramCount} {incr i} {
+@@          set bfmParam      [lindex $bfmParamList $i]
+@@          set paramName     [lindex $bfmParam 0]
+@@          set paramTag      [lindex $bfmParam 1]
+@@          set paramValue    [lindex $bfmParam 2]
+@@       
+@@          # put in procedure
+@@          if {[string equal $paramTag "data_width"]} {
+@@             if {![string equal $iDataWidth ""]} {
+@@                if {[string equal $iType "avalon"]} {
+@@                   set iDataWidth [expr $iDataWidth/8]
+@@                }
+@@                set paramValue $iDataWidth
+@@             }
+@@          } elseif {[string equal $paramTag "addr_width"]} {
+@@             if {![string equal $iAddrWidth ""]} {
+@@                set paramValue $iAddrWidth
+@@             }
+@@          } elseif {[string equal $paramTag "clock_rate"]} {
+@@             set clockRate [get_clock_rate interfaces $iName]
+@@             if {![string equal $clockRate ""]} {
+@@                set paramValue $clockRate
+@@             }
+@@          } elseif {[string equal $paramTag "reset_polarity"]} {
+@@             if {[string equal $iResetPolarity activeHigh]} {
+@@                set paramValue 1
+@@             } elseif {[string equal $iResetPolarity activeLow]} {
+@@                set paramValue 0
+@@             }
+@@          } elseif {[string equal $paramTag "id_width"]} {
+@@             if {![string equal $iIdWidth ""]} {
+@@                set paramValue $iIdWidth
+@@             }
+@@          }
+@@
+@@          # Snarf away some values we may need below
+@@
+@@          if {[string equal $paramName "USE_BURSTCOUNT"]} {
+@@             set use_burstcount  $paramValue
+@@          } elseif {[string equal $paramName "AV_BURSTCOUNT_W"]} {
+@@             set av_burstcount_w $paramValue
+@@          } elseif {[string equal $paramName "AV_ADDRESS_W"]} {
+@@             set av_address_w    $paramValue
+@@          } elseif {[string equal $paramName "AV_NUMSYMBOLS"]} {
+@@             set av_numsymbols   $paramValue
+@@          } elseif {[string equal $paramName "AV_SYMBOL_W"]} {
+@@             set av_symbol_w     $paramValue
+@@          }
+@@
+@@ 
+@@          if {$i == [expr $paramCount - 1]} {
+      .${paramName}(${paramValue})
+@@          } else {
+      .${paramName}(${paramValue}),
+@@          }
+@@       }
+@@
+   ) ${iName}_inst (
+@@       # get bfm ports
+@@       set bfmPortsList [get_bfm_ports $bfmModuleName]
+@@       clear_array bfmPortsTable
+@@       array set bfmPortsTable $bfmPortsList
+@@       set bfmPortsRoles [array names bfmPortsTable]
+@@       set signalCount   [llength $bfmPortsRoles]
+@@
+@@       # new port connection logic
+@@       foreach bfmPortsRole $bfmPortsRoles {
+@@          incr  signalCount -1
+@@          set   bfmPortName $bfmPortsTable($bfmPortsRole)
+@@          set   signalDir   [get_bfm_port_direction $bfmModuleName $bfmPortName]
+@@
+@@          if {[string equal $bfmPortsRole "clk"]} {
+@@             if {[string equal $iClock ""]} {
+@@                if {[info exists iSignalInfo($bfmPortsRole)]} {
+@@                   set signalName $iSignalInfo($bfmPortsRole)
+@@                } else {
+@@                   if {[string equal $signalDir "input"]} {
+@@                      set signalName "'0"
+@@                   } else {
+@@                      set signalName ""
+@@                   }
+@@                }
+@@             } else {
+@@                # get clock interface signal information
+@@                set clockInfo $clockArray($iClock)
+@@                set clockInfo [lindex $clockInfo 2]
+@@
+@@                clear_array clockInfoArray
+@@                array set clockInfoArray $clockInfo
+@@                set signalName $clockInfoArray($bfmPortsRole)
+@@                set clockPort $signalName
+@@             }
+@@          } elseif {[string equal $bfmPortsRole "reset"] || [string equal $bfmPortsRole "reset_n"]} {
+@@             if {[string equal $iReset ""]} {
+@@                if {[info exists iSignalInfo($bfmPortsRole)]} {
+@@                   set signalName $iSignalInfo($bfmPortsRole)
+@@                } else {
+@@                   if {[string equal $bfmPortsRole "reset"]} {
+@@                      set bfmPortsRole "reset_n"
+@@                   } else {
+@@                      set bfmPortsRole "reset"
+@@                   }
+@@                   if {[info exists iSignalInfo($bfmPortsRole)]} {
+@@                      set signalName $iSignalInfo($bfmPortsRole)
+@@                   } else {
+@@                      if {[string equal $signalDir "input"]} {
+@@                         set signalName "'0"
+@@                      } else {
+@@                         set signalName ""
+@@                      }
+@@                   }
+@@                }
+@@             } else {
+@@                # get reset interface signal information
+@@                set resetInfo $resetArray($iReset)
+@@                set resetInfo [lindex $resetInfo 2]
+@@
+@@                clear_array resetInfoArray
+@@                array set resetInfoArray $resetInfo
+@@                if {[info exists resetInfoArray($bfmPortsRole)]} {
+@@                   set signalName $resetInfoArray($bfmPortsRole)
+@@                } else {
+@@                   if {[string equal $bfmPortsRole "reset"]} {
+@@                      set bfmPortsRole "reset_n"
+@@                   } else {
+@@                      set bfmPortsRole "reset"
+@@                   }
+@@                   set signalName $resetInfoArray($bfmPortsRole)
+@@                   set signalName "~${signalName}"
+@@                   set resetPort $signalName
+@@                }
+@@             }
+@@          } else {
+@@             if {[info exists iSignalInfo($bfmPortsRole)]} {
+@@                set signalName $iSignalInfo($bfmPortsRole)
+@@                if {[string equal $bfmModuleName "mgc_axi_slave"] && [regexp -nocase {user$} $bfmPortName]} {
+@@                   set signalName \{3'b000,$signalName\}
+@@                }
+@@             } else {
+@@                if {[string equal $signalDir "input"]} {
+@@                   set signalName "'0"
+@@                } else {
+@@                   set signalName ""
+@@                }
+@@             }
+@@          }
+@@
+@@          if {$signalCount == 0} {
+      .${bfmPortName}(${signalName})
+@@          } else {
+      .${bfmPortName}(${signalName}),
+@@          }
+@@       }
+   );
+@@       if {[info exists sim_properties(IMPLEMENT_F2SDRAM_MEMORY_BACKED_SIM)]
+@@           && $sim_properties(IMPLEMENT_F2SDRAM_MEMORY_BACKED_SIM)} {
+@@
+@@          # check for avalon mm slave, in which case emit code for 
+@@          # avalon memory model
+@@	    
+@@          if {$bfmModuleName == "altera_avalon_mm_slave_bfm" && [regexp {^f2h_sdram} $iName]} {
+@@             set av_data_w [expr $av_symbol_w * $av_numsymbols]
+@@	    
+@@             set use_burstcount_name      [string toupper ${iName}_inst_USE_BURSTCOUNT]
+@@             set av_burstcount_w_name     [string toupper ${iName}_inst_AV_BURSTCOUNT_W]
+@@             set av_address_w_name        [string toupper ${iName}_inst_AV_ADDRESS_W]
+@@             set av_numsymbols_name       [string toupper ${iName}_inst_AV_NUMSYMBOLS]
+@@             set av_symbol_w_name         [string toupper ${iName}_inst_AV_SYMVOL_W]
+@@             set av_data_w_name           [string toupper ${iName}_inst_DATA_W]
+
+   //***************************************************************
+   // Start of memory model for ${iName}
+   //***************************************************************
+
+   localparam $use_burstcount_name  = $use_burstcount;
+   localparam $av_burstcount_w_name = $av_burstcount_w;
+   localparam $av_address_w_name    = $av_address_w;
+   localparam $av_numsymbols_name   = $av_numsymbols;
+   localparam $av_symbol_w_name     = $av_symbol_w;
+   localparam $av_data_w_name       = $av_data_w;
+
+   initial
+   begin
+      \$display("HPS ${iName}_inst Slave Memory Model started");
+      ${iName}_inst.init();
+   end  
+
+   bit [63:0] ${iName}_inst_clk_count = 0;
+   bit [63:0] ${iName}_inst_next_free_cycle = 0;
+
+   always @(posedge ${clockPort} or posedge ${resetPort})
+   begin
+      if (${resetPort}) begin
+          ${iName}_inst_clk_count = 0;
+      end else begin
+         ${iName}_inst_clk_count++;
+      end
+   end
+
+   // wait for requests from the master
+   always @(${iName}_inst.signal_command_received) 
+   begin
+      Request_t request;
+      logic [$av_address_w_name-1:0] base_addr; 
+      int burst_count;
+	
+      ${iName}_inst.pop_command();
+      request = ${iName}_inst.get_command_request();
+      base_addr = ${iName}_inst.get_command_address();
+      burst_count = ${iName}_inst.get_command_burst_count();
+
+      if (request == REQ_WRITE) begin
+         logic [$av_numsymbols_name-1:0] be;
+         logic [32-1:0] addr;
+         logic [$av_data_w_name-1:0] new_data;
+         logic [8-1:0] byte_data;
+         logic [$av_data_w_name-1:0] merged_data;
+
+         for (int i=0; i<burst_count; i++) begin
+            be = ${iName}_inst.get_command_byte_enable(i);
+            new_data = ${iName}_inst.get_command_data(i);
+
+            // merged_data is just for debugging
+            merged_data = 0;
+            for (int b=0; b < $av_numsymbols_name; b++) begin
+               addr = ((base_addr + i) * $av_numsymbols_name) + b;
+               if (be[b]) begin
+                  byte_data = (new_data >> (8*b)) & 8'hff;
+                  f2h_sdram_data_mem[addr] = byte_data;
+               end
+               else if (f2h_sdram_data_mem.exists(addr)) begin
+                  byte_data = f2h_sdram_data_mem[addr];
+               end 
+               else begin
+                  byte_data = 'x;
+               end
+               merged_data = merged_data | (byte_data << (8*b));
+            end
+			
+            // \$display("%0t: ${iName}_inst mem_model: Master WRITE request %h @ %h (%0d) mask %b => %h", 
+            //         \$time, new_data, (base_addr + i) * $av_numsymbols_name, i, be, merged_data);
+         end
+      end
+      else if (request==REQ_READ) begin
+         int base_latency;
+
+         if (${iName}_inst_next_free_cycle < ${iName}_inst_clk_count) begin
+            base_latency = 0;
+         end
+         else begin
+            base_latency = ${iName}_inst_next_free_cycle - ${iName}_inst_clk_count;
+         end
+
+         ${iName}_inst_next_free_cycle = ${iName}_inst_clk_count + base_latency + burst_count + 1;
+		
+         for (int i=0; i<burst_count; i++) begin
+            int latency;
+            reg [$av_data_w_name-1:0] data;
+            logic [32-1:0] addr;
+            logic [8-1:0] byte_data;
+			
+            data = 0;
+            for (int b=0; b < $av_numsymbols_name; b++) begin
+               addr = ((base_addr + i) * $av_numsymbols_name) + b;
+               if (f2h_sdram_data_mem.exists(addr)) begin
+                  byte_data = f2h_sdram_data_mem[addr];
+               end else begin
+                  byte_data = 'x;
+               end
+               data = data | (byte_data << (8*b));
+            end
+			
+            latency = (i == 0) ? base_latency : 0;
+
+            ${iName}_inst.set_response_data(data, i);  
+            ${iName}_inst.set_response_latency(latency, i);
+			
+            // \$display("%0t: ${iName}_inst mem_model: [clk %0d] Master READ request from address %h (%0d) returns data %h latency %0d (next free %0d)", 
+            //          \$time, ${iName}_inst_clk_count, (base_addr + i) * $av_numsymbols_name, i, data, latency, ${iName}_inst_next_free_cycle);
+         end
+
+         ${iName}_inst.set_response_burst_size(burst_count);
+         ${iName}_inst.push_response();
+      end
+   end
+
+
+   //***************************************************************
+   // End of memory model for ${iName}_inst
+   //***************************************************************
+
+@@          # end of 'if' checking for f2sdram avalon bfm
+@@          } elseif {$bfmModuleName == "mgc_axi_slave" && [regexp {^f2h_sdram} $iName]} {
+@@             
+   //***************************************************************
+   // Start of memory model for ${iName}_inst
+   //***************************************************************
+
+   initial
+   begin
+      // \$display("AXI BFM Slave Started");
+      wait (${iName}_inst.ARESETn == 1); 
+      // \$display("AXI BFM Slave Reset");
+
+      fork
+         ${iName}_inst_process_read;
+         ${iName}_inst_process_write;
+      join
+   end
+
+   task ${iName}_inst_process_read;
+      forever begin
+         axi_transaction read_trans;
+	 bit [32-1:0] addr[];
+	 bit [8-1:0] mem_data[];
+    
+	 read_trans = ${iName}_inst.create_slave_transaction();
+	 // \$display("%0t: AXI BFM Slave Read Waiting for addr phase", \$time);
+	 ${iName}_inst.get_read_addr_phase(read_trans);
+	 // \$display("%0t: AXI BFM Slave Read Got addr phase", \$time);
+ 
+	 for (int i = 0; ${iName}_inst.get_read_addr(read_trans, i, addr); i++) begin
+	    if (addr.size() > 0) begin
+	       // \$display("%0t: AXI BFM Slave Read @ %0h", \$time, addr[0]);
+	    end
+	    mem_data = new[addr.size()];
+	    for (int j = 0; j < addr.size(); j++) begin
+               if (f2h_sdram_data_mem.exists(addr[j])) begin
+	          mem_data[j] = f2h_sdram_data_mem[addr[j]];
+	       end else begin
+	          mem_data[j] = 'x;
+               end
+	       // \$display("%0t: AXI BFM Slave Read %h @ %0h", \$time, mem_data[j], addr[j]);
+	    end
+	    ${iName}_inst.set_read_data(read_trans, i, addr, mem_data);
+	 end
+
+	 read_trans.set_operation_mode(AXI_TRANSACTION_NON_BLOCKING);
+	 ${iName}_inst.execute_read_data_burst(read_trans);
+	 // \$display("%0t: AXI BFM Slave Read done", \$time);
+
+	 #0;
+      end
+   endtask
+
+   task ${iName}_inst_process_write;
+      forever begin
+         axi_transaction write_trans;
+	 bit [32-1:0] addr[];
+	 bit [8-1:0] data[];
+	 bit last;
+    
+	 write_trans = ${iName}_inst.create_slave_transaction();
+	 // \$display("%0t: AXI BFM Slave Write Waiting for addr phase", \$time);
+	 ${iName}_inst.get_write_addr_phase(write_trans);
+	 // \$display("%0t: %0d: AXI BFM Slave Write Got addr phase", \$time);
+	 ${iName}_inst.get_write_data_burst(write_trans);
+	 // \$display("%0t: AXI BFM Slave Write Got data phase", \$time);
+
+	 for( int i = 0; ${iName}_inst.get_write_addr_data(write_trans, i, addr, data); i++ ) begin
+	    if (addr.size() > 0) begin
+	       // \$display("%0t: AXI BFM Slave Write @ %0h", \$time, addr[0]);
+	    end
+	    for (int j = 0; j < addr.size(); j++) begin
+	       // \$display("%0t: AXI BFM Slave Write %h @ %0h", \$time, data[j], addr[j]);
+	       f2h_sdram_data_mem[addr[j]] = data[j];
+	    end
+	 end
+
+	 write_trans.set_operation_mode(AXI_TRANSACTION_NON_BLOCKING);
+	 ${iName}_inst.execute_write_response_phase(write_trans);
+	 // \$display("%0t: AXI BFM Slave Write done", \$time);
+
+	 #0;
+      end
+   endtask
+
+@@          # end of 'if' checking for f2sdram axi bfm
+@@          }
+@@       }
+@@    }
+@@ }
+@@ if {[info exists rawRtl]} {
+
+$rawRtl
+@@ }
+
+endmodule 

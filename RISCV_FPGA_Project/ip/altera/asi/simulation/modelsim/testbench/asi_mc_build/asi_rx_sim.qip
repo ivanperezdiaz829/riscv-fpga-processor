@@ -1,0 +1,13 @@
+set_global_assignment -name IP_TOOL_NAME "ASI"
+set_global_assignment -name IP_TOOL_VERSION "8.1"
+set_global_assignment -name VERILOG_FILE [file join $::quartus(qip_path) "asi_rx_sim.v"]
+set_global_assignment -name SEARCH_PATH  [file join $::quartus(qip_path) "." ]
+set_global_assignment -name SEARCH_PATH  /tools/altera/8.1/131/linux32/ip/altera/asi/lib
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.v ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim_bb.v ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.bsf ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.vo ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.ppf ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.qip ]
+set_global_assignment -name MISC_FILE [file join $::quartus(qip_path) asi_rx_sim.html ]
+set_global_assignment -name IPA_FILE asi_rx_sim_advisor.ipa

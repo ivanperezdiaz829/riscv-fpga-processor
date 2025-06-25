@@ -1,0 +1,10 @@
+[Interfaces|Interlaken]
+50G Interlaken v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/ilk_core_50g_hw.tcl" --wizard:ilk_core_50g  --familyparameter:device_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V GZ | Arria 10"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" VHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>50G Interlaken v13.0</ALIAS>
+</INFO>

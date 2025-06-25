@@ -1,0 +1,9 @@
+#This file is auto generated for Altera's Quartus II software suite, please don't modify.
+Major-Version = 13.1
+Minor-Version = 162
+Full-Version = 13.1.162
+IPToolbench-Version = 1.3.0
+WizardStudio-Version = 3.0.0
+Release-Date = October, 2013
+Timestamp = October, 2013
+Long-Date = 1214493505579

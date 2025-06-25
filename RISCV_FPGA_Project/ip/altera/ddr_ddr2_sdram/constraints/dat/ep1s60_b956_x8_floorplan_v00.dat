@@ -1,0 +1,38 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains floorplan information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - the maximum width of the memory interface  
+--  - a default byte group location  
+--  - any non working configuration  
+-- It will be used by the MegaWizard in order to let the user select the 
+-- possible placement of the DQ groups 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+device EP1S60B956
+	bytegroup_name 9T 8T 7T 6T 5T 4T 3T 2T 1T 0T 0B 1B 2B 3B 4B 5B 6B 7B 8B 9B
+	default_placement 9T 8T 7T 6T 5T 4T 3T 2T 1T 0T
+	maximum_width 80

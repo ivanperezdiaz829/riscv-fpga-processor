@@ -1,0 +1,10 @@
+[Interfaces|Interlaken]
+Interlaken v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_interlaken_hw.tcl" --wizard:altera_interlaken  --familyparameter:device_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix IV"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" VHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Interlaken v10.1</ALIAS>
+</INFO>

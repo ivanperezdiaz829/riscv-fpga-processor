@@ -1,0 +1,75 @@
+CLASS altera_avalon_pipeline_bridge
+{
+   CALIFORNIA
+   {
+      Is_Hidden = "1";
+   }
+
+   ASSOCIATED_FILES
+   {
+#       Add_Program       = "";
+#       Edit_Program      = "";
+       Generator_Program = "em_pipeline_bridge.pl";
+   }
+   MODULE_DEFAULTS
+   {
+      class         = "altera_avalon_pipeline_bridge";
+      class_version = "7.08131";
+
+      SLAVE s1
+      {
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "avalon";
+            Has_IRQ                      = "0";
+            Address_Width                = "10";
+            Maximum_Pending_Read_Transactions = "3";
+            Maximum_Burst_Size		 = "1";
+            Data_Width                   = "32";
+            Address_Alignment            = "dynamic";
+            Read_Wait_States             = "peripheral_controlled";
+            Write_Wait_States            = "peripheral_controlled";
+         }
+      }
+
+      MASTER m1
+      {
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "avalon";
+            Data_Width = "32";
+            Address_Width = "32";
+            Maximum_Burst_Size = "1";
+         }
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled                   = "1";
+         Is_Bridge		      = "1";
+         Top_Level_Ports_Are_Enumerated = "1";
+      }
+
+      WIZARD_SCRIPT_ARGUMENTS
+      {
+	Is_Downstream = "1";
+        Is_Upstream = "1";
+        Is_Waitrequest = "1";
+      }
+   }
+
+
+   USER_INTERFACE
+   {
+     USER_LABELS
+     {
+       name = "Pipeline Bridge";
+       description = "Avalon Pipeline Bridge";
+       Is_Visible = "0";
+     }
+   }
+
+}
+
+
+

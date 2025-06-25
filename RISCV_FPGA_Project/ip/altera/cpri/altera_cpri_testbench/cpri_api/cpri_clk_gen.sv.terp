@@ -1,0 +1,201 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+/* Module CLK_GENERATOR
+ - Support different mapping sampling rate (default is 3.84 Mhz)
+ - Support different GXB refclk (default is 122.88 Mhz)
+ - Support Arria V GT 9.8304 Gbps Soft PCS solution 
+*/
+
+
+`include "../models/cpri_pkg/timescale.sv"
+
+module clk_generator(
+   output reg global_reset,
+   output reg reconfig_clk_out,
+   output reg clk_ex_delay_out,
+@@ if { $n_map != 0 } {
+   output reg map_clk_out,
+@@}
+@@ if { $linerate == 5 && $device == 5 } {
+   output reg usr_pma_clk,
+   output reg usr_clk,
+@@}
+   output reg clk_out
+);
+
+// Parameters
+parameter freq_clk = 122.88; //122.88 Mhz
+parameter freq_map = 3.84; //3.84 MHz
+
+@@ if { $linerate == 5 && $device == 5 } {
+localparam usr_period_div_2 = 2.0345;
+localparam usr_pma_period_div_2 = 4.069;
+@@ if { $xcvr_freq == 98.304 } {
+localparam period_div_2 = 5.086263;
+@@} elseif {$xcvr_freq == 122.88 } {
+localparam period_div_2 = 4.06901;
+@@} elseif {$xcvr_freq == 153.6 } {
+localparam period_div_2 = 3.255208;
+@@} elseif {$xcvr_freq == 196.608 } {
+localparam period_div_2 = 2.543131;
+@@} elseif {$xcvr_freq == 245.76 } {
+localparam period_div_2 = 2.034505;
+@@} elseif {$xcvr_freq == 307.2 } {
+localparam period_div_2 = 1.627604;
+@@} elseif {$xcvr_freq == 393.216 } {
+localparam period_div_2 = 1.271565;
+@@} elseif {$xcvr_freq == 491.52 } {
+localparam period_div_2 = 1.017252;
+@@} elseif {$xcvr_freq == 614.4 } {
+localparam period_div_2 = 0.813802;
+@@} else {
+localparam period_div_2 = 2.0345;
+@@}
+@@} else {
+
+// Local Derived Parameters
+localparam period = 1/freq_clk;
+localparam period_div_2 = (period/2.000)*1000;
+@@}
+
+@@ if { $n_map != 0 } {
+localparam map_period = 1/freq_map;
+localparam map_period_div_2 = (map_period/2.000)*1000;
+@@}
+@@ if { $device < 4 } {
+localparam reconfig_period = 10; //50Mhz
+@@ } else {
+localparam reconfig_period = 5; //100Mhz
+@@ }
+localparam ex_delay_period = 16.1485;// 30.96Mhz 
+
+@@ if { $linerate == 5 && $device == 5 } {
+reg start_clk;
+reg usr_clk_latch;
+@@}
+
+// Display
+//////////////
+task display;
+/////////////
+begin
+   \$display ("Info: ===========================================================");
+   \$display ("Info:                       CLK SETTINGS                         ");
+   \$display ("Info: ===========================================================");
+   \$display("GXB_REF_CLK        : %e Mhz",freq_clk);
+@@ if { $n_map != 0 } {
+   \$display("MAP_CLK            : %e Mhz",freq_map);
+@@}
+@@ if { $device < 4 } {
+   \$display("RECONFIG_CLK       : 50 Mhz");
+@@ } else {
+   \$display("RECONFIG_CLK       : 100 Mhz");
+@@ }
+   \$display("EXTERNAL_DELAY_CLK : 30.96Mhz");
+end
+endtask
+
+// GLOBAL RESET
+//////////////
+task reset;
+//////////////
+begin
+   global_reset <= 1'b 0;
+   #(2*period_div_2);
+   global_reset <= 1'b 1;
+   #(500*period_div_2);
+   global_reset <= 1'b 0;
+end
+endtask
+
+@@ if { $n_map != 0 } {
+// MAPPING CLK
+always 
+begin
+   map_clk_out <= 1'b 0;
+   #(map_period_div_2);
+   map_clk_out <= 1'b 1;
+   #(map_period_div_2);
+end
+@@}
+
+@@ if { $linerate == 5 && $device == 5 } {
+
+initial
+begin
+   start_clk = 1'b 0;
+   usr_clk <= 1'b 0;
+   #usr_period_div_2 start_clk = 1'b 1;
+end
+
+// USR CLK_LATCH
+always
+begin
+   usr_clk_latch <= 1'b 1;
+   #(usr_period_div_2);
+   usr_clk_latch <= 1'b 0;
+   #(usr_period_div_2);
+end
+
+// USR CLK
+always @ (posedge usr_clk_latch) 
+begin
+   if (start_clk == 1'b1)
+   begin
+   usr_clk <= 1'b 1;
+   #(usr_period_div_2);
+   usr_clk <= 1'b 0;
+   #(usr_period_div_2);
+   end
+end
+
+// USR PMA CLK
+always 
+begin
+   usr_pma_clk <= 1'b 0;
+   #(usr_pma_period_div_2);
+   usr_pma_clk <= 1'b 1;
+   #(usr_pma_period_div_2);
+end
+@@}
+// GXB REF CLK
+always 
+begin
+   clk_out <= 1'b 0;
+   #(period_div_2);
+   clk_out <= 1'b 1;
+   #(period_div_2);
+end
+
+
+// RECONFIG CLK
+always 
+begin
+   reconfig_clk_out <= 1'b 0;
+   #(reconfig_period);
+   reconfig_clk_out <= 1'b 1;
+   #(reconfig_period);
+end
+
+// EX DELAY CLK
+always 
+begin
+   clk_ex_delay_out <= 1'b 0;
+   #(ex_delay_period);
+   clk_ex_delay_out <= 1'b 1;
+   #(ex_delay_period);
+end
+
+endmodule
+

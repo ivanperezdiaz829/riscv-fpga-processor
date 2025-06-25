@@ -1,0 +1,38 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains floorplan information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - the maximum width of the memory interface  
+--  - a default byte group location  
+--  - any non working configuration  
+-- It will be used by the MegaWizard in order to let the user select the 
+-- possible placement of the DQ groups 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+device EP2S180F1508
+	bytegroup_name 1T 3T 5T 7T 9T 11T 13T 15T 17T 19T 21T 23T 25T 27T 29T 31T 33T 35T 37T 39T 41T 43T 45T 3R 4R 5R 6R 7R 8R 9R 10R 11R 12R 13R 14R 15R 16R 50R 51R 52R 53R 54R 55R 56R 57R 58R 59R 60R 61R 62R 63R 64R 65R 44B 42B 40B 38B 36B 34B 32B 30B 28B 26B 24B 22B 20B 18B 16B 14B 12B 10B 8B 6B 4B 2B 0B 32L 31L 30L 29L 28L 27L 26L 25L 24L 23L 22L 21L 20L 19L 18L 17L 49L 48L 47L 46L 45L 44L 43L 42L 41L 40L 39L 38L 37L 36L
+	default_placement 1T 3T 5T 7T 9T 11T 13T 15T 17T 19T 21T 23T 25T 27T 29T 31T 33T 35T 37T 39T 41T 43T 45T 3R 4R 5R 6R 7R 8R 9R 10R 11R 12R 13R 14R 15R 16R 50R 51R 52R 53R 54R 55R 56R 57R 58R 59R 60R 61R 62R 63R 64R 65R 44B 42B 40B 38B 36B 34B 32B 30B 28B 26B 24B 22B 20B 18B 16B 14B 12B 10B 8B 6B 4B 2B 0B 32L 31L 30L 29L 28L 27L 26L 25L 24L 23L 22L 21L 20L 19L 18L 17L 49L 48L 47L 46L 45L 44L 43L 42L 41L 40L 39L 38L 37L 36L
+	maximum_width 848

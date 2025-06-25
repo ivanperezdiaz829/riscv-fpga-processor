@@ -1,0 +1,15 @@
+
+    MIN_scaling                         =  0.60   --0.545 is for -40degC
+
+-- perhaps these should actually be estimated paths since they may be load dependant ?
+    -- got these from Irene's email
+    tSU                                 =   29
+    tHOLD                               =   12
+    micro_tCO                           =   50 
+    --t_reset_release   < in common.dat>
+    
+-- MISC ========================================================================================
+
+    -- dedicated pll output not currently supported
+    tPD_plle0_to_pin                     =   230
+

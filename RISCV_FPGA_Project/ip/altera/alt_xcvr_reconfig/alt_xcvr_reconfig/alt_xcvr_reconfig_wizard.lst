@@ -1,0 +1,17 @@
+[Interfaces|Transceiver PHY]
+Transceiver Reconfiguration Controller v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard:alt_xcvr_reconfig --familyparameter:device_family  --early_gen:on --wizard_file:"%w/alt_xcvr_reconfig_hw.tcl" %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | family_stratixv | Arria V | Cyclone V | Arria V GZ"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" VHDL="ON"/>
+<PINPLAN SUPPORTED="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<ALIAS>Transceiver Reconfiguration Controller </ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v10.0</ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v11.0</ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v11.1</ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v12.0</ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v12.1</ALIAS>
+<ALIAS>Transceiver Reconfiguration Controller v13.0</ALIAS>
+</INFO>

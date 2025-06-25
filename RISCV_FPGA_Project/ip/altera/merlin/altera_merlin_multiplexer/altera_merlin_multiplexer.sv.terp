@@ -1,0 +1,514 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/merlin/altera_merlin_multiplexer/altera_merlin_multiplexer.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2013/08/11 $
+// \$Author: swbranch $
+
+// ------------------------------------------
+// Merlin Multiplexer
+// ------------------------------------------
+
+`timescale 1 ns / 1 ns
+
+@@ if { $pkt_trans_lock == -1 } {
+@@   set lock_text "(arbitration locking disabled)"  
+@@ } else {
+@@   set lock_text "(arbitration locking enabled)"  
+@@ }
+
+// ------------------------------------------
+// Generation parameters:
+//   output_name:         $output_name
+//   NUM_INPUTS:          $num_inputs
+//   ARBITRATION_SHARES:  $arbitration_shares
+//   ARBITRATION_SCHEME   $arbitration_scheme
+//   PIPELINE_ARB:        $pipeline_arb
+//   PKT_TRANS_LOCK:      $pkt_trans_lock $lock_text
+//   ST_DATA_W:           $st_data_w
+//   ST_CHANNEL_W:        $st_channel_w
+// ------------------------------------------
+
+module $output_name
+(
+    // ----------------------
+    // Sinks
+    // ----------------------
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+    input                       sink${i}_valid,
+    input [$st_data_w-1   : 0]  sink${i}_data,
+    input [$st_channel_w-1: 0]  sink${i}_channel,
+    input                       sink${i}_startofpacket,
+    input                       sink${i}_endofpacket,
+    output                      sink${i}_ready,
+
+@@ }
+
+    // ----------------------
+    // Source
+    // ----------------------
+    output                      src_valid,
+    output [$st_data_w-1    : 0] src_data,
+    output [$st_channel_w-1 : 0] src_channel,
+    output                      src_startofpacket,
+    output                      src_endofpacket,
+    input                       src_ready,
+
+    // ----------------------
+    // Clock & Reset
+    // ----------------------
+    input clk,
+    input reset
+);
+    localparam PAYLOAD_W        = $st_data_w + $st_channel_w + 2;
+    localparam NUM_INPUTS       = $num_inputs;
+    localparam SHARE_COUNTER_W  = $share_counter_width;
+    localparam PIPELINE_ARB     = $pipeline_arb;
+    localparam ST_DATA_W        = $st_data_w;
+    localparam ST_CHANNEL_W     = $st_channel_w;
+    localparam PKT_TRANS_LOCK   = $pkt_trans_lock;
+
+@@ if {$num_inputs > 1} {
+    // ------------------------------------------
+    // Signals
+    // ------------------------------------------
+    wire [NUM_INPUTS - 1 : 0] request;
+    wire [NUM_INPUTS - 1 : 0] valid;
+    wire [NUM_INPUTS - 1 : 0] grant;
+    wire [NUM_INPUTS - 1 : 0] next_grant;
+    reg  [NUM_INPUTS - 1 : 0] saved_grant;
+    reg  [PAYLOAD_W - 1 : 0]  src_payload;
+    wire                      last_cycle;
+    reg                       packet_in_progress;
+    reg                       update_grant;
+
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+    wire [PAYLOAD_W - 1 : 0]  sink${i}_payload;
+@@ }
+
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+    assign valid[$i] = sink${i}_valid;
+@@ }
+
+@@ if { $arbitration_scheme != "\"no-arb\"" } {
+   wire [NUM_INPUTS - 1 : 0] eop;
+@@   for { set i 0 } { $i < $num_inputs } { incr i } {
+      assign eop[$i]   = sink${i}_endofpacket;
+@@   }
+@@ }
+
+    // ------------------------------------------
+    // ------------------------------------------
+    // Grant Logic & Updates
+    // ------------------------------------------
+    // ------------------------------------------
+@@ if { $pkt_trans_lock == -1 } {
+    wire [NUM_INPUTS - 1 : 0] lock = '0;
+@@ if { $arbitration_scheme != "\"no-arb\"" } {
+    reg [NUM_INPUTS - 1 : 0] locked = '0;
+@@ }
+@@ } else {
+    reg [NUM_INPUTS - 1 : 0] lock;
+    always @* begin
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+      lock[$i] = sink${i}_data[$pkt_trans_lock];
+@@ }
+    end
+@@ if { $arbitration_scheme != "\"no-arb\"" } {
+    reg [NUM_INPUTS - 1 : 0] locked = '0;
+    always @(posedge clk or posedge reset) begin
+      if (reset) begin
+        locked <= '0;
+      end
+      else begin
+@@ if {$pipeline_arb == 0} {
+        locked <= grant & lock;
+@@ } else {
+        locked <= next_grant & lock;
+@@ }
+      end
+    end
+@@ }
+@@ }
+
+    assign last_cycle = src_valid & src_ready & src_endofpacket & ~(|(lock & grant));
+
+    // ------------------------------------------
+    // We're working on a packet at any time valid is high, except
+    // when this is the endofpacket.
+    // ------------------------------------------
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            packet_in_progress <= 1'b0;
+        end
+        else begin
+            if (last_cycle)
+                packet_in_progress <= 1'b0;   
+            else if (src_valid)
+                packet_in_progress <= 1'b1;
+        end
+    end
+
+
+    // ------------------------------------------
+    // Shares
+    //
+    // Special case: all-equal shares _should_ be optimized into assigning a
+    // constant to next_grant_share.
+    // Special case: all-1's shares _should_ result in the share counter
+    // being optimized away.
+    // ------------------------------------------
+@@
+@@ # + ------------------------------------------
+@@ # | Create a NUM_INPUT-length list of share values.
+@@ # | Missing values are filled in with the default value, 1.
+@@ # + ------------------------------------------
+@@
+@@ set shares    $arbitration_shares
+@@ set share_len [ llength $shares ]
+@@ for { set i 0 } { $i < [expr $num_inputs - $share_len ] } { incr i } {
+@@     lappend shares 1
+@@ }
+@@
+@@ if {$pipeline_arb == 0} {
+@@     set load_decrement 2
+@@ } else {
+@@     set load_decrement 1
+@@ }
+@@ # Create a list of load values for the share counter.
+@@ set load_values [ list ]
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+@@     set share [ expr [ lindex $shares $i ] - $load_decrement ]
+@@     if { $share < 0} {
+@@         set share 0
+@@     }
+@@     lappend load_values $share
+@@ }
+    // Input  |  arb shares  |  counter load value
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+@@     set share              [ lindex $shares $i ]
+@@     set counter_load_value [ lindex $load_values $i ]
+@@     lappend load_values $counter_load_value
+    // $i      |      $share       |  $counter_load_value
+@@ }
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+@@ set load_value [ lindex $load_values $i ]
+    wire [SHARE_COUNTER_W - 1 : 0] share_${i} = ${share_counter_width}'d$load_value;
+@@ }
+
+    // ------------------------------------------
+    // Choose the share value corresponding to the grant.
+    // ------------------------------------------
+    reg [SHARE_COUNTER_W - 1 : 0] next_grant_share;
+    always @* begin
+        next_grant_share =
+@@ set LAST [ expr $num_inputs - 1 ]
+@@ for { set i 0 } { $i < $LAST } { incr i } {
+            share_${i} & { SHARE_COUNTER_W {next_grant[$i]} } |
+@@ }
+            share_${LAST} & { SHARE_COUNTER_W {next_grant[$LAST]} };
+    end
+
+    // ------------------------------------------
+    // Flag to indicate first packet of an arb sequence.
+    // ------------------------------------------
+@@ if {$pipeline_arb == 0} {
+    wire grant_changed = ~packet_in_progress && ~(|(saved_grant & valid));
+    reg first_packet_r;
+    wire first_packet = grant_changed | first_packet_r;
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            first_packet_r <= 1'b0;
+        end
+        else begin 
+            if (update_grant)
+                first_packet_r <= 1'b1;
+            else if (last_cycle)
+                first_packet_r <= 1'b0;
+            else if (grant_changed)
+                first_packet_r <= 1'b1;
+        end
+    end
+@@ }
+
+    // ------------------------------------------
+    // Compute the next share-count value.
+    // ------------------------------------------
+    reg [SHARE_COUNTER_W - 1 : 0] p1_share_count;
+    reg [SHARE_COUNTER_W - 1 : 0] share_count;
+    reg share_count_zero_flag;
+
+    always @* begin
+@@ if {$pipeline_arb == 0} {
+        if (first_packet) begin
+            p1_share_count = next_grant_share;
+        end
+        else begin
+            // Update the counter, but don't decrement below 0.
+            p1_share_count = share_count_zero_flag ? '0 : share_count - 1'b1;
+        end
+@@ } else {
+        // Update the counter, but don't decrement below 0.
+        p1_share_count = share_count_zero_flag ? '0 : share_count - 1'b1;
+@@ }
+    end
+
+    // ------------------------------------------
+    // Update the share counter and share-counter=zero flag.
+    // ------------------------------------------
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            share_count <= '0;
+            share_count_zero_flag <= 1'b1;
+        end
+        else begin
+@@ if {$pipeline_arb == 0} {
+            if (last_cycle) begin
+                share_count <= p1_share_count;
+                share_count_zero_flag <= (p1_share_count == '0);
+            end
+@@ } else {
+            if (update_grant) begin
+                share_count <= next_grant_share;
+                share_count_zero_flag <= (next_grant_share == '0);
+            end
+            else if (last_cycle) begin
+                share_count <= p1_share_count;
+                share_count_zero_flag <= (p1_share_count == '0);
+            end
+@@ }
+        end
+    end
+
+@@ if {$pipeline_arb == 0} {
+    // ------------------------------------------
+    // For each input, maintain a final_packet signal which goes active for the
+    // last packet of a full-share packet sequence.  Example: if I have 4
+    // shares and I'm continuously requesting, final_packet is active in the
+    // 4th packet.
+    // ------------------------------------------
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+@@     set share [ lindex $shares $i ]
+@@     if { $share == 1 } {
+    wire final_packet_$i = 1'b1;
+
+@@     } else {
+    reg final_packet_$i;
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            final_packet_$i <= 1'b0;
+        end
+        else begin
+            if (!grant[$i]) begin
+                // Note: if this would have been the final packet of an
+                // arbitration sequence, but the master ceases to request,
+                // final_packet_i will be active for a single cycle, even
+                // though i is not granted.
+                final_packet_$i <= 1'b0;
+            end
+            else if (sink${i}_valid & sink${i}_ready & sink${i}_endofpacket) begin
+                if (final_packet_$i)
+                    // At the end of the _actual_ final packet, reset the value
+                    // for the next cycle - this avoids a bug where a master
+                    // gains multiple arb sequences sequentially (no-one else
+                    // is requesting) but its 2nd or subsequent arb sequence is
+                    // cut short when another requester shows up.
+                    final_packet_$i <= 1'b0;
+                else
+                    // The share counter will reach 0 on the next packet; flag
+                    // the packet as final.
+                    final_packet_$i <= p1_share_count == {SHARE_COUNTER_W {1'b0}};
+            end
+        end
+    end
+@@     }
+@@ }
+
+    // ------------------------------------------
+    // Concatenate all final_packet signals (wire or reg) into a handy vector.
+    // ------------------------------------------
+    wire [NUM_INPUTS - 1 : 0] final_packet = {
+@@ for { set i [expr $num_inputs - 1 ] } { $i > 0 } { incr i -1} {
+        final_packet_$i,
+@@ }
+        final_packet_0
+    };
+
+    // ------------------------------------------
+    // ------------------------------------------
+    wire p1_done = |(final_packet & grant);
+
+    // ------------------------------------------
+    // Flag for the first cycle of packets within an 
+    // arb sequence
+    // ------------------------------------------
+    reg first_cycle;
+    always @(posedge clk, posedge reset) begin
+        if (reset)
+            first_cycle <= 0;
+        else
+            first_cycle <= last_cycle && ~p1_done;
+    end
+
+@@ }
+
+    always @* begin
+        update_grant = 0;
+
+@@ if {$pipeline_arb == 0} {
+@@
+@@ # --------------------------------------------
+@@ #  Optimization: if all shares are 1, then update_grant 
+@@ #  is simply !packet_in_progress. This boosts response
+@@ #  network fmax in some systems.
+@@ #
+@@ set all_shares_1 1
+@@
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+@@     set share [ lindex $shares $i ]
+@@     if { $share != 1 } {
+@@         set all_shares_1 0
+@@     }
+@@ }
+@@
+        // ------------------------------------------
+        // No arbitration pipeline, update grant whenever
+        // the current arb winner has consumed all shares,
+        // or all requests are low
+        // ------------------------------------------
+        update_grant = (last_cycle && p1_done) || (first_cycle && ~(|valid));
+    @@ if { $all_shares_1 == 1 } {
+        update_grant = last_cycle;
+    @@ }
+@@ } else {
+        // ------------------------------------------
+        // The pipeline delays grant by one cycle, so
+        // we have to calculate the update_grant signal
+        // one cycle ahead of time.
+        //
+        // Possible optimization: omit the first clause
+        //    "if (!packet_in_progress & ~src_valid) ..."
+        //   cost: one idle cycle at the the beginning of each 
+        //     grant cycle.
+        //   benefit: save a small amount of logic.
+        // ------------------------------------------
+        if (!packet_in_progress & !src_valid)
+            update_grant = 1;
+        if (last_cycle && share_count_zero_flag)
+            update_grant = 1;
+@@ }
+    end
+
+    wire save_grant;
+@@ if { $pipeline_arb == 0 } {
+    assign save_grant = 1;
+    assign grant      = next_grant;
+@@ } else { 
+    assign save_grant = update_grant;
+    assign grant      = saved_grant;
+@@ }
+
+    always @(posedge clk, posedge reset) begin
+        if (reset)
+            saved_grant <= '0;
+        else if (save_grant)
+            saved_grant <= next_grant;
+    end
+
+    // ------------------------------------------
+    // ------------------------------------------
+    // Arbitrator
+    // ------------------------------------------
+    // ------------------------------------------
+
+    // ------------------------------------------
+    // Create a request vector that stays high during
+    // the packet for unpipelined arbitration.
+    //
+    // The pipelined arbitration scheme does not require
+    // request to be held high during the packet.
+    // ------------------------------------------
+@@ if { $arbitration_scheme == "\"no-arb\"" } {
+    assign request = valid;
+@@ } else {
+    reg  [NUM_INPUTS - 1 : 0] prev_request;
+    always @(posedge clk, posedge reset) begin
+        if (reset)
+            prev_request <= '0;
+        else
+            prev_request <= request & ~(valid & eop);
+    end
+
+    assign request = (PIPELINE_ARB == 1) ? valid | locked :
+                                           prev_request | valid | locked;
+@@ }
+
+
+    altera_merlin_arbitrator
+    #(
+        .NUM_REQUESTERS(NUM_INPUTS),
+        .SCHEME        ($arbitration_scheme),
+        .PIPELINE      ($pipeline_arb)
+    ) arb (
+        .clk                    (clk),
+        .reset                  (reset),
+        .request                (request),
+        .grant                  (next_grant),
+        .save_top_priority      (src_valid),
+        .increment_top_priority (update_grant)
+    );
+
+    // ------------------------------------------
+    // ------------------------------------------
+    // Mux
+    //
+    // Implemented as a sum of products.
+    // ------------------------------------------
+    // ------------------------------------------
+
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+    assign sink${i}_ready = src_ready && grant[$i];
+@@ }
+
+    assign src_valid = |(grant & valid);
+
+    always @* begin
+        src_payload =
+@@ set LAST [ expr $num_inputs - 1 ]
+@@ for { set i 0 } { $i < $LAST } { incr i } {
+            sink${i}_payload & {PAYLOAD_W {grant[$i]} } |
+@@ }
+            sink${LAST}_payload & {PAYLOAD_W {grant[$LAST]} };
+    end
+
+    // ------------------------------------------
+    // Mux Payload Mapping
+    // ------------------------------------------
+
+@@ for { set i 0 } { $i < $num_inputs } { incr i } {
+    assign sink${i}_payload = {sink${i}_channel,sink${i}_data,
+        sink${i}_startofpacket,sink${i}_endofpacket};
+@@ }
+
+    assign {src_channel,src_data,src_startofpacket,src_endofpacket} = src_payload;
+@@ } else {
+	assign	src_valid			=  sink0_valid;
+	assign	src_data			=  sink0_data;
+	assign	src_channel			=  sink0_channel;
+	assign	src_startofpacket	=  sink0_startofpacket;
+	assign	src_endofpacket		=  sink0_endofpacket;
+	assign	sink0_ready			=  src_ready;
+@@ }
+endmodule
+

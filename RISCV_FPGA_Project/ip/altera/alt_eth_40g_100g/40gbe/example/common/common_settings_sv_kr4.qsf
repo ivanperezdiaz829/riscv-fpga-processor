@@ -1,0 +1,63 @@
+#########################################################
+# Device and Board Setting                              #
+#########################################################
+set_global_assignment -name DEVICE 5SGXEA7N2F40C2
+set_global_assignment -name FAMILY "Stratix V"
+
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+#########################################################
+# Timing Related Setting                                #
+#########################################################
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name AUTO_GLOBAL_REGISTER_CONTROLS OFF
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "ALL PATHS"
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name TIMEQUEST_DO_REPORT_TIMING ON
+set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF
+set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 10
+
+#########################################################
+# I/O pins and GLOBAL_SIGNAL Setting                    #
+#########################################################
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to clk_ref_r
+set_instance_assignment -name INPUT_TERMINATION "OCT 100 OHMS" -to clk_ref_r
+
+set_location_assignment PIN_Y34 -to tx_serial_r[0]
+set_location_assignment PIN_V34 -to tx_serial_r[1]
+set_location_assignment PIN_R36 -to tx_serial_r[2]
+set_location_assignment PIN_N36 -to tx_serial_r[3]
+
+set_location_assignment PIN_AA36 -to rx_serial_r[0]
+set_location_assignment PIN_V38 -to rx_serial_r[1]
+set_location_assignment PIN_T38 -to rx_serial_r[2]
+set_location_assignment PIN_M38 -to rx_serial_r[3]
+
+set_location_assignment PIN_W32 -to clk_ref_r
+set_location_assignment PIN_W33 -to "clk_ref_r(n)"
+
+set_location_assignment PIN_AJ26 -to clk50
+set_location_assignment PIN_J31 -to cpu_resetn
+
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[0]
+set_location_assignment PIN_Y35 -to "tx_serial_r[0](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[1]
+set_location_assignment PIN_V35 -to "tx_serial_r[1](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[2]
+set_location_assignment PIN_R37 -to "tx_serial_r[2](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[3]
+set_location_assignment PIN_N37 -to "tx_serial_r[3](n)"
+
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[0]
+set_location_assignment PIN_AA37 -to "rx_serial_r[0](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[1]
+set_location_assignment PIN_V39 -to "rx_serial_r[1](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[2]
+set_location_assignment PIN_T39 -to "rx_serial_r[2](n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[3]
+set_location_assignment PIN_M39 -to "rx_serial_r[3](n)"
+

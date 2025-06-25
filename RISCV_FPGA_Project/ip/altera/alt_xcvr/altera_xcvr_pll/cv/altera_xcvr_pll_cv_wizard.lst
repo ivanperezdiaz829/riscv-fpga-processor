@@ -1,0 +1,12 @@
+[Interfaces|Transceiver PHY]
+Cyclone V Transceiver PLL v13.1 = "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/tcl/altera_xcvr_pll_cv_hw.tcl" --wizard:altera_xcvr_pll_cv --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Cyclone V"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Cyclone V Transceiver PLL</ALIAS>
+<ALIAS>Cyclone V Transceiver PLL v13.0</ALIAS>
+</INFO>

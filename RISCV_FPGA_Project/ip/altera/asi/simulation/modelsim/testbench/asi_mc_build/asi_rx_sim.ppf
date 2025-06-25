@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<pinplan variation_name="asi_rx_sim" megafunction_name="ASI" default_scope="internal" specifies="all_ports" >
+<global>
+<pin name="rst" direction="input"/>
+<pin name="asi_rx" direction="input"/>
+<pin name="rx_data[7..0]"  direction="output"/>
+<pin name="rx_data[7]"  direction="output"/>
+<pin name="rx_data[6]"  direction="output"/>
+<pin name="rx_data[5]"  direction="output"/>
+<pin name="rx_data[4]"  direction="output"/>
+<pin name="rx_data[3]"  direction="output"/>
+<pin name="rx_data[2]"  direction="output"/>
+<pin name="rx_data[1]"  direction="output"/>
+<pin name="rx_data[0]"  direction="output"/>
+<pin name="rx_ts_status[7..0]"  direction="output"/>
+<pin name="rx_ts_status[7]"  direction="output"/>
+<pin name="rx_ts_status[6]"  direction="output"/>
+<pin name="rx_ts_status[5]"  direction="output"/>
+<pin name="rx_ts_status[4]"  direction="output"/>
+<pin name="rx_ts_status[3]"  direction="output"/>
+<pin name="rx_ts_status[2]"  direction="output"/>
+<pin name="rx_ts_status[1]"  direction="output"/>
+<pin name="rx_ts_status[0]"  direction="output"/>
+<pin name="rx_data_clk" direction="output"/>
+<pin name="rx_clk135" direction="input"/>
+<pin name="rx_data_valid" direction="output"/>
+<pin name="cal_blk_clk" direction="input"/>
+<pin name="asi_rx" description="ASI input" direction="input" source="logic" scope="external" />
+<pin name="cal_blk_clk" description="Calibration clock for Stratix II GX transceiver" direction="input" source="clock" scope="external" />
+<pin name="rx_clk135" description="135MHz external PLL" direction="input" source="clock" scope="external" />
+</global>
+</pinplan>

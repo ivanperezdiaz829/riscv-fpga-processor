@@ -1,0 +1,114 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/rel/13.1/ip/merlin/altera_merlin_demultiplexer/altera_merlin_demultiplexer.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2013/08/11 $
+// \$Author: swbranch $
+
+// -------------------------------------
+// Merlin Demultiplexer
+//
+// Asserts valid on the appropriate output
+// given a one-hot channel signal.
+// -------------------------------------
+
+`timescale 1 ns / 1 ns
+
+// ------------------------------------------
+// Generation parameters:
+//   output_name:         $output_name
+//   ST_DATA_W:           $st_data_w
+//   ST_CHANNEL_W:        $st_channel_w
+//   NUM_OUTPUTS:         $NUM_OUTPUTS
+//   VALID_WIDTH:         $valid_w
+// ------------------------------------------
+
+//------------------------------------------
+// Message Supression Used
+// QIS Warnings
+// 15610 - Warning: Design contains x input pin(s) that do not drive logic
+//------------------------------------------
+
+module $output_name
+(
+    // -------------------
+    // Sink
+    // -------------------
+    input  [$valid_w-1      : 0]   sink_valid,
+    input  [$st_data_w-1    : 0]   sink_data, // ST_DATA_W=$st_data_w
+    input  [$st_channel_w-1 : 0]   sink_channel, // ST_CHANNEL_W=$st_channel_w
+    input                         sink_startofpacket,
+    input                         sink_endofpacket,
+    output                        sink_ready,
+
+    // -------------------
+    // Sources 
+    // -------------------
+@@ for { set i 0 } { $i < $NUM_OUTPUTS } { incr i } {
+    output reg                      src${i}_valid,
+    output reg [$st_data_w-1    : 0] src${i}_data, // ST_DATA_W=$st_data_w
+    output reg [$st_channel_w-1 : 0] src${i}_channel, // ST_CHANNEL_W=$st_channel_w
+    output reg                      src${i}_startofpacket,
+    output reg                      src${i}_endofpacket,
+    input                           src${i}_ready,
+
+@@ }
+
+    // -------------------
+    // Clock & Reset
+    // -------------------
+    (*altera_attribute = "-name MESSAGE_DISABLE 15610" *) // setting message suppression on clk
+    input clk,
+    (*altera_attribute = "-name MESSAGE_DISABLE 15610" *) // setting message suppression on reset
+    input reset
+
+);
+
+    localparam NUM_OUTPUTS = $NUM_OUTPUTS;
+    wire [NUM_OUTPUTS - 1 : 0] ready_vector;
+
+    // -------------------
+    // Demux
+    // -------------------
+    always @* begin
+@@ for { set i 0 } { $i < $NUM_OUTPUTS } { incr i } {
+        src${i}_data          = sink_data;
+        src${i}_startofpacket = sink_startofpacket;
+        src${i}_endofpacket   = sink_endofpacket;
+        src${i}_channel       = sink_channel >> NUM_OUTPUTS;
+
+  @@ if { $valid_w == 1 } {
+        src${i}_valid         = sink_channel[$i] && sink_valid;
+  @@ } else {
+        src${i}_valid         = sink_channel[$i] && sink_valid[$i];
+  @@ }
+
+@@ }
+    end
+
+@@ set channel_and_output_width_diff [expr $st_channel_w - $NUM_OUTPUTS]
+    // -------------------
+    // Backpressure
+    // -------------------
+@@ for { set i 0 } { $i < $NUM_OUTPUTS } { incr i } {
+    assign ready_vector[$i] = src${i}_ready;
+@@ }
+
+@@ if { $channel_and_output_width_diff == 0} {
+    assign sink_ready = |(sink_channel & ready_vector);
+@@ } else {
+    assign sink_ready = |(sink_channel & {{$channel_and_output_width_diff{1'b0}},{ready_vector[NUM_OUTPUTS - 1 : 0]}});
+@@   }
+
+endmodule

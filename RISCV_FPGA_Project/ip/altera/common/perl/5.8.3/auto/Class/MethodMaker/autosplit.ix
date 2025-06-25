@@ -1,0 +1,45 @@
+# Index created by AutoSplit for blib/lib/Class/MethodMaker.pm
+#    (file acts as timestamp)
+package Class::MethodMaker;
+sub new  ;
+sub new_with_init  ;
+sub new_hash_init  ;
+sub new_hash_with_init  ;
+sub singleton  ;
+sub new_with_args  ;
+sub _make_get_set  ;
+sub get_set  ;
+sub _process_set_once  ;
+sub static_get_set  ;
+sub get_concat  ;
+sub grouped_fields  ;
+sub object  ;
+sub object_list  ;
+sub object_tie_list  ;
+sub object_tie_hash  ;
+sub forward  ;
+sub _ancestry  ;
+sub boolean  ;
+sub struct  ;
+sub listed_attrib  ;
+sub key_attrib  ;
+sub key_with_create  ;
+sub list  ;
+sub static_list  ;
+sub tie_list 
+;
+sub _add_list_methods  ;
+sub hash  ;
+sub _add_hash_methods  ;
+sub hash_of_lists  ;
+sub tie_scalar  ;
+sub tie_hash  ;
+sub static_hash  ;
+sub code  ;
+sub method  ;
+sub abstract  ;
+sub counter  ;
+sub copy  ;
+sub deep_copy  ;
+sub builtin_class  ;
+1;

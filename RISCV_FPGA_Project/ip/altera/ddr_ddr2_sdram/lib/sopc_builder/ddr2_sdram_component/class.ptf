@@ -1,0 +1,96 @@
+   CLASS ddr2_sdram_component
+   {
+      ASSOCIATED_FILES
+      {
+         Add_Program  = "core_add_program.pl";
+         Edit_Program = "core_add_program.pl";
+         Generator_Program = "iptb_deployment.pl";
+         Bind_Program      = "bind";
+         Test_Generator_Program = "generate_ddr_sim_model.pl";
+      }
+      USER_INTERFACE
+      {
+         USER_LABELS
+         {
+            name="DDR2 SDRAM Controller MegaCore Function - Altera Corporation";
+            technology = "Memories and Memory Controllers/SDRAM";
+            license = "full";
+            provider="Altera Corporation";
+         }
+         WIZARD_UI bind
+         {
+            visible = "0";
+            CONTEXT
+            {
+              WSA = "WIZARD_SCRIPT_ARGUMENTS";
+              MOD = "";
+              SBI = "SLAVE s1/SYSTEM_BUILDER_INFO";
+              CLK_SRC = "SYSTEM_BUILDER_INFO/Clock_Source";
+              DDR_CLK_FREQ = "WIZARD_SCRIPT_ARGUMENTS/MEGACORE/NETLIST_SECTION/STATIC_SECTION/PRIVATES/NAMESPACE parameterization/PRIVATE clock_speed/value";
+            }
+
+            $$slave_s1 = "{{ $MOD + '/SLAVE s1' }}";
+            $$myclk_hz = "{{ sopc_get_clock_freq($$slave_s1); }}";
+            $$myclk = "{{ $$myclk_hz / 1E6; }}";
+
+            error = "{{
+                if ($DDR_CLK_FREQ != $$myclk)
+                {
+                   '<b> '+$MOD+':</b> was created to operate at '+$DDR_CLK_FREQ+'MHz, but is connected to '+$CLK_SRC+' with a frequency of '+$$myclk+'MHz. Please edit the component to update the clock frequency.';
+                }
+            }}";
+
+         }
+      }
+      MODULE_DEFAULTS
+      {
+         class = "ddr2_sdram_component";
+         class_version = "13.1";
+         iss_model_name = "altera_memory";
+         SYSTEM_BUILDER_INFO
+         {
+            Instantiate_In_System_Module = "1";
+            Is_Enabled = "1";
+            Date_Modified = "--unknown--";
+            Default_Module_Name = "ddr2_sdram";
+            Required_Device_Family = "STRATIXII,STRATIXIIGX,CYCLONEII";
+            Pins_Assigned_Automatically = "1";
+         }
+         SIMULATION
+         {
+           DISPLAY
+           {
+                SIGNAL a { name = "reset_n";            radix = "hexadecimal"; format = "Logic";}
+                SIGNAL b { name = "clk";                radix = "hexadecimal"; format = "Logic";}
+                SIGNAL c { name = "write_clk";          radix = "hexadecimal"; format = "Logic";}
+                SIGNAL d { name = "clk_to_sdram";       radix = "hexadecimal"; format = "Logic";}
+                SIGNAL e { name = "clk_to_sdram_n";     radix = "hexadecimal"; format = "Logic";}
+
+                SIGNAL f { name = "local_addr";         radix = "hexadecimal"; format = "Logic";}
+                SIGNAL g { name = "local_size";         radix = "hexadecimal"; format = "Logic";}
+                SIGNAL h { name = "local_burstbegin";   radix = "hexadecimal"; format = "Logic";}
+                SIGNAL i { name = "local_read_req";     radix = "hexadecimal"; format = "Logic";}
+                SIGNAL j { name = "local_write_req";    radix = "hexadecimal"; format = "Logic";}
+                SIGNAL k { name = "local_ready";        radix = "hexadecimal"; format = "Logic";}
+
+                SIGNAL l { name = "local_wdata";        radix = "hexadecimal"; format = "Logic";}
+                SIGNAL m { name = "local_be";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL n { name = "local_rdata_valid";  radix = "hexadecimal"; format = "Logic";}
+                SIGNAL o { name = "local_rdata";        radix = "hexadecimal"; format = "Logic";}
+
+                SIGNAL p { name = "ddr2_cs_n";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL q { name = "ddr2_a";              radix = "hexadecimal"; format = "Logic";}
+                SIGNAL r { name = "ddr2_ba";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL s { name = "ddr2_ras_n";          radix = "hexadecimal"; format = "Logic";}
+                SIGNAL t { name = "ddr2_cas_n";          radix = "hexadecimal"; format = "Logic";}
+                SIGNAL u { name = "ddr2_we_n";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL v { name = "ddr2_dm";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL w { name = "ddr2_dq";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL x { name = "ddr2_dqs";            radix = "hexadecimal"; format = "Logic";}
+                SIGNAL y { name = "ddr2_cke";            radix = "hexadecimal"; format = "Logic";}
+                SIGNAL z { name = "ddr2_odt";            radix = "hexadecimal"; format = "Logic";}
+           }
+         }
+
+      }
+  }

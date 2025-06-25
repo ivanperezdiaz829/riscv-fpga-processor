@@ -1,0 +1,703 @@
+#! /usr/bin/perl
+#! /usr/local/bin/perl
+# Simulation run script
+#
+# (c) Copyright 2001, Altera
+#     All Rights Reserved
+# $Revision: #1 $
+#
+#use Env;
+#use File::Copy;
+use write_qdrii_controller;
+#use write_example_instance;
+
+sub usage {
+    print <<USAGE;
+Usage:Genarates DDR datapath files from a list of generics.
+options:
+   -s <file_name>          XX file to be read
+   -o <output_directory_name> file output directory
+   -f <file_name>          reads the command line options from the file
+   -gxyz=1234              sets the generic(parameter) 'xyz' to value '1234'
+   <test_name>             runs the <test_name> simulation
+   -h                      Prints this help
+Supported Generics
+------------------
+Name                       values
+===============================================
+FAMILY                              : string  	 := Stratix II;		# QDRII
+LOCAL_DATA_BITS                     : integer 	 := 32;	        	# QDRII
+MEMORY_DATA_WIDTH		    : integer 	 := 18;	         	# QDRII
+MEMORY_ADDRESS_WIDTH		    : integer 	 := 20;	        	# QDRII
+MEMORY_BURST_LENGTH		    : integer 	 := 2;			# QDRII
+AVL_DATA_WIDTH_MULTIPLY		    : integer 	 := 2;	        	# QDRII
+BURST_MODE			    : integer 	 := 4;          	# QDRII
+MEM_DQ_PER_DQS                      : integer    := 8;          	# QDRII -- no. of DQ bits per DQS/DM, generally 8 or 32
+NUM_CHIPS_WIDE			    : integer  	 := 3;			# QDRII changed from MEM_NUMBER_CHIPS
+IS_BURST4_NARROW		    : integer 	 := 0;			# QDRII
+MEM_DATA_BITS               	    : integer 	 := 18; 		# QDRII
+NUM_OUTPUT_CLOCKS                   : integer 	 := 1;			# QDRII
+NUM_OUTPUT_CONTROL                  : integer 	 := 1;			# QDRII
+ENABLE_CAPTURE_CLK                  : string  	 := "false";		# QDRII -- Whether or not to use an external capture clock
+MIGRATABLE_BYTEGROUPS               : string  	 := "false";		# QDRII
+USE_DQS_FOR_READ                    : string  	 := "false";		# QDRII
+DELAY_CHAIN			    : string  	 := "unused";		# QDRII
+FEDBACK_CLOCK_MODE                  : string  	 := "false";    	# QDRII
+PIPE_COM_CHECK                      : string  	 := "false";    	# QDRII
+PIPE_READ_CHECK                     : string  	 := "false";		# QDRII
+PIPELINE_ADDRESS_COMMAND      	    : integer 	 := 1;			# QDRII
+PIPELINE_READ_DATA        	    : integer 	 := 1;			# QDRII
+CHOSEN_RESYNCH_CYCLE        	    : integer 	 := 1;          	# QDRII -- 0,1,2
+CHOSEN_RESYNCH_CLOCK                : string     := "false";    	# QDRII -- Whether or not to use an external resynch clock
+CHOSEN_RESYNCH_PHASE                : integer 	 := 0;			# QDRII
+CHOSEN_RESYNCH_EDGE                 : string     := "rising";   	# QDRII -- rising, falling
+INTER_RESYNCH                       : string     := "false";    	# QDRII -- Insert extra negedge sys_clk resynch register in the data path
+MAN_RESYNCH                    	    : string     := "false";    	# QDRII
+NARROW_MODE                   	    : string     := "false";    	# QDRII
+NUM_CHIPS_DEEP             	    : string     := 2;		     	# QDRII changed from increase_data
+PACKAGE                     	    : string     := "F1020";		# QDRII
+DEVICE 				    : string 	 := "EP2S60";		# QDRII
+SPEED_GRADE			    : string 	 := "C$";		# QDRII
+MEM_TYPE              		    : string     := "qdrii_sram";	# QDRII
+MEMORY_DEVICE            	    : string  	 := "Custom";		# QDRII
+MEMORY_MODEL_NAME	 	    : string  	 := "mt54w1mh18j";	# QDRII
+MEMORY_VOLTAGE			    : string	 := "1.8";		# QDRII
+TRAIN_REFERENCE			    : integer    := 6;			# QDRII
+READ_VALID_CYCLE		    : integer    := 7;			# QDRII
+CLOCK_FREQ_IN_MHZ                   : string     := "250.0";		# QDRII
+CLOCK_POS_PIN_NAME 		    : string     := "k";		# QDRII
+CLOCK_NEG_PIN_NAME 		    : string     := "kn";		# QDRII
+CAPTURE_CLOCK_POS_PIN_NAME          : string     := "cq";		# QDRII
+CAPTURE_CLOCK_NEG_PIN_NAME          : string     := "cqn";		# QDRII
+PARSE_EXAMPLE_DESIGN		    : string	 := "true";		# QDRII
+TOPLEVEL_NAME                       : string     := "test_mw";		# QDRII
+WRAPPER_NAME                        : string     := "wrapper";		# QDRII
+VARIATION_TEST_PATH                 : string     := "false";		# QDRII
+VARIATION_PATH		            : string     := "C:/";		# QDRII
+QDRII_PIN_PREFIX		    : string 	 := "qdrii_";		# QDRII
+LANGUAGE			    : string     := "vhdl";		# QDRII
+MEGAWIZARD_VERSION     		    : integer    := 1.1.0;		# QDRII
+PROJECT_PATH       		    : string     := c:/;		# QDRII
+WRAPPER_PATH			    : string     := c:/;		# QDRII
+STRATIXII_DLL_DELAY_BUFFER_MODE	    : string	 := "low";		# QDRII
+STRATIXII_DLL_DELAY_CHAIN_LENGTH    : integer	 := 16;			# QDRII
+STRATIXII_DQS_OUT_MODE  	    : string	 := "delay_chain3";	# QDRII
+STRATIXII_DQS_PHASE_SHIFT 	    : integer	 := 6750;		# QDRII
+RESYNCH_TYPE			    : string     := "reg";		# QDRII
+TRAIN_MODE			    : integer	 := 0;			# QDRII
+MEMORY_LATENCY			    : integer	 := 1.5;			# QDRII
+UPDATE_TOP_LEVEL		  	    : string	 := "true";		# QDRII
+REGRESSION_TEST			    : string	 := "false";		# QDRII
+DDIO_MEMORY_CLOCKS		: string := "true";
+USAGE
+    exit(1);
+}
+
+#Usage: $0 [-d -sn -den -cov -cm -gui -f <test_list_file>] <test_name>
+
+sub handler {
+        local ($sig) = @_;
+        print "Caught a SIG$sig -- shutting down\n";
+        close(LOG);
+        exit($sig);
+}
+
+
+
+
+$SIG{INT}= 'handler';
+$SIG{QUIT}= 'handler';
+$tool = "run_sim";
+$command = $tool;
+#$work_base =`pwd`;
+$work_base = "/dummy_path/";
+chomp ($work_base);
+$::gFAMILY                 	= "Stratix II";  	#-- Stratix, Stratix GX and Cyclone
+$::gLOCAL_DATA_BITS       	= 32;         	#-- local data bus width
+$::gMEMORY_DATA_WIDTH     	= 18;	 	#-- QDRII specific
+$::gMEMORY_ADDRESS_WIDTH  	= 20;	 	#-- QDRII specific
+$::gMEMORY_BURST_LENGTH    	= 4;	 	#-- QDRII specific
+$::gAVL_DATA_WIDTH_MULTIPLY	= 2; 	 	#-- QDRII specific
+$::gBURST_MODE		  	= 4;		#-- QDRII specific
+$::gMEM_DQ_PER_DQS         	= 8;	        #-- no. of DQ bits per DQS/DM, generally 8 or 32
+$::gNUM_CHIPS_WIDE	   	= 3;		#-- QDRII
+$::IS_BURST4_NARROW		= 0; 	 	#-- QDRII specific
+$::gMEM_DATA_BITS           	= 1; 	 	#-- QDRII specific
+$::gNUM_OUTPUT_CLOCKS           = 1; 	 	#-- QDRII specific
+$::gNUM_OUTPUT_CONTROL          = 1; 	 	#-- QDRII specific
+$::gENABLE_CAPTURE_CLK          = "false";	#-- QDRII specific
+$::gMIGRATABLE_BYTEGROUPS       = "false"; 	#-- QDRII specific
+$::gUSE_DQS_FOR_READ         	= "false"; 	#-- QDRII specific
+$::gDELAY_CHAIN			= "unsed";	#-- QDRII specific
+$::gFEDBACK_CLOCK_MODE    	= "false";    	#-- QDRII
+$::gPIPE_COM_CHECK       	= "true";     	#-- QDRII
+$::gPIPE_READ_CHECK             = "false"; 	#-- QDRII specific
+$::gPIPELINE_ADDRESS_COMMAND 	= 1; 	 	#-- QDRII specific
+$::gPIPELINE_READ_DATA 		= 1; 	 	#-- QDRII specific
+$::gCHOSEN_RESYNCH_CYCLE 	= 1; 	 	#-- QDRII specific
+$::gCHOSEN_RESYNCH_CLOCK    	= "false"; 	#-- QDRII specific
+$::gCHOSEN_RESYNCH_PHASE    	= 0; 	 	#-- QDRII specific
+$::gCHOSEN_RESYNCH_EDGE         = "rising"; 	#-- QDRII specific
+$::gINTER_RESYNCH          	= "false"; 	#-- QDRII specific
+$::gMAN_RESYNCH        		= "false"; 	#-- QDRII specific
+$::gNARROW_MODE      		= "false"; 	#-- QDRII specific
+$::gNUM_CHIPS_DEEP		= 2;	 	#-- QDRII specific
+$::gPACKAGE         		= "F1020"; 	#-- QDRII specific
+$::gDEVICE 			= "EP2S60"; 	#-- QDRII specific
+$::gSPEED_GRADE			= "C4";	 	#-- QDRII specific
+$::gMEM_TYPE    		= "qdrii_sram"; #-- QDRII specific
+$::gMEMORY_DEVICE  		= "Custom";	#-- QDRII specific
+$::gMEMORY_MODEL_NAME		= "mt54w1mh18j";#-- QDRII specific
+$::MEMORY_VOLTAGE		= 1.8; 	 	#-- QDRII specific
+$::gTRAIN_REFERENCE        	= 6;	  	#-- QDRII specific
+$::gREAD_VALID_CYCLE        	= 7;	  	#-- QDRII specific
+$::gCLOCK_FREQ_IN_MHZ        	= 250.0;  	#-- QDRII specific
+$::gCLOCK_POS_PIN_NAME 		= "k"; 	 	#-- QDRII specific
+$::gCLOCK_NEG_PIN_NAME 		= "kn"; 	#-- QDRII specific
+$::gCAPTURE_CLOCK_POS_PIN_NAME  = "cq"; 	#-- QDRII specific
+$::gCAPTURE_CLOCK_NEG_PIN_NAME  = "cqn"; 	#-- QDRII specific
+$::gPARSE_EXAMPLE_DESIGN  	= "true"; 	#-- QDRII specific
+$::gTOPLEVEL_NAME 		= "example_top";#-- QDRII specific
+$::gWRAPPER_NAME 		= "wrapper"; 	#-- QDRII specific
+$::gVARIATION_TEST_PATH		= "false"; 	#-- QDRII specific
+$::gVARIATION_PATH 		= "c:/"; 	#-- QDRII specific
+$::gQDRII_PIN_PREFIX		= "qdrii_"; 	#-- QDRII specific
+$::language	                = "vhdl"; 	#-- QDRII specific
+$::gMEGAWIZARD_VERSION     	= 1.1.0;	#-- QDRII
+$::gPROJECT_PATH       		= "c:/";	#-- QDRII
+$::gWRAPPER_PATH		= "c:/";	#-- QDRII
+$::gSTRATIXII_DLL_DELAY_BUFFER_MODE  = "low";	#-- QDRII specific
+$::gSTRATIXII_DLL_DELAY_CHAIN_LENGTH = 16;	#-- QDRII specific
+$::gSTRATIXII_DQS_PHASE_SHIFT 	     = 6750;	#-- QDRII specific
+$::gRESYNCH_TYPE		     = reg;	#-- QDRII
+$::gTRAIN_MODE			     = 0;	#-- QDRII
+$::gSTRATIXII_DQS_OUT_MODE  	     = "delay_chain3";#-- QDRII specific
+$::gUPDATE_TOP_LEVEL		     = "true";	#-- QDRII
+$::gMEMORY_LATENCY		     = 1.5;	#-- QDRII
+#$::gLOCAL_DATA_MODE        = narrow;     #-- narrow, wide
+#$::gMEM_CHIP_BITS          = 1;          #
+#$::gREGRESSION_TEST		= "false";       #-- QDRII
+#$::gWIZARD_VERSION = "2.2.0";
+#$::quartus_version        = "5.0";
+$::gFAMILYlc               = "stratix";  #-- Stratix, Stratix GX and Cyclone
+$::gFAMILYfull			   = "stratix";  #-- SPR 253069
+#$::gMEMORY_BYTEEN_WIDTH	   = 2; 	 #-- QDRII specific
+$::output_directory = "";
+
+# Parse the command line, returning the final command line
+$debug = 0;
+$error = 0;
+print "pwd = $work_base\n" if $debug;
+&usage if ($#ARGV == -1);
+@args = &parse_args($work_base, @ARGV);
+print @args, "\n";
+
+#&process_soma();
+#&example_instance();
+#&test_bench();
+#&example_driver();
+#&datapath();
+&generate_code();
+#&write_example_testbench();
+exit(-$error) if $error;
+#
+# Remove ".."'s in pathnames
+#@tmp = ();
+#foreach $arg (@args) {
+#    $arg =~ s#[^/]\+/\.\.##g;
+#    push(@tmp, $arg);
+#}
+#@args = @tmp;
+exit(0);
+#
+
+# Parse an array of command-line arguments, returning
+# an array of expanded command-line arguments
+
+
+
+sub parse_args {
+    local($cwd,         # Current working directory
+    @args) = @_;  # List of arguments
+    local ($arg) = "";
+    $parse_count++;
+    local($arg, @final,$pwd);
+    readargs: while ($arg = shift(@args)) {
+    chomp($arg);
+    #print "ARG=", $arg, "\n";
+    # Is this an option with a filename argument
+    # that requires relocation?
+    if ($arg =~ m/^-([fF])(.*)$/) {
+        $opt = $1;
+        $arg = $2;
+        # Was it specified using the "-O arg" syntax?
+        $arg = shift(@args) unless $arg;
+        # Prepend the CWD if the argument is relative
+# Not needed - relative paths not supported
+#        $arg = "$cwd/$arg" unless $arg =~ m|^/|;
+        # If this was a '-f' or '-F' option, read the file
+        # and parse it as a sequence of options
+
+        if ($opt =~ m/[fF]/) {
+            print "Opening $arg file for reading\n" if $debug;
+            if (!open(MFT, "< $arg")) {
+                print STDERR "ERROR: Cannot open $arg for reading: $!\n";
+                $error++;
+                next;
+            }
+
+            local(@subargs, $_, @myargs) = ();
+            while ($_ = <MFT>) {
+                chomp;
+
+# original argument splitting
+#                @myargs = /\s*(\S+)/g;
+                @myargs = ();
+#                while ( /\s*(\S+)/g ) {
+                # Now expect "XXX    =  YYY" format only
+#                while ( /\s*(\S+)\s*=\s*(\S+)/g ) {
+                while ( /\s*(\S+)\s*=(.*)/g ) {
+                    $store_1 = $1;
+                    if ($2 =~ /\s*(\S+)/ ) {
+                        $store_2 = $1;
+                    } else {
+                        $store_2 = "";
+                        print "Found Null Arg" if $debug;
+                    }
+
+                    # if we find a // then ignore the rest of the line
+                    if (($store_1 =~ m#//#) || ($store_1 =~ m#--#)){
+                        #print "\n\n Found Comment ! \n\n";
+                        last;
+                    } else {
+                           #push(@myargs, $1);
+                           push(@myargs, "-g" . $store_1."=".$store_2);
+                       }
+                }
+                print "My Args=" if $debug;
+                print join "|", @myargs, "\n" if $debug;
+                push(@subargs, @myargs);
+                #push(@subargs, $_);
+            }
+            close(MFT);
+            # If the option was '-F', change the cwd to the directory
+            # containing the argument file
+            $newcwd = $cwd;
+            # Not needed any more (should use -f instead)
+            #if ($opt eq "F") {
+            #    $arg =~ m#^(.*)/[^/]+$#;
+            #    $newcwd = $1;
+            #    chdir($newcwd) or die "Can't chdir to $newcwd";
+            #    print "Changed dir -F to $newcwd\n" if $debug;
+            #}
+            push(@final, &parse_args($newcwd, @subargs));
+            #Not needed any more
+            #chdir($cwd) or die "Can't chdir to $cwd";
+            #print "Changed dir back to $cwd\n" if $debug;
+        } else {
+            push(@final, "-$opt", $arg);
+        }
+    }
+
+    # Get the generics
+    elsif ($arg =~ m/^-(g|g)(.*)$/) {
+        $opt = $1;
+        $arg = $2;
+        # Was it specified using the "-O arg" syntax?
+        $arg = shift(@args) unless $arg;
+ #       print $opt, "=====", $arg, "\n";
+        $arg =~ m/^(.*)=(.*)$/;
+        $generic = uc $1;
+        $generic_val = $2;
+        if ($generic eq "FAMILY") {
+            $gFAMILY = $generic_val;
+            if ($gFAMILY  eq "stratixii") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixii";
+            }
+            elsif ($gFAMILY  eq "Stratix II") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixii";
+            }
+            elsif ($gFAMILY  eq "stratixiigx") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixiigx";
+            }
+            elsif ($gFAMILY  eq "Stratix II GX") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixiigx";
+            }
+            elsif ($gFAMILY  eq "HardCopy II") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixii";
+            }
+            elsif ($gFAMILY  eq "hardcopyii") {
+                $gFAMILY = "Stratix II";
+                $gFAMILYlc = "stratixii";
+                $gFAMILYfull = "stratixii";
+            }
+            elsif ($gFAMILY  eq "cycloneii") {
+                # For this release we will use CycloneII devices in Cyclone mode
+                $gFAMILY = "Cyclone II";
+                $gFAMILYlc = "cycloneii";
+                $gFAMILYfull = "cycloneii";
+                #$gFAMILY = "Cyclone";
+                #$gFAMILYlc = "cyclone";
+            }
+            elsif ($gFAMILY  eq "stratix") {
+                # For this release we will use CycloneII devices in Cyclone mode
+                $gFAMILY = "Stratix";
+                $gFAMILYlc = "stratix";
+                $gFAMILYfull = "stratix";
+            }
+            elsif ($gFAMILY  eq "stratixgx") {
+                # For this release we will use CycloneII devices in Cyclone mode
+                $gFAMILY = "Stratix";
+                $gFAMILYlc = "stratix";
+                $gFAMILYfull = "stratix";
+            }
+            else {
+                $gFAMILYlc = lc $gFAMILY;
+                $gFAMILYfull = lc $gFAMILY;
+            }
+            print "gFAMILY=",$gFAMILY, "\n";
+        }
+        elsif ($generic eq "MEM_TYPE") {
+           $gMEM_TYPE = $generic_val;
+           print "gMEM_TYPE=",$gMEM_TYPE, "\n";
+        }
+        elsif ($generic eq "LOCAL_DATA_BITS") {
+            $gLOCAL_DATA_BITS = $generic_val;
+            print "gLOCAL_DATA_BITS=",$gLOCAL_DATA_BITS, "\n";
+        }
+	elsif ($generic eq "AVALON_MEMORY_DATA_BITS") {
+	    $gMEMORY_DATA_WIDTH = $generic_val;
+	    print "gMEMORY_DATA_WIDTH=",$gMEMORY_DATA_WIDTH, "\n";
+	}
+	elsif ($generic eq "MEMORY_ADDRESS_WIDTH") {
+	    $gMEMORY_ADDRESS_WIDTH = $generic_val;
+	    print "gMEMORY_ADDRESS_WIDTH=",$gMEMORY_ADDRESS_WIDTH, "\n";
+	}#
+#	elsif ($generic eq "MEMORY_BYTEEN_WIDTH") {
+#	    $gMEMORY_BYTEEN_WIDTH = $generic_val;
+#	    print "gMEMORY_BYTEEN_WIDTH=",$gMEMORY_BYTEEN_WIDTH, "\n";
+#	}
+	elsif ($generic eq "MEMORY_BURST_LENGTH") {
+	    $gMEMORY_BURST_LENGTH = $generic_val;
+	    print "gMEMORY_BURST_LENGTH=",$gMEMORY_BURST_LENGTH, "\n";
+	}
+	elsif ($generic eq "AVL_DATA_WIDTH_MULTIPLY") {
+	    $gAVL_DATA_WIDTH_MULTIPLY = $generic_val;
+	    print "gAVL_DATA_WIDTH_MULTIPLY=",$gAVL_DATA_WIDTH_MULTIPLY, "\n";
+	}#
+	elsif ($generic eq "IS_BURST4_NARROW") {
+	    $gIS_BURST4_NARROW = $generic_val;
+	    print "gIS_BURST4_NARROW=",$gIS_BURST4_NARROW, "\n";
+	}#
+	elsif ($generic eq "BURST_MODE") {
+	    $gBURST_MODE = $generic_val;
+	    print "gBURST_MODE=",$gBURST_MODE, "\n";
+	}
+	elsif ($generic eq "PARSE_EXAMPLE_DESIGN") {
+	    $gPARSE_EXAMPLE_DESIGN = $generic_val;
+	    print "gPARSE_EXAMPLE_DESIGN=",$gPARSE_EXAMPLE_DESIGN, "\n";
+	}
+        elsif ($generic eq "MEM_DQ_PER_CQ") {
+            $gMEM_DQ_PER_DQS = $generic_val;
+            print "gMEM_DQ_PER_DQS=",$gMEM_DQ_PER_DQS, "\n";
+        }
+	elsif ($generic eq "NUM_CHIPS_WIDE") {
+            $gNUM_CHIPS_WIDE = $generic_val;
+            print "gNUM_CHIPS_WIDE=",$gNUM_CHIPS_WIDE, "\n";
+        }
+        elsif ($generic eq "FEDBACK_CLOCK_MODE") {
+            $gFEDBACK_CLOCK_MODE = $generic_val;
+            print "gFEDBACK_CLOCK_MODE=",$gFEDBACK_CLOCK_MODE, "\n";
+        }
+        elsif ($generic eq "PIPE_COM_CHECK") {
+            $gPIPE_COM_CHECK = $generic_val;
+            print "gPIPE_COM_CHECK=",$gPIPE_COM_CHECK, "\n";
+        }
+	elsif ($generic eq "NUM_OUTPUT_CONTROL") {
+            $gNUM_OUTPUT_CONTROL = $generic_val;
+            print "gNUM_OUTPUT_CONTROL=",$gNUM_OUTPUT_CONTROL, "\n";
+        }
+	elsif ($generic eq "MIGRATABLE_BYTEGROUPS") {
+            $gMIGRATABLE_BYTEGROUPS = $generic_val;
+            print "gMIGRATABLE_BYTEGROUPS=",$gMIGRATABLE_BYTEGROUPS, "\n";
+        }
+	elsif ($generic eq "USE_DQS_FOR_READ") {
+            $gUSE_DQS_FOR_READ = $generic_val;
+            print "gUSE_DQS_FOR_READ=",$gUSE_DQS_FOR_READ, "\n";
+        }
+	elsif ($generic eq "CLOCK_POS_PIN_NAME") {
+	    $gCLOCK_POS_PIN_NAME = $generic_val;
+            print "gCLOCK_POS_PIN_NAME=",$gCLOCK_POS_PIN_NAME, "\n";
+        }
+	elsif ($generic eq "MEMORY_LATENCY") {
+	    $gMEMORY_LATENCY = $generic_val;
+            print "gMEMORY_LATENCY=",$gMEMORY_LATENCY, "\n";
+        }
+	elsif ($generic eq "CLOCK_NEG_PIN_NAME") {
+	    $gCLOCK_NEG_PIN_NAME = $generic_val;
+            print "gCLOCK_NEG_PIN_NAME=",$gCLOCK_NEG_PIN_NAME, "\n";
+        }
+        elsif ($generic eq "CHOSEN_RESYNCH_CLOCK") {
+            $gCHOSEN_RESYNCH_CLOCK = $generic_val;
+            print "gCHOSEN_RESYNCH_CLOCK=",$gCHOSEN_RESYNCH_CLOCK, "\n";
+        }
+        elsif ($generic eq "CHOSEN_RESYNCH_PHASE") {
+            $gCHOSEN_RESYNCH_PHASE = $generic_val;
+            print "gCHOSEN_RESYNCH_PHASE=",$gCHOSEN_RESYNCH_PHASE, "\n";
+        }
+	elsif ($generic eq "DELAY_CHAIN") {
+            $gDELAY_CHAIN = $generic_val;
+            print "gDELAY_CHAIN=",$gDELAY_CHAIN, "\n";
+        }
+        elsif ($generic eq "CHOSEN_RESYNCH_EDGE") {
+            $gCHOSEN_RESYNCH_EDGE = $generic_val;
+            print "gCHOSEN_RESYNCH_EDGE=",$gCHOSEN_RESYNCH_EDGE, "\n";
+        }
+        elsif ($generic eq "INTER_RESYNCH") {
+            $gINTER_RESYNCH = $generic_val;
+            print "gINTER_RESYNCH=",$gINTER_RESYNCH, "\n";
+        }
+        elsif ($generic eq "MAN_RESYNCH") {
+            $gMAN_RESYNCH = $generic_val;
+            print "gMAN_RESYNCH=",$gMAN_RESYNCH, "\n";
+        }
+        elsif ($generic eq "NARROW_MODE") {
+            $gNARROW_MODE = $generic_val;
+            print "gNARROW_MODE=",$gNARROW_MODE, "\n";
+        }
+        elsif ($generic eq "NUM_CHIPS_DEEP") {
+            $gNUM_CHIPS_DEEP = $generic_val;
+            print "gNUM_CHIPS_DEEP=",$gNUM_CHIPS_DEEP, "\n";
+        }
+        elsif ($generic eq "PACKAGE") {
+            $gPACKAGE = $generic_val;
+            print "gPACKAGE=",$gPACKAGE, "\n";
+        }
+        elsif ($generic eq "DEVICE") {
+            $gDEVICE = $generic_val;
+            print "gDEVICE=",$gDEVICE, "\n";
+        }
+        elsif ($generic eq "MEMORY_VOLTAGE") {
+            $gMEMORY_VOLTAGE = $generic_val;
+            print "gMEMORY_VOLTAGE=",$gMEMORY_VOLTAGE, "\n";
+        }
+	elsif ($generic eq "SPEED_GRADE") {
+            $gSPEED_GRADE = $generic_val;
+            print "gSPEED_GRADE=",$gSPEED_GRADE, "\n";
+        }
+	elsif ($generic eq "MEM_DATA_BITS") {
+            $gMEM_DATA_BITS = $generic_val;
+            print "gMEM_DATA_BITS=",$gMEM_DATA_BITS, "\n";
+        }
+	elsif ($generic eq "NUM_OUTPUT_CLOCKS") {
+            $gNUM_OUTPUT_CLOCKS = $generic_val;
+            print "gNUM_OUTPUT_CLOCKS=",$gNUM_OUTPUT_CLOCKS, "\n";
+        }
+	elsif ($generic eq "ENABLE_CAPTURE_CLK") {
+            $gENABLE_CAPTURE_CLK = $generic_val;
+            print "gENABLE_CAPTURE_CLK=",$gENABLE_CAPTURE_CLK, "\n";
+        }
+	elsif ($generic eq "PIPELINE_ADDRESS_COMMAND") {
+            $gPIPELINE_ADDRESS_COMMAND = $generic_val;
+            print "gPIPELINE_ADDRESS_COMMAND=",$gPIPELINE_ADDRESS_COMMAND, "\n";
+        }
+	elsif ($generic eq "PIPELINE_READ_DATA") {
+            $gPIPELINE_READ_DATA = $generic_val;
+            print "gPIPELINE_READ_DATA=",$gPIPELINE_READ_DATA, "\n";
+        }
+	elsif ($generic eq "CHOSEN_RESYNCH_CYCLE") {
+            $gCHOSEN_RESYNCH_CYCLE = $generic_val;
+            print "gCHOSEN_RESYNCH_CYCLE=",$gCHOSEN_RESYNCH_CYCLE, "\n";
+        }
+        elsif ($generic eq "PIPE_READ_CHECK") {
+            $gPIPE_READ_CHECK = $generic_val;
+            print "gPIPE_READ_CHECK=",$gPIPE_READ_CHECK, "\n";
+        }
+        elsif ($generic eq "CAPTURE_CLOCK_POS_PIN_NAME") {
+            $gCAPTURE_CLOCK_POS_PIN_NAME = $generic_val;
+            print "gCAPTURE_CLOCK_POS_PIN_NAME=",$gCAPTURE_CLOCK_POS_PIN_NAME, "\n";
+        }
+        elsif ($generic eq "CAPTURE_CLOCK_NEG_PIN_NAME") {
+            $gCAPTURE_CLOCK_NEG_PIN_NAME= $generic_val;
+            print "gCAPTURE_CLOCK_NEG_PIN_NAME=",$gCAPTURE_CLOCK_NEG_PIN_NAME, "\n";
+        }
+        elsif ($generic eq "MEMORY_DEVICE") {
+            $gMEMORY_DEVICE = $generic_val;
+            print "gMEMORY_DEVICE=",$gMEMORY_DEVICE, "\n";
+        }
+        elsif ($generic eq "MEMORY_MODEL_NAME") {
+            $gMEMORY_MODEL_NAME = $generic_val;
+            print "gMEMORY_MODEL_NAME=",$gMEMORY_MODEL_NAME, "\n";
+        }
+	elsif ($generic eq "TRAIN_REFERENCE") {
+            $gTRAIN_REFERENCE = $generic_val;
+            print "gTRAIN_REFERENCE=",$gTRAIN_REFERENCE, "\n";
+        }
+	elsif ($generic eq "READ_VALID_CYCLE") {
+            $gREAD_VALID_CYCLE = $generic_val;
+            print "gREAD_VALID_CYCLE=",$gREAD_VALID_CYCLE, "\n";
+        }
+        elsif ($generic eq "CLOCK_FREQ_IN_MHZ") {
+            $gCLOCK_FREQ_IN_MHZ = $generic_val;
+            print "gCLOCK_FREQ_IN_MHZ=",$gCLOCK_FREQ_IN_MHZ, "\n";
+        }
+        elsif ($generic eq "TOPLEVEL_NAME") {
+            $gTOPLEVEL_NAME = $generic_val;
+            print "gTOPLEVEL_NAME=",$gTOPLEVEL_NAME, "\n";
+        }
+        elsif ($generic eq "WRAPPER_NAME") {
+            $gWRAPPER_NAME = $generic_val;
+            print "gWRAPPER_NAME=",$gWRAPPER_NAME, "\n";
+        }
+        elsif ($generic eq "VARIATION_TEST_PATH") {
+            $gVARIATION_TEST_PATH = $generic_val;
+            print "gVARIATION_TEST_PATH=",$gVARIATION_TEST_PATH, "\n";
+        }
+	elsif ($generic eq "VARIATION_PATH") {
+            $gVARIATION_PATH = $generic_val;
+            print "gVARIATION_PATH=",$gVARIATION_PATH, "\n";
+        }
+	elsif ($generic eq "QDRII_PIN_PREFIX") {
+            $gQDRII_PIN_PREFIX = $generic_val;
+            print "gQDRII_PIN_PREFIX=",$gQDRII_PIN_PREFIX, "\n";
+        }
+        elsif ($generic eq "LANGUAGE") {
+            $language = $generic_val;
+            if ($language ne "vhdl") {
+                $language = "verilog";
+            }
+            print "language=",$language, "\n";
+        }
+        elsif ($generic eq "QUARTUS_VERSION") {
+            $quartus_version = $generic_val;
+            if ($quartus_version ne "4.0") {
+                $quartus_version = "4.1";
+            }
+            print "quartus_version=",$quartus_version, "\n";
+        }
+        elsif ($generic eq "MEGAWIZARD_VERSION") {
+            $gWIZARD_VERSION = $generic_val;
+            print "gWIZARD_VERSION=",$gWIZARD_VERSION, "\n";
+        }
+        elsif ($generic eq "PROJECT_PATH") {
+            $gPROJECT_PATH = $generic_val;
+            print "gPROJECT_PATH=",$gPROJECT_PATH, "\n";
+        }
+        elsif ($generic eq "WRAPPER_PATH") {
+            $gWRAPPER_PATH = $generic_val;
+            print "gWRAPPER_PATH=",$gWRAPPER_PATH, "\n";
+        }
+        elsif ($generic eq "UPDATE_TOP_LEVEL") {
+            $gUPDATE_TOP_LEVEL = $generic_val;
+            print "gUPDATE_TOP_LEVEL=",$gUPDATE_TOP_LEVEL, "\n";
+        }
+        elsif ($generic eq "STRATIXII_DLL_DELAY_BUFFER_MODE") {
+            $gSTRATIXII_DLL_DELAY_BUFFER_MODE = $generic_val;
+            print "gSTRATIXII_DLL_DELAY_BUFFER_MODE=",$gSTRATIXII_DLL_DELAY_BUFFER_MODE, "\n";
+       }
+       elsif ($generic eq "STRATIXII_DLL_DELAY_CHAIN_LENGTH") {
+            $gSTRATIXII_DLL_DELAY_CHAIN_LENGTH = $generic_val;
+            print "gSTRATIXII_DLL_DELAY_CHAIN_LENGTH=",$gSTRATIXII_DLL_DELAY_CHAIN_LENGTH, "\n";
+       }
+        elsif ($generic eq "STRATIXII_DQS_PHASE_SHIFT") {
+            $gSTRATIXII_DQS_PHASE_SHIFT = $generic_val;
+            print "gSTRATIXII_DQS_PHASE_SHIFT=",$gSTRATIXII_DQS_PHASE_SHIFT, "\n";
+       }
+       elsif ($generic eq "STRATIXII_DQS_OUT_MODE") {
+            $gSTRATIXII_DQS_OUT_MODE = $generic_val;
+            print "gSTRATIXII_DQS_OUT_MODE=",$gSTRATIXII_DQS_OUT_MODE, "\n";
+       }
+       elsif ($generic eq "TRAIN_MODE") {
+            $gTRAIN_MODE = $generic_val;
+            print "gTRAIN_MODE=",$gTRAIN_MODE, "\n";
+       }
+       elsif ($generic eq "RESYNCH_TYPE") {
+            $gRESYNCH_TYPE = $generic_val;
+            print "gRESYNCH_TYPE=",$gRESYNCH_TYPE, "\n";
+       }
+       elsif ($generic eq "REGRESSION_TEST") {
+            $gREGRESSION_TEST = $generic_val;
+            print "gREGRESSION_TEST=",$gREGRESSION_TEST, "\n";
+       }
+       elsif ($generic eq "DDIO_MEMORY_CLOCKS") {
+            $gDDIO_MEMORY_CLOCKS = $generic_val;
+            print "gDDIO_MEMORY_CLOCKS=",$gDDIO_MEMORY_CLOCKS, "\n";
+       }
+       
+        else {
+            print $generic, " - Unrecognised Generic !!!\n";
+        }
+#        print "cas=",$gcaslatency," col=",$gcolbits," row=",$growbits, "\n";
+#        $arg =~ tr/A-Z/a-z/;
+#        print $opt, "=====", $arg, "\n";
+        $generic = $arg;
+        push(@final, "-$opt", $arg);
+    }
+
+   # Get the soma in file name
+    elsif ($arg =~ m/^-(s|S)(.*)$/) {
+        $opt = $1;
+        $arg = $2;
+        # Was it specified using the "-O arg" syntax?
+        $arg = shift(@args) unless $arg;
+        print $opt, "=====", $arg, "\n";
+#        $arg =~ tr/A-Z/a-z/;
+#        print $opt, "=====", $arg, "\n";
+        $soma_file = $arg;
+        push(@final, "-$opt", $arg);
+    }
+
+    # Get the soma out file name
+    elsif ($arg =~ m/^-(o|O)(.*)$/) {
+        $opt = $1;
+        $arg = $2;
+        # Was it specified using the "-O arg" syntax?
+        $arg = shift(@args) unless $arg;
+        print $opt, "=====", $arg, "\n";
+#        $arg =~ tr/A-Z/a-z/;
+#        print $opt, "=====", $arg, "\n";
+        $output_directory = $arg . "/";
+	my $s1 = '/';
+        $output_directory =~ s/\\/$s1/g;
+
+	#print("\n\n\n\n\n", $output_directory, "\n\n\n\n\n");
+	push(@final, "-$opt", $arg);
+    }
+
+
+    # Get debug option
+  elsif ($arg =~ m/^-(d|d)(.*)$/) {
+        $debug = 1;
+    }
+    elsif ($arg =~ m/^-(h|H)(.*)$/) {
+        $opt = $1;
+        &usage;
+    }
+    # Anything else is a test to run
+    else {
+    }
+    }
+    #print join " ", @final, "\n";
+    @args = @final;
+    return @final;
+#    return @args;
+
+}
+
+sub generate_code
+{
+	&datapath();
+	&qdrii_sdram();
+	&example_driver();
+	&test_bench();
+}

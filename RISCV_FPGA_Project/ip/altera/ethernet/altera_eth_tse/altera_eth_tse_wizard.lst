@@ -1,0 +1,10 @@
+[Interfaces|Ethernet]
+Triple-Speed Ethernet v13.1 = %t "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_eth_tse_hw.tcl" --wizard:altera_eth_tse --familyparameter:deviceFamilyName --cusp_ip:true --early_gen:on %f %o %h
+<INFO>
+<DEVICE_FAMILY SUPPORTED="NONE | Arria 10 | Stratix V | Stratix IV | Stratix III | Arria II GX | Arria II GZ | Arria V | Arria V GZ | Cyclone V | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<QIP_FILE_ENABLED/>
+<ALIAS>Triple-Speed Ethernet v13.0</ALIAS>
+
+</INFO>

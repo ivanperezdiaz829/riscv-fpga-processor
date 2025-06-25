@@ -1,0 +1,12 @@
+[foss]
+name = perl
+version = 5.8.3
+description = more details on http://dev.perl.org/perl5/news/2004/perl-5.8.3.html
+case = 
+source = true
+binary = false
+modified = false
+usage = redistributed
+license_type = Artistic
+license_url = http://search.cpan.org/%7Enwclark/perl-5.8.3/Artistic
+download_url = http://dev.perl.org/perl5/news/2004/perl-5.8.3.html

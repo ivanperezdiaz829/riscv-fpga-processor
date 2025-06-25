@@ -1,0 +1,56 @@
+
+    -- make this zero and timing is done from the pin (ie no approximation of dqs int is made) --> too pessemistic
+    -- 0.9 would probably be an upper limit
+    -- make this too high and it will no longer represent the real hardware properly and the result will be too optimistic
+    scaling_to_estimate_dqs_int                     =  0.5
+
+    -- Check to see if each speed grade file has overridden these values
+    -- Insert one buffer for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_zero_buffers    =   7200   (139MHz) --6666 (was 150MHz for all speed grades in V 2.1.0) 
+    
+    -- Insert two bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_one_buffer      =   8403  (119MHz)  -- didnt use this in v2.1.0
+    
+    -- Insert three bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_two_buffers      =  9090   (110MHz)  
+
+    -- Insert four bufferrs for freq lower than this;
+    t_clock_period_postamble_hold_limit_for_inserting_three_buffers    =  9523   (105MHz) 
+
+    
+    target_hold_over_setup_ratio_for_read_capture   =       1.0      -- Optimum setting would be when setup and hold margins are equal
+    min_acceptable_read_margin                      =       50       -- This could be reduced if there was supporting system char data
+
+    -- for shortest paths
+    tPD_undelayed_out_to_resetreg_clk_no_buffers_MIN        =       832         -- from compiling a real design in QII 4.1 IB-178 1S25 72-bit interface 
+    tPD_undelayed_out_to_resetreg_clk_one_buffer_MIN        =       1040
+    tPD_undelayed_out_to_resetreg_clk_two_buffers_MIN       =       1160
+    
+    tPD_undelayed_out_to_resetreg_clk_three_buffers_MIN     =       1280    Estimates based on above numbers
+    tPD_undelayed_out_to_resetreg_clk_four_buffers_MIN      =       1400
+
+-- ---------------------------------------------------------------------------
+
+    -- +/- 2 counts of the control bus. 1 count value is 41ps max
+    t_dll_phase_error                      =         82              
+
+    -- char for 90 degrees, same numbers used for 72 degrees
+    t_dll_dynamic_phase_jitter_large     =           500
+    tCK_limit_dll_jitter_high            =   6250
+    t_dll_dynamic_phase_jitter_medium    =           300
+    tCK_limit_dll_jitter_low             =   5070
+    t_dll_dynamic_phase_jitter_small     =           100
+                 
+                 
+    dll_shift_limit                                     =   2100        -- has no min since it's PVT compensated
+           
+    tJITTER_pll                                         = 150
+
+    
+    pll_normal_mode_phase_offset                        = 0         -- completely unknown
+    pll_normal_mode_phase_error                         = 400       -- unknown - but we'll make it at least a little bigger than that for Stratix II
+  
+    -- a time constant for the voltage to rise to Vref + some minimum pos-going pulse width that will make it through the dqs pin to the capture reg
+    -- fast corner (hold time) is -500 ps  these compensate 500 + 500 ps on slow path
+    pes_t_rise_to_vref                             =   1000       
+    opt_t_rise_to_vref                             =   1000     

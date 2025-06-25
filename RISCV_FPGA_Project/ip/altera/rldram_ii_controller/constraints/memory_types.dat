@@ -1,0 +1,535 @@
+--------------------------
+-- CIO RLDRAM II CHIPS
+--------------------------
+--------------------------
+-- 288Mb Devices
+--------------------------
+   
+[Micron MT49H8M36FM-25]
+    description    = Micron 8 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 21
+    burst_length = 2, 4
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H8M36FM-33]
+    description    = Micron 8 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 21
+    burst_length = 2, 4
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 300
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H8M36FM-5]
+    description    = Micron 8 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 21
+    burst_length = 2, 4
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 200
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H16M18FM-25]
+    description    = Micron 16 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H16M18FM-33]
+    description    = Micron 16 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 300
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H16M18FM-5]
+    description    = Micron 16 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 200
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M9FM-25]
+    description    = Micron 32 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M9FM-33]
+    description    = Micron 32 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 300
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H32M9FM-5]
+    description    = Micron 32 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 200
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+    
+--------------------------
+-- 576Mb Devices
+--------------------------
+   
+[Micron MT49H16M36HU-25E]
+    description    = Micron 16 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H16M36HU-25]
+    description    = Micron 16 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H16M36HU-33]
+    description    = Micron 16 M x 36 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 32, 36
+    mem_dq_per_dqs = 16, 18
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+    
+[Micron MT49H32M18HU-25E]
+    description    = Micron 32 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M18HU-25]
+    description    = Micron 32 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H32M18HU-33]
+    description    = Micron 32 M x 18 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H64M9HU-25E]
+    description    = Micron 64 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H64M9HU-25]
+    description    = Micron 64 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H64M9HU-33]
+    description    = Micron 64 M x 9 Bit CIO RLDRAM II chip
+    
+    type  = cio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+    
+    
+    
+    
+--------------------------
+-- SIO RLDRAM II CHIPS
+--------------------------
+[Micron MT49H16M18CFM-25]
+    description    = Micron 16 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H16M18CFM-33]
+    description    = Micron 16 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 300
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H16M18CFM-5]
+    description    = Micron 16 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 200
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M9CFM-25]
+    description    = Micron 32 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M9CFM-33]
+    description    = Micron 32 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 300
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H32M9CFM-5]
+    description    = Micron 32 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 21
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3
+    trc_cycles = 4, 6, 8
+    twl_cycles = 5, 7, 9
+    initialization_time = 200
+    maximum_frequency = 200
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+    
+    
+--------------------------
+-- 576Mb Devices
+--------------------------
+   
+[Micron MT49H32M18CHU-25E]
+    description    = Micron 32 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H32M18CHU-25]
+    description    = Micron 32 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H32M18CHU-33]
+    description    = Micron 32 M x 18 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 16, 18
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H64M9CHU-25E]
+    description    = Micron 64 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+    
+[Micron MT49H64M9CHU-25]
+    description    = Micron 64 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3
+
+[Micron MT49H64M9CHU-33]
+    description    = Micron 64 M x 9 Bit SIO RLDRAM II chip
+    
+    type  = sio
+    device_width = 8, 9
+    mem_dq_per_dqs = 8, 9
+    mem_addr_bits = 22
+    burst_length = 2, 4, 8
+    configuration = 1, 2, 3, 4
+    trc_cycles = 4, 6, 8, 3
+    twl_cycles = 5, 7, 9, 4
+    initialization_time = 200
+    maximum_frequency = 400
+    pf_pin_load_on_dq = 5
+    pf_pin_load_on_cmd = 3
+    pf_pin_load_on_clk = 3

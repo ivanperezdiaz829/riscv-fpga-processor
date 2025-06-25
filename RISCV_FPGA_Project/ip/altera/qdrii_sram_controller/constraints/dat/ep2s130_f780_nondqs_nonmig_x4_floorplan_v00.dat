@@ -1,0 +1,38 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains floorplan information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - the maximum width of the memory interface  
+--  - a default byte group location  
+--  - any non working configuration  
+-- It will be used by the MegaWizard in order to let the user select the 
+-- possible placement of the DQ groups 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+device EP2S130F780
+	bytegroup_name 0T 1T 2T 3T 4T 5T 6T 7T 8T 9T 10T 11T 12T 13T 14T 15T 16T 17T 8R 39R 9R 40R 10R 41R 11R 42R 12R 43R 13R 14R 44R 15R 45R 16R 46R 17R 47R 18R 48R 19R 49R 18B 17B 16B 15B 14B 13B 12B 11B 10B 9B 8B 7B 6B 5B 4B 3B 2B 1B 0B 49L 19L 48L 18L 47L 17L 46L 16L 45L 15L 44L 14L 13L 43L 12L 42L 11L 41L 10L 40L 9L 39L 8L
+	default_placement 0T 1T 2T 3T 4T 5T 6T 7T 8T 9T 10T 11T 12T 13T 14T 15T 16T 17T 8R 39R 9R 40R 10R 41R 11R 42R 12R 43R 13R 14R 44R 15R 45R 16R 46R 17R 47R 18R 48R 19R 49R 18B 17B 16B 15B 14B 13B 12B 11B 10B 9B 8B 7B 6B 5B 4B 3B 2B 1B 0B 49L 19L 48L 18L 47L 17L 46L 16L 45L 15L 44L 14L 13L 43L 12L 42L 11L 41L 10L 40L 9L 39L 8L
+	maximum_width 332

@@ -1,0 +1,10 @@
+[Interfaces|SerialLite]
+SerialLite III Streaming v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/seriallite_iii_hw.tcl" --wizard:seriallite_iii --familyparameter:system_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix V | Arria V GZ" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>seriallite_iii_streaming_demo_SV_GT_SI v12.0</ALIAS>
+</INFO>

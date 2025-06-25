@@ -1,0 +1,11 @@
+[JTAG-accessible Extensions]
+Partial Reconfiguration v13.1= "%t" "%w/../../common/lib/megawizard.pl" --wizard:alt_pr  --early_gen:on --wizard_file:"%w/alt_pr_hw.tcl" --family_parameter:device_family %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Stratix IV | Stratix III | MAX V | MAX II | Arria V GZ | Arria V | Arria II GZ | Arria II GX | Cyclone V | Cyclone IV GX | Cyclone IV E | Cyclone III LS | Cyclone III"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Partial Reconfiguration</ALIAS>
+<ALIAS>Partial Reconfiguration v13.1</ALIAS>
+</INFO>

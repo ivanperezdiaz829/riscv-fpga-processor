@@ -1,0 +1,29 @@
+
+INCLUDE "maxplus2.inc";
+
+
+SUBDESIGN 'pcit32_sr'
+(
+	S		: INPUT;
+	R		: INPUT;
+	clk		: INPUT;
+	clrn	: INPUT;
+	prn		: INPUT;
+	Q		: OUTPUT;
+)
+
+VARIABLE
+
+	REG		: DFFE;
+
+BEGIN
+
+	REG.clk		= clk;
+	REG.clrn	= clrn;
+	REG.prn		= prn;
+	reg.d		= (REG AND NOT R) OR S;
+	Q 			= reg.q;
+	
+END;
+
+

@@ -1,0 +1,15 @@
+ 
+[PLL]
+Arria 10 Transceiver ATX PLL v13.1 = "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/tcl/altera_xcvr_atx_pll_a10_hw.tcl" --wizard:altera_xcvr_atx_pll_a10 --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria 10 | Arria VI"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Arria VI Transceiver ATX PLL</ALIAS>
+<ALIAS>Arria VI Transceiver ATX PLL v13.1</ALIAS>
+<ALIAS>Arria 10 Transceiver ATX PLL</ALIAS>
+<ALIAS>Arria 10 Transceiver ATX PLL v13.1</ALIAS>
+</INFO>

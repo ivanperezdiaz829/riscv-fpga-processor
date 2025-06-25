@@ -1,0 +1,11 @@
+[Interfaces|PCI]
+PCI Compiler v13.1 = "%w../../common/ip_toolbench/v1.3.0/bin/ip_toolbench.exe" %f %o %h -alterppf.specify_username:1 -lib_dir:"%w" -flow_dir:"%w../../common/ip_toolbench/v1.3.0/bin" -wizard:pci_wizard
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix IV | Stratix III | Stratix II GX | Stratix II | Stratix GX | Stratix | HardCopy IV | HardCopy III | HardCopy II | Arria GX | Arria II GX | Arria II GZ | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III | Cyclone II | Cyclone | MAX II"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>PCI Compiler v13.0</ALIAS>
+
+</INFO>

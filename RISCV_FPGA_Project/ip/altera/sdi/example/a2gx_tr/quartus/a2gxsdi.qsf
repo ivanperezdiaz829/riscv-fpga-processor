@@ -1,0 +1,152 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2009 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II
+# Version 9.0 Build 235 06/17/2009 Service Pack 2 SJ Full Version
+# Date created = 16:18:19  September 18, 2009
+#
+# -------------------------------------------------------------------------- #
+#
+
+
+set_global_assignment -name FAMILY "Arria II GX"
+set_global_assignment -name DEVICE EP2AGX125EF35C5ES
+set_global_assignment -name TOP_LEVEL_ENTITY a2gxsdi_top
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "9.0 SP2"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:18:19  SEPTEMBER 18, 2009"
+set_global_assignment -name LAST_QUARTUS_VERSION "9.1 SP1"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 1152
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+
+
+set_location_assignment PIN_AJ19 -to clkin_bot_p
+set_instance_assignment -name IO_STANDARD LVDS -to clkin_bot_p
+set_instance_assignment -name IO_STANDARD "2.5 V" -to user_dipsw
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to user_dipsw
+set_location_assignment PIN_N2 -to user_dipsw[0]
+set_location_assignment PIN_U9 -to user_dipsw[1]
+set_location_assignment PIN_V9 -to user_dipsw[2]
+set_location_assignment PIN_U4 -to user_dipsw[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to user_led
+set_location_assignment PIN_G1 -to user_led[0]
+set_location_assignment PIN_J4 -to user_led[1]
+set_location_assignment PIN_J5 -to user_led[2]
+set_location_assignment PIN_R5 -to user_led[3]
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to user_pb
+set_location_assignment PIN_AK9 -to user_pb[0]
+set_location_assignment PIN_AL7 -to user_pb[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to user_pb[0]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to user_pb[1]
+set_instance_assignment -name IO_STANDARD "1.8 V" -to user_pb[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to user_pb[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to cpu_resetn
+set_location_assignment PIN_N10 -to cpu_resetn
+set_instance_assignment -name IO_MAXIMUM_TOGGLE_RATE "0 MHz" -to cpu_resetn
+set_location_assignment PIN_T31 -to hsma_tx_p[0]
+set_location_assignment PIN_P31 -to hsma_tx_p[1]
+set_location_assignment PIN_M31 -to hsma_tx_p[2]
+set_location_assignment PIN_K31 -to hsma_tx_p[3]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to hsma_tx_p
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to hsma_rx_p
+set_location_assignment PIN_U33 -to hsma_rx_p[0]
+set_location_assignment PIN_R33 -to hsma_rx_p[1]
+set_location_assignment PIN_N33 -to hsma_rx_p[2]
+set_location_assignment PIN_L33 -to hsma_rx_p[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to hsma_tx_d_p
+set_location_assignment PIN_AA10 -to hsma_tx_d_p[0]
+set_location_assignment PIN_Y11 -to hsma_tx_d_p[1]
+set_location_assignment PIN_AH2 -to hsma_tx_d_p[2]
+set_location_assignment PIN_AB10 -to hsma_tx_d_p[3]
+set_location_assignment PIN_Y8 -to hsma_tx_d_p[4]
+set_location_assignment PIN_AF3 -to hsma_tx_d_p[5]
+set_location_assignment PIN_AD4 -to hsma_tx_d_p[6]
+set_location_assignment PIN_V4 -to hsma_tx_d_p[7]
+set_location_assignment PIN_AA7 -to hsma_tx_d_p[8]
+set_location_assignment PIN_W7 -to hsma_tx_d_p[9]
+set_location_assignment PIN_Y5 -to hsma_tx_d_p[10]
+set_location_assignment PIN_AC3 -to hsma_tx_d_p[11]
+set_location_assignment PIN_W10 -to hsma_tx_d_p[12]
+set_location_assignment PIN_R7 -to hsma_tx_d_p[13]
+set_location_assignment PIN_R2 -to hsma_tx_d_p[14]
+set_location_assignment PIN_V11 -to hsma_tx_d_p[15]
+set_location_assignment PIN_U11 -to hsma_tx_d_p[16]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to hsma_tx_d_n
+set_location_assignment PIN_AA9 -to hsma_tx_d_n[0]
+set_location_assignment PIN_Y10 -to hsma_tx_d_n[1]
+set_location_assignment PIN_AH1 -to hsma_tx_d_n[2]
+set_location_assignment PIN_AB9 -to hsma_tx_d_n[3]
+set_location_assignment PIN_Y7 -to hsma_tx_d_n[4]
+set_location_assignment PIN_AF2 -to hsma_tx_d_n[5]
+set_location_assignment PIN_AE3 -to hsma_tx_d_n[6]
+set_location_assignment PIN_V3 -to hsma_tx_d_n[7]
+set_location_assignment PIN_Y6 -to hsma_tx_d_n[8]
+set_location_assignment PIN_W6 -to hsma_tx_d_n[9]
+set_location_assignment PIN_AA4 -to hsma_tx_d_n[10]
+set_location_assignment PIN_AC2 -to hsma_tx_d_n[11]
+set_location_assignment PIN_Y9 -to hsma_tx_d_n[12]
+set_location_assignment PIN_T7 -to hsma_tx_d_n[13]
+set_location_assignment PIN_P1 -to hsma_tx_d_n[14]
+set_location_assignment PIN_V10 -to hsma_tx_d_n[15]
+set_location_assignment PIN_U10 -to hsma_tx_d_n[16]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to hsma_d
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MAXIMUM CURRENT" -to hsma_d
+set_location_assignment PIN_M1 -to hsma_d[3]
+set_location_assignment PIN_L1 -to hsma_d[0]
+set_location_assignment PIN_R6 -to hsma_d[1]
+set_location_assignment PIN_K1 -to hsma_d[2]
+set_instance_assignment -name IO_STANDARD LVDS -to hsma_clk_in_p2
+set_instance_assignment -name IO_STANDARD "2.5 V" -to hsma_clk_out_p2
+set_location_assignment PIN_K18 -to hsma_clk_in_p2
+set_location_assignment PIN_V12 -to hsma_clk_out_p2
+
+set_global_assignment -name ENABLE_SIGNALTAP OFF
+set_global_assignment -name USE_SIGNALTAP_FILE stp1.stp
+set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING ON
+set_global_assignment -name AUTO_MERGE_PLLS OFF
+set_location_assignment HSSIPLL_X0_Y56_N135 -to "hsmc_sdi:u0_hsmc_sdi|A2gxSDI3G_tx:u0_A2gxSDI3G_tx|sdi_megacore_top:sdi_megacore_top_inst|sdi_txrx_port:sdi_txrx_port_gen[0].u_txrx_port|rc_s4gxb_tx:gen_tx_alt4gxb.u_gxb|alt4gxb:alt4gxb_component|alt4gxb_u3q4:auto_generated|tx_pll0"
+set_location_assignment HSSIPLL_X0_Y59_N135 -to "hsmc_sdi:u0_hsmc_sdi|A2gxSDI3G_ch4:u1_A2gxSDI3G|sdi_megacore_top:sdi_megacore_top_inst|sdi_txrx_port:sdi_txrx_port_gen[0].u_txrx_port|rc_s4gxb_duplex:gen_duplex_alt4gxb.u_gxb|alt4gxb:alt4gxb_component|alt4gxb_f1g9:auto_generated|tx_pll0"
+
+set_global_assignment -name MISC_FILE a2gxsdi.dpf
+set_global_assignment -name MIF_FILE ../source/sdi_dprio_siv/siv_sdi_q80.mif
+set_global_assignment -name VERILOG_FILE ../source/sdi_dprio_siv/sdi_tr_reconfig_multi_siv.v
+set_global_assignment -name VERILOG_FILE ../source/sdi_dprio_siv/sdi_ch0_rom_siv.v
+set_global_assignment -name VERILOG_FILE ../source/sdi_dprio_siv/sdi_mif_intercept_siv.v
+set_global_assignment -name VERILOG_FILE ../source/sdi_dprio_siv/alt4gxb_gxb_reconfig.v
+set_global_assignment -name VERILOG_FILE ../source/pattern_gen/sdi_pattern_gen.v
+set_global_assignment -name VERILOG_FILE ../source/pattern_gen/gen_patho.v
+set_global_assignment -name VERILOG_FILE ../source/pattern_gen/sdi_makeframe.v
+set_global_assignment -name VERILOG_FILE ../source/pattern_gen/gen_colorbar_new.v
+set_global_assignment -name VERILOG_FILE ../source/top/hsmc_sdi.v
+set_global_assignment -name VERILOG_FILE ../source/top/a2gxsdi_top.v
+set_global_assignment -name VERILOG_FILE ../source/top/lp_fifo.v
+set_global_assignment -name VERILOG_FILE ../source/top/pll100to50.v
+set_global_assignment -name VERILOG_FILE ../source/top/pll_tx_pclks.v
+set_global_assignment -name VERILOG_FILE ../source/top/pll_100to27MHz.v
+set_global_assignment -name VERILOG_FILE ../source/mc_build/A2gxSDI3G_tx.v
+set_global_assignment -name VERILOG_FILE ../source/mc_build/A2gxSDI3G_rx.v
+set_global_assignment -name VERILOG_FILE ../source/mc_build/A2gxSDI3G_ch4.v
+set_global_assignment -name SDC_FILE a2gxsdi_top.sdc
+set_global_assignment -name SEARCH_PATH ../../../lib
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

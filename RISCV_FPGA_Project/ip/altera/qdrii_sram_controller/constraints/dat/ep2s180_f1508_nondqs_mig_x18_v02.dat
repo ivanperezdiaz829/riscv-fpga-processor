@@ -1,0 +1,620 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains pin placement information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - location of each possible DQ/DQS/DM pin in each group  
+--  - location of the LogicLock region if applicable  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+-- device ep2s180f1508c4
+-- 09/15/2005 09:37:33
+
+	 max_pads_per_row  3
+	 max_pads_per_column  3
+	 best_placement_constraint_file  stratixii_0
+
+-------------------------------------------------------------
+
+
+group 15B
+
+	DQS  	DQS 		AW31 	20 	3 -1 	IOBANK_8
+	RLDM 	RLDM  	  	AV31 	19 	1 -1 	IOBANK_8
+	DQ0 	DQ0 	  	AV35 	7 	1 0 	IOBANK_8
+	DQ1 	DQ1 	  	AU35 	9 	0 -1 	IOBANK_8
+	DQ2 	DQ2 	  	AW34 	9 	1 -1 	IOBANK_8
+	DQ3 	DQ3 	  	AW35 	9 	2 -1 	IOBANK_8
+	DQ4 	DQ4 	  	AT33 	13 	0 -1 	IOBANK_8
+	DQ5 	DQ5 	  	AU33 	13 	1 -1 	IOBANK_8
+	DQ6 	DQ6 	  	AT32 	14 	0 -1 	IOBANK_8
+	DQ7 	DQ7 	  	AV33 	14 	1 -1 	IOBANK_8
+	DQ8 	DQ8 	  	AW33 	14 	2 -1 	IOBANK_8
+	DQ9 	DQ9 	  	AU32 	14 	3 -1 	IOBANK_8
+	DQ10 	DQ10 	  	AV32 	19 	0 -1 	IOBANK_8
+	DQ11 	DQ11 	  	AT31 	20 	0 -1 	IOBANK_8
+	DQ12 	DQ12 	  	AW32 	20 	1 -1 	IOBANK_8
+	DQ13 	DQ13 	  	AU31 	20 	2 -1 	IOBANK_8
+	DQ14 	DQ14 	  	AT29 	25 	0 -1 	IOBANK_8
+	DQ15 	DQ15 	  	AU30 	25 	1 -1 	IOBANK_8
+	DQ16 	DQ16 	  	AT30 	27 	0 -1 	IOBANK_8
+	DQ17 	DQ17 	  	AU29 	27 	1 -1 	IOBANK_8
+	DQ18 	DQ18 	  	AW30 	27 	2 -1 	IOBANK_8
+	DM0  	DM0  	  	AU29 	27 	1 -1 	IOBANK_8
+	DM1  	DM1  	  	AW30 	27 	2 -1 	IOBANK_8
+	QVLD 	QVLD	  	AW30 	27 	2 -1 	IOBANK_8
+
+-------------------------------------------------------------
+
+
+group 11B
+
+	DQS  	DQS 		AV25 	45 	3 -1 	IOBANK_8
+	RLDM 	RLDM  	  	AU25 	43 	1 -1 	IOBANK_8
+	DQ0 	DQ0 	  	AU28 	30 	1 0 	IOBANK_8
+	DQ1 	DQ1 	  	AT28 	32 	0 -1 	IOBANK_8
+	DQ2 	DQ2 	  	AW28 	32 	1 -1 	IOBANK_8
+	DQ3 	DQ3 	  	AW29 	32 	2 -1 	IOBANK_8
+	DQ4 	DQ4 	  	AU26 	36 	0 -1 	IOBANK_8
+	DQ5 	DQ5 	  	AU27 	36 	1 -1 	IOBANK_8
+	DQ6 	DQ6 	  	AT27 	38 	0 -1 	IOBANK_8
+	DQ7 	DQ7 	  	AW27 	38 	1 -1 	IOBANK_8
+	DQ8 	DQ8 	  	AT26 	38 	2 -1 	IOBANK_8
+	DQ9 	DQ9 	  	AV27 	38 	3 -1 	IOBANK_8
+	DQ10 	DQ10 	  	AT25 	43 	0 -1 	IOBANK_8
+	DQ11 	DQ11 	  	AW26 	45 	0 -1 	IOBANK_8
+	DQ12 	DQ12 	  	AV26 	45 	1 -1 	IOBANK_8
+	DQ13 	DQ13 	  	AW25 	45 	2 -1 	IOBANK_8
+	DQ14 	DQ14 	  	AU24 	49 	0 -1 	IOBANK_8
+	DQ15 	DQ15 	  	AU23 	49 	1 -1 	IOBANK_8
+	DQ16 	DQ16 	  	AT24 	51 	0 -1 	IOBANK_8
+	DQ17 	DQ17 	  	AV24 	51 	1 -1 	IOBANK_8
+	DQ18 	DQ18 	  	AW23 	51 	2 -1 	IOBANK_8
+	DM0  	DM0  	  	AV24 	51 	1 -1 	IOBANK_8
+	DM1  	DM1  	  	AW23 	51 	2 -1 	IOBANK_8
+	QVLD 	QVLD	  	AW23 	51 	2 -1 	IOBANK_8
+
+-------------------------------------------------------------
+
+
+group 7B
+
+	DQS  	DQS 		AT14 	83 	3 -1 	IOBANK_7
+	RLDM 	RLDM  	  	AU14 	82 	1 -1 	IOBANK_7
+	DQ0 	DQ0 	  	AT17 	73 	1 0 	IOBANK_7
+	DQ1 	DQ1 	  	AP16 	75 	0 -1 	IOBANK_7
+	DQ2 	DQ2 	  	AU17 	75 	1 -1 	IOBANK_7
+	DQ3 	DQ3 	  	AR16 	75 	2 -1 	IOBANK_7
+	DQ4 	DQ4 	  	AW17 	78 	0 -1 	IOBANK_7
+	DQ5 	DQ5 	  	AV16 	78 	1 -1 	IOBANK_7
+	DQ6 	DQ6 	  	AU15 	79 	0 -1 	IOBANK_7
+	DQ7 	DQ7 	  	AW15 	79 	1 -1 	IOBANK_7
+	DQ8 	DQ8 	  	AV15 	79 	2 -1 	IOBANK_7
+	DQ9 	DQ9 	  	AU16 	79 	3 -1 	IOBANK_7
+	DQ10 	DQ10 	  	AW14 	82 	0 -1 	IOBANK_7
+	DQ11 	DQ11 	  	AR15 	83 	0 -1 	IOBANK_7
+	DQ12 	DQ12 	  	AV14 	83 	1 -1 	IOBANK_7
+	DQ13 	DQ13 	  	AT15 	83 	2 -1 	IOBANK_7
+	DQ14 	DQ14 	  	AW13 	87 	0 -1 	IOBANK_7
+	DQ15 	DQ15 	  	AV13 	87 	1 -1 	IOBANK_7
+	DQ16 	DQ16 	  	AP14 	88 	0 -1 	IOBANK_7
+	DQ17 	DQ17 	  	AT13 	88 	1 -1 	IOBANK_7
+	DQ18 	DQ18 	  	AR14 	88 	2 -1 	IOBANK_7
+	DM0  	DM0  	  	AT13 	88 	1 -1 	IOBANK_7
+	DM1  	DM1  	  	AR14 	88 	2 -1 	IOBANK_7
+	QVLD 	QVLD	  	AR14 	88 	2 -1 	IOBANK_7
+
+-------------------------------------------------------------
+
+
+group 3B
+
+	DQS  	DQS 		AU10 	101 	3 -1 	IOBANK_7
+	RLDM 	RLDM  	  	AV10 	100 	1 -1 	IOBANK_7
+	DQ0 	DQ0 	  	AT12 	91 	1 0 	IOBANK_7
+	DQ1 	DQ1 	  	AP13 	92 	0 -1 	IOBANK_7
+	DQ2 	DQ2 	  	AV12 	92 	1 -1 	IOBANK_7
+	DQ3 	DQ3 	  	AR13 	92 	2 -1 	IOBANK_7
+	DQ4 	DQ4 	  	AW11 	95 	0 -1 	IOBANK_7
+	DQ5 	DQ5 	  	AV11 	95 	1 -1 	IOBANK_7
+	DQ6 	DQ6 	  	AT11 	97 	0 -1 	IOBANK_7
+	DQ7 	DQ7 	  	AW12 	97 	1 -1 	IOBANK_7
+	DQ8 	DQ8 	  	AR11 	97 	2 -1 	IOBANK_7
+	DQ9 	DQ9 	  	AU11 	97 	3 -1 	IOBANK_7
+	DQ10 	DQ10 	  	AW10 	100 	0 -1 	IOBANK_7
+	DQ11 	DQ11 	  	AR10 	101 	0 -1 	IOBANK_7
+	DQ12 	DQ12 	  	AW9 	101 	1 -1 	IOBANK_7
+	DQ13 	DQ13 	  	AT10 	101 	2 -1 	IOBANK_7
+	DQ14 	DQ14 	  	AW8 	105 	0 -1 	IOBANK_7
+	DQ15 	DQ15 	  	AV9 	105 	1 -1 	IOBANK_7
+	DQ16 	DQ16 	  	AR9 	106 	0 -1 	IOBANK_7
+	DQ17 	DQ17 	  	AV8 	106 	1 -1 	IOBANK_7
+	DQ18 	DQ18 	  	AT9 	106 	2 -1 	IOBANK_7
+	DM0  	DM0  	  	AV8 	106 	1 -1 	IOBANK_7
+	DM1  	DM1  	  	AT9 	106 	2 -1 	IOBANK_7
+	QVLD 	QVLD	  	AT9 	106 	2 -1 	IOBANK_7
+
+-------------------------------------------------------------
+
+
+group 3T
+
+	DQS  	DQS 		C10 	101 	0 -1 	IOBANK_4
+	RLDM 	RLDM  	  	B10 	100 	0 -1 	IOBANK_4
+	DQ0 	DQ0 	  	C9 	106 	1 0 	IOBANK_4
+	DQ1 	DQ1 	  	A8 	106 	2 -1 	IOBANK_4
+	DQ2 	DQ2 	  	C8 	106 	3 -1 	IOBANK_4
+	DQ3 	DQ3 	  	B9 	105 	0 -1 	IOBANK_4
+	DQ4 	DQ4 	  	A9 	105 	1 -1 	IOBANK_4
+	DQ5 	DQ5 	  	E10 	101 	1 -1 	IOBANK_4
+	DQ6 	DQ6 	  	D10 	101 	2 -1 	IOBANK_4
+	DQ7 	DQ7 	  	D9 	101 	3 -1 	IOBANK_4
+	DQ8 	DQ8 	  	A10 	100 	1 -1 	IOBANK_4
+	DQ9 	DQ9 	  	C11 	97 	0 -1 	IOBANK_4
+	DQ10 	DQ10 	  	E11 	97 	1 -1 	IOBANK_4
+	DQ11 	DQ11 	  	A11 	97 	2 -1 	IOBANK_4
+	DQ12 	DQ12 	  	D11 	97 	3 -1 	IOBANK_4
+	DQ13 	DQ13 	  	B11 	95 	0 -1 	IOBANK_4
+	DQ14 	DQ14 	  	E12 	95 	1 -1 	IOBANK_4
+	DQ15 	DQ15 	  	C12 	92 	1 -1 	IOBANK_4
+	DQ16 	DQ16 	  	A12 	92 	2 -1 	IOBANK_4
+	DQ17 	DQ17 	  	D12 	92 	3 -1 	IOBANK_4
+	DQ18 	DQ18 	  	B13 	91 	0 -1 	IOBANK_4
+	DM0  	DM0  	  	D12 	92 	3 -1 	IOBANK_4
+	DM1  	DM1  	  	B13 	91 	0 -1 	IOBANK_4
+	QVLD 	QVLD	  	B13 	91 	0 -1 	IOBANK_4
+
+-------------------------------------------------------------
+
+
+group 7T
+
+	DQS  	DQS 		B14 	83 	0 -1 	IOBANK_4
+	RLDM 	RLDM  	  	B15 	82 	0 -1 	IOBANK_4
+	DQ0 	DQ0 	  	E14 	88 	1 0 	IOBANK_4
+	DQ1 	DQ1 	  	F14 	88 	2 -1 	IOBANK_4
+	DQ2 	DQ2 	  	F13 	88 	3 -1 	IOBANK_4
+	DQ3 	DQ3 	  	D13 	87 	0 -1 	IOBANK_4
+	DQ4 	DQ4 	  	C13 	87 	1 -1 	IOBANK_4
+	DQ5 	DQ5 	  	C14 	83 	1 -1 	IOBANK_4
+	DQ6 	DQ6 	  	A14 	83 	2 -1 	IOBANK_4
+	DQ7 	DQ7 	  	D14 	83 	3 -1 	IOBANK_4
+	DQ8 	DQ8 	  	A15 	82 	1 -1 	IOBANK_4
+	DQ9 	DQ9 	  	E15 	79 	0 -1 	IOBANK_4
+	DQ10 	DQ10 	  	F16 	79 	1 -1 	IOBANK_4
+	DQ11 	DQ11 	  	C15 	79 	2 -1 	IOBANK_4
+	DQ12 	DQ12 	  	D15 	79 	3 -1 	IOBANK_4
+	DQ13 	DQ13 	  	E16 	78 	0 -1 	IOBANK_4
+	DQ14 	DQ14 	  	D16 	78 	1 -1 	IOBANK_4
+	DQ15 	DQ15 	  	D17 	75 	1 -1 	IOBANK_4
+	DQ16 	DQ16 	  	C17 	75 	2 -1 	IOBANK_4
+	DQ17 	DQ17 	  	C16 	75 	3 -1 	IOBANK_4
+	DQ18 	DQ18 	  	B17 	73 	0 -1 	IOBANK_4
+	DM0  	DM0  	  	C16 	75 	3 -1 	IOBANK_4
+	DM1  	DM1  	  	B17 	73 	0 -1 	IOBANK_4
+	QVLD 	QVLD	  	B17 	73 	0 -1 	IOBANK_4
+
+-------------------------------------------------------------
+
+
+group 11T
+
+	DQS  	DQS 		B25 	45 	0 -1 	IOBANK_3
+	RLDM 	RLDM  	  	C25 	43 	0 -1 	IOBANK_3
+	DQ0 	DQ0 	  	A23 	51 	1 0 	IOBANK_3
+	DQ1 	DQ1 	  	B24 	51 	2 -1 	IOBANK_3
+	DQ2 	DQ2 	  	C24 	51 	3 -1 	IOBANK_3
+	DQ3 	DQ3 	  	C23 	49 	0 -1 	IOBANK_3
+	DQ4 	DQ4 	  	D24 	49 	1 -1 	IOBANK_3
+	DQ5 	DQ5 	  	A25 	45 	1 -1 	IOBANK_3
+	DQ6 	DQ6 	  	D25 	45 	2 -1 	IOBANK_3
+	DQ7 	DQ7 	  	A26 	45 	3 -1 	IOBANK_3
+	DQ8 	DQ8 	  	B26 	43 	1 -1 	IOBANK_3
+	DQ9 	DQ9 	  	C26 	38 	0 -1 	IOBANK_3
+	DQ10 	DQ10 	  	B27 	38 	1 -1 	IOBANK_3
+	DQ11 	DQ11 	  	A27 	38 	2 -1 	IOBANK_3
+	DQ12 	DQ12 	  	D26 	38 	3 -1 	IOBANK_3
+	DQ13 	DQ13 	  	C27 	36 	0 -1 	IOBANK_3
+	DQ14 	DQ14 	  	D27 	36 	1 -1 	IOBANK_3
+	DQ15 	DQ15 	  	A29 	32 	1 -1 	IOBANK_3
+	DQ16 	DQ16 	  	A28 	32 	2 -1 	IOBANK_3
+	DQ17 	DQ17 	  	D28 	32 	3 -1 	IOBANK_3
+	DQ18 	DQ18 	  	C28 	30 	0 -1 	IOBANK_3
+	DM0  	DM0  	  	D28 	32 	3 -1 	IOBANK_3
+	DM1  	DM1  	  	C28 	30 	0 -1 	IOBANK_3
+	QVLD 	QVLD	  	C28 	30 	0 -1 	IOBANK_3
+
+-------------------------------------------------------------
+
+
+group 15T
+
+	DQS  	DQS 		B31 	20 	0 -1 	IOBANK_3
+	RLDM 	RLDM  	  	C31 	19 	0 -1 	IOBANK_3
+	DQ0 	DQ0 	  	B30 	27 	1 0 	IOBANK_3
+	DQ1 	DQ1 	  	A30 	27 	2 -1 	IOBANK_3
+	DQ2 	DQ2 	  	D29 	27 	3 -1 	IOBANK_3
+	DQ3 	DQ3 	  	C30 	25 	0 -1 	IOBANK_3
+	DQ4 	DQ4 	  	D30 	25 	1 -1 	IOBANK_3
+	DQ5 	DQ5 	  	A31 	20 	1 -1 	IOBANK_3
+	DQ6 	DQ6 	  	A32 	20 	2 -1 	IOBANK_3
+	DQ7 	DQ7 	  	D31 	20 	3 -1 	IOBANK_3
+	DQ8 	DQ8 	  	B32 	19 	1 -1 	IOBANK_3
+	DQ9 	DQ9 	  	C32 	14 	0 -1 	IOBANK_3
+	DQ10 	DQ10 	  	A33 	14 	1 -1 	IOBANK_3
+	DQ11 	DQ11 	  	B33 	14 	2 -1 	IOBANK_3
+	DQ12 	DQ12 	  	D32 	14 	3 -1 	IOBANK_3
+	DQ13 	DQ13 	  	C33 	13 	0 -1 	IOBANK_3
+	DQ14 	DQ14 	  	D33 	13 	1 -1 	IOBANK_3
+	DQ15 	DQ15 	  	A35 	9 	1 -1 	IOBANK_3
+	DQ16 	DQ16 	  	A34 	9 	2 -1 	IOBANK_3
+	DQ17 	DQ17 	  	C35 	9 	3 -1 	IOBANK_3
+	DQ18 	DQ18 	  	B35 	7 	0 -1 	IOBANK_3
+	DM0  	DM0  	  	C35 	9 	3 -1 	IOBANK_3
+	DM1  	DM1  	  	B35 	7 	0 -1 	IOBANK_3
+	QVLD 	QVLD	  	B35 	7 	0 -1 	IOBANK_3
+
+
+
+
+----------------------------------- NON DQS part ------------------------------
+group 0L
+
+       DQS DQS G37 72 0 -1 	IOBANK_2
+       RLDM RLDM G37 72 0 -1 	IOBANK_2
+       DQ2 DQ2 G36 72 2 -1 	IOBANK_2
+       DQ0 DQ0 L37 71 0 -1 	IOBANK_2
+       DQ1 DQ1 L36 71 2 -1 	IOBANK_2
+       DQ3 DQ3 K37 70 0 -1 	IOBANK_2
+       DQ7 DQ7 P31 72 1  -1 	IOBANK_2
+       DQ8 DQ8 P30 72 3  -1 	IOBANK_2
+       DQ5 DQ5 P32 71 3  -1 	IOBANK_2
+       DQ6 DQ6 R30 68 1  -1 	IOBANK_2
+       DQ4 DQ4 R29 68 3  -1 	IOBANK_2
+       DQ9 DQ9 K36 70 2  -1 	IOBANK_2
+       DQ10 DQ10 M37 69 0  -1 	IOBANK_2
+       DM0 DM0 M36 69 2  -1 	IOBANK_2
+       DQ17 DQ17 M36 69 2  -1 	IOBANK_2
+       DQ11 DQ11 H39 68 0  -1 	IOBANK_2
+       DQ12 DQ12 H38 68 2  -1 	IOBANK_2
+       QVLD QVLD N35 69 1  -1 	IOBANK_2
+       DM1 DM1 N35 69 1  -1 	IOBANK_2
+       DQ15 DQ15 N34 69 3  -1 	IOBANK_2
+       DQ16 DQ16 P35 67 1  -1 	IOBANK_2
+       DQ13 DQ13 T30 66 1  -1 	IOBANK_2
+       DQ14 DQ14 T29 66 3  -1 	IOBANK_2
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 19L
+
+       DQS DQS T33 63 3 -1 	IOBANK_2
+       RLDM RLDM T33 63 3 -1 	IOBANK_2
+       DQ0 DQ0 P34 67 3 -1 	IOBANK_2
+       DQ2 DQ2 T32 65 1 -1 	IOBANK_2
+       DQ3 DQ3 T31 65 3 -1 	IOBANK_2
+       DQ1 DQ1 T34 63 1 -1 	IOBANK_2
+       DQ5 DQ5 N37 66 0  -1 	IOBANK_2
+       DQ6 DQ6 N36 66 2  -1 	IOBANK_2
+       DQ4 DQ4 K39 65 0  -1 	IOBANK_2
+       DQ7 DQ7 K38 65 2  -1 	IOBANK_2
+       DQ8 DQ8 L39 64 0  -1 	IOBANK_2
+       DQ9 DQ9 L38 64 2  -1 	IOBANK_2
+       DQ10 DQ10 M39 63 0  -1 	IOBANK_2
+       DM0 DM0 M38 63 2  -1 	IOBANK_2
+       DQ17 DQ17 M38 63 2  -1 	IOBANK_2
+       DQ11 DQ11 N39 62 0  -1 	IOBANK_2
+       DQ12 DQ12 N38 62 2  -1 	IOBANK_2
+       DQ13 DQ13 T36 61 0  -1 	IOBANK_2
+       DQ14 DQ14 T35 61 2  -1 	IOBANK_2
+       QVLD QVLD R37 60 0  -1 	IOBANK_2
+       DM1 DM1 R37 60 0  -1 	IOBANK_2
+       DQ15 DQ15 R36 60 2  -1 	IOBANK_2
+       DQ16 DQ16 P37 59 0  -1 	IOBANK_2
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 5L
+
+       DQS DQS P38 58 2 -1 	IOBANK_2
+       RLDM RLDM P38 58 2 -1 	IOBANK_2
+       DQ0 DQ0 P36 59 2 -1 	IOBANK_2
+       DQ1 DQ1 P39 58 0 -1 	IOBANK_2
+       DQ2 DQ2 U37 57 0 -1 	IOBANK_2
+       DQ3 DQ3 U36 57 2 -1 	IOBANK_2
+       DQ5 DQ5 V36 56 0  -1 	IOBANK_2
+       DQ6 DQ6 V35 56 2  -1 	IOBANK_2
+       DQ4 DQ4 T38 55 0  -1 	IOBANK_2
+       DQ7 DQ7 T37 55 2  -1 	IOBANK_2
+       DQ8 DQ8 R39 54 0  -1 	IOBANK_2
+       DQ9 DQ9 V32 56 1  -1 	IOBANK_2
+       DQ10 DQ10 V31 56 3  -1 	IOBANK_2
+       DM0 DM0 V34 55 1  -1 	IOBANK_2
+       DQ17 DQ17 V34 55 1  -1 	IOBANK_2
+       DQ11 DQ11 V33 55 3  -1 	IOBANK_2
+       DQ12 DQ12 W33 54 1  -1 	IOBANK_2
+       DQ13 DQ13 R38 54 2  -1 	IOBANK_2
+       DQ14 DQ14 V38 53 0  -1 	IOBANK_2
+       QVLD QVLD V37 53 2  -1 	IOBANK_2
+       DM1 DM1 V37 53 2  -1 	IOBANK_2
+       DQ15 DQ15 U39 52 0  -1 	IOBANK_2
+       DQ16 DQ16 U38 52 2  -1 	IOBANK_2
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 21L
+
+       DQS DQS W27 53 3 -1 	IOBANK_2
+       RLDM RLDM W27 53 3 -1 	IOBANK_2
+       DQ0 DQ0 W32 54 3 -1 	IOBANK_2
+       DQ1 DQ1 W28 53 1 -1 	IOBANK_2
+       DQ2 DQ2 Y27 52 1 -1 	IOBANK_2
+       DQ3 DQ3 Y26 52 3 -1 	IOBANK_2
+       DQ5 DQ5 AA39 44 0  -1 	IOBANK_1
+       DQ6 DQ6 AA38 44 2  -1 	IOBANK_1
+       DQ4 DQ4 AA37 43 0  -1 	IOBANK_1
+       DQ7 DQ7 AA36 43 2  -1 	IOBANK_1
+       DQ8 DQ8 AB38 42 0  -1 	IOBANK_1
+       DQ9 DQ9 AB37 42 2  -1 	IOBANK_1
+       DQ10 DQ10 AC39 41 0  -1 	IOBANK_1
+       DM0 DM0 AC38 41 2  -1 	IOBANK_1
+       DQ17 DQ17 AC38 41 2  -1 	IOBANK_1
+       DQ11 DQ11 AB36 40 0  -1 	IOBANK_1
+       DQ12 DQ12 AB35 40 2  -1 	IOBANK_1
+       DQ13 DQ13 AE39 39 0  -1 	IOBANK_1
+       DQ14 DQ14 AE38 39 2  -1 	IOBANK_1
+       QVLD QVLD AD38 38 0  -1 	IOBANK_1
+       DM1 DM1 AD38 38 0  -1 	IOBANK_1
+       DQ15 DQ15 AD37 38 2  -1 	IOBANK_1
+       DQ16 DQ16 AC37 37 0  -1 	IOBANK_1
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 22L
+
+       DQS DQS AB32 37 1 -1 	IOBANK_1
+       RLDM RLDM AB32 37 1 -1 	IOBANK_1
+       DQ0 DQ0 AA27 38 1 -1 	IOBANK_1
+       DQ1 DQ1 AA26 38 3 -1 	IOBANK_1
+       DQ2 DQ2 AB31 37 3 -1 	IOBANK_1
+       DQ3 DQ3 AB34 36 1 -1 	IOBANK_1
+       DQ5 DQ5 AC36 37 2  -1 	IOBANK_1
+       DQ6 DQ6 AE37 36 0  -1 	IOBANK_1
+       DQ4 DQ4 AE36 36 2  -1 	IOBANK_1
+       DQ7 DQ7 AD36 35 0  -1 	IOBANK_1
+       DQ8 DQ8 AD35 35 2  -1 	IOBANK_1
+       DQ9 DQ9 AB33 36 3  -1 	IOBANK_1
+       DQ10 DQ10 AB28 35 1  -1 	IOBANK_1
+       DM0 DM0 AB27 35 3  -1 	IOBANK_1
+       DQ17 DQ17 AB27 35 3  -1 	IOBANK_1
+       DQ11 DQ11 AC34 31 1  -1 	IOBANK_1
+       DQ12 DQ12 AC33 31 3  -1 	IOBANK_1
+       DQ13 DQ13 AF39 34 0  -1 	IOBANK_1
+       DQ14 DQ14 AF38 34 2  -1 	IOBANK_1
+       QVLD QVLD AG39 33 0  -1 	IOBANK_1
+       DM1 DM1 AG39 33 0  -1 	IOBANK_1
+       DQ15 DQ15 AG38 33 2  -1 	IOBANK_1
+       DQ16 DQ16 AH39 32 0  -1 	IOBANK_1
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 24L
+
+       DQS DQS AC32 32 1 -1 	IOBANK_1
+       RLDM RLDM AC32 32 1 -1 	IOBANK_1
+       DQ0 DQ0 AC28 33 1 -1 	IOBANK_1
+       DQ1 DQ1 AC27 33 3 -1 	IOBANK_1
+       DQ2 DQ2 AC31 32 3 -1 	IOBANK_1
+       DQ3 DQ3 AD29 28 1 -1 	IOBANK_1
+       DQ5 DQ5 AH38 32 2  -1 	IOBANK_1
+       DQ6 DQ6 AF37 31 0  -1 	IOBANK_1
+       DQ4 DQ4 AF36 31 2  -1 	IOBANK_1
+       DQ7 DQ7 AL39 27 0  -1 	IOBANK_1
+       DQ8 DQ8 AL38 27 2  -1 	IOBANK_1
+       DQ10 DQ10 AD32 30 1  -1 	IOBANK_1
+       DM0 DM0 AD31 30 3  -1 	IOBANK_1
+       DQ17 DQ17 AD31 30 3  -1 	IOBANK_1
+       DQ11 DQ11 AD34 29 1  -1 	IOBANK_1
+       DQ12 DQ12 AD33 29 3  -1 	IOBANK_1
+       DQ9 DQ9 AD28 28 3  -1 	IOBANK_1
+       QVLD QVLD AG37 28 0  -1 	IOBANK_1
+       DM1 DM1 AG37 28 0  -1 	IOBANK_1
+       DQ15 DQ15 AG36 28 2  -1 	IOBANK_1
+       DQ13 DQ13 AM39 25 0  -1 	IOBANK_1
+       DQ14 DQ14 AM38 25 2  -1 	IOBANK_1
+       DQ16 DQ16 AJ37 24 0  -1 	IOBANK_1
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 22R
+
+       DQS DQS AC6 30 2 -1 	IOBANK_6
+       RLDM RLDM AC6 30 2 -1 	IOBANK_6
+       DQ1 DQ1 AF8 23 0 -1 	IOBANK_6
+       DQ0 DQ0 AF7 23 2 -1 	IOBANK_6
+       DQ3 DQ3 AE7 25 2 -1 	IOBANK_6
+       DQ2 DQ2 AC7 30 0 -1 	IOBANK_6
+       DQ8 DQ8 AL4 23 1  -1 	IOBANK_6
+       DQ7 DQ7 AL3 23 3  -1 	IOBANK_6
+       DQ5 DQ5 AJ4 24 1  -1 	IOBANK_6
+       DQ4 DQ4 AL2 27 1  -1 	IOBANK_6
+       DQ6 DQ6 AL1 27 3  -1 	IOBANK_6
+       DQ12 DQ12 AJ3 24 3  -1 	IOBANK_6
+       DQ10 DQ10 AG4 28 1  -1 	IOBANK_6
+       DQ9 DQ9 AG3 28 3  -1 	IOBANK_6
+       DQ11 DQ11 AK2 29 1  -1 	IOBANK_6
+       DM0 DM0 AK1 29 3  -1 	IOBANK_6
+       DQ17 DQ17 AK1 29 3  -1 	IOBANK_6
+       DQ13 DQ13 AE8 25 0  -1 	IOBANK_6
+       QVLD QVLD AD7 27 0  -1 	IOBANK_6
+       DM1 DM1 AD7 27 0  -1 	IOBANK_6
+       DQ14 DQ14 AD6 27 2  -1 	IOBANK_6
+       DQ16 DQ16 AD12 28 0  -1 	IOBANK_6
+       DQ15 DQ15 AD11 28 2  -1 	IOBANK_6
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 21R
+
+       DQS DQS AC13 31 0 -1 	IOBANK_6
+       RLDM RLDM AC13 31 0 -1 	IOBANK_6
+       DQ0 DQ0 AD9 29 0 -1 	IOBANK_6
+       DQ1 DQ1 AC12 31 2 -1 	IOBANK_6
+       DQ3 DQ3 AC11 33 0 -1 	IOBANK_6
+       DQ2 DQ2 AC10 33 2 -1 	IOBANK_6
+       DQ8 DQ8 AD8 29 2  -1 	IOBANK_6
+       DQ7 DQ7 AC9 32 0  -1 	IOBANK_6
+       DQ4 DQ4 AC8 32 2  -1 	IOBANK_6
+       DQ6 DQ6 AB7 35 0  -1 	IOBANK_6
+       DQ5 DQ5 AB6 35 2  -1 	IOBANK_6
+       DQ12 DQ12 AF4 31 1  -1 	IOBANK_6
+       DQ11 DQ11 AF3 31 3  -1 	IOBANK_6
+       DM0 DM0 AH2 32 1  -1 	IOBANK_6
+       DQ17 DQ17 AH2 32 1  -1 	IOBANK_6
+       DQ10 DQ10 AH1 32 3  -1 	IOBANK_6
+       DQ9 DQ9 AG2 33 1  -1 	IOBANK_6
+       DQ16 DQ16 AG1 33 3  -1 	IOBANK_6
+       DQ15 DQ15 AF2 34 1  -1 	IOBANK_6
+       QVLD QVLD AF1 34 3  -1 	IOBANK_6
+       DM1 DM1 AF1 34 3  -1 	IOBANK_6
+       DQ14 DQ14 AD5 35 1  -1 	IOBANK_6
+       DQ13 DQ13 AD4 35 3  -1 	IOBANK_6
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 9R
+
+       DQS DQS AC2 41 1 -1 	IOBANK_6
+       RLDM RLDM AC2 41 1 -1 	IOBANK_6
+       DQ3 DQ3 AB5 40 1 -1 	IOBANK_6
+       DQ2 DQ2 AB4 40 3 -1 	IOBANK_6
+       DQ1 DQ1 AC1 41 3 -1 	IOBANK_6
+       DQ0 DQ0 AB3 42 1 -1 	IOBANK_6
+       DQ8 DQ8 AB2 42 3  -1 	IOBANK_6
+       DQ7 DQ7 AA4 43 1  -1 	IOBANK_6
+       DQ4 DQ4 AA3 43 3  -1 	IOBANK_6
+       DQ6 DQ6 AA2 44 1  -1 	IOBANK_6
+       DQ5 DQ5 AA1 44 3  -1 	IOBANK_6
+       DQ12 DQ12 W8 52 0  -1 	IOBANK_5
+       DQ11 DQ11 W7 52 2  -1 	IOBANK_5
+       DM0 DM0 W13 53 0  -1 	IOBANK_5
+       DQ17 DQ17 W13 53 0  -1 	IOBANK_5
+       DQ10 DQ10 W12 53 2  -1 	IOBANK_5
+       DQ9 DQ9 V7 54 0  -1 	IOBANK_5
+       DQ16 DQ16 U2 52 1  -1 	IOBANK_5
+       DQ15 DQ15 U1 52 3  -1 	IOBANK_5
+       QVLD QVLD V3 53 1  -1 	IOBANK_5
+       DM1 DM1 V3 53 1  -1 	IOBANK_5
+       DQ14 DQ14 V2 53 3  -1 	IOBANK_5
+       DQ13 DQ13 R2 54 1  -1 	IOBANK_5
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 6R
+
+       DQS DQS T2 55 3 -1 	IOBANK_5
+       RLDM RLDM T2 55 3 -1 	IOBANK_5
+       DQ3 DQ3 R1 54 3 -1 	IOBANK_5
+       DQ2 DQ2 T3 55 1 -1 	IOBANK_5
+       DQ1 DQ1 V5 56 1 -1 	IOBANK_5
+       DQ0 DQ0 V4 56 3 -1 	IOBANK_5
+       DQ8 DQ8 U4 57 1  -1 	IOBANK_5
+       DQ7 DQ7 U3 57 3  -1 	IOBANK_5
+       DQ4 DQ4 P2 58 1  -1 	IOBANK_5
+       DQ6 DQ6 P1 58 3  -1 	IOBANK_5
+       DQ5 DQ5 P4 59 1  -1 	IOBANK_5
+       DQ12 DQ12 P3 59 3  -1 	IOBANK_5
+       DQ11 DQ11 R4 60 1  -1 	IOBANK_5
+       DM0 DM0 R3 60 3  -1 	IOBANK_5
+       DQ17 DQ17 R3 60 3  -1 	IOBANK_5
+       DQ10 DQ10 T5 61 1  -1 	IOBANK_5
+       DQ9 DQ9 T4 61 3  -1 	IOBANK_5
+       DQ16 DQ16 U8 60 2  -1 	IOBANK_5
+       DQ15 DQ15 T7 61 0  -1 	IOBANK_5
+       QVLD QVLD T6 61 2  -1 	IOBANK_5
+       DM1 DM1 T6 61 2  -1 	IOBANK_5
+       DQ14 DQ14 T13 62 0  -1 	IOBANK_5
+       DQ13 DQ13 T12 62 2  -1 	IOBANK_5
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 3R
+
+       DQS DQS M2 63 1 -1 	IOBANK_5
+       RLDM RLDM M2 63 1 -1 	IOBANK_5
+       DQ3 DQ3 N2 62 1 -1 	IOBANK_5
+       DQ2 DQ2 N1 62 3 -1 	IOBANK_5
+       DQ1 DQ1 M1 63 3 -1 	IOBANK_5
+       DQ0 DQ0 L2 64 1 -1 	IOBANK_5
+       DQ8 DQ8 T11 63 0  -1 	IOBANK_5
+       DQ7 DQ7 T10 63 2  -1 	IOBANK_5
+       DQ5 DQ5 R7 65 0  -1 	IOBANK_5
+       DQ4 DQ4 R13 67 0  -1 	IOBANK_5
+       DQ6 DQ6 R12 67 2  -1 	IOBANK_5
+       DQ12 DQ12 L1 64 3  -1 	IOBANK_5
+       DQ11 DQ11 K2 65 1  -1 	IOBANK_5
+       DM0 DM0 K1 65 3  -1 	IOBANK_5
+       DQ17 DQ17 K1 65 3  -1 	IOBANK_5
+       DQ10 DQ10 N4 66 1  -1 	IOBANK_5
+       DQ9 DQ9 N3 66 3  -1 	IOBANK_5
+       DQ16 DQ16 R6 65 2  -1 	IOBANK_5
+       DQ15 DQ15 P6 66 0  -1 	IOBANK_5
+       QVLD QVLD P5 66 2  -1 	IOBANK_5
+       DM1 DM1 P5 66 2  -1 	IOBANK_5
+       DQ14 DQ14 P8 71 0  -1 	IOBANK_5
+       DQ13 DQ13 P7 71 2  -1 	IOBANK_5
+                                                                            
+-------------------------------------------------------------               
+                                                                            
+group 1R
+
+       DQS DQS H2 68 1 -1 	IOBANK_5
+       RLDM RLDM H2 68 1 -1 	IOBANK_5
+       DQ3 DQ3 J2 67 1 -1 	IOBANK_5
+       DQ2 DQ2 J1 67 3 -1 	IOBANK_5
+       DQ1 DQ1 H1 68 3 -1 	IOBANK_5
+       DQ0 DQ0 M4 69 1 -1 	IOBANK_5
+       DQ4 DQ4 R11 68 0  -1 	IOBANK_5
+       DQ6 DQ6 R10 68 2  -1 	IOBANK_5
+       DQ8 DQ8 R9 69 0  -1 	IOBANK_5
+       DQ7 DQ7 R8 69 2  -1 	IOBANK_5
+       DQ5 DQ5 N6 70 0  -1 	IOBANK_5
+       DQ12 DQ12 M3 69 3  -1 	IOBANK_5
+       DQ11 DQ11 K4 70 1  -1 	IOBANK_5
+       DM0 DM0 K3 70 3  -1 	IOBANK_5
+       DQ17 DQ17 K3 70 3  -1 	IOBANK_5
+       DQ10 DQ10 L4 71 1  -1 	IOBANK_5
+       DQ9 DQ9 L3 71 3  -1 	IOBANK_5
+       DQ16 DQ16 N5 70 2  -1 	IOBANK_5
+       DQ15 DQ15 P10 72 0  -1 	IOBANK_5
+       QVLD QVLD P9 72 2  -1 	IOBANK_5
+       DM1 DM1 P9 72 2  -1 	IOBANK_5
+       DQ14 DQ14 M6 73 0  -1 	IOBANK_5
+       DQ13 DQ13 M5 73 2  -1 	IOBANK_5
+                                                                            
+-------------------------------------------------------------               
+                                                                            

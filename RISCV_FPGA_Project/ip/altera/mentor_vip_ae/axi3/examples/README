@@ -1,0 +1,22 @@
+AXI3 Examples Overview
+
+This directory contains examples that use the AXI3 BFM from the Mentor Verification IP Altera Edition.
+
+* ex1_back_to_back_sv  - A SystemVerilog example to demonstrate the Master, Slave and Monitor APIs.
+* ex1_back_to_back_vhd - A VHDL example to demonstrate the Master, Slave and Monitor APIs.
+
+Each example directory contains the following files
+
+* top.*                   - the top-level module for the test.
+* master_test_program.*   - the master test stimulus.
+* slave_test_program.*    - the slave test stimulus.
+* monitor_test_program.*  - the protocol traffic monitor.
+* script.do               - the run script.
+
+To run any example, execute the following command on a commnd prompt
+
+> cd ex1_back_to_back_sv
+> vsim -do script.do -mvchome ../../../common
+> run 1000 ns
+
+This will load and run the self-checking test.

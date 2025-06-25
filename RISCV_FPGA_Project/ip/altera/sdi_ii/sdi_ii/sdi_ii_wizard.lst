@@ -1,0 +1,12 @@
+[Interfaces|SDI]
+SDI II v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/sdi_ii_hw.tcl" --early_gen:on --wizard:sdi_ii --family_parameter:FAMILY %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix V | Arria V | Arria V GZ | Cyclone V" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS> SDI II </ALIAS>
+<ALIAS> SDI II v12.1</ALIAS>
+<ALIAS> SDI II v13.0</ALIAS>
+</INFO>

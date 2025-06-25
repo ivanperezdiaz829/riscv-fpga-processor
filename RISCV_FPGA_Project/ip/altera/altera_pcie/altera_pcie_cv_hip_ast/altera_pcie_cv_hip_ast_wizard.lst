@@ -1,0 +1,12 @@
+[Interfaces|PCI Express]
+Cyclone V Hard IP for PCI Express v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_pcie_cv_hip_ast_hw.tcl" --wizard:altera_pcie_cv_hip_ast --familyparameter:device_family --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Cyclone V"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<ALIAS>Cyclone V Hard IP for PCI Express</ALIAS>
+<ALIAS>Cyclone V Hard IP for PCI Express v13.0</ALIAS>
+</INFO>
+

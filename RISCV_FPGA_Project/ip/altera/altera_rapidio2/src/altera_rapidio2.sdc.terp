@@ -1,0 +1,42 @@
+# (C) 2001-2013 Altera Corporation. All rights reserved.
+# Your use of Altera Corporation's design tools, logic functions and other 
+# software and tools, and its AMPP partner logic functions, and any output 
+# files any of the foregoing (including device programming or simulation 
+# files), and any associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License Subscription 
+# Agreement, Altera MegaCore Function License Agreement, or other applicable 
+# license agreement, including, without limitation, that your use is for the 
+# sole purpose of programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the applicable 
+# agreement for further details.
+
+
+create_clock -name "sys_clk" -period ${sys_clk_period}ns [get_ports {sys_clk}]
+create_clock -name "tx_pll_refclk" -period ${ref_clk_period_ns}ns [get_ports {tx_pll_refclk}]
+
+derive_pll_clocks -create_base_clocks
+derive_clock_uncertainty
+
+@@ if { $device_family == "Arria V" || $device_family == "Cyclone V"  } {
+   @@ if { $support_4x } {
+set_clock_groups -exclusive -group [get_clocks {*ch[0]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*ch[1]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*ch[2]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*ch[3]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*tx_pcs|wys|txpmalocalclk}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+   @@ } else { 
+      @@ if { $support_2x } {
+set_clock_groups -exclusive -group [get_clocks {*ch[0]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*ch[1]*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*tx_pcs|wys|txpmalocalclk}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+      @@ } else { #1x mode
+set_clock_groups -exclusive -group [get_clocks {*rx_pcs|wys|rcvdclkpma}] -group [get_clocks {*tx_pcs|wys|txpmalocalclk}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+      @@ }
+   @@ }
+
+@@ } else { #Stratix V
+   @@ if { $support_4x } {
+set_clock_groups -exclusive -group [get_clocks {*ch[0]*rx_pcs|wys|clocktopld}] -group [get_clocks {*ch[1]*rx_pcs|wys|clocktopld}] -group [get_clocks {*ch[2]*rx_pcs|wys|clocktopld}] -group [get_clocks {*ch[3]*rx_pcs|wys|clocktopld}] -group [get_clocks {*tx_pcs|wys|clkout}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+   @@ } else { 
+      @@ if { $support_2x } {
+set_clock_groups -exclusive -group [get_clocks {*ch[0]*rx_pcs|wys|clocktopld}] -group [get_clocks {*ch[1]*rx_pcs|wys|clocktopld}] -group [get_clocks {*tx_pcs|wys|clkout}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+      @@ } else { #1x mode
+set_clock_groups -exclusive -group [get_clocks {*rx_pcs|wys|clocktopld}] -group [get_clocks {*tx_pcs|wys|clkout}] -group [get_clocks {sys_clk}] -group [get_clocks {tx_pll_refclk*}]
+      @@ }
+   @@ }
+
+@@ }

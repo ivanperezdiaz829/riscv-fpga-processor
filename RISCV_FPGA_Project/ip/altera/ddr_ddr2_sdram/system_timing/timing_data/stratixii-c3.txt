@@ -1,0 +1,19 @@
+                                                                   
+    MIN_scaling                                         =   0.60        -- for 0degC (0.575 is for -40degC)    Stratix 0.58 0.53  0.46
+    
+ 
+-- MISC ========================================================================================
+
+    -- dedicated pll output not currently supported 
+    tPD_plle0_to_pin                                    =   2000         
+
+        
+
+
+
+-- Extracted from July 2005 SII Datasheet 
+     micro_tCO        =   169
+     micro_tCO_MIN    =   101
+     tSU              =   93
+     tHOLD            =   154
+     

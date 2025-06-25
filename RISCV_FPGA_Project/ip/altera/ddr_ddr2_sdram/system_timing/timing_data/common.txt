@@ -1,0 +1,73 @@
+
+--- Non-FPGA ---
+----------------
+
+    tRPST_MIN                                  =   0.4     -- read postamble
+    
+    mw_default_trace_NOM              =           1000       -- this is used to flag a warning if the user doesnt change the settings
+    
+    largest_allowed_clock_trace_NOM          =       2500
+    largest_allowed_dqs_trace_total_NOM      =       2500
+
+    pes_global_min_acceptable_margin               =   0
+    opt_global_min_acceptable_margin               =   -50
+    
+    -- a time constant for the voltage to rise to Vref + some minimum pos-going pulse width that will make it through the dqs pin to the capture reg
+    pes_t_rise_to_vref                             =   300        
+    opt_t_rise_to_vref                             =   400       
+    
+    smallest_dqs_period_scaling                   =    1.00
+    
+    custom_memory_fmin_default                     =  10.0          -- 10MHz is the lowest anyone could possibly want to attempt a timing set-up
+    
+--- Common Chip ---
+-------------------
+    -- All DTM extraction min times are scaled by this (ie. exclude DQS delay table)
+    pes_scale_min_timing_from_minus_40_to_0degc         =   1.05        -- ie 5%
+    opt_scale_min_timing_from_minus_40_to_0degc         =   1.10 
+ 
+    
+    -- All DTM extraction max times are scaled by this  (ie. exclude DQS delay table)
+    pes_scale_max_timing                                =  1.00
+    opt_scale_max_timing                                =  0.95
+
+    -- How FAST can a path be (compared to SLOW (MAX) delay) under SLOW (MAX) PVT conditions
+    pes_min_delay_scaling_under_MAX_conditions     =     0.95            -- ie. 5% faster
+    opt_min_delay_scaling_under_MAX_conditions     =     1.00
+    
+    -- How SLOW can a path be (compared to FAST (MIN) delay) under FAST (MIN) PVT conditions
+    pes_max_delay_scaling_under_MIN_conditions    =      1.05           -- ie. 5% slower
+    opt_max_delay_scaling_under_MIN_conditions    =      1.00
+
+    -- worse case skew that Cyclone will drive to memory
+    clock_duty_cycle_at_fpga_output_pin_percent_error         =         5
+
+    -- static PLL scheme ?
+    clock_duty_cycle_at_le_input_percent_error    =   0
+
+	-- DCD on clck_to_sdram outputs (ps)
+	-- For most families this is defined to be 0.05 tCK (ie tHP = 0.45)
+	-- for StratixII the DCD is defined as a number of ps.
+	dcd_on_clk_to_sdram_ps						= 0
+	dcd_on_clk_to_sdram_tck						= 0.05
+
+    -- device specific but we probably want to use the same numbers for all devices
+    tSKEW_other                                =   0
+
+
+--- SHOULD MOVE TO family/speed specific ---
+---------------------------------------------
+    t_reset_release_setup             =          50             -- !!! a guess
+    t_reset_release_hold               =         50             -- approx micro_tCO    a good approx
+
+     micro_tCO        =   30
+     micro_tCO_MIN    =   10
+     tSU              =   30
+     tHOLD            =   15
+
+
+ --- TBD --------------------------------------
+
+     t_skew_global_small                         =   10      -- MOVE to  stratix & cyclone specific or leave here  ???
+
+

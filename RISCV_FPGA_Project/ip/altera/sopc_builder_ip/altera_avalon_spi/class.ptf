@@ -1,0 +1,389 @@
+# This file created by em_spi.pm.
+CLASS altera_avalon_spi
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program  = "default";
+    Edit_Program = "default";
+    Generator_Program = "em_spi.pl";
+  }
+  MODULE_DEFAULTS
+  {
+    class      = "altera_avalon_spi";
+    class_version = "7.08131";
+    SLAVE spi_control_port
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type                     = "avalon";
+        Is_Printable_Device          = "0";
+        Address_Alignment            = "native";
+        Address_Width                = "3";
+        Data_Width                   = "16";
+        Has_IRQ                      = "1";
+        Read_Wait_States             = "1";
+        Write_Wait_States            = "1";
+      }
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      Is_Enabled= "1";
+      Instantiate_In_System_Module = "1";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    PORT_WIRING
+    {
+    	# these port will be set with appropriate master
+    	# or slave settings for direction and width.
+    	PORT MISO
+    	{
+    		direction = "output";
+    		width = "1";
+    	}
+    	PORT MOSI
+    	{
+    		direction = "input";
+    		width = "1";
+    	}
+    	PORT SCLK
+    	{
+    		direction = "input";
+    		width = "1";
+    	}
+    	PORT SS_n
+    	{
+    		direction = "input";
+    		width = "1";
+    	}
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      databits      = "8";
+      targetclock   = "128";
+      clockunits    = "kHz";
+      clockmult     = "1000";
+      numslaves     = "1";
+      ismaster      = "1";
+      clockpolarity = "0";
+      clockphase    = "0";
+      lsbfirst      = "0";
+      extradelay    = "0";
+      targetssdelay = "100";
+      delayunits    = "us";
+      delaymult     = "1e-006";
+    }
+  }
+  USER_INTERFACE
+  {
+        USER_LABELS
+        {
+            name="SPI (3 Wire Serial)";
+            license = "full";
+            technology="Communication";
+        }
+         LINKS
+         {
+            LINK help
+            {
+               title="Data Sheet";
+               url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51011.pdf";
+            }
+         }
+
+        WIZARD_UI default
+        {
+#            DEBUG {}
+            title = "SPI - {{ $MOD }}";
+            CONTEXT
+            {
+                WSA="WIZARD_SCRIPT_ARGUMENTS";
+                SBI="SLAVE/SYSTEM_BUILDER_INFO";
+                MSBI="SYSTEM_BUILDER_INFO";
+            }
+            ACTION wizard_finish
+            {
+            	$MOD/PORT_WIRING/PORT MISO/direction = "{{ if ($WSA/ismaster) { 'input' } else { 'output' } }}";
+            	$MOD/PORT_WIRING/PORT MOSI/direction = "{{ if ($WSA/ismaster) { 'output' } else { 'input' } }}";
+            	$MOD/PORT_WIRING/PORT SCLK/direction = "{{ if ($WSA/ismaster) { 'output' } else { 'input' } }}";
+            	$MOD/PORT_WIRING/PORT SS_n/direction = "{{ if ($WSA/ismaster) { 'output' } else { 'input' } }}";
+            	$MOD/PORT_WIRING/PORT SS_n/width     = "{{ if ($WSA/ismaster) { $WSA/numslaves } else { 1 } }}";
+            }
+            GROUP
+            {
+                GROUP
+                {
+                    title = "Master/Slave";
+                    align = "left";
+                    RADIO
+                    {
+                        title = "Slave";
+                        DATA on { ismaster      = "0"; }
+                        DATA off { ismaster      = "1"; }
+                    }
+                    RADIO
+                    {
+                        title = "Master";
+                        spacing = 5;
+                        DATA on { ismaster      = "1"; }
+                        DATA off { ismaster      = "0"; }
+                        GROUP
+                        {
+                            indent = "17";
+                            COMBO
+                            {
+                                title = "Generate";
+                                suffix = "select (SS_n) signals. One for each slave.";
+                                ITEM { title = "1"; }
+                                ITEM { title = "2"; }
+                                ITEM { title = "3"; }
+                                ITEM { title = "4"; }
+                                ITEM { title = "5"; }
+                                ITEM { title = "6"; }
+                                ITEM { title = "7"; }
+                                ITEM { title = "8"; }
+                                ITEM { title = "9"; }
+                                ITEM { title = "10"; }
+                                ITEM { title = "11"; }
+                                ITEM { title = "12"; }
+                                ITEM { title = "13"; }
+                                ITEM { title = "14"; }
+                                ITEM { title = "15"; }
+                                ITEM { title = "16"; }
+                                DATA { numslaves     = $; }
+                            }
+                        }
+                        TEXT { title = "\n"; }
+                        GROUP
+                        {
+                            indent = "17";
+                            GROUP
+                            {
+                                indent = "17";
+                                layout = "horizontal";
+                                glue = "0";
+                                align = "left";
+                                EDIT
+                                {
+                                    title = "SPI Clock (SCLK) Rate:  {{}}";
+                                    justify = "right";
+                                    DATA { $WSA/targetclock = $; }
+                                }
+                                COMBO
+                                {
+                                    ITEM { title = "MHz"; DATA {$WSA/clockmult = "1000000"; $WSA/clockunits = $; }}
+                                    ITEM { title = "kHz"; DATA {$WSA/clockmult = "1000"; $WSA/clockunits = $; }}
+                                    ITEM { title = "Hz"; DATA {$WSA/clockmult = "1"; $WSA/clockunits = $; }}
+                                }
+                            }
+                            GROUP { height = 5; width =5; }
+                            GROUP
+                            {
+                                    align = "left";
+                                    indent = "115";
+                                    spacing = "3";
+
+                                    $$clk_div0 = "{{ (ceil ($BUS/clock_freq / ($WSA/targetclock * $WSA/clockmult ))); }}";
+                                    $$clk_div1 = "{{ if ($$clk_div0 == 0) {1} else {$$clk_div0}; }}";
+                                    $$clk_half = "{{ ($$clk_div1 / 2); }}";
+                                    $$clk_half_int = "{{ int($$clk_half); }}";
+                                    $$divisor = "{{ if ($$clk_half == $$clk_half_int) {$$clk_div1} else {$$clk_div1+1}; }}";
+                                    $$actual_clk0 = "{{ int(($BUS/clock_freq / $$divisor) / $WSA/clockmult * 1000); }}";
+                                    $$actual_clk = "{{ ($$actual_clk0 / 1000); }}";
+                                    $$clk_err0 = "{{ int(($$actual_clk - $WSA/targetclock) / $WSA/targetclock * 1000); }}";
+                                    $$clk_err = "{{ ($$clk_err0 / 10); }}";
+
+                                    TEXT { title = "Actual Rate = {{$$actual_clk;}}{{$WSA/clockunits;}}  Error: {{$$clk_err;}}%  {{}}"; }
+
+                                    $$period = "{{ 1/($$actual_clk * $WSA/clockmult); }}";
+                                    $$delay1 = "{{ $$period / 2; }}";
+                                    $$delay2 = "{{ int($$delay1 / $WSA/delaymult * 1000); }}";
+                                    $$const_delay = "{{ ($$delay2 / 1000); }}";
+
+                                    $$delay_div = "{{ $WSA/targetssdelay / $$const_delay; }}";
+                                    $$delay_z = "{{ if ($$delay_div == 0) {1} else {$$delay_div} }}";
+                                    $$delay_int = "{{ int ($$delay_z); }}";
+                                    $$calc_delay = "{{ if ($$delay_z > $$delay_int) {(($$delay_int + 1) * $$const_delay)} else {($$delay_int * $$const_delay)} }}";
+                                    $$actual_delay = "{{ if ($WSA/extradelay == 0) {$$const_delay} else {$$calc_delay}; }}";
+                                    $$actual_delay_int = "{{ int($$actual_delay); }}";
+                                    $$actual_delay_frac = "{{ int(10 * ($$actual_delay - $$actual_delay_int)); }}";
+                                    $$actual_delay = "{{ $$actual_delay_int; }}{{ if ($$actual_delay_int < 10) {'.'} else {''} }}{{ if ($$actual_delay_int < 10) {$$actual_delay_frac} else {''} }}";
+
+                                    TEXT { title = "Actual Delay = {{$$actual_delay;}}{{$WSA/delayunits;}}"; }
+                            }
+                            GROUP { height = 5; width = 5; }
+                            GROUP
+                            {
+                                align = "left";
+                                indent = "17";
+                                CHECK
+                                {
+                                    layout = "horizontal";
+                                    title = "Specify Delay";
+                                    DATA { $WSA/extradelay = $; }
+                                    EDIT
+                                    {
+                                        justify = "right";
+                                        DATA { $WSA/targetssdelay = $; }
+                                    }
+                                    COMBO
+                                    {
+                                        ITEM { title = "ns"; DATA { $WSA/delayunits = "ns"; $WSA/delaymult = 1.e-09; } }
+                                        ITEM { title = "us"; DATA { $WSA/delayunits = "us"; $WSA/delaymult = 1.e-06; }}
+                                        ITEM { title = "ms"; DATA { $WSA/delayunits = "ms"; $WSA/delaymult = 1.e-03; }}
+                                    }
+                                }
+                                GROUP
+                                {
+                                    indent = "110";
+                                    TEXT
+                                    {
+                                        title = "Delay granularity (1/2 SCK) = {{$$const_delay;}}{{$WSA/delayunits;}}";
+                                        enable = "{{$WSA/extradelay;}}";
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                GROUP
+                {
+                    title = "Data Register";
+                    GROUP
+                    {
+                        COMBO
+                        {
+                            title = "Width";
+                            suffix = "bits";
+                            justify = "right";
+                            ITEM { title = "1"; }
+                            ITEM { title = "2"; }
+                            ITEM { title = "3"; }
+                            ITEM { title = "4"; }
+                            ITEM { title = "5"; }
+                            ITEM { title = "6"; }
+                            ITEM { title = "7"; }
+                            ITEM { title = "8"; }
+                            ITEM { title = "9"; }
+                            ITEM { title = "10"; }
+                            ITEM { title = "11"; }
+                            ITEM { title = "12"; }
+                            ITEM { title = "13"; }
+                            ITEM { title = "14"; }
+                            ITEM { title = "15"; }
+                            ITEM { title = "16"; }
+                            DATA { databits = $; }
+                        }
+                    }
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        TEXT { title = "Shift direction:"; }
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            align = "right";
+                            glue = "0";
+                            RADIO
+                            {
+                                title = "MSB first";
+                                glue = "0";
+                                DATA on { lsbfirst = "0"; }
+                                DATA off { lsbfirst = "1"; }
+                            }
+                            RADIO
+                            {
+                                title = "LSB first";
+                                glue = "0";
+                                DATA on { lsbfirst = "1"; }
+                                DATA off { lsbfirst = "0"; }
+                            }
+                        }
+                    }
+                }
+                GROUP
+                {
+                    title = "Timing";
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        align = "left";
+                        TEXT { title = "Clock Polarity:"; }
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            align = "right";
+                            glue = "0";
+                            RADIO
+                            {
+                                title = "0";
+                                glue = "0";
+                                DATA on{ clockpolarity = "0"; }
+                                DATA off{ clockpolarity = "1"; }
+                            }
+                            RADIO
+                            {
+                                glue = "0";
+                                title = "1";
+                                DATA on{ clockpolarity = "1"; }
+                                DATA off{ clockpolarity = "0"; }
+                            }
+                        }
+                    }
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        align = "left";
+                        TEXT { title = "Clock Phase:"; }
+                        GROUP
+                        {
+                            layout = "horizontal";
+                            align = "right";
+                            glue = "0";
+                            RADIO
+                            {
+                                title = "0";
+                                glue = "0";
+                                DATA on { clockphase = "0"; }
+                                DATA off { clockphase = "1"; }
+                            }
+                            RADIO
+                            {
+                                title = "1";
+                                glue = "0";
+                                DATA on { clockphase = "1"; }
+                                DATA off { clockphase = "0"; }
+                            }
+                        }
+                    }
+                }
+                GROUP
+                {
+                    title = "Waveforms";
+                    WAVEFORM
+                    {
+                        width=260;
+                        height=100;
+                        $$CKP = "{{ if ($WSA/clockpolarity == 0) {'LL'} else {'HH'}; }}";
+                        $$CKN = "{{ if ($WSA/clockpolarity == 0) {'HH'} else {'LL'}; }}";
+                        $$leading_data = "{{ if ($WSA/clockphase == 0) {'0'} else {'2'}; }}";
+                        $$trailing_data = "{{ if ($WSA/clockphase == 0) {'2'} else {'0'}; }}";
+                        $$p0e = "{{ if ($WSA/clockphase == 0) {'OO'} else {'TD'}; }}";
+                        $$p1e = "{{ if ($WSA/clockphase == 1) {'OO'} else {'DD'}; }}";
+                        $$last = "{{ if ($WSA/lsbfirst == 0) {'LSB'} else {'MSB'}; }}";
+                        $$first = "{{ if ($WSA/lsbfirst == 0) {'MSB'} else {'LSB'}; }}";
+                        $$floc = "{{ if ($WSA/clockphase == 0) {'X75'} else {'X95'}; }}";
+                        $$lloc = "{{ if ($WSA/clockphase == 0) {'X256'} else {'X276'}; }}";
+                        $$data_pin = "{{ if ($WSA/ismaster == 1) {'MOSI'} else {'MISO'}; }}";
+                        $$displayed_delay = "{{ if ($WSA/ismaster == 1) {$$actual_delay;} else {''}; }}";
+                        $$displayed_units = "{{ if ($WSA/ismaster == 1) {$WSA/delayunits;} else {''}; }}";
+                        ITEM { value="SSMSS_n,3,BB,2,HH,HL,13,LL,OO,9,LL,LH,2,HH"; }
+                        ITEM { value="SSMSCLK,3,BB,2,{{$$CKP;}},CBLUE,4,{{$$CKP;}},CBLACK,VV,2,{{$$CKN;}},VV,2,{{$$CKP;}},VV,2,{{$$CKN;}},VV,2,{{$$CKP;}},VV,2,{{$$CKN;}},OO,{{$$CKP;}},VV,2,{{$$CKN;}},VV,2,{{$$CKP;}},VV,2,{{$$CKN;}},VV,5,{{$$CKP;}}"; }
+                        ITEM { value="SSM{{$$data_pin;}},3,BB,2,TT,{{$$leading_data;}},TT,2,TT,TD,2,DD,DT,TD,2,DD,DT,TD,DD,{{$$p1e;}},DT,{{$$p0e;}},2,DD,DT,TD,2,DD,DT,{{$$trailing_data;}},TT,3,TT"; }
+                        ITEM { value="CBLUE,X45,Y45,SC{{$$displayed_delay;}}{{$$displayed_units;}}"; }
+                        ITEM { value="CBLUE,{{$$floc;}},Y68,SC{{$$first;}},{{$$lloc;}},Y68,SC{{$$last;}}"; }
+                    }
+                }
+            }
+        }
+  }
+}

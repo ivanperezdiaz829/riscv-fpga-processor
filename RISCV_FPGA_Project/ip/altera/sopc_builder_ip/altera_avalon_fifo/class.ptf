@@ -1,0 +1,50 @@
+CLASS altera_avalon_fifo
+{
+   CALIFORNIA
+   {
+	Is_Hidden         = "1";
+   }
+
+   ASSOCIATED_FILES
+   {
+      Generator_Program ="em_fifo.pl";
+   }
+
+   MODULE_DEFAULTS
+   {
+        class         = "altera_avalon_fifo";
+        class_version = "7.08131";
+
+      	HDL_INFO
+      	{
+      	     # The list of files associated with this module (for synthesis
+      	     # and other purposes) depends on the users' wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the
+             # various filenames are known.
+      	}
+      	PORT_WIRING
+      	{
+      	     # The number and kind of ports that appear on this module
+      	     # depends on the user's wizard-choices.
+      	     # This section will be filled-in by the Generator_Program
+      	     # after the module logic has been created and the ports are known.
+      	     #
+      	}
+
+        SYSTEM_BUILDER_INFO
+        {
+           Instantiate_In_System_Module = "1";
+           Is_Enabled = "1";
+           Top_Level_Ports_Are_Enumerated = "1";
+           Has_Clock = "1";
+      	}
+   }
+   USER_INTERFACE
+   {
+	USER_LABELS
+	{
+	   Is_Visible = "0";
+	}
+   }
+}

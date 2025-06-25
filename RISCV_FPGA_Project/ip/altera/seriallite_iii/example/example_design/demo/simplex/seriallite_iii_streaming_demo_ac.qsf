@@ -1,0 +1,303 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2012 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 12.1 Build 177 11/07/2012 SJ Full Version
+# Date created = 16:17:24  January 04, 2013
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		seriallite_iii_streaming_demo_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Stratix V"
+set_global_assignment -name DEVICE 5SGXEA7N2F40C2
+set_global_assignment -name TOP_LEVEL_ENTITY seriallite_iii_streaming_demo
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION 12.1
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:17:24  JANUARY 04, 2013"
+set_global_assignment -name LAST_QUARTUS_VERSION 13.1
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 256
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+### Source Reference Clock (644.53125 MHz) ###
+set_instance_assignment -name IO_STANDARD LVDS -to src_pll_ref_clk
+
+set_location_assignment PIN_R33 -to "src_pll_ref_clk(n)"
+set_location_assignment PIN_R32 -to src_pll_ref_clk
+
+#### Sink Reference Clock (644.53125 MHz) ####
+set_instance_assignment -name IO_STANDARD LVDS -to snk_pll_ref_clk
+
+set_location_assignment PIN_W33 -to "snk_pll_ref_clk(n)"
+set_location_assignment PIN_W32 -to snk_pll_ref_clk
+
+############# Management Clock ###############
+set_instance_assignment -name IO_STANDARD LVDS -to mgmt_clk
+
+set_location_assignment PIN_AW7 -to "mgmt_clk(n)"
+set_location_assignment PIN_AV7 -to mgmt_clk
+
+################## CPU Reset #################
+set_instance_assignment -name IO_STANDARD "2.5 V" -to mgmt_reset_n
+
+set_location_assignment PIN_J31 -to mgmt_reset_n
+
+######## Tx Activity LED (User LED 0) ########
+set_instance_assignment -name IO_STANDARD "2.5 V" -to tx_activity_n
+set_instance_assignment -name SLEW_RATE 1 -to tx_activity_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to tx_activity_n
+set_location_assignment PIN_B32 -to tx_activity_n
+
+######## Rx Activity LED (User LED 1) ########
+set_instance_assignment -name IO_STANDARD "2.5 V" -to rx_activity_n
+set_instance_assignment -name SLEW_RATE 1 -to rx_activity_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to rx_activity_n
+set_location_assignment PIN_A32 -to rx_activity_n
+
+####### Source Reset LED (User LED 2) ########
+set_instance_assignment -name IO_STANDARD "2.5 V" -to src_core_reset_n
+set_instance_assignment -name SLEW_RATE 1 -to src_core_reset_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to src_core_reset_n
+set_location_assignment PIN_B34 -to src_core_reset_n
+
+######## Sink Reset LED (User LED 3) #########
+set_instance_assignment -name IO_STANDARD "2.5 V" -to snk_core_reset_n
+set_instance_assignment -name SLEW_RATE 1 -to snk_core_reset_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to snk_core_reset_n
+set_location_assignment PIN_A34 -to snk_core_reset_n
+
+###### Source Link Up LED (User LED 4) #######
+set_instance_assignment -name IO_STANDARD "2.5 V" -to src_link_up_n
+set_instance_assignment -name SLEW_RATE 1 -to src_link_up_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to src_link_up_n
+set_location_assignment PIN_C34 -to src_link_up_n
+
+####### Sink Link Up LED (User LED 5) ########
+set_instance_assignment -name IO_STANDARD "2.5 V" -to snk_link_up_n
+set_instance_assignment -name SLEW_RATE 1 -to snk_link_up_n
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to snk_link_up_n
+set_location_assignment PIN_C33 -to snk_link_up_n
+
+######### Character LCD Signals ###############
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_csn
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_wen
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_d_cn
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[0]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[1]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[2]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[3]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[4]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[5]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[6]
+set_instance_assignment -name IO_STANDARD "2.5 V" -to lcd_data[7]
+
+set_instance_assignment -name SLEW_RATE 1 -to lcd_csn
+set_instance_assignment -name SLEW_RATE 1 -to lcd_wen
+set_instance_assignment -name SLEW_RATE 1 -to lcd_d_cn
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[0]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[1]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[2]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[3]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[4]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[5]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[6]
+set_instance_assignment -name SLEW_RATE 1 -to lcd_data[7]
+
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_csn
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_wen
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_d_cn
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[0]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[1]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[2]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[3]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[4]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[5]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[6]
+set_instance_assignment -name CURRENT_STRENGTH_NEW "MINIMUM CURRENT" -to lcd_data[7]
+
+set_location_assignment PIN_A14 -to lcd_csn
+set_location_assignment PIN_B13 -to lcd_wen
+set_location_assignment PIN_B14 -to lcd_d_cn
+set_location_assignment PIN_A13 -to lcd_data[0]
+set_location_assignment PIN_B16 -to lcd_data[1]
+set_location_assignment PIN_A16 -to lcd_data[2]
+set_location_assignment PIN_C15 -to lcd_data[3]
+set_location_assignment PIN_C14 -to lcd_data[4]
+set_location_assignment PIN_D15 -to lcd_data[5]
+set_location_assignment PIN_D16 -to lcd_data[6]
+set_location_assignment PIN_F14 -to lcd_data[7]
+
+########### Transceiver Signals ###############
+set_instance_assignment -name IO_STANDARD "1.4-V PCML" -to tx
+set_instance_assignment -name IO_STANDARD "1.4-V PCML" -to rx
+
+set_location_assignment PIN_T35 -to "tx[0](n)"
+set_location_assignment PIN_T34 -to tx[0]
+
+set_location_assignment PIN_V35 -to "tx[1](n)"
+set_location_assignment PIN_V34 -to tx[1]
+
+set_location_assignment PIN_T39 -to "rx[0](n)"
+set_location_assignment PIN_T38 -to rx[0]
+
+set_location_assignment PIN_P39 -to "rx[1](n)"
+set_location_assignment PIN_P38 -to rx[1]
+set_instance_assignment -name XCVR_TX_VOD 50 -to "seriallite_iii_streaming_source:source|interlaken_phy_ip_tx:interlaken_phy_ip_tx|altera_xcvr_interlaken:interlaken_phy_ip_tx_inst|sv_xcvr_interlaken_nr:sv_ilk_inst|sv_xcvr_interlaken_native:bonded_lane_inst|sv_xcvr_native:inst_sv_xcvr_native[0].interlaken_inst|sv_pma:inst_sv_pma|sv_tx_pma:tx_pma.sv_tx_pma_inst|sv_tx_pma_ch:tx_pma_insts[0].sv_tx_pma_ch_inst|tx_pma_ch.tx_pma_buf.tx_pma_buf"
+set_instance_assignment -name XCVR_TX_VOD 50 -to "seriallite_iii_streaming_source:source|interlaken_phy_ip_tx:interlaken_phy_ip_tx|altera_xcvr_interlaken:interlaken_phy_ip_tx_inst|sv_xcvr_interlaken_nr:sv_ilk_inst|sv_xcvr_interlaken_native:bonded_lane_inst|sv_xcvr_native:inst_sv_xcvr_native[1].interlaken_inst|sv_pma:inst_sv_pma|sv_tx_pma:tx_pma.sv_tx_pma_inst|sv_tx_pma_ch:tx_pma_insts[0].sv_tx_pma_ch_inst|tx_pma_ch.tx_pma_buf.tx_pma_buf"
+
+
+########### Assignments for fPLLs #############
+set_instance_assignment -name MATCH_PLL_COMPENSATION_CLOCK ON -to "seriallite_iii_streaming_sink:sink|sink_clock_gen:sink_clock_gen|altera_pll:altera_pll_i|outclk_wire[0]"
+set_instance_assignment -name PLL_COMPENSATION_MODE NORMAL -to "seriallite_iii_streaming_sink:sink|sink_clock_gen:sink_clock_gen|altera_pll:altera_pll_i|fboutclk_wire[0]"
+set_instance_assignment -name PLL_CHANNEL_SPACING "0 kHz" -to "seriallite_iii_streaming_sink:sink|sink_clock_gen:sink_clock_gen|altera_pll:altera_pll_i|fboutclk_wire[0]"
+set_instance_assignment -name PLL_AUTO_RESET OFF -to "seriallite_iii_streaming_sink:sink|sink_clock_gen:sink_clock_gen|altera_pll:altera_pll_i"
+set_instance_assignment -name PLL_BANDWIDTH_PRESET AUTO -to "seriallite_iii_streaming_sink:sink|sink_clock_gen:sink_clock_gen|altera_pll:altera_pll_i"
+
+set_instance_assignment -name MATCH_PLL_COMPENSATION_CLOCK ON -to "seriallite_iii_streaming_source:source|source_clock_gen:source_clock_gen|altera_pll:altera_pll_i|outclk_wire[0]"
+set_instance_assignment -name PLL_COMPENSATION_MODE NORMAL -to "seriallite_iii_streaming_source:source|source_clock_gen:source_clock_gen|altera_pll:altera_pll_i|fboutclk_wire[0]"
+set_instance_assignment -name PLL_CHANNEL_SPACING "0 kHz" -to "seriallite_iii_streaming_source:source|source_clock_gen:source_clock_gen|altera_pll:altera_pll_i|fboutclk_wire[0]"
+set_instance_assignment -name PLL_AUTO_RESET OFF -to "seriallite_iii_streaming_source:source|source_clock_gen:source_clock_gen|altera_pll:altera_pll_i"
+set_instance_assignment -name PLL_BANDWIDTH_PRESET AUTO -to "seriallite_iii_streaming_source:source|source_clock_gen:source_clock_gen|altera_pll:altera_pll_i"
+
+set_global_assignment -name ENABLE_DEVICE_WIDE_RESET OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN ON
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name ACTIVE_SERIAL_CLOCK FREQ_100MHZ
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name DEVICE_FILTER_PACKAGE FBGA
+
+set_global_assignment -name DEVICE_FILTER_PIN_COUNT 1517
+
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST
+
+set_global_assignment -name ENABLE_DRC_SETTINGS ON
+
+set_global_assignment -name VERILOG_FILE src/aclr_filter.v
+set_global_assignment -name VERILOG_FILE src/dcfifo_s5m20k.v
+set_global_assignment -name VERILOG_FILE src/delay_regs.v
+set_global_assignment -name VERILOG_FILE src/dv_gen.v
+set_global_assignment -name VERILOG_FILE src/eq_5_ena.v
+set_global_assignment -name VERILOG_FILE src/gray_cntr_5_sl.v
+set_global_assignment -name VERILOG_FILE src/gray_to_bin_5.v
+set_global_assignment -name VERILOG_FILE src/neq_5_ena.v
+set_global_assignment -name VERILOG_FILE src/reset_delay.v
+set_global_assignment -name VERILOG_FILE src/s5m20k_ecc_1r1w.v
+set_global_assignment -name VERILOG_FILE src/sync_regs_aclr_m2.v
+set_global_assignment -name VERILOG_FILE src/wys_lut.v
+set_global_assignment -name VERILOG_FILE "src/clocking.v"
+set_global_assignment -name SDC_FILE src/seriallite_iii_streaming_sink.sdc
+set_global_assignment -name SDC_FILE src/seriallite_iii_streaming_source.sdc
+set_global_assignment -name SOURCE_FILE src/source_application.ocp
+set_global_assignment -name SOURCE_FILE src/sink_application.ocp
+set_global_assignment -name VERILOG_FILE src/dp_hs_req.v
+set_global_assignment -name VERILOG_FILE src/dp_hs_resp.v
+set_global_assignment -name VERILOG_FILE src/dp_sync.v
+set_global_assignment -name QIP_FILE ../demo_control/synthesis/demo_control.qip
+set_global_assignment -name VERILOG_FILE src/prbs_poly.v
+set_global_assignment -name VERILOG_FILE src/prbs_generator.v
+set_global_assignment -name SDC_FILE seriallite_iii_streaming_demo.sdc
+set_global_assignment -name VERILOG_FILE src/demo_mgmt.v
+set_global_assignment -name VERILOG_FILE src/seriallite_iii_streaming_demo.v
+set_global_assignment -name VERILOG_FILE src/traffic_gen.sv
+set_global_assignment -name VERILOG_FILE src/traffic_check.v
+set_global_assignment -name VERILOG_FILE src/seriallite_iii_streaming_sink.v
+set_global_assignment -name VERILOG_FILE src/interlaken_phy_ip_tx.v
+set_global_assignment -name VERILOG_FILE src/sink_clock_gen.v
+set_global_assignment -name VERILOG_FILE src/sink_application.v
+set_global_assignment -name VERILOG_FILE src/sink_adaptation.v
+set_global_assignment -name VERILOG_FILE src/sink_alignment.v
+set_global_assignment -name VERILOG_FILE src/seriallite_iii_streaming_source.v
+set_global_assignment -name VERILOG_FILE src/interlaken_phy_ip_rx.v
+set_global_assignment -name VERILOG_FILE src/source_clock_gen.v
+set_global_assignment -name VERILOG_FILE src/source_application.v
+set_global_assignment -name VERILOG_FILE src/source_adaptation.v
+set_global_assignment -name VERILOG_FILE src/source_absorber.v
+set_global_assignment -name SYSTEMVERILOG_FILE src/altera_xcvr_functions.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_pcs.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_pcs_ch.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_pma.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_reconfig_bundle_to_xcvr.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_reconfig_bundle_to_ip.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_reconfig_bundle_merger.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_rx_pma.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_tx_pma.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_tx_pma_ch.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_h.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_avmm_csr.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_avmm_dcd.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_avmm.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_data_adapter.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_native.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_plls.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_resync.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_10g_rx_pcs_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_10g_tx_pcs_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_8g_rx_pcs_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_8g_tx_pcs_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_8g_pcs_aggregate_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_common_pcs_pma_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_common_pld_pcs_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_pipe_gen1_2_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_pipe_gen3_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_rx_pcs_pma_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_rx_pld_pcs_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_tx_pcs_pma_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_hssi_tx_pld_pcs_interface_rbc.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_csr_common_h.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_csr_common.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_csr_pcs8g_h.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_csr_pcs8g.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_csr_selector.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_mgmt2dec.sv
+set_global_assignment -name VERILOG_FILE src/altera_wait_generate.v
+set_global_assignment -name VERILOG_FILE src/alt_xcvr_interlaken_amm_slave.v
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_interlaken_soft_pbip.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_interlaken_native.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/sv_xcvr_interlaken_nr.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/altera_xcvr_interlaken.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/altera_xcvr_reset_control.sv
+set_global_assignment -name SYSTEMVERILOG_FILE src/alt_xcvr_reset_counter.sv
+
+
+set_global_assignment -name VERILOG_SHOW_LMF_MAPPING_MESSAGES OFF
+
+
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

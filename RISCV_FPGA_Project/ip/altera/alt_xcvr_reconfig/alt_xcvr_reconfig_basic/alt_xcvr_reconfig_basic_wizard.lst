@@ -1,0 +1,11 @@
+[Interfaces|Xcvr Blocks|Low Level]
+sv_xcvr_reconfig_basic= "%t" "%w/../common/lib/megawizard.pl" --wizard:sv_xcvr_reconfig_basic  --early_gen:on --wizard_file:"%w/sv_xcvr_reconfig_basic_hw.tcl" %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | family_stratixv"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<VISIBILITY FOR_CREATE="OFF"/>
+<ALIAS>sv_xcvr_reconfig_basic v10.1</ALIAS>
+</INFO>

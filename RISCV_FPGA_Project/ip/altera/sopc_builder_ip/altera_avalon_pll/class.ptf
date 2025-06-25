@@ -1,0 +1,608 @@
+CLASS altera_avalon_pll
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program       ="add_edit_ui";
+    Edit_Program      ="add_edit_ui";
+    Bind_Program      ="bind";
+    Generator_Program ="em_pll.pl";
+    Validator_Program ="altera_avalon_pll.PLL_module_validator";
+    Jar_File = "altera_avalon_pll.jar";
+  }
+  
+  ########################################################################
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_pll";
+    class_version = "7.08131";
+
+    HDL_INFO
+    {
+      # The list of files associated with this module (for synthesis
+      # and other purposes) depends on the users' wizard-choices.
+      # This section will be filled-in by the Generator_Program
+      # after the module logic has been created and the
+      # various filenames are known.
+    }
+    SYSTEM_BUILDER_INFO 
+    {
+      Is_Enabled = "1";
+      Instantiate_In_System_Module = "1";
+      Default_Module_Name = "pll";
+      Clock_Source = "";
+      Required_Device_Family =  "STRATIX,STRATIXII,STRATIXIII,STRATIXIV,STRATIXV,CYCLONE,CYCLONEII,CYCLONEIII,STINGRAY,CYCLONEIVE,TARPON,STRATIXGX,STRATIXIIGX,STRATIXIIGXLITE,ARRIAGX,ARRIAII,ARRIAIIGZ,HARDCOPYII,HARDCOPYIII,HARDCOPYIV";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    SLAVE s1
+    { 
+      SYSTEM_BUILDER_INFO 
+      {
+        Bus_Type = "avalon";
+        Is_Printable_Device = "0";
+        Address_Alignment = "native";
+        Address_Width = "3";
+        Data_Width = "16";
+        Has_IRQ = "0";
+        Read_Wait_States = "1";
+        Write_Wait_States = "0";
+        Date_Modified                = "";
+        Is_Enabled                   = "1";
+        Instantiate_In_System_Module = "1";
+        Requires_Internal_Clock_Promotion = "Yes";
+        Is_Clock_Source              = "1";
+        
+        MASTERED_BY cpu_0/data_master
+        {
+          priority = "1";
+        }
+        IRQ_MASTER cpu_0/data_master
+        {
+          IRQ_Number = "0";
+        }
+        Base_Address = "--unknown--";          
+      }
+      PORT_WIRING 
+      {
+        PORT address
+        {
+          direction = "input";
+          type = "address";
+          width = "0";
+          Is_Enabled = "1";
+        }
+        PORT clk
+        {
+          direction = "input";
+          type = "clk";
+          width = "1";
+          Is_Enabled = "1";
+        }
+        PORT reset_n
+        {
+          direction = "input";
+          type = "reset_n";
+          width = "1";
+          Is_Enabled = "1";
+        }
+      }#PORT_WIRING
+    }# SLAVE s1
+  
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      locked="None";
+      areset="None";
+      pllena="None";
+      pfdena="None";
+      Config_Done = "0";
+      UI_CONTROL
+      {
+        areset_port_exist = "0";
+        pllena_port_exist = "0";
+        pfdena_port_exist = "0";
+        locked_port_exist = "0";
+      }# End UI_CONTROL
+    } # End WSA
+    
+    PORT_WIRING
+    {
+       PORT areset
+       {
+          Is_Enabled = "0";
+          direction = "input";
+          width = "1";
+       }
+       PORT locked
+       {
+          Is_Enabled = "0";
+          direction = "output";
+          width = "1";
+       }
+       PORT pfdena
+       {
+          Is_Enabled = "0";
+          direction = "input";
+          width = "1";
+       }
+       PORT pllena
+       {
+          Is_Enabled = "0";
+          direction = "input";
+          width = "1";
+       }
+    } # End PORT_WIRING    
+  } # End Module Defaults
+  ################################################################
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+      name="PLL (Phase-Locked Loop)";
+      technology = "Other";
+    }
+    # This link will appear when user do a right-click on the module
+    LINKS
+    {
+      LINK datasheet
+      {
+        title = "Data Sheet";
+        url = "http://www.altera.com/literature/hb/nios2/n2cpu_nii53002.pdf";
+      }
+      LINK help
+      {
+          title = "ALTPLL Megafunction User Guide";
+            url = "http://www.altera.com/literature/ug/ug_altpll.pdf";
+      }
+    }
+    WIZARD_UI add_edit_ui
+    {
+      CONTEXT 
+      {
+        SBI = "SYSTEM_BUILDER_INFO";
+        WSA = "WIZARD_SCRIPT_ARGUMENTS";
+      }
+      ACTION initialize
+      {
+        $$inputClock = "{{ sopc_get_clock_freq($MOD) }}";
+        $$inputClockSource = "{{ sopc_get_clock_source($MOD) }}";
+        
+        $$autoassignClock_Source = "{{
+        	if ( $SBI/Clock_Source == '' )
+        		$SBI/Clock_Source = $$inputClockSource;
+        }}";
+        
+        $$is_prohibited_device = "{{
+        	if ( $SYS/device_family_id == 'STRATIX' 
+        		|| $SYS/device_family_id == 'STRATIXGX' 
+        		|| $SYS/device_family_id == 'STRATIXII' 
+        		|| $SYS/device_family_id == 'STRATIXIIGX' 
+        		|| $SYS/device_family_id == 'STRATIXIII' 
+        		|| $SYS/device_family_id == 'STRATIXIV'
+        		|| $SYS/device_family_id == 'CYCLONE' 
+        		|| $SYS/device_family_id == 'CYCLONEII' 
+        		|| $SYS/device_family_id == 'CYCLONEIII' 
+        		|| $SYS/device_family_id == 'ARRIAGX' 
+        		|| $SYS/device_family_id == 'ARRIAII' 
+        		|| $SYS/device_family_id == 'ARRIAIIGZ' 
+        		|| $SYS/device_family_id == 'TARPON'  
+        		|| $SYS/device_family_id == 'STINGRAY'  
+        		|| $SYS/device_family_id == 'HARDCOPYIII' 
+        		|| $SYS/device_family_id == 'HARDCOPYIV' 
+        		)
+        	 '0';
+        	 else
+        	 '1';
+        }}";
+        $$wizard_havent_launch_message = "{{
+        'Avalon PLL '+ $MOD + ' is not configured. <br>Use the ALTPLL MegaWizard to continue.';
+        }}";
+      }
+      error = "{{
+          if ($$is_prohibited_device)
+            'The PLL component is not compatible with device <B>'+$SYS/device_family+'</B>';
+          else
+            '';
+        }}";
+      message = "{{
+        if (( $WSA/Config_Done == '0' ) && (! $$is_prohibited_device))
+          $$wizard_havent_launch_message;
+        }}";
+      
+      $$scaled_clockInfo_inKHz = "{{ int( $WSA/CLOCK_INFO/CLOCK/clock_freq / 1000 ) }}";
+      $$scaled_inputClock_inKHz = "{{ int( $$inputClock / 1000 ) }}";
+      warning = "{{
+        if ( $$scaled_inputClock_inKHz != $$scaled_clockInfo_inKHz )
+          {
+          'The input clock frequency <b>' + $$scaled_inputClock_inKHz / 1000  
+          + ' MHz</b> differs from the PLL inclock0 frequency <b>' + $$scaled_clockInfo_inKHz / 1000 + ' MHz</b>.';
+          }
+        }}";  
+        
+      ACTION wizard_finish
+      {
+        # SPR 185650
+        $MOD/SYSTEM_BUILDER_INFO/View/Settings_Summary = " Avalon PLL: <br>
+         input clock configured: <b>{{ $SBI/Clock_Source }}</b>
+        ";        
+      }
+        
+      title="Avalon PLL - {{ $MOD }}";
+      align = "left";
+      indent = "8";
+      spacing = "10";
+      align = "left";
+
+      $$pll_componentclass = "altera_avalon_pll";
+      $$pll_componentdir= "{{ sopc_get_component_dir($$pll_componentclass); }}";
+                  
+      FUNCTION update_clock_source
+      {                           
+        java="altera_avalon_pll.PLL_update_clock_source";   
+      }
+      
+      PAGES main
+      {
+        select=1;
+        PAGE 1
+        {
+          title = "PLL Settings";
+          tooltip = "Parameterize PLL settings, such as input and output clock frequencies.";
+          GROUP settings
+          {
+            layout = "vertical";
+            columns = "1";
+            title = "PLL Configuration";
+            visible = "{{ ! $$is_prohibited_device }}";
+            TEXT
+            {
+              title = 
+              "The Avalon PLL configuration wizard <br>
+              creates a component wrapper around an <br>
+              Altera ALTPLL Megafunction. <br>
+              Use the ALTPLL MegaWizard <br>
+              to configure the PLL settings. <br>
+              When you finish configuring the PLL, <br>
+              the PLL clock output appears <br>
+              in the clock table on the <br>
+              SOPC Builder System Contents tab.";
+            }
+            GROUP action_button
+            {
+              layout="vertical";
+              BUTTON
+              {
+                enable = "{{ ! $$is_prohibited_device }}";
+                align = "center";
+                icon = "JWizardIcon.gif";
+                indent = "80";
+                action = "launch_alt_pll";
+                tooltip = "Click to launch Altera's ALTPLL MegaWizard";
+                title = "Launch Altera's ALTPLL MegaWizard";
+                ACTION launch_alt_pll
+                {
+                  code = "{{ 
+                      exec_and_wait(
+                          $$pll_componentdir+'/em_pll_configuration.pl', 
+                          '--target_module_name='+$MOD, 
+                          '--system_directory='+$$system_directory, 
+                          '--system_name='+$SYSTEM,
+                          '--clock_source='+$$inputClockSource
+                          ); 
+                        }}";      
+                  $$post_event="{{post_event('load')}}";
+                  $$clock_added= "{{update_clock_source()}}";
+                  
+                  $$ports_default = "{{
+                    if (($WSA/UI_CONTROL/areset_port_exist == '0'))
+                      { $WSA/areset = 'None' }
+                    if (($WSA/UI_CONTROL/pllena_port_exist == '0'))
+                      { $WSA/pllena = 'None' }
+                    if (($WSA/UI_CONTROL/pfdena_port_exist == '0'))
+                      { $WSA/pfdena = 'None' }
+                    if (($WSA/UI_CONTROL/locked_port_exist == '0'))
+                      { $WSA/locked = 'None' }
+                  }}";
+                  message = "{{$$clock_added}}";
+                }
+              }
+              TEXT 
+              {
+                title = "ALTPLL Megafunction User Guide";
+                url = "http://www.altera.com/literature/ug/ug_altpll.pdf";
+              }
+            }#GROUP action_button
+          }#GROUP settings
+          
+          $$areset_default = "{{
+            if (($WSA/UI_CONTROL/areset_port_exist == '1') && ($WSA/areset == 'None'))
+            { $WSA/areset = 'Export' }
+          }}";
+          $$pfdena_default = "{{
+            if (($WSA/UI_CONTROL/pfdena_port_exist == '1') && ($WSA/pfdena == 'None'))
+            { $WSA/pfdena = 'Register' }
+          }}";
+          $$locked_default = "{{
+            if (($WSA/UI_CONTROL/locked_port_exist == '1') && ($WSA/locked == 'None'))
+            { $WSA/locked = 'Register' }
+          }}";
+          
+          $$pllena_default = "{{
+            if ($WSA/UI_CONTROL/pllena_port_exist == '1')
+              { $WSA/pllena = 'Export' }
+            else
+              { $WSA/pllena = 'None' }
+          }}";
+         
+          GROUP compatibledevices
+          {
+            layout = "flow";
+            visible = "{{ $$is_prohibited_device }}";
+            TEXT 
+            {
+              title = "PLL only compatible with the following devices:
+              <ul>
+              <li>Stratix II GX
+              <li>Stratix II
+              <li>Stratix GX
+              <li>Stratix
+              <li>Cyclone II
+              <li>Cyclone
+              <li>Arria GX
+              <li>Arria II
+              <li>Arria II GZ
+	      <li>Cyclone III
+	      <li>Stratix III
+	      <li>Stratix IV
+              </ul>";
+            }
+          }
+        }
+        PAGE 2
+        {
+          title = "Interface";
+          tooltip = "Configure the interface to the PLL.";
+          enable = "{{ (( $WSA/Config_Done == '1' ) && ( $$is_prohibited_device == '0' )) }}";
+          GROUP
+          {
+            GROUP control_port_options
+            {
+              columns = "2";
+              align = "left";
+              layout = "vertical";
+              title = "PLL Control Interface";
+              tooltip = "Specify how to access PLL I/O signals.";
+              spacing=8;
+              TEXT
+              {
+                title = "You can export PLL status signals <br>
+                to the top-level system module, <br>
+                or you can access the status signals <br>
+                via a control register in an Avalon slave port.";
+              }
+              GROUP input_control_ports
+              {
+                title = "Input Ports";
+                layout = "grid";
+                columns = "2";
+                rows = "3";
+                gap = "2";
+                TEXT
+                {
+                  title = "PLL Reset Input";
+                  align = "left";
+                }
+                COMBO 
+                {
+                  id = "combo_areset";
+                  suffix = " ";
+                  align = "left";
+                  editable = "0";
+                  enable = "{{$WSA/UI_CONTROL/areset_port_exist == '1'}}";
+                  DATA
+                  {
+                    $WSA/areset= $;
+                  }
+                  ITEM
+                  {
+                    title = "None";
+                    visible = "{{$WSA/UI_CONTROL/areset_port_exist != '1'}}";
+                    value = "None";
+                  }
+                  ITEM
+                  {
+                    title = "Register";
+                    visible = "1";
+                    value = "Register";
+                  }
+                  ITEM
+                  {
+                    title = "Export";
+                    visible = "1";
+                    value = "Export";
+                  }
+                }#COMBO
+                message = "{{
+                  if ( $WSA/UI_CONTROL/areset_port_exist == '1')
+                  'Resetting the PLL component resets the entire SOPC Builder system';
+                }}";
+                TEXT
+                {
+                  title = "PLL Enable Input";
+                  align = "left";
+                }
+                COMBO 
+                {
+                  id = "combo_pllena";
+                  suffix = " ";
+                  align = "left";
+                  editable = "0";
+                  enable = "0"; # always disabled. Show none if port not exists, and default to Export if port exists.
+                  DATA
+                  {
+                    $WSA/pllena = $;
+                  }
+                  ITEM
+                  {
+                    title = "Export   ";
+                    visible = "1";
+                    value = "Export";
+                  }
+                  ITEM
+                  {
+                    title = "None";
+                    visible = "1";
+                    value = "None";
+                  }
+                }#COMBO
+                TEXT
+                {
+                  title = "PFD Enable Input";
+                  align = "left";
+                }
+                COMBO 
+                {
+                  id = "combo_pfdena";
+                  suffix = " ";
+                  align = "left";
+                  editable = "0";
+                  enable = "{{$WSA/UI_CONTROL/pfdena_port_exist == '1'}}";
+                  DATA
+                  {
+                    $WSA/pfdena = $;
+                  }
+                  ITEM
+                  {
+                    title = "Register";
+                    visible = "1";
+                    value = "Register";
+                  }
+                  ITEM
+                  {
+                    title = "Export";
+                    visible = "1";
+                    value = "Export";
+                  }
+                  ITEM
+                  {
+                    title = "None";
+                    visible = "{{$WSA/UI_CONTROL/pfdena_port_exist != '1'}}";
+                    value = "None";
+                  }
+                }#COMBO
+              }
+              # Output Control Ports
+              GROUP output_control_ports
+              {
+                title = "Output Ports";
+                layout = "grid";
+                columns = "2";
+                rows = "1";
+                gap = "2";
+                   
+                TEXT
+                {
+                  title = "PLL Lock Output";
+                  align = "left";
+                  glue = 1;
+                }
+                COMBO 
+                {
+                  id = "combo_locked";
+                  suffix = " ";
+                  align = "left";
+                  editable = "0";
+                  enable = "{{$WSA/UI_CONTROL/locked_port_exist == '1'}}";
+                  DATA
+                  {
+                    $WSA/locked = $;
+                  }
+                  ITEM
+                  {
+                    title = "Register";
+                    visible = "1";
+                    value = "Register";
+                  }
+                  ITEM
+                  {
+                    title = "Export";
+                    visible = "1";
+                    value = "Export";
+                  }
+                  ITEM
+                  {
+                    title = "None";
+                    visible = "{{$WSA/UI_CONTROL/locked_port_exist != '1'}}";
+                    value = "None";
+                  }
+                }#COMBO
+              }#GROUP output_control_ports
+              $MOD/PORT_WIRING/PORT locked/Is_Enabled = "{{ if ( $WSA/locked == 'Export' ) {1} else {0} }}";
+              $MOD/PORT_WIRING/PORT areset/Is_Enabled = "{{ if ( $WSA/areset == 'Export' ) {1} else {0} }}";
+              $MOD/PORT_WIRING/PORT pfdena/Is_Enabled = "{{ if ( $WSA/pfdena == 'Export' ) {1} else {0} }}";
+              $MOD/PORT_WIRING/PORT pllena/Is_Enabled = "{{ if ( $WSA/pllena == 'Export' ) {1} else {0} }}";
+              
+              TEXT
+              {
+                title="\n";
+              }
+             }#GROUP control_port_options
+           }           
+         }
+        }#PAGE MAIN
+        GROUP nav
+        {
+          layout = "horizontal";
+          spacing = "8";
+          BUTTON cancel
+          {
+              title = "Cancel";
+              key = "C";
+              action = "wizard_cancel";
+          }
+          BUTTON prev
+          {
+              title = "<  Prev";
+              key = "P";
+              action = "wizard_prev";
+          }
+          BUTTON next
+          {
+              title = "Next  >";
+              key = "N";
+              action = "wizard_next";
+          }
+          BUTTON finish
+          {
+              title = "Finish";
+              key = "F";
+              enable = "{{ (( $WSA/Config_Done == '1' ) && ( $$is_prohibited_device == '0' )) }}";
+              action = "wizard_finish";
+              tooltip = "{{
+               if ( $WSA/Config_Done == '0' )
+                 $$wizard_havent_launch_message;
+              }}";
+          }
+        }
+
+      } #WIZARD_UI
+      
+    # WIZARD_UI bind
+    # {
+    #   CONTEXT
+    #   {
+    #     WSA = "WIZARD_SCRIPT_ARGUMENTS";
+    #   }
+    #   FUNCTION update_sopc_pll_clocks               
+    #   {                           
+    #     java="altera_avalon_pll.update_sopc_pll_clocks(WSA)";   
+    #   }
+    #   ACTION initialize
+    #   {
+    #     PAGES main
+    #     {
+    #       select=2;
+    #     }
+    #   }       
+    # } # WIZARD_UI bind
+    
+   }# USER_INTERFACE
+}# CLASS

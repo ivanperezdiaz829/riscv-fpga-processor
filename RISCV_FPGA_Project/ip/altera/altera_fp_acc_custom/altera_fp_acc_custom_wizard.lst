@@ -1,0 +1,10 @@
+[Arithmetic]
+ALTERA_FP_ACC_CUSTOM v13.1 = "%t" "%w/../common/lib/megawizard.pl" --wizard:altera_fp_acc_custom  --early_gen:on --wizard_file:"%w/source/altera_fp_acc_custom_hw.tcl" --family_parameter:device_family %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<DEVICE_FAMILY SUPPORTED="ALL | -MAX II | -MAX V" SUPPORT_CHECK="ON" /> 
+<LANGUAGES AHDL="OFF" VERILOG="OFF"/>
+<ALIAS>Altera Application-Specific Floating Point Accumulator v13.1</ALIAS>
+<ALIAS>Altera Application-Specific Floating Point Accumulator v13.1</ALIAS>
+<ALIAS>Altera Application-Specific Floating Point Accumulator v13.0</ALIAS>
+</INFO>

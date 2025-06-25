@@ -1,0 +1,199 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- Placement Constraint Data for Implementing DDR I/O in 'Cyclone' devices
+-- This script is the default script
+--
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+-- $Revision: #1 $
+
+
+  	max_pads_per_row     	3
+    max_pads_per_column     3    
+
+
+--
+--
+--  Cell_Mnemonic. (based on Cyclone DDR-IO cell diagram - see User Guide Figure 17. )
+--  |
+--  |            ============
+--  |             LEFT/RIGHT 
+--  |            ============
+--  |             Column                                        Column:     Horizontal Position_From_Edge_of_chip. (1, 2, ...)
+--  |               |
+--  |               |   LE                                      LE:         Relative_LE_position_within_LAB. (0..9 for 1 group per LAB | 0..4 for 2 groups per LAB | 0..2 for 3 groups per LAB.)
+--  |               |   |
+--  |               |   |                                      (Row:        Only one row is ever used, so there's an implied '0' ie 'aligned with pins')
+--  |               |   |       ============
+--  |               |   |        TOP/BOTTOM
+--  |               |   |       ============
+--  |               |   |       Row                             Row:        Vertical Position_From_Edge_of_chip. (1, 2, ...)
+--  |               |   |        |
+--  |               |   |        |  Column                      Column:     0 means column aligned with pins, -1 means the column to the left of this) 
+--  |               |   |        |   |
+--  |               |   |        |   |   LE                     LE:         Relative_LE_position_within_LAB. (see layout)
+--  |               |   |        |   |   |               
+--  |               |   |        |   |   | 
+--  |               |   |        |   |   |
+--  |               |   |        |   |   |         For which DDR pins is this assignment required.
+--  |               |   |        |   |   |         |
+--  |               |   |        |   |   |         |        Demote to LAB. When set to 0 it will be a strict LE placement, when 1 a LAB assignment
+--  |               |   |        |   |   |         |        |       
+--  |               |   |        |   |   |         |        |       Comments
+--  |               |   |        |   |   |         |        |       |                                  
+--  v               v   v        v   v   v         v        v       v                                  
+--              
+--                                                                                                  WRITE path logic
+--                                                                                                  ----------------
+--                                                                  -- Ao gets optimised out for DQS (!!! but might we want to keep it for timing ? -ie o/p hold time)
+                                                                       
+    DQ_Bo           2   1        2   0   1         DQ       0       -- 'Output Register Bo' - registers 'datain_h' and drives the '1' input of the DDR output mux Mo.
+    DQ_MUX          2   0        2   0   0         DQ       0       -- The mux that drives out to a DDR pin during output (write) mode.
+    DQ_Aoe          2   2        2   0   2         DQ       0              
+                                                                       
+    dq_enable       4   9        2   -1  9         DQ       0       -- dq_enable is a one off type register. it won't happen all the time and it is a fixed position with no shift in it
+    dq_enable_reset 3   9        2   0   9         DQ       0       -- dq_enable_reset is a one off type register. it won't happen all the time and it is a fixed position with no shift in it
+                                                                       
+    DQS_Bo          2   1        2   0   1         DQS      0       -- 'Output Register Bo' - registers 'datain_h' and drives the '1' input of the DDR output mux Mo.
+    DQS_MUX         2   0        2   0   0         DQS      0       -- The mux that drives out to a DDR pin during output (write) mode.
+                                                                       
+    DQS_Aoe         2   2        2   -1   1        DQS      0            
+    DQS_Boe         4   1        2   -1   0        DQS      0          
+    DQS_AND         4   1        2   -1   0        DQS      0       -- Note: this is Comb so can be assigned to a 'Register' LE position (register packing)
+                                                                       
+    DM_Bo           2   1        2   0   1         DM       0       -- 'Output Register Bo' - registers 'datain_h' and drives the '1' input of the DDR output mux Mo.
+    DM_MUX          2   0        2   0   0         DM       0       -- The mux that drives out to a DDR pin during output (write) mode.
+                                                                    ---------------
+    DQ_Ai           1   0        1   0   0         DQ       0          
+    DQ_Bi           1   1        1   0   1         DQ       0          
+    DQ_Ci           1   2        1   0   2         DQ       0          
+                                                                       
+    DQ_S_Ai         3   0        1  -1   0         DQ       0       -- Read path Resynchronisation registers
+    DQ_S_Bi         3   1        1  -1   1         DQ       0           
+
+
+
+
+
+-- LEFT/RIGHT ------------------------------------------------------------------------------------------------------------
+--
+--
+--   <-- EDGE OF CHIP                       Example shows top-half of three LABs in a ROW on LHS of chip (LEs positioned are mirrored for
+--                                          the RHS )
+--
+--            1                   2                   3                   4                   5
+--       ___________         ___________         ___________         ___________         ___________
+--      |           |       |           |       |           |       |           |       |           |
+--      |    Ai     |       |    MUX    |       |   S_Ai    |       |           |       |           |
+--   0  |           |       |(wr_clk DQ)|       |           |       |           |       |           |
+--      |  (dqs_n)  |       | (clk DQS) |       | (resynch) |       |           |       |           |
+--      |___________|       |___________|       |___________|       |___________|       |___________|
+--      |           |       |           |       |           |       |           |       |           |
+--      |    Bi     |       |    Bo     |       |   S_Bi    |       | Boe  AND  |       |           |
+--   1  |           |       |(wr_clk DQ)|       |           |       |           |       |           |
+--      |   (dqs)   |       | (clk DQS) |       | (resynch) |       |  (clk_n)  |       |           |
+--      |___________|       |___________|       |___________|       |___________|       |___________|
+--      |           |       |  DQS_Aoe  |       |           |       |           |       |           |
+--      |    Ci     |       |   (clk)   |       |           |       |           |       |           |
+--   2  |           |       |  DQ_Aoe   |       |           |       |           |       |           |
+--      |  (dqs_n)  |       | (wr_clk)  |       |           |       |           |       |           |
+--      |___________|       |___________|       |___________|       |___________|       |___________|
+--      |           |       |           |       |           |       |           |       |           |
+--      |           |       |           |       |           |       |           |       |           |
+                                          
+                                          
+--      |___________|       |___________|       |___________|       |___________|       |___________|
+--      |           |       |           |       |           |       |           |       |           |
+--      |           |       |           |       |dq_enb_rst |       | dq_enable |       |           |
+--   9  |           |       |           |       |           |       |           |       |           |
+--      |           |       |           |       |(postamble)|       |   (dqs)   |       |           |
+--      |___________|       |___________|       |___________|       |___________|       |___________|
+
+
+
+-- TOP/BOTTOM ------------------------------------------------------------------------------------------------------------
+--
+--                                2 pins per column
+--                                    _     _
+--                                   |X|   |X|
+--                                
+--                                 |           |
+--                                 |           |
+--                Col '-1'            Col '0'             Col '+1' 
+--------------------------------------------------------------------------------------
+--              ___________         ___________         ___________ 
+--             |           |       |           |       |///////////|
+--             |   S_Ai    |       |    Ai     |       |// Don't //|
+--   0         |           |       |           |       |/// Use ///|
+--             | (resynch) |       |  (dqs_n)  |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |///////////|
+--             |   S_Bi    |       |    Bi     |       |///////////|
+--   1         |           |       |           |       |///////////|
+--             | (resynch) |       |   (dqs)   |       |///////////|
+--             |___________|       |___________|       |///////////|            Row 1
+--             |           |       |           |       |///////////|
+--   2         |           |       |    Ci     |       |///////////|
+--             |           |       |           |       |///////////|
+--             |           |       |  (dqs_n)  |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |           |
+--
+
+--             |           |       |           |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |///////////|
+--             |           |       |           |       |///////////|
+--   9         |           |       |           |       |///////////|
+--             |           |       |           |       |///////////|
+--             |___________|       |___________|       |///////////|
+
+
+--------------------------------------------------------------------------------------
+--              ___________         ___________         ___________ 
+--             |           |       |           |       |///////////|
+--             |  DQS_Aoe  |       |    MUX    |       |///////////|
+--   0         |           |       |(wr_clk DQ)|       |///////////|
+--             |   (clk)   |       | (clk DQS) |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |///////////|
+--             | Boe  AND  |       |    Bo     |       |///////////|
+--   1         |           |       |(wr_clk DQ)|       |///////////|
+--             |  (clk_n)  |       | (clk DQS) |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |///////////|
+--             |           |       |  DQ_Aoe   |       |///////////|              Row 2
+--   2         |           |       |           |       |///////////|
+--             |           |       | (wr_clk)  |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |           |
+--
+
+--             |           |       |           |       |///////////|
+--             |___________|       |___________|       |///////////|
+--             |           |       |           |       |///////////|
+--             | dq_enable |       |dq_enb_rst |       |///////////|
+--   9         |           |       |           |       |///////////|
+--             |   (dqs)   |       |(postamble)|       |///////////|
+--             |___________|       |___________|       |///////////|
+--------------------------------------------------------------------------------------
+-- 
+

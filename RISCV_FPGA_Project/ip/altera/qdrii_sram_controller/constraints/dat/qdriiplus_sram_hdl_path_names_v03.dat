@@ -1,0 +1,64 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+-- -------------------------------------------------------------------------
+-- This file contains information about the path and the internal names for 
+-- the logic. 
+-- It will describe:  
+--  - path to the submodules  
+--  - name mapping from the lcell_placement file to HDL  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+-- $Revision: #1 $
+
+--------------------------------------------------------------------------------------------------------------------------------------
+--  Paths for the various submodules
+--------------------------------------------------------------------------------------------------------------------------------------
+--192   general_path		4.1	%4_auk_ddr_sdram:%4_auk_ddr_sdram_inst|%4_auk_ddr_datapath:ddr_io|%4_auk_ddr_dqs_group:\\g_datapath:%1:g_ddr_io|
+    
+--    |example_top|mw_wrapper_auk_qdrii_mw_wrapper:auk_qdrii_mw_wrapper|mw_wrapper_auk_qdrii_ctrl:auk_qdrii_ctrl|mw_wrapper_auk_qdrii_datapath:datapath|test_q_pins:auk_qdrii_read_group|test_q_pins_dq_42k:test_q_pins_dq_42k_component
+-- |mw_wrapper_auk_qdrii_ctrl:auk_qdrii_ctrl|mw_wrapper_auk_qdrii_datapath:datapath|test_q_pins:auk_qdrii_read_group|test_q_pins_dq_42k:test_q_pins_dq_42k_component
+--    |test32_1|test32_ddr:test32_ddr_ddr_sdram|test32_ddr_auk_ddr_sdram:test32_ddr_auk_ddr_sdram_inst|test32_ddr_auk_ddr_datapath:ddr_io|test32_ddr_auk_ddr_dqs_group:\g_datapath:3:g_ddr_io|altddio_out:dm_pin
+   
+--   four_chip_auk_qdrii_sram_capture_group_wrapper:auk_qdrii_sram_capture_group_wrapper|four_chip_auk_qdrii_sram_resynch_reg:auk_qdrii_sram_resynch_reg_1
+--four_chip_auk_qdrii_sram_capture_group_wrapper:auk_qdrii_sram_capture_group_wrapper|four_chip_auk_qdrii_sram_read_group:auk_qdrii_sram_read_group_1   
+    general_path		5.0	%4_auk_qdrii_sram_ctrl:auk_qdrii_sram_ctrl|%4_auk_qdrii_sram_datapath:auk_qdrii_sram_datapath|%4_auk_qdrii_sram_capture_group_wrapper:auk_qdrii_sram_capture_group_wrapper|%4_auk_qdrii_sram_resynch_reg:auk_qdrii_sram_resynch_reg_%1|
+    dq_altddio_path		5.0	%4_auk_qdrii_sram_capture_group_wrapper:auk_qdrii_sram_capture_group_wrapper|%4_auk_qdrii_sram_read_group:auk_qdrii_sram_read_group_%3|stratixii_io:q_pins_%2|
+
+
+-- Note: change from v02 to v03: removed the bus index. Instead added a rollout. If the value is a parameter name or greater than 1,
+-- more than 1 of the bits apply. The generate_constraints script will then create as many items as necessary.
+-- The parameter to use will be %6 for the rollout
+
+--------------------------------------------------------------------------------------------------------------------------------------
+-- Cell Mnemonic | Quartus version | HDL signal name       |  		Where in the hierarchy  |  Number of items | specific placement --
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+    DQ_Ai       		5.0    			input_cell_H[0]             	altddio                			1					0
+    DQ_Bi       		5.0    			input_cell_L[0]             	altddio                 		1					0
+    DQ_Ci       		5.0   			input_latch_L[0]            	altddio                 		1					0
+
+
+	-- Note: For DQ_S_Ai, we use %2 which will be the bit number from 0 to 7, for DQ_S_Bi, we use %2+ so that the bus is shifted by 8, so the 
+	-- numbering will be from 8 to 15
+
+    DQ_S_Ai         	5.0    			resynch_data[%2]          	user                    		1					0              	--  dataout[ 7:0]
+    DQ_S_Bi         	5.0    			resynch_data[%2+]          	user                    		1					0             	--  dataout[15:8]
+
+

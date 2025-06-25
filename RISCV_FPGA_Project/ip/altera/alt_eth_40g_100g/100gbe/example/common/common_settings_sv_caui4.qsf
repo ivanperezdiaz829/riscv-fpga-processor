@@ -1,0 +1,80 @@
+#########################################################
+# Device and Board Setting                              #
+#########################################################
+set_global_assignment -name DEVICE 5SGTMC7K2F40C2
+set_global_assignment -name FAMILY "Stratix V"
+
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "2.5 V"
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS "AS INPUT TRI-STATED"
+set_global_assignment -name RESERVE_ALL_UNUSED_PINS_NO_OUTPUT_GND "AS INPUT TRI-STATED"
+
+#########################################################
+# Timing Related Setting                                #
+#########################################################
+set_global_assignment -name SYNTH_TIMING_DRIVEN_SYNTHESIS OFF
+set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name AUTO_GLOBAL_CLOCK OFF
+set_global_assignment -name AUTO_GLOBAL_REGISTER_CONTROLS OFF
+set_global_assignment -name OPTIMIZE_HOLD_TIMING "ALL PATHS"
+#set_global_assignment -name OPTIMIZE_MULTI_CORNER_TIMING OFF
+#set_global_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION OFF
+set_global_assignment -name FITTER_EFFORT "STANDARD FIT"
+set_global_assignment -name TIMEQUEST_DO_REPORT_TIMING ON
+set_global_assignment -name BLOCK_RAM_TO_MLAB_CELL_CONVERSION OFF
+set_global_assignment -name AUTO_RAM_RECOGNITION OFF
+set_global_assignment -name AUTO_SHIFT_REGISTER_RECOGNITION OFF
+set_global_assignment -name PLACEMENT_EFFORT_MULTIPLIER 10
+
+#########################################################
+# I/O pins and GLOBAL_SIGNAL Setting                    #
+#########################################################
+
+set_location_assignment PIN_AP2 -to tx_serial_r[0]
+set_location_assignment PIN_AP1 -to "tx_serial_r[0](n)"
+set_location_assignment PIN_AD2 -to tx_serial_r[1]
+set_location_assignment PIN_AD1 -to "tx_serial_r[1](n)"
+set_location_assignment PIN_T2 -to tx_serial_r[2]
+set_location_assignment PIN_T1 -to "tx_serial_r[2](n)"
+set_location_assignment PIN_H2 -to tx_serial_r[3]
+set_location_assignment PIN_H1 -to "tx_serial_r[3](n)"
+
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[0]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[1]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[2]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to tx_serial_r[3]
+
+set_instance_assignment -name XCVR_TX_VOD 10 -to tx_serial_r[0]
+set_instance_assignment -name XCVR_TX_VOD 10 -to tx_serial_r[1]
+set_instance_assignment -name XCVR_TX_VOD 10 -to tx_serial_r[2]
+set_instance_assignment -name XCVR_TX_VOD 10 -to tx_serial_r[3]
+
+set_location_assignment PIN_AM2 -to rx_serial_r[0]
+set_location_assignment PIN_AM1 -to "rx_serial_r[0](n)"
+set_location_assignment PIN_AB2 -to rx_serial_r[1]
+set_location_assignment PIN_AB1 -to "rx_serial_r[1](n)"
+set_location_assignment PIN_P2 -to rx_serial_r[2]
+set_location_assignment PIN_P1 -to "rx_serial_r[2](n)"
+set_location_assignment PIN_F2 -to rx_serial_r[3]
+set_location_assignment PIN_F1 -to "rx_serial_r[3](n)"
+
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[0]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[1]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[2]
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to rx_serial_r[3]
+
+set_location_assignment PIN_W8 -to clk_ref_r
+set_location_assignment PIN_W7 -to "clk_ref_r(n)"
+set_instance_assignment -name IO_STANDARD "1.5-V PCML" -to clk_ref_r
+set_instance_assignment -name INPUT_TERMINATION "OCT 100 OHMS" -to clk_ref_r
+
+set_location_assignment PIN_AJ26 -to clk50
+set_location_assignment PIN_J31 -to cpu_resetn
+
+
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk100
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to clk320
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to "*alt_e100_adapter_sv_caui4_phy:phy|alt_e100_adapter_sv_caui4_phy_pma:pma|alt_e100_pma_sv_bridge_caui4:pma_bridge|clk_rx"
+set_instance_assignment -name GLOBAL_SIGNAL "GLOBAL CLOCK" -to "*alt_e100_adapter_sv_caui4_phy:phy|alt_e100_adapter_sv_caui4_phy_pma:pma|alt_e100_pma_sv_bridge_caui4:pma_bridge|clk_tx"
+

@@ -1,0 +1,3855 @@
+Wire List
+
+Illinois                                      Revised: Tuesday, August 24, 2004
+P06-XXXXX-00                                  Revision: 01
+Altera Corp.
+110 Cooper Street, Suite 201, Santa Cruz, CA 95060
+
+
+
+
+<<< Component List >>>
+Test_Header                   1_2V1     1X1VH
+Test_Header                   1_2V2     1X1VH
+Test_Header                   3_3V1     1X1VH
+Test_Header                   3_3V2     1X1VH
+Test_Header                   5V1       1X1VH
+Test_Header                   5V2       1X1VH
+100u                          C115      7343
+100u                          C116      7343
+0u1                           C136      0603
+0u001                         C137      0603
+0u1                           C147      0603
+0u001                         C148      0603
+0u1                           C149      0603
+0u001                         C150      0603
+0u1                           C151      0603
+0u001                         C152      0603
+0u1                           C153      0603
+0u001                         C154      0603
+0u1                           C155      0603
+0u001                         C156      0603
+0u1                           C169      0603
+0u1                           C170      0603
+0u1                           C171      0603
+0u1                           C172      0603
+0u1                           C173      0603
+0u1                           C174      0603
+0u1                           C175      0603
+0u1                           C176      0603
+0u1                           C177      0603
+0u1                           C178      0603
+0u1                           C179      0603
+0u1                           C180      0603
+0u1                           C181      0603
+0u1                           C182      0603
+0u1                           C183      0603
+0u1                           C184      0603
+0u1                           C185      0603
+0u1                           C186      0603
+0u1                           C187      0603
+0u1                           C188      0603
+10u                           C189      7343
+0u01                          C191      0603
+0u01                          C192      0603
+0u001                         C195      0603
+0u001                         C196      0603
+0u001                         C197      0603
+0u001                         C198      0603
+0u001                         C199      0603
+0u001                         C200      0603
+0u001                         C201      0603
+0u001                         C202      0603
+0u001                         C203      0603
+0u001                         C204      0603
+0u001                         C205      0603
+0u001                         C206      0603
+0u001                         C207      0603
+0u001                         C208      0603
+0u001                         C209      0603
+0u001                         C210      0603
+0u001                         C211      0603
+0u001                         C212      0603
+0u001                         C213      0603
+0u001                         C214      0603
+0u01                          C217      0603
+0u01                          C218      0603
+10u                           C219      7343
+10u                           C220      7343
+0u1                           C23       0603
+1u                            C238      0603
+1u                            C239      0603
+0u001                         C24       0603
+10u                           C243      7343
+10u                           C244      7343
+1u                            C247      0603
+1u                            C248      0603
+1u                            C249      0603
+0u1                           C25       0603
+1u                            C250      0603
+1u                            C251      0603
+10u                           C252      7343
+10u                           C253      7343
+10u                           C254      7343
+10u                           C255      7343
+0u01                          C26       0603
+0u1                           C266      0603
+0u001                         C267      0603
+0u1                           C268      0603
+0u001                         C269      0603
+0u001                         C27       0603
+0u001                         C270      0603
+0u001                         C271      0603
+0u1                           C272      0603
+0u1                           C273      0603
+0u001                         C274      0603
+0u001                         C275      0603
+0u1                           C276      0603
+0u1                           C277      0603
+0u1                           C278      0603
+0u001                         C279      0603
+0u1                           C28       0603
+0u001                         C280      0603
+0u1                           C281      0603
+0u1                           C282      0603
+0u1                           C283      0603
+0u001                         C29       0603
+1u                            C30       0603
+0u001                         C31       0603
+0u001                         C32       0603
+1u                            C327      0603
+2u2                           C328      0603
+0u1                           C329      0603
+0u1                           C33       0603
+0u01                          C330      0603
+1u                            C331      0603
+2u2                           C332      0603
+0u1                           C333      0603
+0u01                          C334      0603
+1u                            C335      0603
+2u2                           C336      0603
+0u1                           C337      0603
+0u01                          C338      0603
+1u                            C339      0603
+0u1                           C34       0603
+2u2                           C340      0603
+0u1                           C341      0603
+0u01                          C342      0603
+0u01                          C343      0603
+10u                           C344      7343
+10u                           C345      7343
+10u                           C347      7343
+10u                           C348      7343
+0u001                         C35       0603
+0u01                          C351      0603
+100u                          C352      7343
+100u                          C353      7343
+100u                          C354      7343
+1u                            C355      0603
+1u                            C356      0603
+1u                            C357      0603
+1u                            C358      0603
+10u                           C359      7343
+0u001                         C36       0603
+10u                           C360      7343
+0u001                         C361      0603
+47u                           C362      7343
+0u22                          C363      0603
+100u                          C364      7343
+100u                          C365      7343
+100u                          C366      7343
+100u                          C367      7343
+2u2                           C368      0603
+0u1                           C369      0603
+0u1                           C37       0603
+0u1                           C370      0603
+4u7                           C371      0805
+0u1                           C372      0603
+470p                          C373      0603
+0u01                          C374      0603
+0u01                          C375      0603
+0u01                          C376      0603
+0u01                          C377      0603
+0u01                          C378      0603
+0u1                           C379      0603
+0u1                           C38       0603
+0u001                         C380      0603
+0u1                           C381      0603
+0u001                         C382      0603
+0u1                           C39       0603
+33p                           C40       0603
+33p                           C41       0603
+0u001                         C42       0603
+0u001                         C43       0603
+0u001                         C44       0603
+0u1                           C45       0603
+0u1                           C46       0603
+100u                          C82       7343
+0u01                          C86       0603
+0u01                          C87       0603
+0u01                          C88       0603
+0u01                          C89       0603
+1u                            C95       0603
+1u                            C96       0603
+1u                            C97       0603
+1u                            C98       0603
+CF_Header                     CON3      CFCONN50P
+Led_Blue                      D0        C150
+Led_Blue                      D1        C150
+1N4001SM                      D19       SMA
+Led_Blue                      D2        C150
+1N4001SM                      D20       SMA
+1N4001SM                      D21       SMA
+1N4001SM                      D22       SMA
+LedG                          D27       C150
+LedG                          D28       C150
+Led_Blue                      D3        C150
+Diode_3A                      D30       SMC
+Diode_3A                      D31       SMC
+LedG                          D32       C150
+LedG                          D33       C150
+MB1005MS                      D34       BR6
+CMDSH2-3                      D35       SOD323
+MBRS340                       D36       SMC
+Led_Blue                      D4        C150
+Led_Blue                      D5        C150
+Led_Blue                      D6        C150
+Led_Blue                      D7        C150
+Fiducial TOP                  FID1      FIDTOP
+Fiducial TOP                  FID2      FIDTOP
+Fiducial TOP                  FID3      FIDTOP
+Fiducial TOP                  FID4      FIDTOP
+Fiducial TOP                  FID5      FIDTOP
+Fiducial TOP                  FID6      FIDTOP
+Fiducial TOP                  FID7      FIDTOP
+Fiducial TOP                  FID8      FIDTOP
+Test_Header                   GND1      1X1VH
+Test_Header                   GND10     1X1VH
+Test_Header                   GND11     1X1VH
+Test_Header                   GND12     1X1VH
+Test_Header                   GND2      1X1VH
+Test_Header                   GND3      1X1VH
+Test_Header                   GND4      1X1VH
+Test_Header                   GND5      1X1VH
+Test_Header                   GND6      1X1VH
+Test_Header                   GND7      1X1VH
+Test_Header                   GND8      1X1VH
+Test_Header                   GND9      1X1VH
+2x20Header                    J11       2x20VH
+2x7Header                     J12       2x7VH
+2x10Header                    J13       2x10VH
+2x7Header                     J15       2x7VH
+2x20Header                    J16       2x20VH
+2x10Header                    J17       2x10VH
+DB9RF                         J19       DB9RF
+2x5Header                     J24       2x5VH
+Mictor38P                     J25       MICTOR38P
+DC_Jack2                      J26       DCJACK
+DB9RF                         J27       DB9RF
+SMAREC                        J4        SMAREC
+2x5Header                     J5        2x5VH
+47nH                          L1        0603
+22uH                          L10       INDSMT
+22uH                          L11       INDSMT
+2u8H                          L12       CEP125
+47nH                          L2        0603
+SMFerrite                     L6        0805
+SMFerrite                     L7        0805
+SMFerrite                     L8        0805
+SMFerrite                     L9        0805
+LedG                          LED1      C150
+LedY                          LED2      C150
+LedG                          LED3      C150
+LedR                          LED4      C150
+LedG                          LED5      C150
+MNTHOLE                       MT1       MTG130/260
+MNTHOLE                       MT3       MTG130/260
+MNTHOLE                       MT4       MTG130/260
+FDS6680A                      Q1        SOP8
+FDS6680A                      Q2        SOP8
+5K6                           R106      0603
+5K6                           R107      0603
+5K6                           R108      0603
+5K6                           R109      0603
+5K6                           R110      0603
+5K6                           R111      0603
+5K6                           R113      0603
+330                           R13       0603
+330                           R136      0603
+200                           R140      0603
+200                           R141      0603
+49R9                          R15       0603
+5K6                           R166      0603
+330                           R167      0603
+5K6                           R176      0603
+0_jump                        R179      0603
+0_jump                        R180      0603
+0_jump                        R181      0603
+0_jump                        R182      0603
+0_jump                        R183      0603
+5K6                           R194      0603
+5K6                           R195      0603
+330                           R196      0603
+10K                           R197      0603
+10K                           R198      0603
+200                           R199      0603
+200                           R200      0603
+200                           R201      0603
+0_jump                        R202      0603
+5K6                           R205      0603
+5K6                           R207      0603
+200                           R208      0603
+200                           R209      0603
+33                            R210      0603
+100                           R211      1210
+62                            R212      1210
+33                            R213      0603
+33                            R214      0603
+10K                           R215      0603
+750K                          R216      0805
+5K6                           R217      0603
+10K                           R218      0603
+0_jump                        R219      0603
+24R9                          R22       0603
+1M4                           R220      0805
+4R7                           R221      0603
+100K                          R222      0603
+1K                            R223      0603
+10K                           R224      0603
+2K                            R225      0603
+33                            R226      0603
+5K6                           R227      0603
+49R9                          R228      0603
+2M                            R229      0603
+24R9                          R23       0603
+49R9                          R24       0603
+49R9                          R25       0603
+24R9                          R26       0603
+24R9                          R27       0603
+11K                           R28       0805
+10K                           R29       0603
+10K                           R30       0603
+200                           R42       0603
+200                           R43       0603
+5K6                           R46       0603
+10K                           R47       0603
+330                           R48       0603
+5K6                           R49       0603
+330                           R50       0603
+1K                            R55       0603
+10K                           R56       0603
+1K                            R57       0603
+2K21                          R60       0603
+2K21                          R61       0603
+10K                           R63       0603
+1K                            R64       0603
+10K                           R65       0603
+1K                            R66       0603
+5K6                           R67       0603
+2K21                          R68       0603
+2K21                          R69       0603
+10K                           R72       0603
+1K                            R73       0603
+10K                           R74       0603
+1K                            R75       0603
+5K6                           R76       0603
+5K6                           R81       0603
+5K6                           R85       0603
+RJ45INTLED                    RJ1       RJ426
+33                            RP1       EXB8P
+100                           RP11      EXB8P
+100                           RP13      EXB8P
+1K                            RP3       EXB8P
+220                           RP5       EXB8P
+220                           RP6       EXB8P
+5K6                           RP68      EXB8P
+220                           RP7       EXB8P
+1K                            RP71      EXB8P
+33                            RP72      EXB8P
+330                           RP73      EXB8P
+220                           RP8       EXB8P
+PBswitch                      SW0       PBSPST
+PBswitch                      SW1       PBSPST
+PBswitch                      SW10      PBSPST
+PBswitch                      SW2       PBSPST
+PBswitch                      SW3       PBSPST
+PBswitch                      SW8       PBSPST
+PBswitch                      SW9       PBSPST
+Test_Header                   TEMPn     1X1VH
+Test_Header                   TEMPp     1X1VH
+LTC1326-5                     U18       SOIC8P220W
+PI5C3384                      U19       QSOP24P
+49FCT3805                     U2        QSOP20P160W
+PI5C3384                      U20       QSOP24P
+PI5C3384                      U21       QSOP24P
+PI5C3384                      U22       QSOP24P
+PI5C3384                      U25       QSOP24P
+PI5C3384                      U27       QSOP24P
+PI5C3384                      U28       QSOP24P
+PI5C3384                      U29       QSOP24P
+EPM7128                       U3        TQFP100PS
+PI5C3384                      U30       QSOP24P
+PI5C3384                      U31       QSOP24P
+IDT71V416S                    U35       TSOP44P400W
+IDT71V416S                    U36       TSOP44P400W
+LAN91C111                     U4        TQFP128P
+AM29LV128M                    U5        TSOP56P
+MAX3237                       U52       SSOP28P
+LM2678_5.0V                   U54       TO263_7P
+LM2676_3.3V                   U55       TO263_7P
+MT48LC4M32B2                  U57       TSOP86P400W
+MAX3237                       U58       SSOP28P
+FDC6323L                      U59       SSOT6
+EP2S60_672FBGA                U60       672FBGA
+LTC1778                       U61       SSOP16P
+7Segment Display              U8        DIP10P400W
+7Segment Display              U9        DIP10P400W
+Test_Header                   Vureg1    1X1VH
+50Mhz                         Y2        OSC8PDIP
+25MHz                         Y3        HC49US
+
+<<< Wire List >>>
+
+  NODE  REFERENCE    PIN #   PIN NAME           PIN TYPE       PART VALUE
+
+[00001] N17298
+        U4              127     XTAL1           Input          LAN91C111
+        Y3              1       1               Passive        25MHz
+        C40             1       1               Passive        33p
+
+[00002] ENET_DATACS_N
+        U4              34      DATACS#         Input          LAN91C111
+        U60             Y12     IO.DQ8B3        BiDirectional  EP2S60_672FBGA
+
+[00003] N16999
+        R22             1       1               Passive        24R9
+        C26             2       2               Passive        0u01
+        R23             1       1               Passive        24R9
+
+[00004] N9975775
+        U61             1       RUN.SS          Passive        LTC1778
+        C369            1       1               Passive        0u1
+        R229            2       2               Passive        2M
+
+[00005] ENET_CYCLE_N
+        U4              35      CYCLE#          Input          LAN91C111
+        U60             AC9     IO.DQ7B0        BiDirectional  EP2S60_672FBGA
+
+[00006] N9978382
+        J26             1       1               Passive        DC_Jack2
+        D34             2       AC1             Passive        MB1005MS
+
+[00007] SDRAM_RAS_N
+        R109            2       2               Passive        5K6
+        U57             19      RAS_n           Passive        MT48LC4M32B2
+        U60             AE17    IO.DQSn11B      BiDirectional  EP2S60_672FBGA
+
+[00008] ENET_RDYRTN_N
+        U4              46      RDYRTN#         Input          LAN91C111
+        U60             V12     IO.DQ6B3        BiDirectional  EP2S60_672FBGA
+
+[00009] N9978400
+        J26             3       3               Passive        DC_Jack2
+        J26             2       2               Passive        DC_Jack2
+        D34             4       AC2             Passive        MB1005MS
+
+[00010] SDRAM_CAS_N
+        R110            2       2               Passive        5K6
+        U57             18      CAS_n           Passive        MT48LC4M32B2
+        U60             AE16    IO.DQS11B       BiDirectional  EP2S60_672FBGA
+
+[00011] ENET_W_R_N
+        U4              36      W/R#            Input          LAN91C111
+        U60             AC8     IO.DQ7B1        BiDirectional  EP2S60_672FBGA
+
+[00012] N107704
+        C27             2       2               Passive        0u001
+        RJ1             8       OCT             Input          RJ45INTLED
+
+[00013] PROTO5_IO20
+        U28             3       A0              BiDirectional  PI5C3384
+        J16             28      28              Passive        2x20Header
+
+[00014] PROTO1_OSC
+        J13             9       9               Passive        2x10Header
+        RP1             7       7               Passive        33
+
+[00015] RBIAS
+        R28             1       1               Passive        11K
+        U4              12      RBIAS           Passive        LAN91C111
+
+[00016] PROTO5_IO28
+        U28             21      A8              BiDirectional  PI5C3384
+        J16             39      39              Passive        2x20Header
+
+[00017] PROTO2_OSC
+        J17             9       9               Passive        2x10Header
+        RP1             8       8               Passive        33
+
+[00018] TXDP
+        R24             2       2               Passive        49R9
+        RJ1             1       TDP             Input          RJ45INTLED
+        U4              14      TPO+            BiDirectional  LAN91C111
+
+[00019] PROTO5_IO27
+        U28             18      A7              BiDirectional  PI5C3384
+        J16             37      37              Passive        2x20Header
+
+[00020] PROTO5_IO35
+        U30             14      A5              BiDirectional  PI5C3384
+        J15             10      10              Passive        2x7Header
+
+[00021] N2270251
+        U60             E22     nCE.nCE         BiDirectional  EP2S60_672FBGA
+        R196            1       1               Passive        330
+
+[00022] RXDP
+        R26             2       2               Passive        24R9
+        RJ1             4       RDP             Output         RJ45INTLED
+
+[00023] FLASH_OE_N
+        U5              34      OE_n            Input          AM29LV128M
+        U60             AB9     IO.DQS2B        BiDirectional  EP2S60_672FBGA
+        U3              30      IO              Passive        EPM7128
+
+[00024] RXDM
+        R27             2       2               Passive        24R9
+        RJ1             6       RDN             Output         RJ45INTLED
+
+[00025] VCC3_3
+        R75             2       2               Passive        1K
+        R74             2       2               Passive        10K
+        R73             2       2               Passive        1K
+        J17             7       7               Passive        2x10Header
+        J17             5       5               Passive        2x10Header
+        R72             2       2               Passive        10K
+        J17             15      15              Passive        2x10Header
+        J17             17      17              Passive        2x10Header
+        J17             19      19              Passive        2x10Header
+        C281            1       1               Passive        0u1
+        C280            1       1               Passive        0u001
+        C282            1       1               Passive        0u1
+        C279            1       1               Passive        0u001
+        R207            1       1               Passive        5K6
+        J25             14      14              Passive        Mictor38P
+        J25             12      12              Passive        Mictor38P
+        C250            1       1               Passive        1u
+        C251            1       1               Passive        1u
+        C252            1       1               Passive        10u
+        C253            1       1               Passive        10u
+        C254            1       1               Passive        10u
+        C255            1       1               Passive        10u
+        C247            1       1               Passive        1u
+        C249            1       1               Passive        1u
+        C248            1       1               Passive        1u
+        C354            1       1               Passive        100u
+        C352            1       1               Passive        100u
+        C353            1       1               Passive        100u
+        L11             2       2               Passive        22uH
+        U55             6       Feedback        Output         LM2676_3.3V
+        R212            1       1               Passive        62
+        3_3V1           1       1               Passive        Test_Header
+        3_3V2           1       1               Passive        Test_Header
+        U57             1       VCC3_3          Power          MT48LC4M32B2
+        U57             3       VCC3_3          Power          MT48LC4M32B2
+        U57             9       VCC3_3          Power          MT48LC4M32B2
+        U57             15      VCC3_3          Power          MT48LC4M32B2
+        U57             29      VCC3_3          Power          MT48LC4M32B2
+        U57             35      VCC3_3          Power          MT48LC4M32B2
+        U57             41      VCC3_3          Power          MT48LC4M32B2
+        U57             43      VCC3_3          Power          MT48LC4M32B2
+        U57             49      VCC3_3          Power          MT48LC4M32B2
+        U57             55      VCC3_3          Power          MT48LC4M32B2
+        U57             75      VCC3_3          Power          MT48LC4M32B2
+        U57             81      VCC3_3          Power          MT48LC4M32B2
+        R111            1       1               Passive        5K6
+        R113            1       1               Passive        5K6
+        R109            1       1               Passive        5K6
+        R110            1       1               Passive        5K6
+        RP68            7       7               Passive        5K6
+        RP68            6       6               Passive        5K6
+        RP68            5       5               Passive        5K6
+        RP68            8       8               Passive        5K6
+        U9              1       CA1             Passive        7Segment Display
+        U9              6       CA2             Passive        7Segment Display
+        U8              1       CA1             Passive        7Segment Display
+        U8              6       CA2             Passive        7Segment Display
+        U5              29      VCC3_3          Power          AM29LV128M
+        U5              43      VCC3_3          Power          AM29LV128M
+        R195            2       2               Passive        5K6
+        R194            2       2               Passive        5K6
+        C155            1       1               Passive        0u1
+        C156            1       1               Passive        0u001
+        R227            2       2               Passive        5K6
+        C97             2       2               Passive        1u
+        R140            2       2               Passive        200
+        R141            2       2               Passive        200
+        U52             26      VCC             Input          MAX3237
+        U52             14      SHDN_n          Input          MAX3237
+        U58             26      VCC             Input          MAX3237
+        R208            2       2               Passive        200
+        R209            2       2               Passive        200
+        U58             14      SHDN_n          Input          MAX3237
+        C358            2       2               Passive        1u
+        C34             1       1               Passive        0u1
+        C44             1       1               Passive        0u001
+        C42             1       1               Passive        0u001
+        U4              110     VDD             Power          LAN91C111
+        C26             1       1               Passive        0u01
+        C38             1       1               Passive        0u1
+        C31             1       1               Passive        0u001
+        U4              33      VDD             Power          LAN91C111
+        RJ1             9       D1              Input          RJ45INTLED
+        C35             1       1               Passive        0u001
+        C39             1       1               Passive        0u1
+        C46             1       1               Passive        0u1
+        R24             1       1               Passive        49R9
+        C33             1       1               Passive        0u1
+        U4              77      VDD             Power          LAN91C111
+        U4              1       VDD             Power          LAN91C111
+        U4              62      VDD             Power          LAN91C111
+        L2              2       2               Passive        47nH
+        C36             1       1               Passive        0u001
+        C32             1       1               Passive        0u001
+        U4              120     VDD             Power          LAN91C111
+        U4              44      VDD             Power          LAN91C111
+        R29             1       1               Passive        10K
+        U4              16      AVDD            Power          LAN91C111
+        RJ1             11      D3              Input          RJ45INTLED
+        C45             1       1               Passive        0u1
+        C43             1       1               Passive        0u001
+        U4              11      AVDD            Power          LAN91C111
+        R25             1       1               Passive        49R9
+        U4              98      VDD             Power          LAN91C111
+        C37             1       1               Passive        0u1
+        R30             1       1               Passive        10K
+        C30             1       1               Passive        1u
+        U60             T23     VREFB1N0.VREFB1 BiDirectional  EP2S60_672FBGA
+        U60             AC23    VREFB1N2.VREFB1 BiDirectional  EP2S60_672FBGA
+        U60             Y22     VREFB1N1.VREFB1 BiDirectional  EP2S60_672FBGA
+        U60             D23     VREFB2N0.VREFB2 BiDirectional  EP2S60_672FBGA
+        U60             N23     VREFB2N2.VREFB2 BiDirectional  EP2S60_672FBGA
+        U60             G22     VREFB2N1.VREFB2 BiDirectional  EP2S60_672FBGA
+        R197            2       2               Passive        10K
+        R47             2       2               Passive        10K
+        U60             D16     VREFB3N0.VREFB3 BiDirectional  EP2S60_672FBGA
+        U60             D22     VREFB3N2.VREFB3 BiDirectional  EP2S60_672FBGA
+        U60             F18     VREFB3N1.VREFB3 BiDirectional  EP2S60_672FBGA
+        U60             D5      VREFB4N0.VREFB4 BiDirectional  EP2S60_672FBGA
+        U60             F9      VREFB4N1.VREFB4 BiDirectional  EP2S60_672FBGA
+        U60             D11     VREFB4N2.VREFB4 BiDirectional  EP2S60_672FBGA
+        U60             K5      VREFB5N0.VREFB5 BiDirectional  EP2S60_672FBGA
+        U60             D4      VREFB5N2.VREFB5 BiDirectional  EP2S60_672FBGA
+        U60             G5      VREFB5N1.VREFB5 BiDirectional  EP2S60_672FBGA
+        U60             AC4     VREFB6N0.VREFB6 BiDirectional  EP2S60_672FBGA
+        U60             R5      VREFB6N2.VREFB6 BiDirectional  EP2S60_672FBGA
+        U60             Y5      VREFB6N1.VREFB6 BiDirectional  EP2S60_672FBGA
+        R166            1       1               Passive        5K6
+        R49             1       1               Passive        5K6
+        U60             AC11    VREFB7N0.VREFB7 BiDirectional  EP2S60_672FBGA
+        U60             AA9     VREFB7N1.VREFB7 BiDirectional  EP2S60_672FBGA
+        U60             AC5     VREFB7N2.VREFB7 BiDirectional  EP2S60_672FBGA
+        R46             1       1               Passive        5K6
+        R85             1       1               Passive        5K6
+        R205            1       1               Passive        5K6
+        J24             4       4               Passive        2x5Header
+        RP71            7       7               Passive        1K
+        RP71            6       6               Passive        1K
+        RP71            8       8               Passive        1K
+        R198            2       2               Passive        10K
+        U60             AC22    VREFB8N0.VREFB8 BiDirectional  EP2S60_672FBGA
+        U60             AA18    VREFB8N1.VREFB8 BiDirectional  EP2S60_672FBGA
+        U60             AC16    VREFB8N2.VREFB8 BiDirectional  EP2S60_672FBGA
+        C335            1       1               Passive        1u
+        L8              1       1               Passive        SMFerrite
+        L9              1       1               Passive        SMFerrite
+        C339            1       1               Passive        1u
+        C188            1       1               Passive        0u1
+        C187            1       1               Passive        0u1
+        C181            1       1               Passive        0u1
+        C180            1       1               Passive        0u1
+        C179            1       1               Passive        0u1
+        C182            1       1               Passive        0u1
+        U60             R10     VCCIO6_I        BiDirectional  EP2S60_672FBGA
+        U60             U14     VCCIO8_I        BiDirectional  EP2S60_672FBGA
+        U60             AF4     VCCIO7_I        BiDirectional  EP2S60_672FBGA
+        U60             U12     VCCIO7_I        BiDirectional  EP2S60_672FBGA
+        U60             AF11    VCCIO7_I        BiDirectional  EP2S60_672FBGA
+        U60             AF23    VCCIO8_I        BiDirectional  EP2S60_672FBGA
+        U60             AF16    VCCIO8_I        BiDirectional  EP2S60_672FBGA
+        U60             L1      VCCIO5_I        BiDirectional  EP2S60_672FBGA
+        U60             D1      VCCIO5_I        BiDirectional  EP2S60_672FBGA
+        U60             AC1     VCCIO6_I        BiDirectional  EP2S60_672FBGA
+        U60             T1      VCCIO6_I        BiDirectional  EP2S60_672FBGA
+        U60             K13     VCCIO4_I        BiDirectional  EP2S60_672FBGA
+        U60             A16     VCCIO3_I        BiDirectional  EP2S60_672FBGA
+        U60             K15     VCCIO3_I        BiDirectional  EP2S60_672FBGA
+        U60             A11     VCCIO4_I        BiDirectional  EP2S60_672FBGA
+        C210            1       1               Passive        0u001
+        U60             V15     VCCPD8          BiDirectional  EP2S60_672FBGA
+        C191            1       1               Passive        0u01
+        U60             J12     VCCPD4          BiDirectional  EP2S60_672FBGA
+        C189            1       1               Passive        10u
+        C207            1       1               Passive        0u001
+        C206            1       1               Passive        0u001
+        C208            1       1               Passive        0u001
+        C209            1       1               Passive        0u001
+        U60             R18     VCCPD1          BiDirectional  EP2S60_672FBGA
+        U60             M18     VCCPD2          BiDirectional  EP2S60_672FBGA
+        U60             J16     VCCPD3          BiDirectional  EP2S60_672FBGA
+        U60             M9      VCCPD5          BiDirectional  EP2S60_672FBGA
+        U60             V11     VCCPD7          BiDirectional  EP2S60_672FBGA
+        U60             R9      VCCPD6          BiDirectional  EP2S60_672FBGA
+        C374            1       1               Passive        0u01
+        C375            1       1               Passive        0u01
+        C377            1       1               Passive        0u01
+        C378            1       1               Passive        0u01
+        C376            1       1               Passive        0u01
+        C192            1       1               Passive        0u01
+        C185            1       1               Passive        0u1
+        C184            1       1               Passive        0u1
+        C186            1       1               Passive        0u1
+        C214            1       1               Passive        0u001
+        C211            1       1               Passive        0u001
+        C212            1       1               Passive        0u001
+        C213            1       1               Passive        0u001
+        C205            1       1               Passive        0u001
+        U60             M17     VCCIO2_I        BiDirectional  EP2S60_672FBGA
+        U60             T26     VCCIO1_I        BiDirectional  EP2S60_672FBGA
+        U60             P17     VCCIO1_I        BiDirectional  EP2S60_672FBGA
+        U60             AC26    VCCIO1_I        BiDirectional  EP2S60_672FBGA
+        U60             D26     VCCIO2_I        BiDirectional  EP2S60_672FBGA
+        U60             L26     VCCIO2_I        BiDirectional  EP2S60_672FBGA
+        U60             A23     VCCIO3_I        BiDirectional  EP2S60_672FBGA
+        U60             A4      VCCIO4_I        BiDirectional  EP2S60_672FBGA
+        U60             N10     VCCIO5_I        BiDirectional  EP2S60_672FBGA
+        C183            1       1               Passive        0u1
+        U35             11      VCC3_3          Power          IDT71V416S
+        U35             33      VCC3_3          Power          IDT71V416S
+        U36             11      VCC3_3          Power          IDT71V416S
+        U36             33      VCC3_3          Power          IDT71V416S
+        R81             2       2               Passive        5K6
+        C266            1       1               Passive        0u1
+        C267            1       1               Passive        0u001
+        C268            1       1               Passive        0u1
+        C269            1       1               Passive        0u001
+        R66             2       2               Passive        1K
+        R64             2       2               Passive        1K
+        R65             2       2               Passive        10K
+        J13             5       5               Passive        2x10Header
+        J13             7       7               Passive        2x10Header
+        J13             15      15              Passive        2x10Header
+        R63             2       2               Passive        10K
+        J13             19      19              Passive        2x10Header
+        J13             17      17              Passive        2x10Header
+        C277            1       1               Passive        0u1
+        C276            1       1               Passive        0u1
+        C275            1       1               Passive        0u001
+        C274            1       1               Passive        0u001
+        RP3             6       6               Passive        1K
+        RP3             7       7               Passive        1K
+        J5              4       4               Passive        2x5Header
+        RP3             5       5               Passive        1K
+        R176            1       1               Passive        5K6
+        R106            1       1               Passive        5K6
+        LED5            1       ANODE           Passive        LedG
+        U3              66      VCCIO           Passive        EPM7128
+        U3              3       VCCIO           Passive        EPM7128
+        U3              18      VCCIO           Passive        EPM7128
+        U3              34      VCCIO           Passive        EPM7128
+        U3              51      VCCIO           Passive        EPM7128
+        U3              39      VCCINT          Passive        EPM7128
+        U3              91      VCCINT          Passive        EPM7128
+        U3              82      VCCIO           Passive        EPM7128
+        R57             1       1               Passive        1K
+        R55             1       1               Passive        1K
+        U18             1       VCC3            Power          LTC1326-5
+        C147            1       1               Passive        0u1
+        C154            1       1               Passive        0u001
+        C148            1       1               Passive        0u001
+        C149            1       1               Passive        0u1
+        C150            1       1               Passive        0u001
+        C151            1       1               Passive        0u1
+        C152            1       1               Passive        0u001
+        C153            1       1               Passive        0u1
+        U2              1       VCC3_3          Power          49FCT3805
+        U2              20      VCC3_3          Power          49FCT3805
+        C136            1       1               Passive        0u1
+        C137            1       1               Passive        0u001
+
+[00026] VCC_BUFFER2
+        U30             24      VCC             Input          PI5C3384
+        U31             24      VCC             Input          PI5C3384
+        D22             1       CATHODE         Passive        1N4001SM
+        R69             2       2               Passive        2K21
+        C89             1       1               Passive        0u01
+
+[00027] FLASH_RW_N
+        R195            1       1               Passive        5K6
+        U5              13      WE_n            Input          AM29LV128M
+        U60             AD6     IO.DQS3B        BiDirectional  EP2S60_672FBGA
+        U3              31      IO              Passive        EPM7128
+
+[00028] N731900
+        D31             1       CATHODE         Passive        Diode_3A
+        U55             1       Vout            Output         LM2676_3.3V
+        L11             1       1               Passive        22uH
+        C351            2       2               Passive        0u01
+
+[00029] FLASH_RY_BY_N
+        U5              17      RY.BY_n         Passive        AM29LV128M
+        U60             AE6     IO.DQSn3B       BiDirectional  EP2S60_672FBGA
+        U3              35      IO              Passive        EPM7128
+
+[00030] N732441
+        C351            1       1               Passive        0u01
+        U55             3       CBoost          Output         LM2676_3.3V
+
+[00031] CARDSEL5_N
+        U31             4       A1              BiDirectional  PI5C3384
+        R72             1       1               Passive        10K
+        J16             38      38              Passive        2x20Header
+
+[00032] SRAM_WE_N
+        U60             J21     IO.DIFFIO_TX32n BiDirectional  EP2S60_672FBGA
+        U35             17      WE_n            Input          IDT71V416S
+        U36             17      WE_n            Input          IDT71V416S
+
+[00033] SRAM_OE_N
+        U60             J22     IO.DIFFIO_TX32p BiDirectional  EP2S60_672FBGA
+        U36             41      OE_n            Input          IDT71V416S
+        U35             41      OE_n            Input          IDT71V416S
+
+[00034] SRAM_BE_N3
+        U60             K21     IO.DIFFIO_TX30n BiDirectional  EP2S60_672FBGA
+        U36             40      BHE_n           Input          IDT71V416S
+
+[00035] SRAM_BE_N2
+        U60             K22     IO.DIFFIO_TX30p BiDirectional  EP2S60_672FBGA
+        U36             39      BLE_n           Input          IDT71V416S
+
+[00036] SDRAM_DQ31
+        U57             56      DQ31            Passive        MT48LC4M32B2
+        U60             AF3     IO.DQ1B0        BiDirectional  EP2S60_672FBGA
+
+[00037] SRAM_BE_N1
+        U60             K19     IO.DIFFIO_TX29n BiDirectional  EP2S60_672FBGA
+        U35             40      BHE_n           Input          IDT71V416S
+
+[00038] SDRAM_DQ30
+        U57             54      DQ30            Passive        MT48LC4M32B2
+        U60             AA8     IO.DQ0B3        BiDirectional  EP2S60_672FBGA
+
+[00039] SRAM_BE_N0
+        U60             K20     IO.DIFFIO_TX29p BiDirectional  EP2S60_672FBGA
+        U35             39      BLE_n           Input          IDT71V416S
+
+[00040] SDRAM_DQ29
+        U57             53      DQ29            Passive        MT48LC4M32B2
+        U60             V10     IO.DQ0B1        BiDirectional  EP2S60_672FBGA
+
+[00041] SDRAM_DQ28
+        U57             51      DQ28            Passive        MT48LC4M32B2
+        U60             AB7     IO.DQ0B0        BiDirectional  EP2S60_672FBGA
+
+[00042] RESET5_N
+        U25             14      A5              BiDirectional  PI5C3384
+        CON3            41      RESET#          Input          CF_Header
+        R215            2       2               Passive        10K
+
+[00043] SDRAM_DQ27
+        U57             50      DQ27            Passive        MT48LC4M32B2
+        U60             AE24    IO.DQ17B3       BiDirectional  EP2S60_672FBGA
+
+[00044] PLD_BOOTSEL
+        R176            2       2               Passive        5K6
+        SW9             1       1               Passive        PBswitch
+        SW9             2       2               Input          PBswitch
+        U3              96      IO              Passive        EPM7128
+
+[00045] SDRAM_DQ26
+        U57             48      DQ26            Passive        MT48LC4M32B2
+        U60             AF24    IO.DQ17B2       BiDirectional  EP2S60_672FBGA
+
+[00046] SDRAM_DQ25
+        U57             47      DQ25            Passive        MT48LC4M32B2
+        U60             AE22    IO.DQ17B1       BiDirectional  EP2S60_672FBGA
+
+[00047] PROTO5_IO9
+        U27             22      A9              BiDirectional  PI5C3384
+        J16             12      12              Passive        2x20Header
+
+[00048] SDRAM_DQ24
+        U57             45      DQ24            Passive        MT48LC4M32B2
+        U60             AD22    IO.DQ17B0       BiDirectional  EP2S60_672FBGA
+
+[00049] PROTO5_IO14
+        U29             11      A4              BiDirectional  PI5C3384
+        J16             17      17              Passive        2x20Header
+
+[00050] SDRAM_DQ23
+        U57             42      DQ23            Passive        MT48LC4M32B2
+        U60             AB19    IO.DQ16B3       BiDirectional  EP2S60_672FBGA
+
+[00051] SDRAM_DQ22
+        U57             40      DQ22            Passive        MT48LC4M32B2
+        U60             W18     IO.DQ16B2       BiDirectional  EP2S60_672FBGA
+
+[00052] SDRAM_DQ21
+        U57             39      DQ21            Passive        MT48LC4M32B2
+        U60             AC18    IO.DQ16B0       BiDirectional  EP2S60_672FBGA
+
+[00053] SDRAM_DQ20
+        U57             37      DQ20            Passive        MT48LC4M32B2
+        U60             AF22    IO.DQ15B3       BiDirectional  EP2S60_672FBGA
+
+[00054] CF_PRESENT_N
+        U60             AB16    IO_H            BiDirectional  EP2S60_672FBGA
+        U25             19      B7              BiDirectional  PI5C3384
+
+[00055] SDRAM_DQ19
+        U57             36      DQ19            Passive        MT48LC4M32B2
+        U60             AD21    IO.DQ15B2       BiDirectional  EP2S60_672FBGA
+
+[00056] SDRAM_DQ18
+        U57             34      DQ18            Passive        MT48LC4M32B2
+        U60             AD20    IO.DQ15B1       BiDirectional  EP2S60_672FBGA
+
+[00057] GND
+        U29             12      GND             Power          PI5C3384
+        U30             12      GND             Power          PI5C3384
+        U27             12      GND             Power          PI5C3384
+        U28             12      GND             Power          PI5C3384
+        U31             12      GND             Power          PI5C3384
+        U29             13      BEB-            Input          PI5C3384
+        U27             13      BEB-            Input          PI5C3384
+        U27             1       BEA-            Input          PI5C3384
+        U28             1       BEA-            Input          PI5C3384
+        U28             13      BEB-            Input          PI5C3384
+        C88             2       2               Passive        0u01
+        U30             1       BEA-            Input          PI5C3384
+        U29             1       BEA-            Input          PI5C3384
+        R68             1       1               Passive        2K21
+        U30             13      BEB-            Input          PI5C3384
+        R76             2       2               Passive        5K6
+        U31             13      BEB-            Input          PI5C3384
+        U31             1       BEA-            Input          PI5C3384
+        R69             1       1               Passive        2K21
+        C89             2       2               Passive        0u01
+        R108            2       2               Passive        5K6
+        J15             1       1               Passive        2x7Header
+        J17             2       2               Passive        2x10Header
+        J17             4       4               Passive        2x10Header
+        J17             6       6               Passive        2x10Header
+        J17             8       8               Passive        2x10Header
+        J17             10      10              Passive        2x10Header
+        J17             12      12              Passive        2x10Header
+        J17             14      14              Passive        2x10Header
+        J17             16      16              Passive        2x10Header
+        J17             18      18              Passive        2x10Header
+        J17             20      20              Passive        2x10Header
+        J16             2       2               Passive        2x20Header
+        J16             22      22              Passive        2x20Header
+        J16             24      24              Passive        2x20Header
+        J16             26      26              Passive        2x20Header
+        J16             30      30              Passive        2x20Header
+        J16             40      40              Passive        2x20Header
+        J16             19      19              Passive        2x20Header
+        C282            2       2               Passive        0u1
+        C281            2       2               Passive        0u1
+        C279            2       2               Passive        0u001
+        C280            2       2               Passive        0u001
+        C283            2       2               Passive        0u1
+        J25             39      GND             Power          Mictor38P
+        J25             40      GND             Power          Mictor38P
+        J25             41      GND             Power          Mictor38P
+        J25             42      GND             Power          Mictor38P
+        J25             43      GND             Power          Mictor38P
+        C252            2       2               Passive        10u
+        C253            2       2               Passive        10u
+        C254            2       2               Passive        10u
+        C255            2       2               Passive        10u
+        C247            2       2               Passive        1u
+        C243            2       2               Passive        10u
+        C244            2       2               Passive        10u
+        C238            2       2               Passive        1u
+        C249            2       2               Passive        1u
+        C251            2       2               Passive        1u
+        C250            2       2               Passive        1u
+        C248            2       2               Passive        1u
+        C239            2       2               Passive        1u
+        U55             4       GND             Input          LM2676_3.3V
+        U55             8       GND             Input          LM2676_3.3V
+        C348            2       2               Passive        10u
+        C347            2       2               Passive        10u
+        D31             2       ANODE           Passive        Diode_3A
+        C354            2       2               Passive        100u
+        C352            2       2               Passive        100u
+        C353            2       2               Passive        100u
+        C116            2       2               Passive        100u
+        D30             2       ANODE           Passive        Diode_3A
+        C344            2       2               Passive        10u
+        C82             2       2               Passive        100u
+        C345            2       2               Passive        10u
+        C115            2       2               Passive        100u
+        U54             8       GND             Input          LM2678_5.0V
+        U54             4       GND             Input          LM2678_5.0V
+        R211            2       2               Passive        100
+        R212            2       2               Passive        62
+        C359            2       2               Passive        10u
+        C360            2       2               Passive        10u
+        C370            2       2               Passive        0u1
+        U61             6       GND             Power          LTC1778
+        C371            2       2               Passive        4u7
+        Q2              1       S1              Passive        FDS6680A
+        C367            2       2               Passive        100u
+        Q2              2       S2              Passive        FDS6680A
+        Q2              3       S3              Passive        FDS6680A
+        C366            2       2               Passive        100u
+        C365            2       2               Passive        100u
+        U61             13      PGND            Passive        LTC1778
+        U61             9       EXTVCC          Passive        LTC1778
+        C373            2       2               Passive        470p
+        C372            2       2               Passive        0u1
+        R225            2       2               Passive        2K
+        C364            2       2               Passive        100u
+        D36             2       ANODE           Passive        MBRS340
+        C369            2       2               Passive        0u1
+        D34             3       -DC             Passive        MB1005MS
+        C362            2       2               Passive        47u
+        C381            2       2               Passive        0u1
+        C382            2       2               Passive        0u001
+        C380            2       2               Passive        0u001
+        C379            2       2               Passive        0u1
+        GND2            1       1               Passive        Test_Header
+        GND3            1       1               Passive        Test_Header
+        GND1            1       1               Passive        Test_Header
+        GND4            1       1               Passive        Test_Header
+        GND9            1       1               Passive        Test_Header
+        GND10           1       1               Passive        Test_Header
+        GND11           1       1               Passive        Test_Header
+        GND12           1       1               Passive        Test_Header
+        GND6            1       1               Passive        Test_Header
+        GND7            1       1               Passive        Test_Header
+        GND5            1       1               Passive        Test_Header
+        GND8            1       1               Passive        Test_Header
+        MT1             1       1               Passive        MNTHOLE
+        MT3             1       1               Passive        MNTHOLE
+        MT4             1       1               Passive        MNTHOLE
+        U57             6       GND             Power          MT48LC4M32B2
+        U57             12      GND             Power          MT48LC4M32B2
+        U57             32      GND             Power          MT48LC4M32B2
+        U57             38      GND             Power          MT48LC4M32B2
+        U57             44      GND             Power          MT48LC4M32B2
+        U57             46      GND             Power          MT48LC4M32B2
+        U57             52      GND             Power          MT48LC4M32B2
+        U57             58      GND             Power          MT48LC4M32B2
+        U57             72      GND             Power          MT48LC4M32B2
+        U57             78      GND             Power          MT48LC4M32B2
+        U57             84      GND             Power          MT48LC4M32B2
+        U57             86      GND             Power          MT48LC4M32B2
+        SW0             1       1               Passive        PBswitch
+        SW3             2       2               Input          PBswitch
+        SW3             1       1               Passive        PBswitch
+        SW2             2       2               Input          PBswitch
+        SW2             1       1               Passive        PBswitch
+        SW1             2       2               Input          PBswitch
+        SW1             1       1               Passive        PBswitch
+        SW0             2       2               Input          PBswitch
+        D1              2       CATHODE         Passive        Led_Blue
+        D4              2       CATHODE         Passive        Led_Blue
+        D5              2       CATHODE         Passive        Led_Blue
+        D6              2       CATHODE         Passive        Led_Blue
+        D7              2       CATHODE         Passive        Led_Blue
+        D0              2       CATHODE         Passive        Led_Blue
+        D3              2       CATHODE         Passive        Led_Blue
+        D2              2       CATHODE         Passive        Led_Blue
+        U5              52      GND             Power          AM29LV128M
+        U5              33      GND             Power          AM29LV128M
+        C155            2       2               Passive        0u1
+        C156            2       2               Passive        0u001
+        U58             2       GND             Power          MAX3237
+        U52             2       GND             Power          MAX3237
+        C98             2       2               Passive        1u
+        J19             5       5               Passive        DB9RF
+        J19             10      MNT0            Passive        DB9RF
+        J19             11      MNT1            Passive        DB9RF
+        U52             13      EN_n            Input          MAX3237
+        U52             15      MBAUD           Input          MAX3237
+        C357            2       2               Passive        1u
+        U58             15      MBAUD           Input          MAX3237
+        U58             13      EN_n            Input          MAX3237
+        J27             10      MNT0            Passive        DB9RF
+        J27             5       5               Passive        DB9RF
+        J27             11      MNT1            Passive        DB9RF
+        C36             2       2               Passive        0u001
+        U4              103     VSS             Power          LAN91C111
+        C33             2       2               Passive        0u1
+        U4              39      VSS             Power          LAN91C111
+        U4              108     VSS             Power          LAN91C111
+        U4              117     VSS             Power          LAN91C111
+        C45             2       2               Passive        0u1
+        U4              57      VSS             Power          LAN91C111
+        C37             2       2               Passive        0u1
+        C34             2       2               Passive        0u1
+        C42             2       2               Passive        0u001
+        C46             2       2               Passive        0u1
+        U4              19      AVSS            Power          LAN91C111
+        RJ1             13      SMNT0           Input          RJ45INTLED
+        U4              52      VSS             Power          LAN91C111
+        C40             2       2               Passive        33p
+        RJ1             14      SMNT1           Input          RJ45INTLED
+        C29             2       2               Passive        0u001
+        C31             2       2               Passive        0u001
+        C43             2       2               Passive        0u001
+        R28             2       2               Passive        11K
+        C38             2       2               Passive        0u1
+        U4              13      AVSS            Power          LAN91C111
+        C28             2       2               Passive        0u1
+        U4              93      VSS             Power          LAN91C111
+        C32             2       2               Passive        0u001
+        C41             2       2               Passive        33p
+        C44             2       2               Passive        0u001
+        C35             2       2               Passive        0u001
+        U4              72      VSS             Power          LAN91C111
+        C39             2       2               Passive        0u1
+        U4              24      VSS             Power          LAN91C111
+        C27             1       1               Passive        0u001
+        U4              67      VSS             Power          LAN91C111
+        R136            2       2               Passive        330
+        C30             2       2               Passive        1u
+        R196            2       2               Passive        330
+        RP73            8       8               Passive        330
+        RP73            7       7               Passive        330
+        RP73            6       6               Passive        330
+        RP73            5       5               Passive        330
+        R167            2       2               Passive        330
+        R50             2       2               Passive        330
+        R48             2       2               Passive        330
+        SW8             1       1               Passive        PBswitch
+        SW8             2       2               Input          PBswitch
+        R219            2       2               Passive        0_jump
+        J24             2       2               Passive        2x5Header
+        J24             10      10              Passive        2x5Header
+        RP71            5       5               Passive        1K
+        C338            2       2               Passive        0u01
+        C335            2       2               Passive        1u
+        C337            2       2               Passive        0u1
+        C336            2       2               Passive        2u2
+        C340            2       2               Passive        2u2
+        C339            2       2               Passive        1u
+        C341            2       2               Passive        0u1
+        C342            2       2               Passive        0u01
+        U60             R19     GNDA_PLL2_I     BiDirectional  EP2S60_672FBGA
+        U60             R7      GNDA_PLL3_I     BiDirectional  EP2S60_672FBGA
+        U60             R15     GND_I           Input          EP2S60_672FBGA
+        U60             L13     GND_I           Input          EP2S60_672FBGA
+        U60             L17     GND_I           Input          EP2S60_672FBGA
+        U60             U15     GND_I           Input          EP2S60_672FBGA
+        U60             T10     GND_I           Input          EP2S60_672FBGA
+        U60             M16     GND_I           Input          EP2S60_672FBGA
+        U60             N13     GND_I           Input          EP2S60_672FBGA
+        U60             M12     GND_I           Input          EP2S60_672FBGA
+        U60             P26     GND_I           Input          EP2S60_672FBGA
+        U60             R17     GND_I           Input          EP2S60_672FBGA
+        U60             T12     GND_I           Input          EP2S60_672FBGA
+        U60             T16     GND_I           Input          EP2S60_672FBGA
+        U60             U9      GND_I           Input          EP2S60_672FBGA
+        U60             N1      GND_I           Input          EP2S60_672FBGA
+        U60             M14     GND_I           Input          EP2S60_672FBGA
+        U60             P12     GND_I           Input          EP2S60_672FBGA
+        U60             AF25    GND_I           Input          EP2S60_672FBGA
+        U60             B26     GND_I           Input          EP2S60_672FBGA
+        U60             R11     GND_I           Input          EP2S60_672FBGA
+        U60             P16     GND_I           Input          EP2S60_672FBGA
+        U60             P14     GND_I           Input          EP2S60_672FBGA
+        U60             R13     GND_I           Input          EP2S60_672FBGA
+        U60             N11     GND_I           Input          EP2S60_672FBGA
+        U60             U17     GND_I           Input          EP2S60_672FBGA
+        U60             T18     GND_I           Input          EP2S60_672FBGA
+        U60             R22     GND_I           Input          EP2S60_672FBGA
+        U60             T14     GND_I           Input          EP2S60_672FBGA
+        U60             J13     GNDA_PLL5_I     BiDirectional  EP2S60_672FBGA
+        U60             W13     GNDA_PLL6_I     BiDirectional  EP2S60_672FBGA
+        U60             U11     GND_I           Input          EP2S60_672FBGA
+        U60             U13     GND_I           Input          EP2S60_672FBGA
+        U60             W14     GNDA_PLL6_I     BiDirectional  EP2S60_672FBGA
+        U60             H13     GNDA_PLL5_I     BiDirectional  EP2S60_672FBGA
+        U60             N8      GNDA_PLL4_I     BiDirectional  EP2S60_672FBGA
+        U60             N9      GNDA_PLL4_I     BiDirectional  EP2S60_672FBGA
+        C206            2       2               Passive        0u001
+        C205            2       2               Passive        0u001
+        C189            2       2               Passive        10u
+        C209            2       2               Passive        0u001
+        C207            2       2               Passive        0u001
+        C208            2       2               Passive        0u001
+        C210            2       2               Passive        0u001
+        C214            2       2               Passive        0u001
+        C213            2       2               Passive        0u001
+        C212            2       2               Passive        0u001
+        C211            2       2               Passive        0u001
+        C334            2       2               Passive        0u01
+        C333            2       2               Passive        0u1
+        C332            2       2               Passive        2u2
+        C331            2       2               Passive        1u
+        C217            2       2               Passive        0u01
+        C218            2       2               Passive        0u01
+        U60             P6      GND_I           Input          EP2S60_672FBGA
+        U60             N15     GND_I           Input          EP2S60_672FBGA
+        U60             N26     GND_I           Input          EP2S60_672FBGA
+        U60             P1      GND_I           Input          EP2S60_672FBGA
+        U60             N17     GND_I           Input          EP2S60_672FBGA
+        U60             A14     GND_I           Input          EP2S60_672FBGA
+        U60             A2      GND_I           Input          EP2S60_672FBGA
+        U60             A13     GND_I           Input          EP2S60_672FBGA
+        U60             A25     GND_I           Input          EP2S60_672FBGA
+        U60             AA13    GND_I           Input          EP2S60_672FBGA
+        U60             P10     GND_I           Input          EP2S60_672FBGA
+        U60             AE1     GND_I           Input          EP2S60_672FBGA
+        U60             AF13    GND_I           Input          EP2S60_672FBGA
+        U60             M10     GND_I           Input          EP2S60_672FBGA
+        U60             B1      GND_I           Input          EP2S60_672FBGA
+        U60             AF14    GND_I           Input          EP2S60_672FBGA
+        U60             AF2     GND_I           Input          EP2S60_672FBGA
+        U60             AE26    GND_I           Input          EP2S60_672FBGA
+        U60             L15     GND_I           Input          EP2S60_672FBGA
+        U60             K12     GND_I           Input          EP2S60_672FBGA
+        U60             K14     GND_I           Input          EP2S60_672FBGA
+        U60             G13     GND_I           Input          EP2S60_672FBGA
+        U60             AA7     GND_I           Input          EP2S60_672FBGA
+        C183            2       2               Passive        0u1
+        C182            2       2               Passive        0u1
+        C181            2       2               Passive        0u1
+        C180            2       2               Passive        0u1
+        C179            2       2               Passive        0u1
+        C185            2       2               Passive        0u1
+        C184            2       2               Passive        0u1
+        C187            2       2               Passive        0u1
+        C186            2       2               Passive        0u1
+        C188            2       2               Passive        0u1
+        C376            2       2               Passive        0u01
+        C375            2       2               Passive        0u01
+        C374            2       2               Passive        0u01
+        C192            2       2               Passive        0u01
+        C191            2       2               Passive        0u01
+        C377            2       2               Passive        0u01
+        C378            2       2               Passive        0u01
+        U60             L11     GND_I           Input          EP2S60_672FBGA
+        C329            2       2               Passive        0u1
+        C330            2       2               Passive        0u01
+        C327            2       2               Passive        1u
+        C328            2       2               Passive        2u2
+        C198            2       2               Passive        0u001
+        C197            2       2               Passive        0u001
+        C196            2       2               Passive        0u001
+        C195            2       2               Passive        0u001
+        C199            2       2               Passive        0u001
+        C204            2       2               Passive        0u001
+        C203            2       2               Passive        0u001
+        C201            2       2               Passive        0u001
+        C200            2       2               Passive        0u001
+        C202            2       2               Passive        0u001
+        U60             R8      GNDA_PLL3_I     BiDirectional  EP2S60_672FBGA
+        U60             N18     GNDA_PLL1_I     BiDirectional  EP2S60_672FBGA
+        U60             R20     GNDA_PLL2_I     BiDirectional  EP2S60_672FBGA
+        U60             P18     GNDA_PLL1_I     BiDirectional  EP2S60_672FBGA
+        C219            2       2               Passive        10u
+        C220            2       2               Passive        10u
+        C178            2       2               Passive        0u1
+        C177            2       2               Passive        0u1
+        C176            2       2               Passive        0u1
+        C175            2       2               Passive        0u1
+        C172            2       2               Passive        0u1
+        C171            2       2               Passive        0u1
+        C170            2       2               Passive        0u1
+        C169            2       2               Passive        0u1
+        C173            2       2               Passive        0u1
+        C174            2       2               Passive        0u1
+        U35             34      GND             Power          IDT71V416S
+        U35             12      GND             Power          IDT71V416S
+        U36             34      GND             Power          IDT71V416S
+        U36             12      GND             Power          IDT71V416S
+        C266            2       2               Passive        0u1
+        C267            2       2               Passive        0u001
+        C268            2       2               Passive        0u1
+        C269            2       2               Passive        0u001
+        U21             12      GND             Power          PI5C3384
+        U22             12      GND             Power          PI5C3384
+        U19             12      GND             Power          PI5C3384
+        U20             12      GND             Power          PI5C3384
+        C86             2       2               Passive        0u01
+        U22             1       BEA-            Input          PI5C3384
+        U19             13      BEB-            Input          PI5C3384
+        U20             1       BEA-            Input          PI5C3384
+        U19             1       BEA-            Input          PI5C3384
+        U21             1       BEA-            Input          PI5C3384
+        U20             13      BEB-            Input          PI5C3384
+        U21             13      BEB-            Input          PI5C3384
+        U22             13      BEB-            Input          PI5C3384
+        R60             1       1               Passive        2K21
+        R67             2       2               Passive        5K6
+        R107            2       2               Passive        5K6
+        U25             12      GND             Power          PI5C3384
+        C87             2       2               Passive        0u01
+        U25             1       BEA-            Input          PI5C3384
+        U25             13      BEB-            Input          PI5C3384
+        R61             1       1               Passive        2K21
+        CON3            25      CD2#            Passive        CF_Header
+        CON3            50      Vss             Power          CF_Header
+        CON3            1       Vss             Passive        CF_Header
+        CON3            33      VS1#            Input          CF_Header
+        CON3            39      CSEL#           Input          CF_Header
+        R217            2       2               Passive        5K6
+        C270            2       2               Passive        0u001
+        C271            2       2               Passive        0u001
+        C273            2       2               Passive        0u1
+        C272            2       2               Passive        0u1
+        J13             2       2               Passive        2x10Header
+        J13             8       8               Passive        2x10Header
+        J13             10      10              Passive        2x10Header
+        J13             12      12              Passive        2x10Header
+        J13             18      18              Passive        2x10Header
+        J13             14      14              Passive        2x10Header
+        J12             1       1               Passive        2x7Header
+        J13             4       4               Passive        2x10Header
+        J13             20      20              Passive        2x10Header
+        J13             16      16              Passive        2x10Header
+        J13             6       6               Passive        2x10Header
+        J11             19      19              Passive        2x20Header
+        J11             22      22              Passive        2x20Header
+        J11             24      24              Passive        2x20Header
+        J11             26      26              Passive        2x20Header
+        J11             30      30              Passive        2x20Header
+        J11             40      40              Passive        2x20Header
+        J11             2       2               Passive        2x20Header
+        C277            2       2               Passive        0u1
+        C276            2       2               Passive        0u1
+        C275            2       2               Passive        0u001
+        C274            2       2               Passive        0u001
+        C278            2       2               Passive        0u1
+        U18             4       GND             Power          LTC1326-5
+        RP3             8       8               Passive        1K
+        J5              10      10              Passive        2x5Header
+        J5              2       2               Passive        2x5Header
+        SW9             3       3               Passive        PBswitch
+        R42             2       2               Passive        200
+        R43             2       2               Passive        200
+        R201            2       2               Passive        200
+        R200            2       2               Passive        200
+        R199            2       2               Passive        200
+        U3              11      GNDIO           Passive        EPM7128
+        U3              26      GNDIO           Passive        EPM7128
+        U3              43      GNDIO           Passive        EPM7128
+        U3              59      GNDIO           Passive        EPM7128
+        U3              74      GNDIO           Passive        EPM7128
+        U3              95      GNDIO           Passive        EPM7128
+        U3              86      GNDINT          Passive        EPM7128
+        SW10            1       1               Passive        PBswitch
+        SW10            2       2               Input          PBswitch
+        U3              38      GNDINT          Passive        EPM7128
+        SW9             4       4               Input          PBswitch
+        C154            2       2               Passive        0u001
+        C147            2       2               Passive        0u1
+        C148            2       2               Passive        0u001
+        C149            2       2               Passive        0u1
+        C150            2       2               Passive        0u001
+        C151            2       2               Passive        0u1
+        C152            2       2               Passive        0u001
+        C153            2       2               Passive        0u1
+        J4              2       GND             Power          SMAREC
+        J4              3       GND             Power          SMAREC
+        J4              4       GND             Power          SMAREC
+        J4              5       GND             Power          SMAREC
+        U2              5       GND             Power          49FCT3805
+        U2              8       GND             Power          49FCT3805
+        U2              16      GND             Power          49FCT3805
+        Y2              4       GND             Input          50Mhz
+        C25             2       2               Passive        0u1
+        C24             2       2               Passive        0u001
+        C23             2       2               Passive        0u1
+        U2              9       OEA_n           Input          49FCT3805
+        R13             1       1               Passive        330
+        R15             1       1               Passive        49R9
+        U2              12      OEB_n           Input          49FCT3805
+        C137            2       2               Passive        0u001
+        C136            2       2               Passive        0u1
+
+[00058] SDRAM_DQ17
+        U57             33      DQ17            Passive        MT48LC4M32B2
+        U60             AF21    IO.DQ15B0       BiDirectional  EP2S60_672FBGA
+
+[00059] PROTO5_IO21
+        U28             4       A1              BiDirectional  PI5C3384
+        J16             29      29              Passive        2x20Header
+
+[00060] SDRAM_DQ16
+        U57             31      DQ16            Passive        MT48LC4M32B2
+        U60             AB18    IO.DQ14B3       BiDirectional  EP2S60_672FBGA
+
+[00061] CF_ATASEL_N
+        U60             W16     IO_H            BiDirectional  EP2S60_672FBGA
+        U25             10      B4              BiDirectional  PI5C3384
+
+[00062] PROTO5_IO38
+        U30             21      A8              BiDirectional  PI5C3384
+        J15             13      13              Passive        2x7Header
+
+[00063] SDRAM_DQ15
+        U57             85      DQ15            Passive        MT48LC4M32B2
+        U60             V17     IO.DQ14B2       BiDirectional  EP2S60_672FBGA
+
+[00064] PROTO5_IO17
+        U29             18      A7              BiDirectional  PI5C3384
+        J16             23      23              Passive        2x20Header
+
+[00065] SDRAM_DQ14
+        U57             83      DQ14            Passive        MT48LC4M32B2
+        U60             AC17    IO.DQ14B0       BiDirectional  EP2S60_672FBGA
+
+[00066] N488537
+        RP72            5       5               Passive        33
+        U2              19      OB0             Output         49FCT3805
+
+[00067] PROTO5_IO37
+        U30             18      A7              BiDirectional  PI5C3384
+        J15             12      12              Passive        2x7Header
+
+[00068] SDRAM_DQ13
+        U57             82      DQ13            Passive        MT48LC4M32B2
+        U60             AF20    IO.DQ13B3       BiDirectional  EP2S60_672FBGA
+
+[00069] N488687
+        U2              17      OB2             Output         49FCT3805
+        RP72            7       7               Passive        33
+
+[00070] PROTO5_IO5
+        U27             14      A5              BiDirectional  PI5C3384
+        J16             8       8               Passive        2x20Header
+
+[00071] SDRAM_DQ12
+        U57             80      DQ12            Passive        MT48LC4M32B2
+        U60             AD19    IO.DQ13B2       BiDirectional  EP2S60_672FBGA
+
+[00072] TRST
+        J5              6       6               Passive        2x5Header
+        RP3             2       2               Passive        1K
+
+[00073] PROTO5_IO7
+        U27             18      A7              BiDirectional  PI5C3384
+        J16             10      10              Passive        2x20Header
+
+[00074] SDRAM_DQ11
+        U57             79      DQ11            Passive        MT48LC4M32B2
+        U60             AD18    IO.DQ13B1       BiDirectional  EP2S60_672FBGA
+
+[00075] SDRAM_DQ10
+        U57             77      DQ10            Passive        MT48LC4M32B2
+        U60             AF19    IO.DQ13B0       BiDirectional  EP2S60_672FBGA
+
+[00076] N488612
+        U2              18      OB1             Output         49FCT3805
+        RP72            6       6               Passive        33
+
+[00077] N195047
+        R43             1       1               Passive        200
+        LED5            2       CATHODE         Passive        LedG
+
+[00078] PROTO5_IO30
+        U30             3       A0              BiDirectional  PI5C3384
+        J15             5       5               Passive        2x7Header
+
+[00079] SDRAM_DQ9
+        U57             76      DQ9             Passive        MT48LC4M32B2
+        U60             AB17    IO.DQ12B3       BiDirectional  EP2S60_672FBGA
+
+[00080] TCK
+        RP3             1       1               Passive        1K
+        J5              1       1               Passive        2x5Header
+        U3              62      TCK             Passive        EPM7128
+
+[00081] N206320
+        R42             1       1               Passive        200
+        LED4            2       CATHODE         Passive        LedR
+
+[00082] VCC_BUFFER1
+        U29             24      VCC             Input          PI5C3384
+        U27             24      VCC             Input          PI5C3384
+        U28             24      VCC             Input          PI5C3384
+        R68             2       2               Passive        2K21
+        C88             1       1               Passive        0u01
+        D21             1       CATHODE         Passive        1N4001SM
+
+[00083] SDRAM_DQ8
+        U57             74      DQ8             Passive        MT48LC4M32B2
+        U60             V16     IO.DQ12B2       BiDirectional  EP2S60_672FBGA
+
+[00084] TDI
+        J5              9       9               Passive        2x5Header
+        RP3             4       4               Passive        1K
+        U3              4       TDI             Passive        EPM7128
+
+[00085] SDRAM_DQ7
+        U57             13      DQ7             Passive        MT48LC4M32B2
+        U60             AA17    IO.DQ12B0       BiDirectional  EP2S60_672FBGA
+
+[00086] TMS
+        J5              5       5               Passive        2x5Header
+        RP3             3       3               Passive        1K
+        U3              15      TMS             Passive        EPM7128
+
+[00087] PROTO5_IO31
+        U30             4       A1              BiDirectional  PI5C3384
+        J15             6       6               Passive        2x7Header
+
+[00088] SDRAM_DQ6
+        U57             11      DQ6             Passive        MT48LC4M32B2
+        U60             AF18    IO.DQ11B3       BiDirectional  EP2S60_672FBGA
+
+[00089] TDO
+        J5              3       3               Passive        2x5Header
+        U3              73      TDO             Passive        EPM7128
+
+[00090] PROTO5_IO11
+        U29             4       A1              BiDirectional  PI5C3384
+        J16             14      14              Passive        2x20Header
+
+[00091] SDRAM_DQ5
+        U57             10      DQ5             Passive        MT48LC4M32B2
+        U60             AD17    IO.DQ11B2       BiDirectional  EP2S60_672FBGA
+
+[00092] SDRAM_DQ4
+        U57             8       DQ4             Passive        MT48LC4M32B2
+        U60             AF17    IO.DQ11B1       BiDirectional  EP2S60_672FBGA
+
+[00093] SDRAM_DQ3
+        U57             7       DQ3             Passive        MT48LC4M32B2
+        U60             AD16    IO.DQ11B0       BiDirectional  EP2S60_672FBGA
+
+[00094] SDRAM_DQ2
+        U57             5       DQ2             Passive        MT48LC4M32B2
+        U60             AA16    IO.DQ10B3       BiDirectional  EP2S60_672FBGA
+
+[00095] ENEEP
+        U4              6       ENEEP           Input          LAN91C111
+        R136            1       1               Passive        330
+
+[00096] SDRAM_DQ1
+        U57             4       DQ1             Passive        MT48LC4M32B2
+        U60             V14     IO.DQ10B2       BiDirectional  EP2S60_672FBGA
+
+[00097] VCC_BUFFER1_98946
+        C86             1       1               Passive        0u01
+        U19             24      VCC             Input          PI5C3384
+        U20             24      VCC             Input          PI5C3384
+        R60             2       2               Passive        2K21
+        U21             24      VCC             Input          PI5C3384
+        U22             24      VCC             Input          PI5C3384
+        D19             1       CATHODE         Passive        1N4001SM
+
+[00098] SDRAM_DQ0
+        U57             2       DQ0             Passive        MT48LC4M32B2
+        U60             W15     IO.DQ10B0       BiDirectional  EP2S60_672FBGA
+
+[00099] PROTO5_IO35_98947
+        U22             14      A5              BiDirectional  PI5C3384
+        CON3            15      AO5             Passive        CF_Header
+        J12             10      10              Passive        2x7Header
+
+[00100] SDRAM_BA1
+        U57             23      BA1             Passive        MT48LC4M32B2
+        U60             AD23    IO.DQSn17B      BiDirectional  EP2S60_672FBGA
+
+[00101] PROTO2_CLKOUT
+        J17             13      13              Passive        2x10Header
+        U60             B14     IO.CLK13p       BiDirectional  EP2S60_672FBGA
+
+[00102] PROTO5_IO15
+        U21             14      A5              BiDirectional  PI5C3384
+        CON3            31      D15             Hi-Z           CF_Header
+        J11             18      18              Passive        2x20Header
+
+[00103] SDRAM_BA0
+        U57             22      BA0             Passive        MT48LC4M32B2
+        U60             AE23    IO.DQS17B       BiDirectional  EP2S60_672FBGA
+
+[00104] PROTO2_CLKIN
+        J17             11      11              Passive        2x10Header
+        RP72            3       3               Passive        33
+
+[00105] PROTO5_IO9_98949
+        U19             22      A9              BiDirectional  PI5C3384
+        CON3            28      D12             Hi-Z           CF_Header
+        J11             12      12              Passive        2x20Header
+
+[00106] PROTO2_CARDSEL_N
+        U31             5       B1              BiDirectional  PI5C3384
+        U60             B21     IO.DQSn15T      BiDirectional  EP2S60_672FBGA
+
+[00107] PROTO5_IO38_98950
+        U22             21      A8              BiDirectional  PI5C3384
+        CON3            36      WE#             Input          CF_Header
+        J12             13      13              Passive        2x7Header
+
+[00108] PROTO2_IO40
+        U31             2       B0              BiDirectional  PI5C3384
+        U60             B20     IO.DQS15T       BiDirectional  EP2S60_672FBGA
+
+[00109] PROTO5_IO28_98951
+        U20             21      A8              BiDirectional  PI5C3384
+        CON3            45      DASP#           Input          CF_Header
+        J11             39      39              Passive        2x20Header
+
+[00110] PROTO2_IO39
+        U30             23      B9              BiDirectional  PI5C3384
+        U60             G18     IO.DQSn14T      BiDirectional  EP2S60_672FBGA
+
+[00111] PROTO5_IO16
+        U21             17      A6              BiDirectional  PI5C3384
+        J11             21      21              Passive        2x20Header
+
+[00112] PROTO2_IO38
+        U30             20      B8              BiDirectional  PI5C3384
+        U60             E17     IO.DQS14T       BiDirectional  EP2S60_672FBGA
+
+[00113] SDRAM_A10
+        U57             24      A10             Passive        MT48LC4M32B2
+        U60             AA10    IO.DQ4B0        BiDirectional  EP2S60_672FBGA
+
+[00114] PROTO5_IO2
+        U19             7       A2              BiDirectional  PI5C3384
+        CON3            5       DO6             Passive        CF_Header
+        J11             5       5               Passive        2x20Header
+
+[00115] PROTO2_IO37
+        U30             19      B7              BiDirectional  PI5C3384
+        U60             B19     IO.DQSn13T      BiDirectional  EP2S60_672FBGA
+
+[00116] SDRAM_A9
+        U57             66      A9              Passive        MT48LC4M32B2
+        U60             AF6     IO.DQ3B3        BiDirectional  EP2S60_672FBGA
+
+[00117] SDRAM_A11
+        U57             21      A11             Passive        MT48LC4M32B2
+        U60             Y9      IO.DQ4B1        BiDirectional  EP2S60_672FBGA
+
+[00118] PROTO5_IO37_98954
+        U22             18      A7              BiDirectional  PI5C3384
+        CON3            17      AO3             Passive        CF_Header
+        J12             12      12              Passive        2x7Header
+
+[00119] N2289425
+        U60             E5      TEMPDIODEp      BiDirectional  EP2S60_672FBGA
+        TEMPp           1       1               Passive        Test_Header
+
+[00120] PROTO2_IO36
+        U30             16      B6              BiDirectional  PI5C3384
+        U60             B18     IO.DQS13T       BiDirectional  EP2S60_672FBGA
+
+[00121] SDRAM_A8
+        U57             65      A8              Passive        MT48LC4M32B2
+        U60             AC6     IO.DQ3B2        BiDirectional  EP2S60_672FBGA
+
+[00122] PROTO5_IO17_98955
+        U21             18      A7              BiDirectional  PI5C3384
+        CON3            35      IOWR#           Input          CF_Header
+        J11             23      23              Passive        2x20Header
+
+[00123] N2289477
+        TEMPn           1       1               Passive        Test_Header
+        U60             F5      TEMPDIODEn      BiDirectional  EP2S60_672FBGA
+
+[00124] PROTO2_IO35
+        U30             15      B5              BiDirectional  PI5C3384
+        U60             B17     IO.DQSn11T      BiDirectional  EP2S60_672FBGA
+
+[00125] SDRAM_A7
+        U57             64      A7              Passive        MT48LC4M32B2
+        U60             AE5     IO.DQ3B1        BiDirectional  EP2S60_672FBGA
+
+[00126] SDRAM_CS_N
+        U57             20      CS_n            Passive        MT48LC4M32B2
+        U60             AE19    IO.DQSn13B      BiDirectional  EP2S60_672FBGA
+
+[00127] PROTO5_IO12
+        U21             7       A2              BiDirectional  PI5C3384
+        CON3            22      DO1             Passive        CF_Header
+        J11             15      15              Passive        2x20Header
+
+[00128] USER_PB3
+        RP68            1       1               Passive        5K6
+        SW3             3       3               Passive        PBswitch
+        SW3             4       4               Input          PBswitch
+        U60             Y23     IO.DIFFIO_RX13n BiDirectional  EP2S60_672FBGA
+
+[00129] PROTO2_IO34
+        U30             10      B4              BiDirectional  PI5C3384
+        U60             B16     IO.DQS11T       BiDirectional  EP2S60_672FBGA
+
+[00130] SDRAM_A6
+        U57             63      A6              Passive        MT48LC4M32B2
+        U60             AF5     IO.DQ3B0        BiDirectional  EP2S60_672FBGA
+
+[00131] SDRAM_CKE
+        R111            2       2               Passive        5K6
+        U57             67      CKE             Passive        MT48LC4M32B2
+        U60             AE20    IO.DQS15B       BiDirectional  EP2S60_672FBGA
+
+[00132] PROTO5_IO5_98957
+        U19             14      A5              BiDirectional  PI5C3384
+        CON3            49      D10             Hi-Z           CF_Header
+        J11             8       8               Passive        2x20Header
+
+[00133] USER_PB2
+        RP68            2       2               Passive        5K6
+        SW2             3       3               Passive        PBswitch
+        SW2             4       4               Input          PBswitch
+        U60             Y24     IO.DIFFIO_RX13p BiDirectional  EP2S60_672FBGA
+
+[00134] PROTO2_IO33
+        U30             9       B3              BiDirectional  PI5C3384
+        U60             G16     IO.DQSn10T      BiDirectional  EP2S60_672FBGA
+
+[00135] SDRAM_A5
+        U57             62      A5              Passive        MT48LC4M32B2
+        U60             AB10    IO.DQ2B3        BiDirectional  EP2S60_672FBGA
+
+[00136] SDRAM_CLK
+        U57             68      CLK             Passive        MT48LC4M32B2
+        R226            2       2               Passive        33
+
+[00137] PROTO5_IO29
+        U20             22      A9              BiDirectional  PI5C3384
+        CON3            8       A10             Passive        CF_Header
+        J12             4       4               Passive        2x7Header
+
+[00138] USER_PB1
+        RP68            3       3               Passive        5K6
+        SW1             4       4               Input          PBswitch
+        SW1             3       3               Passive        PBswitch
+        U60             W23     IO.DIFFIO_RX12n BiDirectional  EP2S60_672FBGA
+
+[00139] PROTO2_IO32
+        U30             6       B2              BiDirectional  PI5C3384
+        U60             D17     IO.DQS10T       BiDirectional  EP2S60_672FBGA
+
+[00140] SDRAM_A4
+        U57             61      A4              Passive        MT48LC4M32B2
+        U60             W10     IO.DQ2B2        BiDirectional  EP2S60_672FBGA
+
+[00141] PROTO5_IO34
+        U22             11      A4              BiDirectional  PI5C3384
+        CON3            14      AO6             Passive        CF_Header
+        J12             9       9               Passive        2x7Header
+
+[00142] USER_PB0
+        RP68            4       4               Passive        5K6
+        SW0             4       4               Input          PBswitch
+        SW0             3       3               Passive        PBswitch
+        U60             W24     IO.DIFFIO_RX12p BiDirectional  EP2S60_672FBGA
+
+[00143] PROTO2_IO31
+        U30             5       B1              BiDirectional  PI5C3384
+        U60             H16     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00144] SDRAM_A3
+        U57             60      A3              Passive        MT48LC4M32B2
+        U60             W9      IO.DQ2B1        BiDirectional  EP2S60_672FBGA
+
+[00145] PROTO5_IO32
+        U22             7       A2              BiDirectional  PI5C3384
+        CON3            11      AO8             Passive        CF_Header
+        J12             7       7               Passive        2x7Header
+
+[00146] PROTO2_IO30
+        U30             2       B0              BiDirectional  PI5C3384
+        U60             F16     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00147] SDRAM_A2
+        U57             27      A2              Passive        MT48LC4M32B2
+        U60             AD5     IO.DQ1B3        BiDirectional  EP2S60_672FBGA
+
+[00148] PROTO5_IO19
+        U21             22      A9              BiDirectional  PI5C3384
+        CON3            42      IORDY           Input          CF_Header
+        J11             27      27              Passive        2x20Header
+
+[00149] N2187762
+        U60             Y13     VCCA_PLL6       BiDirectional  EP2S60_672FBGA
+        U60             G12     VCCA_PLL5       BiDirectional  EP2S60_672FBGA
+        U60             P8      VCCA_PLL4       BiDirectional  EP2S60_672FBGA
+        U60             P21     VCCA_PLL1       BiDirectional  EP2S60_672FBGA
+        U60             R6      VCCA_PLL3       BiDirectional  EP2S60_672FBGA
+        U60             R21     VCCA_PLL2       BiDirectional  EP2S60_672FBGA
+        C329            1       1               Passive        0u1
+        L6              2       2               Passive        SMFerrite
+        C328            1       1               Passive        2u2
+        C330            1       1               Passive        0u01
+
+[00150] PROTO2_IO29
+        U28             23      B9              BiDirectional  PI5C3384
+        U60             K18     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00151] SDRAM_A1
+        U57             26      A1              Passive        MT48LC4M32B2
+        U60             AD3     IO.DQ1B2        BiDirectional  EP2S60_672FBGA
+
+[00152] PROTO5_IO7_98962
+        U19             18      A7              BiDirectional  PI5C3384
+        CON3            27      D11             Hi-Z           CF_Header
+        J11             10      10              Passive        2x20Header
+
+[00153] N2187626
+        U60             P19     VCCD_PLL1       BiDirectional  EP2S60_672FBGA
+        U60             P9      VCCD_PLL4       BiDirectional  EP2S60_672FBGA
+        U60             H14     VCCD_PLL5       BiDirectional  EP2S60_672FBGA
+        U60             P7      VCCD_PLL3       BiDirectional  EP2S60_672FBGA
+        U60             P20     VCCD_PLL2       BiDirectional  EP2S60_672FBGA
+        U60             Y14     VCCD_PLL6       BiDirectional  EP2S60_672FBGA
+        C332            1       1               Passive        2u2
+        L7              2       2               Passive        SMFerrite
+        C333            1       1               Passive        0u1
+        C334            1       1               Passive        0u01
+
+[00154] ENET_RESET
+        U4              30      RESET           Input          LAN91C111
+        U3              54      IO              Passive        EPM7128
+
+[00155] PROTO2_IO28
+        U28             20      B8              BiDirectional  PI5C3384
+        U60             H18     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00156] SDRAM_A0
+        U57             25      A0              Passive        MT48LC4M32B2
+        U60             AD4     IO.DQ1B1        BiDirectional  EP2S60_672FBGA
+
+[00157] PROTO5_IO6
+        U19             17      A6              BiDirectional  PI5C3384
+        CON3            3       DO4             Passive        CF_Header
+        J11             9       9               Passive        2x20Header
+
+[00158] PROTO2_IO27
+        U28             19      B7              BiDirectional  PI5C3384
+        U60             J14     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00159] PROTO5_IO31_98964
+        U22             4       A1              BiDirectional  PI5C3384
+        CON3            10      AO9             Passive        CF_Header
+        J12             6       6               Passive        2x7Header
+
+[00160] N2184149
+        U60             A12     IO.PLL5_OUT0p   BiDirectional  EP2S60_672FBGA
+        R213            1       1               Passive        33
+
+[00161] PROTO2_IO26
+        U28             16      B6              BiDirectional  PI5C3384
+        U60             H17     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00162] PROTO5_IO26
+        U20             17      A6              BiDirectional  PI5C3384
+        CON3            18      AO2             Passive        CF_Header
+        J11             36      36              Passive        2x20Header
+
+[00163] PROTO2_IO25
+        U28             15      B5              BiDirectional  PI5C3384
+        U60             K17     IO_C            BiDirectional  EP2S60_672FBGA
+
+[00164] PROTO5_IO18
+        U21             21      A8              BiDirectional  PI5C3384
+        CON3            34      IORD#           Input          CF_Header
+        J11             25      25              Passive        2x20Header
+
+[00165] PROTO2_IO24
+        U28             10      B4              BiDirectional  PI5C3384
+        U60             B24     IO.DQ17T3       BiDirectional  EP2S60_672FBGA
+
+[00166] N470947
+        L1              2       2               Passive        47nH
+        C24             1       1               Passive        0u001
+        C25             1       1               Passive        0u1
+        Y2              8       VCC             Input          50Mhz
+
+[00167] PROTO5_IO13
+        U21             8       A3              BiDirectional  PI5C3384
+        CON3            30      D14             Hi-Z           CF_Header
+        J11             16      16              Passive        2x20Header
+
+[00168] PROTO2_IO23
+        U28             9       B3              BiDirectional  PI5C3384
+        R73             1       1               Passive        1K
+        U60             A24     IO.DQ17T2       BiDirectional  EP2S60_672FBGA
+
+[00169] PROTO5_IO30_98968
+        U22             3       A0              BiDirectional  PI5C3384
+        CON3            46      PDIAG#          Input          CF_Header
+        J12             5       5               Passive        2x7Header
+
+[00170] PROTO2_IO22
+        U28             6       B2              BiDirectional  PI5C3384
+        R74             1       1               Passive        10K
+        R108            1       1               Passive        5K6
+        U60             B22     IO.DQ17T1       BiDirectional  EP2S60_672FBGA
+
+[00171] PROTO5_IO25
+        U20             14      A5              BiDirectional  PI5C3384
+        CON3            20      AO0             Passive        CF_Header
+        J11             35      35              Passive        2x20Header
+
+[00172] PROTO1_RESET_N
+        U25             15      B5              BiDirectional  PI5C3384
+        J11             1       1               Passive        2x20Header
+        U3              56      IO              Passive        EPM7128
+
+[00173] PROTO2_IO21
+        U28             5       B1              BiDirectional  PI5C3384
+        U60             C22     IO.DQ17T0       BiDirectional  EP2S60_672FBGA
+
+[00174] PROTO5_IO33
+        U22             8       A3              BiDirectional  PI5C3384
+        CON3            12      AO7             Passive        CF_Header
+        J12             8       8               Passive        2x7Header
+
+[00175] PROTO2_RESET_N
+        J16             1       1               Passive        2x20Header
+        U3              57      IO              Passive        EPM7128
+
+[00176] PROTO2_IO20
+        U28             2       B0              BiDirectional  PI5C3384
+        U60             D18     IO.DQ16T3       BiDirectional  EP2S60_672FBGA
+
+[00177] PROTO5_IO36
+        U22             17      A6              BiDirectional  PI5C3384
+        CON3            16      AO4             Passive        CF_Header
+        J12             11      11              Passive        2x7Header
+
+[00178] PLL_ENA
+        R48             1       1               Passive        330
+        U60             AB6     PLL_ENA.PLL_ENA BiDirectional  EP2S60_672FBGA
+        R46             2       2               Passive        5K6
+
+[00179] PROTO2_IO19
+        U29             23      B9              BiDirectional  PI5C3384
+        R75             1       1               Passive        1K
+        U60             J18     IO.DQ16T2       BiDirectional  EP2S60_672FBGA
+
+[00180] PROTO5_IO11_98972
+        U21             4       A1              BiDirectional  PI5C3384
+        CON3            29      D13             Hi-Z           CF_Header
+        J11             14      14              Passive        2x20Header
+
+[00181] PROTO2_IO18
+        U29             20      B8              BiDirectional  PI5C3384
+        U60             E18     IO.DQ16T0       BiDirectional  EP2S60_672FBGA
+
+[00182] PROTO5_IO24
+        U20             11      A4              BiDirectional  PI5C3384
+        CON3            19      AO1             Passive        CF_Header
+        J11             33      33              Passive        2x20Header
+
+[00183] FSE_A23
+        U5              2       A22             BiDirectional  AM29LV128M
+        U60             AC3     IO.DIFFIO_RX74n BiDirectional  EP2S60_672FBGA
+        U3              33      IO              Passive        EPM7128
+
+[00184] PROTO2_IO17
+        U29             19      B7              BiDirectional  PI5C3384
+        U60             A22     IO.DQ15T3       BiDirectional  EP2S60_672FBGA
+
+[00185] PROTO5_IO22
+        U20             7       A2              BiDirectional  PI5C3384
+        CON3            37      INTRQ           Input          CF_Header
+        J11             31      31              Passive        2x20Header
+
+[00186] PROTO2_IO16
+        U29             16      B6              BiDirectional  PI5C3384
+        R76             1       1               Passive        5K6
+        U60             C21     IO.DQ15T2       BiDirectional  EP2S60_672FBGA
+
+[00187] PROTO5_IO0
+        U19             3       A0              BiDirectional  PI5C3384
+        CON3            6       DO7             Passive        CF_Header
+        J11             3       3               Passive        2x20Header
+
+[00188] N739960
+        U54             3       CBoost          Output         LM2678_5.0V
+        C343            1       1               Passive        0u01
+
+[00189] PROTO2_IO15
+        U29             15      B5              BiDirectional  PI5C3384
+        U60             C20     IO.DQ15T1       BiDirectional  EP2S60_672FBGA
+
+[00190] PROTO5_IO10
+        U21             3       A0              BiDirectional  PI5C3384
+        CON3            23      DO2             Passive        CF_Header
+        J11             13      13              Passive        2x20Header
+
+[00191] N739908
+        L10             1       1               Passive        22uH
+        C343            2       2               Passive        0u01
+        D30             1       CATHODE         Passive        Diode_3A
+        U54             1       Vout            Output         LM2678_5.0V
+
+[00192] PROTO2_IO14
+        U29             10      B4              BiDirectional  PI5C3384
+        U60             A21     IO.DQ15T0       BiDirectional  EP2S60_672FBGA
+
+[00193] PROTO5_IO23
+        U20             8       A3              BiDirectional  PI5C3384
+        CON3            24      IOCS16#         Passive        CF_Header
+        J11             32      32              Passive        2x20Header
+
+[00194] PROTO2_IO13
+        U29             9       B3              BiDirectional  PI5C3384
+        U60             J17     IO.DQ14T1       BiDirectional  EP2S60_672FBGA
+
+[00195] PROTO5_IO27_98978
+        U20             18      A7              BiDirectional  PI5C3384
+        CON3            7       CS0#            Passive        CF_Header
+        J11             37      37              Passive        2x20Header
+
+[00196] LEDLNK_N
+        RJ1             10      D2              Input          RJ45INTLED
+        U4              22      LEDA#           Open Collector LAN91C111
+
+[00197] PROTO2_IO12
+        U29             6       B2              BiDirectional  PI5C3384
+        U60             A20     IO.DQ13T3       BiDirectional  EP2S60_672FBGA
+
+[00198] MASTER_RESET_N
+        U3              89      GCLR_n          Passive        EPM7128
+        R57             2       2               Passive        1K
+        U18             6       R\S\T\          Output         LTC1326-5
+        U18             7       S\R\S\T\        Output         LTC1326-5
+
+[00199] PROTO5_IO14_98979
+        U21             11      A4              BiDirectional  PI5C3384
+        CON3            21      DO0             Passive        CF_Header
+        J11             17      17              Passive        2x20Header
+
+[00200] TRST_PU
+        R202            2       2               Passive        0_jump
+        RP71            3       3               Passive        1K
+        J24             6       6               Passive        2x5Header
+
+[00201] N2329967
+        U60             D13     IO.PLL5_OUT1p   BiDirectional  EP2S60_672FBGA
+        R214            1       1               Passive        33
+
+[00202] LEDRX_N
+        RJ1             12      D4              Input          RJ45INTLED
+        U4              23      LEDB#           Open Collector LAN91C111
+
+[00203] PROTO2_IO11
+        U29             5       B1              BiDirectional  PI5C3384
+        U60             C19     IO.DQ13T2       BiDirectional  EP2S60_672FBGA
+
+[00204] PROTO5_IO1
+        U19             4       A1              BiDirectional  PI5C3384
+        CON3            47      DO8             Hi-Z           CF_Header
+        J11             4       4               Passive        2x20Header
+
+[00205] PROTO2_IO10
+        U29             2       B0              BiDirectional  PI5C3384
+        U60             C18     IO.DQ13T1       BiDirectional  EP2S60_672FBGA
+
+[00206] PROTO5_IO21_98981
+        U20             4       A1              BiDirectional  PI5C3384
+        J11             29      29              Passive        2x20Header
+
+[00207] PLD_DCLK
+        U60             C24     DCLK.DCLK       BiDirectional  EP2S60_672FBGA
+        U3              97      IO              Passive        EPM7128
+
+[00208] PROTO2_IO9
+        U27             23      B9              BiDirectional  PI5C3384
+        U60             A19     IO.DQ13T0       BiDirectional  EP2S60_672FBGA
+
+[00209] PROTO5_IO4
+        U19             11      A4              BiDirectional  PI5C3384
+        CON3            4       DO5             Passive        CF_Header
+        J11             7       7               Passive        2x20Header
+
+[00210] N16208
+        R26             1       1               Passive        24R9
+        R22             2       2               Passive        24R9
+        U4              17      TPI+            BiDirectional  LAN91C111
+
+[00211] PLD_CONFIG_N
+        U60             AA20    nCONFIG.nCONFIG BiDirectional  EP2S60_672FBGA
+        R198            1       1               Passive        10K
+        U3              98      IO              Passive        EPM7128
+
+[00212] FLASH_RESET_N
+        U5              14      RESET_n         Input          AM29LV128M
+        R227            1       1               Passive        5K6
+        U3              61      IO              Passive        EPM7128
+
+[00213] PROTO2_IO8
+        U27             20      B8              BiDirectional  PI5C3384
+        U60             G17     IO.DQ12T3       BiDirectional  EP2S60_672FBGA
+
+[00214] PROTO5_IO3
+        U19             8       A3              BiDirectional  PI5C3384
+        CON3            48      DO9             Hi-Z           CF_Header
+        J11             6       6               Passive        2x20Header
+
+[00215] N16790
+        U4              18      TPI-            BiDirectional  LAN91C111
+        R27             1       1               Passive        24R9
+        R23             2       2               Passive        24R9
+
+[00216] PROTO2_IO7
+        U27             19      B7              BiDirectional  PI5C3384
+        U60             K16     IO.DQ12T2       BiDirectional  EP2S60_672FBGA
+
+[00217] PROTO5_IO8
+        U19             21      A8              BiDirectional  PI5C3384
+        CON3            2       DO3             Passive        CF_Header
+        J11             11      11              Passive        2x20Header
+
+[00218] N2330630
+        R226            1       1               Passive        33
+        U60             AF12    IO.PLL6_OUT0p   BiDirectional  EP2S60_672FBGA
+
+[00219] PROTO2_IO6
+        U27             16      B6              BiDirectional  PI5C3384
+        U60             F17     IO.DQ12T0       BiDirectional  EP2S60_672FBGA
+
+[00220] PROTO5_IO39
+        U22             22      A9              BiDirectional  PI5C3384
+        CON3            43      INPACK#         Input          CF_Header
+        J12             14      14              Passive        2x7Header
+
+[00221] PROTO2_IO5
+        U27             15      B5              BiDirectional  PI5C3384
+        U60             A18     IO.DQ11T3       BiDirectional  EP2S60_672FBGA
+
+[00222] PROTO5_IO20_98986
+        U20             3       A0              BiDirectional  PI5C3384
+        J11             28      28              Passive        2x20Header
+
+[00223] N2288767
+        C336            1       1               Passive        2u2
+        C338            1       1               Passive        0u01
+        C337            1       1               Passive        0u1
+        L8              2       2               Passive        SMFerrite
+        U60             H12     VCC_PLL5_OUT    BiDirectional  EP2S60_672FBGA
+
+[00224] PROTO2_IO4
+        U27             10      B4              BiDirectional  PI5C3384
+        U60             C17     IO.DQ11T2       BiDirectional  EP2S60_672FBGA
+
+[00225] N2288951
+        C342            1       1               Passive        0u01
+        C341            1       1               Passive        0u1
+        C340            1       1               Passive        2u2
+        L9              2       2               Passive        SMFerrite
+        U60             V13     VCC_PLL6_OUT    BiDirectional  EP2S60_672FBGA
+
+[00226] PROTO2_IO3
+        U27             9       B3              BiDirectional  PI5C3384
+        U60             A17     IO.DQ11T1       BiDirectional  EP2S60_672FBGA
+
+[00227] PROTO2_IO2
+        U27             6       B2              BiDirectional  PI5C3384
+        U60             C16     IO.DQ11T0       BiDirectional  EP2S60_672FBGA
+
+[00228] N474446
+        U2              6       OA3             Output         49FCT3805
+        RP1             1       1               Passive        33
+
+[00229] PROTO2_IO1
+        U27             5       B1              BiDirectional  PI5C3384
+        U60             J15     IO.DQ10T3       BiDirectional  EP2S60_672FBGA
+
+[00230] PROTO2_IO0
+        U27             2       B0              BiDirectional  PI5C3384
+        U60             H15     IO.DQ10T1       BiDirectional  EP2S60_672FBGA
+
+[00231] N474528
+        U2              4       OA2             Output         49FCT3805
+        RP1             2       2               Passive        33
+
+[00232] ENET_IOR_N
+        U4              31      RD#             Input          LAN91C111
+        R29             2       2               Passive        10K
+        U60             AC10    IO.DQ9B2        BiDirectional  EP2S60_672FBGA
+
+[00233] N474610
+        U2              3       OA1             Output         49FCT3805
+        RP1             3       3               Passive        33
+
+[00234] ENET_IOW_N
+        R30             2       2               Passive        10K
+        U4              32      WR#             Input          LAN91C111
+        U60             AE11    IO.DQ9B3        BiDirectional  EP2S60_672FBGA
+
+[00235] N474692
+        U2              2       OA0             Output         49FCT3805
+        RP1             4       4               Passive        33
+
+[00236] ENET_LDEV_N
+        U4              45      LDEV#           Output         LAN91C111
+        U60             Y7      IO.DIFFIO_TX75n BiDirectional  EP2S60_672FBGA
+
+[00237] PLD_STATUS_N
+        U60             E21     nSTATUS.nSTATUS BiDirectional  EP2S60_672FBGA
+        R47             1       1               Passive        10K
+        U3              92      IO              Passive        EPM7128
+
+[00238] ENET_IOCHRDY
+        U4              38      ARDY            Open Collector LAN91C111
+        U60             AD1     IO.DIFFIO_RX75p BiDirectional  EP2S60_672FBGA
+
+[00239] PLD_CONFIG_DONE
+        U60             B25     CONF_DONE.CONF_ BiDirectional  EP2S60_672FBGA
+        R197            1       1               Passive        10K
+        U3              85      IO              Passive        EPM7128
+
+[00240] ENET_AEN
+        U4              41      AEN             Input          LAN91C111
+        U60             AF10    IO.DQ9B1        BiDirectional  EP2S60_672FBGA
+
+[00241] PLD_INIT_DONE
+        U60             D21     IO.INIT_DONE    BiDirectional  EP2S60_672FBGA
+        U3              99      IO              Passive        EPM7128
+
+[00242] PLD_PGM2
+        U60             E15     IO.PGM2         BiDirectional  EP2S60_672FBGA
+        U3              79      IO              Passive        EPM7128
+
+[00243] PLD_PGM1
+        U60             F15     IO.PGM1         BiDirectional  EP2S60_672FBGA
+        U3              78      IO              Passive        EPM7128
+
+[00244] PLD_PGM0
+        U60             F14     IO.PGM0         BiDirectional  EP2S60_672FBGA
+        U3              77      IO              Passive        EPM7128
+
+[00245] CF_POWER
+        U60             Y17     IO_H            BiDirectional  EP2S60_672FBGA
+        U25             9       B3              BiDirectional  PI5C3384
+
+[00246] N578599
+        R216            2       2               Passive        750K
+        C361            1       1               Passive        0u001
+        U59             6       R1              Input          FDC6323L
+
+[00247] PLD_MSEL3
+        U60             F7      MSEL3.MSEL3     BiDirectional  EP2S60_672FBGA
+        RP73            4       4               Passive        330
+        U3              76      IO              Passive        EPM7128
+
+[00248] FSE_A22
+        U5              15      A21             Passive        AM29LV128M
+        U60             AC2     IO.DIFFIO_RX74p BiDirectional  EP2S60_672FBGA
+        U3              29      IO              Passive        EPM7128
+
+[00249] N438655
+        CON3            13      Vcc             Passive        CF_Header
+        CON3            38      Vcc             Power          CF_Header
+        U59             2       Vout1           Output         FDC6323L
+        U59             3       Vout2           Output         FDC6323L
+        C361            2       2               Passive        0u001
+        C270            1       1               Passive        0u001
+        C271            1       1               Passive        0u001
+
+[00250] PLD_MSEL2
+        U60             E6      MSEL2.MSEL2     BiDirectional  EP2S60_672FBGA
+        RP73            3       3               Passive        330
+        U3              75      IO              Passive        EPM7128
+
+[00251] FSE_A21
+        U5              12      A20             Passive        AM29LV128M
+        U60             AB4     IO.DIFFIO_RX73n BiDirectional  EP2S60_672FBGA
+        U3              28      IO              Passive        EPM7128
+
+[00252] N578753
+        U59             1       R2              Input          FDC6323L
+        R217            1       1               Passive        5K6
+
+[00253] PLD_MSEL1
+        U60             B2      MSEL1.MSEL1     BiDirectional  EP2S60_672FBGA
+        RP73            2       2               Passive        330
+        U3              72      IO              Passive        EPM7128
+
+[00254] FSE_A20
+        U5              11      A19             Passive        AM29LV128M
+        U60             AB3     IO.DIFFIO_RX73p BiDirectional  EP2S60_672FBGA
+        U3              27      IO              Passive        EPM7128
+
+[00255] N516182
+        U58             4       V-              Input          MAX3237
+        C357            1       1               Passive        1u
+
+[00256] PLD_MSEL0
+        U60             G8      MSEL0.MSEL0     BiDirectional  EP2S60_672FBGA
+        RP73            1       1               Passive        330
+        U3              71      IO              Passive        EPM7128
+
+[00257] FSE_A19
+        U5              18      A18             Input          AM29LV128M
+        U60             AA4     IO.DIFFIO_RX72n BiDirectional  EP2S60_672FBGA
+        U35             44      A17             Passive        IDT71V416S
+        U36             44      A17             Passive        IDT71V416S
+        U3              25      IO              Passive        EPM7128
+
+[00258] CF_POWER5
+        U25             8       A3              BiDirectional  PI5C3384
+        U59             5       OFF_n           Input          FDC6323L
+
+[00259] N516088
+        J27             7       7               Passive        DB9RF
+        U58             11      R3IN            Input          MAX3237
+
+[00260] FSE_A18
+        U5              19      A17             Input          AM29LV128M
+        U60             AA3     IO.DIFFIO_RX72p BiDirectional  EP2S60_672FBGA
+        U35             43      A16             Passive        IDT71V416S
+        U36             43      A16             Passive        IDT71V416S
+        U3              24      IO              Passive        EPM7128
+
+[00261] FLASH_BYTE_N
+        U5              53      BYTE_n          BiDirectional  AM29LV128M
+        U60             AB11    IO.DQSn4B       BiDirectional  EP2S60_672FBGA
+        U3              36      IO              Passive        EPM7128
+
+[00262] N516148
+        U58             9       R2IN            Input          MAX3237
+        J27             3       3               Passive        DB9RF
+
+[00263] FSE_A17
+        U5              54      A16             Input          AM29LV128M
+        U60             Y4      IO.DIFFIO_RX71n BiDirectional  EP2S60_672FBGA
+        U35             42      A15             Input          IDT71V416S
+        U36             42      A15             Input          IDT71V416S
+        U3              23      IO              Passive        EPM7128
+
+[00264] FLASH_WP_N
+        U5              16      WP_n.ACC        Passive        AM29LV128M
+        U60             Y6      IO.DIFFIO_TX75p BiDirectional  EP2S60_672FBGA
+        U3              37      IO              Passive        EPM7128
+
+[00265] N516226
+        U58             1       C2+             Input          MAX3237
+        C356            1       1               Passive        1u
+
+[00266] FSE_A16
+        U5              3       A15             Input          AM29LV128M
+        U60             Y3      IO.DIFFIO_RX71p BiDirectional  EP2S60_672FBGA
+        U35             27      A14             Input          IDT71V416S
+        U36             27      A14             Input          IDT71V416S
+        U3              22      IO              Passive        EPM7128
+
+[00267] N516174
+        U58             3       C2-             Input          MAX3237
+        C356            2       2               Passive        1u
+
+[00268] FSE_A15
+        U5              4       A14             Input          AM29LV128M
+        U4              92      A15             Input          LAN91C111
+        U60             W4      IO.DIFFIO_RX70n BiDirectional  EP2S60_672FBGA
+        U35             26      A13             Input          IDT71V416S
+        U36             26      A13             Input          IDT71V416S
+        U3              21      IO              Passive        EPM7128
+
+[00269] PROTO1_IO40
+        U60             B8      IO.DQSn5T       BiDirectional  EP2S60_672FBGA
+        U25             16      B6              BiDirectional  PI5C3384
+
+[00270] N516232
+        U58             7       T3OUT           Output         MAX3237
+        J27             2       2               Passive        DB9RF
+
+[00271] FSE_A14
+        U5              5       A13             Input          AM29LV128M
+        U4              91      A14             Input          LAN91C111
+        U60             W3      IO.DIFFIO_RX70p BiDirectional  EP2S60_672FBGA
+        U35             25      A12             Input          IDT71V416S
+        U36             25      A12             Input          IDT71V416S
+        U3              20      IO              Passive        EPM7128
+
+[00272] PROTO1_IO39
+        U60             B7      IO.DQS5T        BiDirectional  EP2S60_672FBGA
+        U22             23      B9              BiDirectional  PI5C3384
+
+[00273] N516176
+        J27             9       9               Passive        DB9RF
+        U58             12      T5OUT           Output         MAX3237
+
+[00274] FSE_A13
+        U5              6       A12             Input          AM29LV128M
+        U4              90      A13             Input          LAN91C111
+        U60             AB2     IO.DIFFIO_RX69n BiDirectional  EP2S60_672FBGA
+        U35             24      A11             Input          IDT71V416S
+        U36             24      A11             Input          IDT71V416S
+        U3              19      IO              Passive        EPM7128
+
+[00275] PROTO1_IO38
+        U60             E10     IO.DQSn4T       BiDirectional  EP2S60_672FBGA
+        U22             20      B8              BiDirectional  PI5C3384
+
+[00276] N516496
+        C358            1       1               Passive        1u
+        U58             27      V+              Input          MAX3237
+
+[00277] FSE_A12
+        U5              7       A11             Input          AM29LV128M
+        U4              89      A12             Input          LAN91C111
+        U60             AB1     IO.DIFFIO_RX69p BiDirectional  EP2S60_672FBGA
+        U35             23      A10             Input          IDT71V416S
+        U36             23      A10             Input          IDT71V416S
+        U3              17      IO              Passive        EPM7128
+
+[00278] PROTO1_IO37
+        U60             B6      IO.DQSn3T       BiDirectional  EP2S60_672FBGA
+        U22             19      B7              BiDirectional  PI5C3384
+
+[00279] N516136
+        J27             4       4               Passive        DB9RF
+        U58             8       R1IN            Input          MAX3237
+
+[00280] FSE_A11
+        U5              8       A10             Input          AM29LV128M
+        U4              88      A11             Input          LAN91C111
+        U60             AA2     IO.DIFFIO_RX68n BiDirectional  EP2S60_672FBGA
+        U35             22      A9              Input          IDT71V416S
+        U36             22      A9              Input          IDT71V416S
+        U3              16      IO              Passive        EPM7128
+
+[00281] PROTO1_IO36
+        U60             C6      IO.DQS3T        BiDirectional  EP2S60_672FBGA
+        U22             16      B6              BiDirectional  PI5C3384
+
+[00282] N516150
+        J27             1       1               Passive        DB9RF
+        U58             5       T1OUT           Output         MAX3237
+
+[00283] FSE_A10
+        U5              9       A9              Input          AM29LV128M
+        U4              87      A10             Input          LAN91C111
+        U60             AA1     IO.DIFFIO_RX68p BiDirectional  EP2S60_672FBGA
+        U35             21      A8              Input          IDT71V416S
+        U36             21      A8              Input          IDT71V416S
+        U3              14      IO              Passive        EPM7128
+
+[00284] PROTO1_IO35
+        U60             E9      IO.DQS2T        BiDirectional  EP2S60_672FBGA
+        U22             15      B5              BiDirectional  PI5C3384
+
+[00285] N516128
+        U58             28      C1+             Input          MAX3237
+        C355            1       1               Passive        1u
+
+[00286] FSE_A9
+        U5              10      A8              Input          AM29LV128M
+        U4              86      A9              Input          LAN91C111
+        U60             Y2      IO.DIFFIO_RX67n BiDirectional  EP2S60_672FBGA
+        U35             20      A7              Input          IDT71V416S
+        U36             20      A7              Input          IDT71V416S
+        U3              13      IO              Passive        EPM7128
+
+[00287] PROTO1_IO34
+        U60             B4      IO.DQSn1T       BiDirectional  EP2S60_672FBGA
+        U22             10      B4              BiDirectional  PI5C3384
+
+[00288] N516196
+        D33             1       ANODE           Passive        LedG
+        R209            1       1               Passive        200
+
+[00289] FSE_A8
+        U5              20      A7              Input          AM29LV128M
+        U4              85      A8              Input          LAN91C111
+        U60             Y1      IO.DIFFIO_RX67p BiDirectional  EP2S60_672FBGA
+        U35             19      A6              Input          IDT71V416S
+        U36             19      A6              Input          IDT71V416S
+        U3              12      IO              Passive        EPM7128
+
+[00290] PROTO1_IO33
+        U60             B3      IO.DQS1T        BiDirectional  EP2S60_672FBGA
+        U22             9       B3              BiDirectional  PI5C3384
+
+[00291] N516668
+        U58             25      C1-             Input          MAX3237
+        C355            2       2               Passive        1u
+
+[00292] FSE_A7
+        U5              21      A6              Input          AM29LV128M
+        U4              84      A7              Input          LAN91C111
+        U60             W2      IO.DIFFIO_RX66n BiDirectional  EP2S60_672FBGA
+        U35             18      A5              Input          IDT71V416S
+        U36             18      A5              Input          IDT71V416S
+        U3              10      IO              Passive        EPM7128
+
+[00293] PROTO1_IO32
+        U60             E7      IO.DQS0T        BiDirectional  EP2S60_672FBGA
+        U22             6       B2              BiDirectional  PI5C3384
+
+[00294] PLD_CLEAR_N
+        SW8             3       3               Passive        PBswitch
+        U60             AA15    IO.DEV_CLRn     BiDirectional  EP2S60_672FBGA
+        SW8             4       4               Input          PBswitch
+        R85             2       2               Passive        5K6
+
+[00295] N516152
+        U58             10      T4OUT           Output         MAX3237
+        J27             8       8               Passive        DB9RF
+
+[00296] FSE_A6
+        U5              22      A5              Input          AM29LV128M
+        U4              83      A6              Input          LAN91C111
+        U60             W1      IO.DIFFIO_RX66p BiDirectional  EP2S60_672FBGA
+        U35             5       A4              Input          IDT71V416S
+        U36             5       A4              Input          IDT71V416S
+        U3              9       IO              Passive        EPM7128
+
+[00297] PROTO1_IO31
+        U60             A10     IO.DQ9T1        BiDirectional  EP2S60_672FBGA
+        U22             5       B1              BiDirectional  PI5C3384
+
+[00298] CARDSEL5_N_99022
+        U25             22      A9              BiDirectional  PI5C3384
+        J11             38      38              Passive        2x20Header
+        R63             1       1               Passive        10K
+
+[00299] N516180
+        U58             6       T2OUT           Output         MAX3237
+        J27             6       6               Passive        DB9RF
+
+[00300] N526191
+        RP11            8       8               Passive        100
+        D3              1       ANODE           Passive        Led_Blue
+
+[00301] FSE_A5
+        U5              23      A4              Input          AM29LV128M
+        U4              82      A5              Input          LAN91C111
+        U60             V2      IO.DIFFIO_RX65n BiDirectional  EP2S60_672FBGA
+        U35             4       A3              Input          IDT71V416S
+        U36             4       A3              Input          IDT71V416S
+        U3              8       IO              Passive        EPM7128
+
+[00302] PROTO1_IO30
+        U60             C11     IO.DQ9T0        BiDirectional  EP2S60_672FBGA
+        U22             2       B0              BiDirectional  PI5C3384
+
+[00303] N516646
+        D32             1       ANODE           Passive        LedG
+        R208            1       1               Passive        200
+
+[00304] N526045
+        D1              1       ANODE           Passive        Led_Blue
+        RP11            6       6               Passive        100
+
+[00305] FSE_A4
+        U5              24      A3              Input          AM29LV128M
+        U4              81      A4              Input          LAN91C111
+        U60             V1      IO.DIFFIO_RX65p BiDirectional  EP2S60_672FBGA
+        U35             3       A2              Input          IDT71V416S
+        U36             3       A2              Input          IDT71V416S
+        U3              7       IO              Passive        EPM7128
+
+[00306] PROTO1_IO29
+        U60             H11     IO.DQ8T2        BiDirectional  EP2S60_672FBGA
+        U20             23      B9              BiDirectional  PI5C3384
+
+[00307] N526095
+        RP11            7       7               Passive        100
+        D2              1       ANODE           Passive        Led_Blue
+
+[00308] FSE_A3
+        U5              25      A2              Input          AM29LV128M
+        U4              80      A3              Input          LAN91C111
+        U60             U2      IO.DIFFIO_RX64n BiDirectional  EP2S60_672FBGA
+        U35             2       A1              Input          IDT71V416S
+        U36             2       A1              Input          IDT71V416S
+        U3              6       IO              Passive        EPM7128
+
+[00309] PROTO1_IO28
+        U60             G11     IO.DQ8T0        BiDirectional  EP2S60_672FBGA
+        U20             20      B8              BiDirectional  PI5C3384
+
+[00310] ENET_INTR0
+        U4              29      INTR0           Output         LAN91C111
+        U60             AD11    IO.DQ9B0        BiDirectional  EP2S60_672FBGA
+
+[00311] N525995
+        RP11            5       5               Passive        100
+        D0              1       ANODE           Passive        Led_Blue
+
+[00312] FSE_A2
+        U5              26      A1              Input          AM29LV128M
+        U4              79      A2              Input          LAN91C111
+        U60             U1      IO.DIFFIO_RX64p BiDirectional  EP2S60_672FBGA
+        U35             1       A0              Input          IDT71V416S
+        U36             1       A0              Input          IDT71V416S
+        U3              5       IO              Passive        EPM7128
+
+[00313] PROTO1_IO27
+        U60             A9      IO.DQ7T3        BiDirectional  EP2S60_672FBGA
+        U20             19      B7              BiDirectional  PI5C3384
+
+[00314] N526344
+        RP13            7       7               Passive        100
+        D6              1       ANODE           Passive        Led_Blue
+
+[00315] FSE_A1
+        U5              31      A0              Input          AM29LV128M
+        U4              78      A1              Input          LAN91C111
+        U60             T3      IO.DIFFIO_RX63n BiDirectional  EP2S60_672FBGA
+        U3              2       IO              Passive        EPM7128
+
+[00316] PROTO1_IO26
+        U60             C8      IO.DQ7T2        BiDirectional  EP2S60_672FBGA
+        U20             16      B6              BiDirectional  PI5C3384
+
+[00317] N526244
+        RP13            5       5               Passive        100
+        D4              1       ANODE           Passive        Led_Blue
+
+[00318] PROTO1_IO25
+        U60             D8      IO.DQ7T1        BiDirectional  EP2S60_672FBGA
+        U20             15      B5              BiDirectional  PI5C3384
+
+[00319] FSE_D31
+        U4              48      D31             BiDirectional  LAN91C111
+        U60             AA6     IO.DIFFIO_TX74n BiDirectional  EP2S60_672FBGA
+        U36             38      D15             BiDirectional  IDT71V416S
+
+[00320] N502191
+        D28             1       ANODE           Passive        LedG
+        R141            1       1               Passive        200
+
+[00321] PROTO1_IO24
+        U60             D9      IO.DQ7T0        BiDirectional  EP2S60_672FBGA
+        U20             10      B4              BiDirectional  PI5C3384
+
+[00322] FSE_D30
+        U4              49      D30             BiDirectional  LAN91C111
+        U60             AA5     IO.DIFFIO_TX74p BiDirectional  EP2S60_672FBGA
+        U36             37      D14             BiDirectional  IDT71V416S
+
+[00323] N526294
+        RP13            6       6               Passive        100
+        D5              1       ANODE           Passive        Led_Blue
+
+[00324] PROTO1_IO23
+        U60             F11     IO.DQ6T3        BiDirectional  EP2S60_672FBGA
+        U20             9       B3              BiDirectional  PI5C3384
+        R64             1       1               Passive        1K
+
+[00325] FSE_D29
+        U4              50      D29             BiDirectional  LAN91C111
+        U60             W8      IO.DIFFIO_TX73n BiDirectional  EP2S60_672FBGA
+        U36             36      D13             BiDirectional  IDT71V416S
+
+[00326] N502164
+        D27             1       ANODE           Passive        LedG
+        R140            1       1               Passive        200
+
+[00327] FLASH_CS_N
+        R194            1       1               Passive        5K6
+        U5              32      CE_n            Input          AM29LV128M
+        U60             AE4     IO.DQSn1B       BiDirectional  EP2S60_672FBGA
+        U3              32      IO              Passive        EPM7128
+
+[00328] PROTO1_IO22
+        U60             J11     IO.DQ6T1        BiDirectional  EP2S60_672FBGA
+        U20             6       B2              BiDirectional  PI5C3384
+        R65             1       1               Passive        10K
+        R107            1       1               Passive        5K6
+
+[00329] FSE_D28
+        U4              51      D28             BiDirectional  LAN91C111
+        U60             W7      IO.DIFFIO_TX73p BiDirectional  EP2S60_672FBGA
+        U36             35      D12             BiDirectional  IDT71V416S
+
+[00330] N14428
+        C98             1       1               Passive        1u
+        U52             4       V-              Input          MAX3237
+
+[00331] N526394
+        RP13            8       8               Passive        100
+        D7              1       ANODE           Passive        Led_Blue
+
+[00332] PROTO1_IO21
+        U60             G10     IO.DQ6T0        BiDirectional  EP2S60_672FBGA
+        U20             5       B1              BiDirectional  PI5C3384
+
+[00333] FSE_D27
+        U4              53      D27             BiDirectional  LAN91C111
+        U60             W6      IO.DIFFIO_TX72n BiDirectional  EP2S60_672FBGA
+        U36             32      D11             BiDirectional  IDT71V416S
+
+[00334] N509073
+        U52             7       T3OUT           Output         MAX3237
+        J19             2       2               Passive        DB9RF
+
+[00335] PROTO1_IO20
+        U60             A8      IO.DQ5T3        BiDirectional  EP2S60_672FBGA
+        U20             2       B0              BiDirectional  PI5C3384
+
+[00336] FSE_D26
+        U4              54      D26             BiDirectional  LAN91C111
+        U60             W5      IO.DIFFIO_TX72p BiDirectional  EP2S60_672FBGA
+        U36             31      D10             BiDirectional  IDT71V416S
+
+[00337] N14434
+        U52             3       C2-             Input          MAX3237
+        C96             2       2               Passive        1u
+
+[00338] PROTO1_IO19
+        U60             D7      IO.DQ5T2        BiDirectional  EP2S60_672FBGA
+        U21             23      B9              BiDirectional  PI5C3384
+        R66             1       1               Passive        1K
+
+[00339] FSE_D25
+        U4              55      D25             BiDirectional  LAN91C111
+        U60             V8      IO.DIFFIO_TX71n BiDirectional  EP2S60_672FBGA
+        U36             30      D9              BiDirectional  IDT71V416S
+
+[00340] N511156
+        J19             6       6               Passive        DB9RF
+        U52             6       T2OUT           Output         MAX3237
+
+[00341] PROTO1_IO18
+        U60             C7      IO.DQ5T1        BiDirectional  EP2S60_672FBGA
+        U21             20      B8              BiDirectional  PI5C3384
+
+[00342] FSE_D24
+        U4              56      D24             BiDirectional  LAN91C111
+        U60             V7      IO.DIFFIO_TX71p BiDirectional  EP2S60_672FBGA
+        U36             29      D8              BiDirectional  IDT71V416S
+
+[00343] PROTO1_IO17
+        U60             A7      IO.DQ5T0        BiDirectional  EP2S60_672FBGA
+        U21             19      B7              BiDirectional  PI5C3384
+
+[00344] FSE_D23
+        U4              58      D23             BiDirectional  LAN91C111
+        U60             V6      IO.DIFFIO_TX70n BiDirectional  EP2S60_672FBGA
+        U36             16      D7              BiDirectional  IDT71V416S
+
+[00345] N511861
+        J19             9       9               Passive        DB9RF
+        U52             12      T5OUT           Output         MAX3237
+
+[00346] PROTO1_IO16
+        U60             F10     IO.DQ4T3        BiDirectional  EP2S60_672FBGA
+        U21             16      B6              BiDirectional  PI5C3384
+        R67             1       1               Passive        5K6
+
+[00347] FSE_D22
+        U4              59      D22             BiDirectional  LAN91C111
+        U60             V5      IO.DIFFIO_TX70p BiDirectional  EP2S60_672FBGA
+        U36             15      D6              BiDirectional  IDT71V416S
+
+[00348] PROTO1_IO15
+        U60             K11     IO.DQ4T1        BiDirectional  EP2S60_672FBGA
+        U21             15      B5              BiDirectional  PI5C3384
+
+[00349] FSE_D21
+        U4              60      D21             BiDirectional  LAN91C111
+        U60             U8      IO.DIFFIO_TX69n BiDirectional  EP2S60_672FBGA
+        U36             14      D5              BiDirectional  IDT71V416S
+
+[00350] VCC_BUFFER2_99038
+        U25             24      VCC             Input          PI5C3384
+        D20             1       CATHODE         Passive        1N4001SM
+        C87             1       1               Passive        0u01
+        R61             2       2               Passive        2K21
+
+[00351] N14386
+        U52             1       C2+             Input          MAX3237
+        C96             1       1               Passive        1u
+
+[00352] N472059
+        RP6             7       7               Passive        220
+        U8              2       F               Passive        7Segment Display
+
+[00353] PROTO1_IO14
+        U60             H10     IO.DQ4T0        BiDirectional  EP2S60_672FBGA
+        U21             10      B4              BiDirectional  PI5C3384
+
+[00354] FSE_D20
+        U4              61      D20             BiDirectional  LAN91C111
+        U60             U7      IO.DIFFIO_TX69p BiDirectional  EP2S60_672FBGA
+        U36             13      D4              BiDirectional  IDT71V416S
+
+[00355] N471824
+        RP5             7       7               Passive        220
+        U8              9       B               Passive        7Segment Display
+
+[00356] PROTO1_IO13
+        U60             A6      IO.DQ3T3        BiDirectional  EP2S60_672FBGA
+        U21             9       B3              BiDirectional  PI5C3384
+
+[00357] FSE_D19
+        U4              63      D19             BiDirectional  LAN91C111
+        U60             T7      IO.DIFFIO_TX68n BiDirectional  EP2S60_672FBGA
+        U36             10      D3              BiDirectional  IDT71V416S
+
+[00358] ENET_ADS_N
+        U4              37      ADS#            Input          LAN91C111
+        U60             AD2     IO.DIFFIO_RX75n BiDirectional  EP2S60_672FBGA
+
+[00359] N472172
+        RP6             5       5               Passive        220
+        U8              7       DP              Passive        7Segment Display
+
+[00360] PROTO1_IO12
+        U60             D6      IO.DQ3T2        BiDirectional  EP2S60_672FBGA
+        U21             6       B2              BiDirectional  PI5C3384
+
+[00361] FSE_D18
+        U4              64      D18             BiDirectional  LAN91C111
+        U60             T6      IO.DIFFIO_TX68p BiDirectional  EP2S60_672FBGA
+        U36             9       D2              BiDirectional  IDT71V416S
+
+[00362] N471764
+        RP5             8       8               Passive        220
+        U8              10      A               Passive        7Segment Display
+
+[00363] PROTO1_IO11
+        U60             B5      IO.DQ3T1        BiDirectional  EP2S60_672FBGA
+        U21             5       B1              BiDirectional  PI5C3384
+
+[00364] FSE_D17
+        U4              65      D17             BiDirectional  LAN91C111
+        U60             U6      IO.DIFFIO_TX67n BiDirectional  EP2S60_672FBGA
+        U36             8       D1              BiDirectional  IDT71V416S
+
+[00365] N471939
+        RP5             5       5               Passive        220
+        U8              5       D               Passive        7Segment Display
+
+[00366] PROTO1_IO10
+        U60             A5      IO.DQ3T0        BiDirectional  EP2S60_672FBGA
+        U21             2       B0              BiDirectional  PI5C3384
+
+[00367] FSE_D16
+        U4              66      D16             BiDirectional  LAN91C111
+        U60             U5      IO.DIFFIO_TX67p BiDirectional  EP2S60_672FBGA
+        U36             7       D0              BiDirectional  IDT71V416S
+
+[00368] N471999
+        RP6             8       8               Passive        220
+        U8              4       E               Passive        7Segment Display
+
+[00369] PROTO1_IO9
+        U60             G9      IO.DQ2T3        BiDirectional  EP2S60_672FBGA
+        U19             23      B9              BiDirectional  PI5C3384
+
+[00370] FSE_D15
+        U4              68      D15             BiDirectional  LAN91C111
+        U60             V4      IO.DIFFIO_TX66n BiDirectional  EP2S60_672FBGA
+        U35             38      D15             BiDirectional  IDT71V416S
+
+[00371] PB_RESET_N
+        SW10            3       3               Passive        PBswitch
+        SW10            4       4               Input          PBswitch
+        R56             2       2               Passive        10K
+        R55             2       2               Passive        1K
+
+[00372] N511754
+        J19             8       8               Passive        DB9RF
+        U52             10      T4OUT           Output         MAX3237
+
+[00373] N472119
+        RP6             6       6               Passive        220
+        U8              3       G               Passive        7Segment Display
+
+[00374] PROTO1_IO8
+        U60             H9      IO.DQ2T2        BiDirectional  EP2S60_672FBGA
+        U19             20      B8              BiDirectional  PI5C3384
+
+[00375] FSE_D14
+        U4              69      D14             BiDirectional  LAN91C111
+        U60             V3      IO.DIFFIO_TX66p BiDirectional  EP2S60_672FBGA
+        U35             37      D14             BiDirectional  IDT71V416S
+
+[00376] N490920
+        R210            1       1               Passive        33
+        U2              7       OA4             Output         49FCT3805
+
+[00377] PROTO5_IO40
+        U25             17      A6              BiDirectional  PI5C3384
+        CON3            44      REG#            Input          CF_Header
+        J12             3       3               Passive        2x7Header
+
+[00378] N510750
+        J19             1       1               Passive        DB9RF
+        U52             5       T1OUT           Output         MAX3237
+
+[00379] N471886
+        RP5             6       6               Passive        220
+        U8              8       C               Passive        7Segment Display
+
+[00380] PROTO1_IO7
+        U60             K10     IO.DQ2T1        BiDirectional  EP2S60_672FBGA
+        U19             19      B7              BiDirectional  PI5C3384
+
+[00381] FSE_D13
+        U4              70      D13             BiDirectional  LAN91C111
+        U60             T9      IO.DIFFIO_TX65n BiDirectional  EP2S60_672FBGA
+        U35             36      D13             BiDirectional  IDT71V416S
+
+[00382] N14394
+        C97             1       1               Passive        1u
+        U52             27      V+              Input          MAX3237
+
+[00383] N472345
+        RP7             2       2               Passive        220
+        U9              8       C               Passive        7Segment Display
+
+[00384] PROTO1_IO6
+        U60             C5      IO.DQ1T3        BiDirectional  EP2S60_672FBGA
+        U19             16      B6              BiDirectional  PI5C3384
+
+[00385] FSE_D12
+        U4              71      D12             BiDirectional  LAN91C111
+        U60             T8      IO.DIFFIO_TX65p BiDirectional  EP2S60_672FBGA
+        U35             35      D12             BiDirectional  IDT71V416S
+
+[00386] N510590
+        J19             4       4               Passive        DB9RF
+        U52             8       R1IN            Input          MAX3237
+
+[00387] N472525
+        RP8             2       2               Passive        220
+        U9              2       F               Passive        7Segment Display
+
+[00388] PROTO1_IO5
+        U60             C3      IO.DQ1T2        BiDirectional  EP2S60_672FBGA
+        U19             15      B5              BiDirectional  PI5C3384
+
+[00389] FSE_D11
+        U4              73      D11             BiDirectional  LAN91C111
+        U60             U4      IO.DIFFIO_TX64n BiDirectional  EP2S60_672FBGA
+        U35             32      D11             BiDirectional  IDT71V416S
+
+[00390] N752912
+        R56             1       1               Passive        10K
+        U18             8       P\B\R\          Input          LTC1326-5
+
+[00391] N472405
+        RP7             1       1               Passive        220
+        U9              5       D               Passive        7Segment Display
+
+[00392] PROTO1_IO4
+        U60             C4      IO.DQ1T1        BiDirectional  EP2S60_672FBGA
+        U19             10      B4              BiDirectional  PI5C3384
+
+[00393] FSE_D10
+        U4              74      D10             BiDirectional  LAN91C111
+        U60             U3      IO.DIFFIO_TX64p BiDirectional  EP2S60_672FBGA
+        U35             31      D10             BiDirectional  IDT71V416S
+
+[00394] N509472
+        U52             11      R3IN            Input          MAX3237
+        J19             7       7               Passive        DB9RF
+
+[00395] N472232
+        RP7             4       4               Passive        220
+        U9              10      A               Passive        7Segment Display
+
+[00396] PROTO1_IO3
+        U60             A3      IO.DQ1T0        BiDirectional  EP2S60_672FBGA
+        U19             9       B3              BiDirectional  PI5C3384
+
+[00397] FSE_D9
+        U4              75      D9              BiDirectional  LAN91C111
+        U60             T5      IO.DIFFIO_TX63n BiDirectional  EP2S60_672FBGA
+        U35             30      D9              BiDirectional  IDT71V416S
+
+[00398] N510472
+        U52             9       R2IN            Input          MAX3237
+        J19             3       3               Passive        DB9RF
+
+[00399] N472578
+        RP8             3       3               Passive        220
+        U9              3       G               Passive        7Segment Display
+
+[00400] PROTO1_IO2
+        U60             F8      IO.DQ0T3        BiDirectional  EP2S60_672FBGA
+        U19             6       B2              BiDirectional  PI5C3384
+
+[00401] FSE_D8
+        U4              76      D8              BiDirectional  LAN91C111
+        U60             T4      IO.DIFFIO_TX63p BiDirectional  EP2S60_672FBGA
+        U35             29      D8              BiDirectional  IDT71V416S
+
+[00402] N14412
+        C95             1       1               Passive        1u
+        U52             28      C1+             Input          MAX3237
+
+[00403] N472638
+        RP8             4       4               Passive        220
+        U9              7       DP              Passive        7Segment Display
+
+[00404] PROTO1_IO1
+        U60             J9      IO.DQ0T2        BiDirectional  EP2S60_672FBGA
+        U19             5       B1              BiDirectional  PI5C3384
+
+[00405] FSE_D7
+        U5              50      D7              BiDirectional  AM29LV128M
+        U4              99      D7              BiDirectional  LAN91C111
+        U60             F20     IO.DATA7        BiDirectional  EP2S60_672FBGA
+        U35             16      D7              BiDirectional  IDT71V416S
+
+[00406] N14652
+        U52             25      C1-             Input          MAX3237
+        C95             2       2               Passive        1u
+
+[00407] N472465
+        RP8             1       1               Passive        220
+        U9              4       E               Passive        7Segment Display
+
+[00408] PROTO1_IO0
+        U60             E8      IO.DQ0T1        BiDirectional  EP2S60_672FBGA
+        U19             2       B0              BiDirectional  PI5C3384
+
+[00409] FSE_D6
+        U5              48      D6              BiDirectional  AM29LV128M
+        U4              100     D6              BiDirectional  LAN91C111
+        U60             E20     IO.DATA6        BiDirectional  EP2S60_672FBGA
+        U35             15      D6              BiDirectional  IDT71V416S
+
+[00410] N472292
+        RP7             3       3               Passive        220
+        U9              9       B               Passive        7Segment Display
+
+[00411] FSE_D5
+        U5              46      D5              BiDirectional  AM29LV128M
+        U4              101     D5              BiDirectional  LAN91C111
+        U60             D19     IO.DATA5        BiDirectional  EP2S60_672FBGA
+        U35             14      D5              BiDirectional  IDT71V416S
+
+[00412] PLD_CLOCKINPUT1
+        U60             AF15    IO.CLK4p        BiDirectional  EP2S60_672FBGA
+        RP1             5       5               Passive        33
+
+[00413] PROTO1_CARDSEL_N
+        U60             E11     IO.DQSn6T       BiDirectional  EP2S60_672FBGA
+        U25             23      B9              BiDirectional  PI5C3384
+
+[00414] FSE_D4
+        U5              44      D4              BiDirectional  AM29LV128M
+        U4              102     D4              BiDirectional  LAN91C111
+        U60             G19     IO.DATA4        BiDirectional  EP2S60_672FBGA
+        U35             13      D4              BiDirectional  IDT71V416S
+
+[00415] PLD_CLOCKINPUT2
+        U60             B13     IO.CLK12p       BiDirectional  EP2S60_672FBGA
+        RP1             6       6               Passive        33
+
+[00416] PROTO1_CLKIN
+        J13             11      11              Passive        2x10Header
+        RP72            4       4               Passive        33
+
+[00417] PROTO5_IO40_257436
+        U31             3       A0              BiDirectional  PI5C3384
+        J15             3       3               Passive        2x7Header
+
+[00418] FSE_D3
+        U5              41      D3              BiDirectional  AM29LV128M
+        U4              104     D3              BiDirectional  LAN91C111
+        U60             D20     IO.DATA3        BiDirectional  EP2S60_672FBGA
+        U35             10      D3              BiDirectional  IDT71V416S
+
+[00419] PROTO1_CLKOUT
+        U60             AC14    IO.CLK5p        BiDirectional  EP2S60_672FBGA
+        J13             13      13              Passive        2x10Header
+
+[00420] FSE_D2
+        U5              39      D2              BiDirectional  AM29LV128M
+        U4              105     D2              BiDirectional  LAN91C111
+        U60             E19     IO.DATA2        BiDirectional  EP2S60_672FBGA
+        U35             9       D2              BiDirectional  IDT71V416S
+
+[00421] FSE_D1
+        U5              37      D1              BiDirectional  AM29LV128M
+        U4              106     D1              BiDirectional  LAN91C111
+        U60             G15     IO.DATA1        BiDirectional  EP2S60_672FBGA
+        U35             8       D1              BiDirectional  IDT71V416S
+
+[00422] FSE_D0
+        U5              35      D0              BiDirectional  AM29LV128M
+        U4              107     D0              BiDirectional  LAN91C111
+        U60             E16     IO.DATA0        BiDirectional  EP2S60_672FBGA
+        U35             7       D0              BiDirectional  IDT71V416S
+
+[00423] PORSEL
+        U60             Y8      PORSEL.PORSEL   BiDirectional  EP2S60_672FBGA
+        R167            1       1               Passive        330
+        R166            2       2               Passive        5K6
+
+[00424] IO_PULLUP_N
+        R50             1       1               Passive        330
+        U60             AE2     nIO_PULLUP.nIO_ BiDirectional  EP2S60_672FBGA
+        R49             2       2               Passive        5K6
+
+[00425] ENET_SRDY_N
+        U4              43      SRDY#           Output         LAN91C111
+        U60             AB8     IO.DQSn0B       BiDirectional  EP2S60_672FBGA
+
+[00426] PLD_CLKOUT
+        R213            2       2               Passive        33
+        U2              11      INB             Input          49FCT3805
+
+[00427] ENET_VLBUS_N
+        U4              40      VLBUS#          Input          LAN91C111
+        U60             AE3     IO.DQS1B        BiDirectional  EP2S60_672FBGA
+
+[00428] ENET_BE_N3
+        U4              97      BE3#            Input          LAN91C111
+        U60             W12     IO.DQ8B2        BiDirectional  EP2S60_672FBGA
+
+[00429] MICTOR23
+        J25             9       9               Passive        Mictor38P
+        R207            2       2               Passive        5K6
+        U60             K4      IO.DIFFIO_RX58n BiDirectional  EP2S60_672FBGA
+
+[00430] ENET_BE_N2
+        U4              96      BE2#            Input          LAN91C111
+        U60             Y11     IO.DQ8B1        BiDirectional  EP2S60_672FBGA
+
+[00431] MICTOR22
+        J25             13      13              Passive        Mictor38P
+        U60             K3      IO.DIFFIO_RX58p BiDirectional  EP2S60_672FBGA
+
+[00432] ENET_BE_N1
+        U4              95      BE1#            Input          LAN91C111
+        U60             AF9     IO.DQ7B3        BiDirectional  EP2S60_672FBGA
+
+[00433] MICTOR21
+        J25             23      23              Passive        Mictor38P
+        U60             H2      IO.DIFFIO_RX57n BiDirectional  EP2S60_672FBGA
+
+[00434] ENET_BE_N0
+        U4              94      BE0#            Input          LAN91C111
+        U60             AD8     IO.DQ7B2        BiDirectional  EP2S60_672FBGA
+
+[00435] MICTOR20
+        J25             25      25              Passive        Mictor38P
+        U60             H1      IO.DIFFIO_RX57p BiDirectional  EP2S60_672FBGA
+
+[00436] MICTOR19
+        J25             27      27              Passive        Mictor38P
+        U60             G2      IO.DIFFIO_RX56n BiDirectional  EP2S60_672FBGA
+
+[00437] MICTOR18
+        J25             29      29              Passive        Mictor38P
+        U60             G1      IO.DIFFIO_RX56p BiDirectional  EP2S60_672FBGA
+
+[00438] MICTOR17
+        J25             31      31              Passive        Mictor38P
+        U60             J4      IO.DIFFIO_RX55n BiDirectional  EP2S60_672FBGA
+
+[00439] MICTOR16
+        J25             33      33              Passive        Mictor38P
+        U60             J3      IO.DIFFIO_RX55p BiDirectional  EP2S60_672FBGA
+
+[00440] MICTOR15
+        J25             35      35              Passive        Mictor38P
+        U60             H4      IO.DIFFIO_RX54n BiDirectional  EP2S60_672FBGA
+
+[00441] MICTOR14
+        J25             37      37              Passive        Mictor38P
+        U60             H3      IO.DIFFIO_RX54p BiDirectional  EP2S60_672FBGA
+
+[00442] MICTOR13
+        J25             8       8               Passive        Mictor38P
+        U60             G4      IO.DIFFIO_RX53n BiDirectional  EP2S60_672FBGA
+
+[00443] MICTOR12
+        J25             10      10              Passive        Mictor38P
+        U60             G3      IO.DIFFIO_RX53p BiDirectional  EP2S60_672FBGA
+
+[00444] MICTOR11
+        J25             16      16              Passive        Mictor38P
+        U60             F4      IO.DIFFIO_RX52n BiDirectional  EP2S60_672FBGA
+
+[00445] MICTOR10
+        J25             18      18              Passive        Mictor38P
+        U60             F3      IO.DIFFIO_RX52p BiDirectional  EP2S60_672FBGA
+
+[00446] MICTOR9
+        J25             20      20              Passive        Mictor38P
+        U60             F2      IO.DIFFIO_RX51n BiDirectional  EP2S60_672FBGA
+
+[00447] PLD_RECONFIGREQ_N
+        U60             J20     IO.DIFFIO_TX31p BiDirectional  EP2S60_672FBGA
+        R106            2       2               Passive        5K6
+        U3              94      IO              Passive        EPM7128
+
+[00448] MICTOR8
+        J25             22      22              Passive        Mictor38P
+        U60             F1      IO.DIFFIO_RX51p BiDirectional  EP2S60_672FBGA
+
+[00449] MICTOR7
+        J25             24      24              Passive        Mictor38P
+        U60             E4      IO.DIFFIO_RX50n BiDirectional  EP2S60_672FBGA
+
+[00450] MICTOR6
+        J25             26      26              Passive        Mictor38P
+        U60             E3      IO.DIFFIO_RX50p BiDirectional  EP2S60_672FBGA
+
+[00451] MICTOR5
+        J25             28      28              Passive        Mictor38P
+        U60             E2      IO.DIFFIO_RX49n BiDirectional  EP2S60_672FBGA
+
+[00452] MICTOR4
+        J25             30      30              Passive        Mictor38P
+        U60             E1      IO.DIFFIO_RX49p BiDirectional  EP2S60_672FBGA
+
+[00453] MICTOR3
+        J25             32      32              Passive        Mictor38P
+        U60             D3      IO.DIFFIO_RX48n BiDirectional  EP2S60_672FBGA
+
+[00454] N686103
+        R199            1       1               Passive        200
+        LED1            2       CATHODE         Passive        LedG
+
+[00455] PROTO5_IO19_230617
+        U29             22      A9              BiDirectional  PI5C3384
+        J16             27      27              Passive        2x20Header
+
+[00456] MICTOR2
+        J25             34      34              Passive        Mictor38P
+        U60             D2      IO.DIFFIO_RX48p BiDirectional  EP2S60_672FBGA
+
+[00457] N686130
+        R200            1       1               Passive        200
+        LED2            2       CATHODE         Passive        LedY
+
+[00458] MICTOR1
+        J25             36      36              Passive        Mictor38P
+        U60             C2      IO.DIFFIO_RX47n BiDirectional  EP2S60_672FBGA
+
+[00459] N686157
+        R201            1       1               Passive        200
+        LED3            2       CATHODE         Passive        LedG
+
+[00460] PROTO5_IO10_230619
+        U29             3       A0              BiDirectional  PI5C3384
+        J16             13      13              Passive        2x20Header
+
+[00461] MICTOR0
+        J25             38      38              Passive        Mictor38P
+        U60             C1      IO.DIFFIO_RX47p BiDirectional  EP2S60_672FBGA
+
+[00462] PLD_USERLED
+        LED1            1       ANODE           Passive        LedG
+        U3              67      IO              Passive        EPM7128
+
+[00463] PROTO5_IO13_230620
+        U29             8       A3              BiDirectional  PI5C3384
+        J16             16      16              Passive        2x20Header
+
+[00464] PLD_LOADLED
+        LED3            1       ANODE           Passive        LedG
+        U3              69      IO              Passive        EPM7128
+
+[00465] N2254708
+        R219            1       1               Passive        0_jump
+        U60             Y19     VCCSEL.VCCSEL   BiDirectional  EP2S60_672FBGA
+
+[00466] PROTO5_IO18_230621
+        U29             21      A8              BiDirectional  PI5C3384
+        J16             25      25              Passive        2x20Header
+
+[00467] TDO_753454
+        R179            1       1               Passive        0_jump
+        J24             3       3               Passive        2x5Header
+        R228            2       2               Passive        49R9
+
+[00468] PLD_FACTORYLED
+        LED2            1       ANODE           Passive        LedY
+        U3              68      IO              Passive        EPM7128
+
+[00469] CF_ATASEL5_N
+        U25             11      A4              BiDirectional  PI5C3384
+        CON3            9       ATA_SEL#        Passive        CF_Header
+
+[00470] MICTOR_CLK
+        J25             5       5               Passive        Mictor38P
+        R214            2       2               Passive        33
+
+[00471] PLD_ERRLED
+        LED4            1       ANODE           Passive        LedR
+        U3              70      IO              Passive        EPM7128
+
+[00472] CF_PRESENT5_N
+        U25             18      A7              BiDirectional  PI5C3384
+        CON3            26      CD1#            Input          CF_Header
+        R218            2       2               Passive        10K
+
+[00473] PROTO5_IO36_230623
+        U30             17      A6              BiDirectional  PI5C3384
+        J15             11      11              Passive        2x7Header
+
+[00474] FSE_A24
+        U5              1       NC.A23          BiDirectional  AM29LV128M
+        U60             P5      IO.DIFFIO_TX61n BiDirectional  EP2S60_672FBGA
+        U3              40      IO              Passive        EPM7128
+
+[00475] TRST_753456
+        R183            1       1               Passive        0_jump
+        U60             AB21    TRST.TRST       BiDirectional  EP2S60_672FBGA
+        R205            2       2               Passive        5K6
+        R202            1       1               Passive        0_jump
+
+[00476] CF_CS5_N
+        U25             21      A8              BiDirectional  PI5C3384
+        CON3            32      CS1#            Input          CF_Header
+
+[00477] PROTO5_IO25_230624
+        U28             14      A5              BiDirectional  PI5C3384
+        J16             35      35              Passive        2x20Header
+
+[00478] TDI_753457
+        R182            1       1               Passive        0_jump
+        U60             AE25    TDI.TDI         BiDirectional  EP2S60_672FBGA
+        RP71            1       1               Passive        1K
+        J24             9       9               Passive        2x5Header
+
+[00479] PROTO5_IO3_230625
+        U27             8       A3              BiDirectional  PI5C3384
+        J16             6       6               Passive        2x20Header
+
+[00480] TMS_753458
+        R181            1       1               Passive        0_jump
+        U60             AD24    TMS.TMS         BiDirectional  EP2S60_672FBGA
+        RP71            2       2               Passive        1K
+        J24             5       5               Passive        2x5Header
+
+[00481] LEDG7
+        RP13            1       1               Passive        100
+        U60             AB25    IO.DIFFIO_RX11n BiDirectional  EP2S60_672FBGA
+
+[00482] TR_CLK
+        J25             6       6               Passive        Mictor38P
+        U60             J2      IO.DIFFIO_RX59n BiDirectional  EP2S60_672FBGA
+
+[00483] LEDG6
+        RP13            2       2               Passive        100
+        U60             AB26    IO.DIFFIO_RX11p BiDirectional  EP2S60_672FBGA
+
+[00484] TCK_753460
+        R180            1       1               Passive        0_jump
+        U60             AB22    TCK.TCK         BiDirectional  EP2S60_672FBGA
+        RP71            4       4               Passive        1K
+        J24             1       1               Passive        2x5Header
+
+[00485] LEDG5
+        RP13            3       3               Passive        100
+        U60             AB23    IO.DIFFIO_RX10n BiDirectional  EP2S60_672FBGA
+
+[00486] MICTOR24
+        J25             7       7               Passive        Mictor38P
+        U60             J1      IO.DIFFIO_RX59p BiDirectional  EP2S60_672FBGA
+
+[00487] PROTO5_IO4_230629
+        U27             11      A4              BiDirectional  PI5C3384
+        J16             7       7               Passive        2x20Header
+
+[00488] LEDG4
+        RP13            4       4               Passive        100
+        U60             AB24    IO.DIFFIO_RX10p BiDirectional  EP2S60_672FBGA
+
+[00489] PROTO5_IO34_230630
+        U30             11      A4              BiDirectional  PI5C3384
+        J15             9       9               Passive        2x7Header
+
+[00490] LEDG3
+        RP11            1       1               Passive        100
+        U60             AC24    IO.DIFFIO_RX9n  BiDirectional  EP2S60_672FBGA
+
+[00491] PROTO5_IO12_230631
+        U29             7       A2              BiDirectional  PI5C3384
+        J16             15      15              Passive        2x20Header
+
+[00492] LEDG2
+        RP11            2       2               Passive        100
+        U60             AC25    IO.DIFFIO_RX9p  BiDirectional  EP2S60_672FBGA
+
+[00493] PROTO5_IO39_230632
+        U30             22      A9              BiDirectional  PI5C3384
+        J15             14      14              Passive        2x7Header
+
+[00494] LEDG1
+        RP11            3       3               Passive        100
+        U60             AD25    IO.DIFFIO_RX8n  BiDirectional  EP2S60_672FBGA
+
+[00495] LEDG0
+        RP11            4       4               Passive        100
+        U60             AD26    IO.DIFFIO_RX8p  BiDirectional  EP2S60_672FBGA
+
+[00496] HEX_1A
+        RP7             5       5               Passive        220
+        U60             M24     IO.DIFFIO_TX25p BiDirectional  EP2S60_672FBGA
+
+[00497] N2451717
+        U60             F6      TDO.TDO         BiDirectional  EP2S60_672FBGA
+        R228            1       1               Passive        49R9
+
+[00498] PROTO5_IO33_230635
+        U30             8       A3              BiDirectional  PI5C3384
+        J15             8       8               Passive        2x7Header
+
+[00499] VUNREG
+        J17             1       1               Passive        2x10Header
+        C347            1       1               Passive        10u
+        C348            1       1               Passive        10u
+        C345            1       1               Passive        10u
+        U54             2       Vin             Input          LM2678_5.0V
+        C344            1       1               Passive        10u
+        D34             1       +DC             Passive        MB1005MS
+        C359            1       1               Passive        10u
+        C360            1       1               Passive        10u
+        U55             2       Vin             Input          LM2676_3.3V
+        Q1              8       D4              Passive        FDS6680A
+        Q1              7       D3              Passive        FDS6680A
+        Q1              6       D2              Passive        FDS6680A
+        Q1              5       D1              Passive        FDS6680A
+        R220            1       1               Passive        1M4
+        R221            1       1               Passive        4R7
+        C362            1       1               Passive        47u
+        R229            1       1               Passive        2M
+        C379            1       1               Passive        0u1
+        C380            1       1               Passive        0u001
+        Vureg1          1       1               Passive        Test_Header
+        J13             1       1               Passive        2x10Header
+
+[00500] HEX_0B
+        RP5             2       2               Passive        220
+        U60             M19     IO.DIFFIO_TX21n BiDirectional  EP2S60_672FBGA
+
+[00501] HEX_0C
+        RP5             3       3               Passive        220
+        U60             N20     IO.DIFFIO_TX22p BiDirectional  EP2S60_672FBGA
+
+[00502] VCC5
+        D21             2       ANODE           Passive        1N4001SM
+        D22             2       ANODE           Passive        1N4001SM
+        J15             2       2               Passive        2x7Header
+        C283            1       1               Passive        0u1
+        C238            1       1               Passive        1u
+        C244            1       1               Passive        10u
+        C243            1       1               Passive        10u
+        C239            1       1               Passive        1u
+        L10             2       2               Passive        22uH
+        U54             6       Feedback        Output         LM2678_5.0V
+        C82             1       1               Passive        100u
+        C115            1       1               Passive        100u
+        C116            1       1               Passive        100u
+        R211            1       1               Passive        100
+        5V1             1       1               Passive        Test_Header
+        5V2             1       1               Passive        Test_Header
+        D19             2       ANODE           Passive        1N4001SM
+        D20             2       ANODE           Passive        1N4001SM
+        R215            1       1               Passive        10K
+        R218            1       1               Passive        10K
+        U59             4       Vin             Input          FDC6323L
+        R216            1       1               Passive        750K
+        C272            1       1               Passive        0u1
+        C273            1       1               Passive        0u1
+        J12             2       2               Passive        2x7Header
+        C278            1       1               Passive        0u1
+        U18             2       VCC5            Power          LTC1326-5
+        L1              1       1               Passive        47nH
+        C23             1       1               Passive        0u1
+
+[00503] HEX_0D
+        RP5             4       4               Passive        220
+        U60             N19     IO.DIFFIO_TX22n BiDirectional  EP2S60_672FBGA
+
+[00504] PROTO5_IO0_230638
+        U27             3       A0              BiDirectional  PI5C3384
+        J16             3       3               Passive        2x20Header
+
+[00505] HEX_0E
+        RP6             1       1               Passive        220
+        U60             N22     IO.DIFFIO_TX23p BiDirectional  EP2S60_672FBGA
+
+[00506] N484067
+        R13             2       2               Passive        330
+        Y2              1       OE_n            Input          50Mhz
+
+[00507] PROTO5_IO32_230639
+        U30             7       A2              BiDirectional  PI5C3384
+        J15             7       7               Passive        2x7Header
+
+[00508] HEX_0F
+        RP6             2       2               Passive        220
+        U60             N21     IO.DIFFIO_TX23n BiDirectional  EP2S60_672FBGA
+
+[00509] N471486
+        U2              10      INA             Input          49FCT3805
+        J4              1       CENTER          Passive        SMAREC
+        Y2              5       OUT             Output         50Mhz
+        R15             2       2               Passive        49R9
+
+[00510] HEX_0A
+        RP5             1       1               Passive        220
+        U60             M20     IO.DIFFIO_TX21p BiDirectional  EP2S60_672FBGA
+
+[00511] PROTO5_IO29_230641
+        U28             22      A9              BiDirectional  PI5C3384
+        J15             4       4               Passive        2x7Header
+
+[00512] TXD1
+        D28             2       CATHODE         Passive        LedG
+        U52             22      T3IN            Input          MAX3237
+        U60             J5      IO.DIFFIO_TX49p BiDirectional  EP2S60_672FBGA
+
+[00513] HEX_0G
+        RP6             3       3               Passive        220
+        U60             M22     IO.DIFFIO_TX24p BiDirectional  EP2S60_672FBGA
+
+[00514] PROTO5_IO23_230642
+        U28             8       A3              BiDirectional  PI5C3384
+        J16             32      32              Passive        2x20Header
+
+[00515] HEX_1F
+        RP8             7       7               Passive        220
+        U60             L20     IO.DIFFIO_TX27n BiDirectional  EP2S60_672FBGA
+
+[00516] RTS1
+        U52             18      R3OUT           Output         MAX3237
+        U60             H8      IO.DIFFIO_TX50n BiDirectional  EP2S60_672FBGA
+
+[00517] CTS1
+        U52             19      T4IN            Input          MAX3237
+        U60             J6      IO.DIFFIO_TX49n BiDirectional  EP2S60_672FBGA
+
+[00518] HEX_0DP
+        RP6             4       4               Passive        220
+        U60             M21     IO.DIFFIO_TX24n BiDirectional  EP2S60_672FBGA
+
+[00519] DSR1
+        U52             23      T2IN            Input          MAX3237
+        U60             H5      IO.DIFFIO_TX48p BiDirectional  EP2S60_672FBGA
+
+[00520] HEX_1DP
+        RP8             5       5               Passive        220
+        U60             L22     IO.DIFFIO_TX28n BiDirectional  EP2S60_672FBGA
+
+[00521] HEX_1D
+        RP7             8       8               Passive        220
+        U60             L18     IO.DIFFIO_TX26n BiDirectional  EP2S60_672FBGA
+
+[00522] RXD1
+        D27             2       CATHODE         Passive        LedG
+        U52             20      R2OUT           Output         MAX3237
+        U60             H7      IO.DIFFIO_TX50p BiDirectional  EP2S60_672FBGA
+
+[00523] PROTO5_IO2_230646
+        U27             7       A2              BiDirectional  PI5C3384
+        J16             5       5               Passive        2x20Header
+
+[00524] RI1
+        U52             17      T5IN            Input          MAX3237
+        U60             H6      IO.DIFFIO_TX48n BiDirectional  EP2S60_672FBGA
+
+[00525] HEX_1G
+        RP8             6       6               Passive        220
+        U60             L23     IO.DIFFIO_TX28p BiDirectional  EP2S60_672FBGA
+
+[00526] HEX_1E
+        RP8             8       8               Passive        220
+        U60             L21     IO.DIFFIO_TX27p BiDirectional  EP2S60_672FBGA
+
+[00527] DTR1
+        U52             21      R1OUT           Output         MAX3237
+        U60             G6      IO.DIFFIO_TX47p BiDirectional  EP2S60_672FBGA
+
+[00528] DCD1
+        U52             24      T1IN            Input          MAX3237
+        U60             G7      IO.DIFFIO_TX47n BiDirectional  EP2S60_672FBGA
+
+[00529] HEX_1C
+        RP7             7       7               Passive        220
+        U60             L19     IO.DIFFIO_TX26p BiDirectional  EP2S60_672FBGA
+
+[00530] N9974943
+        Q2              4       G               Passive        FDS6680A
+        U61             12      BG              Passive        LTC1778
+
+[00531] PROTO5_IO6_230649
+        U27             17      A6              BiDirectional  PI5C3384
+        J16             9       9               Passive        2x20Header
+
+[00532] DTR2
+        U58             21      R1OUT           Output         MAX3237
+        U60             J7      IO.DIFFIO_TX51p BiDirectional  EP2S60_672FBGA
+
+[00533] HEX_1B
+        RP7             6       6               Passive        220
+        U60             M23     IO.DIFFIO_TX25n BiDirectional  EP2S60_672FBGA
+
+[00534] PLD_CLKFB
+        U60             N2      CLK11p.INPUT    BiDirectional  EP2S60_672FBGA
+        RP72            2       2               Passive        33
+
+[00535] N9974779
+        C370            1       1               Passive        0u1
+        U61             5       ITH             Passive        LTC1778
+        R224            1       1               Passive        10K
+
+[00536] RXD2
+        D32             2       CATHODE         Passive        LedG
+        U58             20      R2OUT           Output         MAX3237
+        U60             L4      IO.DIFFIO_TX54p BiDirectional  EP2S60_672FBGA
+
+[00537] N9975461
+        U61             2       PGOOD           Passive        LTC1778
+        R222            2       2               Passive        100K
+
+[00538] PROTO5_IO1_230651
+        U27             4       A1              BiDirectional  PI5C3384
+        J16             4       4               Passive        2x20Header
+
+[00539] DSR2
+        U58             23      T2IN            Input          MAX3237
+        U60             K6      IO.DIFFIO_TX52p BiDirectional  EP2S60_672FBGA
+
+[00540] INTVCC1_2
+        C371            1       1               Passive        4u7
+        U61             4       FCB             Passive        LTC1778
+        U61             3       VRNG            Passive        LTC1778
+        R222            1       1               Passive        100K
+        D35             2       ANODE           Passive        CMDSH2-3
+        U61             11      INTVCC          Passive        LTC1778
+
+[00541] CTS2
+        U58             19      T4IN            Input          MAX3237
+        U60             K9      IO.DIFFIO_TX53n BiDirectional  EP2S60_672FBGA
+
+[00542] N9975409
+        U61             10      VIN             Passive        LTC1778
+        C372            1       1               Passive        0u1
+        R221            2       2               Passive        4R7
+
+[00543] DCD2
+        U58             24      T1IN            Input          MAX3237
+        U60             J8      IO.DIFFIO_TX51n BiDirectional  EP2S60_672FBGA
+
+[00544] N9974859
+        Q2              5       D1              Passive        FDS6680A
+        Q2              6       D2              Passive        FDS6680A
+        Q2              7       D3              Passive        FDS6680A
+        Q2              8       D4              Passive        FDS6680A
+        Q1              2       S2              Passive        FDS6680A
+        Q1              3       S3              Passive        FDS6680A
+        D36             1       CATHODE         Passive        MBRS340
+        Q1              1       S1              Passive        FDS6680A
+        C363            2       2               Passive        0u22
+        U61             14      SW              Passive        LTC1778
+        L12             1       1               Passive        2u8H
+
+[00545] SDRAM_DQM3
+        U57             59      DQM3            Passive        MT48LC4M32B2
+        U60             AF8     IO.DQ5B3        BiDirectional  EP2S60_672FBGA
+
+[00546] RTS2
+        U58             18      R3OUT           Output         MAX3237
+        U60             L5      IO.DIFFIO_TX54n BiDirectional  EP2S60_672FBGA
+
+[00547] N9974939
+        Q1              4       G               Passive        FDS6680A
+        U61             15      TG              Passive        LTC1778
+
+[00548] PROTO5_IO16_230655
+        U29             17      A6              BiDirectional  PI5C3384
+        J16             21      21              Passive        2x20Header
+
+[00549] SDRAM_DQM2
+        U57             28      DQM2            Passive        MT48LC4M32B2
+        U60             AC7     IO.DQ5B2        BiDirectional  EP2S60_672FBGA
+
+[00550] SRAM_CS_N
+        U60             J19     IO.DIFFIO_TX31n BiDirectional  EP2S60_672FBGA
+        U35             6       CS_n            Input          IDT71V416S
+        U36             6       CS_n            Input          IDT71V416S
+        R81             1       1               Passive        5K6
+
+[00551] TXD2
+        D33             2       CATHODE         Passive        LedG
+        U58             22      T3IN            Input          MAX3237
+        U60             K8      IO.DIFFIO_TX53p BiDirectional  EP2S60_672FBGA
+
+[00552] N9975379
+        R220            2       2               Passive        1M4
+        U61             7       ION             Passive        LTC1778
+
+[00553] SDRAM_DQM1
+        U57             71      DQM1            Passive        MT48LC4M32B2
+        U60             AD7     IO.DQ5B1        BiDirectional  EP2S60_672FBGA
+
+[00554] RI2
+        U58             17      T5IN            Input          MAX3237
+        U60             K7      IO.DIFFIO_TX52n BiDirectional  EP2S60_672FBGA
+
+[00555] VCC1_2
+        C365            1       1               Passive        100u
+        C366            1       1               Passive        100u
+        C367            1       1               Passive        100u
+        R223            1       1               Passive        1K
+        C364            1       1               Passive        100u
+        C368            1       1               Passive        2u2
+        L12             2       2               Passive        2u8H
+        C381            1       1               Passive        0u1
+        C382            1       1               Passive        0u001
+        1_2V2           1       1               Passive        Test_Header
+        1_2V1           1       1               Passive        Test_Header
+        C170            1       1               Passive        0u1
+        C169            1       1               Passive        0u1
+        C203            1       1               Passive        0u001
+        C201            1       1               Passive        0u001
+        C200            1       1               Passive        0u001
+        C199            1       1               Passive        0u001
+        C196            1       1               Passive        0u001
+        C195            1       1               Passive        0u001
+        C197            1       1               Passive        0u001
+        C198            1       1               Passive        0u001
+        L6              1       1               Passive        SMFerrite
+        C327            1       1               Passive        1u
+        C219            1       1               Passive        10u
+        C220            1       1               Passive        10u
+        C331            1       1               Passive        1u
+        L7              1       1               Passive        SMFerrite
+        C174            1       1               Passive        0u1
+        C173            1       1               Passive        0u1
+        C172            1       1               Passive        0u1
+        C177            1       1               Passive        0u1
+        C178            1       1               Passive        0u1
+        C176            1       1               Passive        0u1
+        C175            1       1               Passive        0u1
+        C202            1       1               Passive        0u001
+        C171            1       1               Passive        0u1
+        C217            1       1               Passive        0u01
+        C218            1       1               Passive        0u01
+        C204            1       1               Passive        0u001
+        U60             U18     VCCINT_I        Input          EP2S60_672FBGA
+        U60             N14     VCCINT_I        Input          EP2S60_672FBGA
+        U60             T15     VCCINT_I        Input          EP2S60_672FBGA
+        U60             T17     VCCINT_I        Input          EP2S60_672FBGA
+        U60             M11     VCCINT_I        Input          EP2S60_672FBGA
+        U60             R12     VCCINT_I        Input          EP2S60_672FBGA
+        U60             R14     VCCINT_I        Input          EP2S60_672FBGA
+        U60             N16     VCCINT_I        Input          EP2S60_672FBGA
+        U60             R16     VCCINT_I        Input          EP2S60_672FBGA
+        U60             V9      VCCINT_I        Input          EP2S60_672FBGA
+        U60             T13     VCCINT_I        Input          EP2S60_672FBGA
+        U60             U16     VCCINT_I        Input          EP2S60_672FBGA
+        U60             M15     VCCINT_I        Input          EP2S60_672FBGA
+        U60             T11     VCCINT_I        Input          EP2S60_672FBGA
+        U60             M13     VCCINT_I        Input          EP2S60_672FBGA
+        U60             L10     VCCINT_I        Input          EP2S60_672FBGA
+        U60             N12     VCCINT_I        Input          EP2S60_672FBGA
+        U60             P15     VCCINT_I        Input          EP2S60_672FBGA
+        U60             P13     VCCINT_I        Input          EP2S60_672FBGA
+        U60             P11     VCCINT_I        Input          EP2S60_672FBGA
+        U60             L14     VCCINT_I        Input          EP2S60_672FBGA
+        U60             L16     VCCINT_I        Input          EP2S60_672FBGA
+        U60             L12     VCCINT_I        Input          EP2S60_672FBGA
+        U60             U10     VCCINT_I        Input          EP2S60_672FBGA
+        U18             3       VCCA            Power          LTC1326-5
+
+[00556] PROTO5_IO22_230657
+        U28             7       A2              BiDirectional  PI5C3384
+        J16             31      31              Passive        2x20Header
+
+[00557] CPLD_CLKOSC
+        U3              87      GCLK1           Passive        EPM7128
+        R210            2       2               Passive        33
+
+[00558] SDRAM_DQM0
+        U57             16      DQM0            Passive        MT48LC4M32B2
+        U60             AF7     IO.DQ5B0        BiDirectional  EP2S60_672FBGA
+
+[00559] VSENSE1_2
+        R225            1       1               Passive        2K
+        R223            2       2               Passive        1K
+        U61             8       VFB             Passive        LTC1778
+        C368            2       2               Passive        2u2
+
+[00560] N9975031
+        U61             16      BOOST           Passive        LTC1778
+        D35             1       CATHODE         Passive        CMDSH2-3
+        C363            1       1               Passive        0u22
+
+[00561] N1645772
+        J25             11      11              Passive        Mictor38P
+        R179            2       2               Passive        0_jump
+
+[00562] N9974775
+        C373            1       1               Passive        470p
+        R224            2       2               Passive        10K
+
+[00563] N1645775
+        J25             19      19              Passive        Mictor38P
+        R182            2       2               Passive        0_jump
+
+[00564] TXDM
+        RJ1             3       TDN             Input          RJ45INTLED
+        R25             2       2               Passive        49R9
+        U4              15      TPO-            BiDirectional  LAN91C111
+
+[00565] N1645763
+        J25             21      21              Passive        Mictor38P
+        R183            2       2               Passive        0_jump
+
+[00566] N1645766
+        J25             15      15              Passive        Mictor38P
+        R180            2       2               Passive        0_jump
+
+[00567] PROTO5_IO24_230663
+        U28             11      A4              BiDirectional  PI5C3384
+        J16             33      33              Passive        2x20Header
+
+[00568] N1645769
+        J25             17      17              Passive        Mictor38P
+        R181            2       2               Passive        0_jump
+
+[00569] PROTO5_IO8_230664
+        U27             21      A8              BiDirectional  PI5C3384
+        J16             11      11              Passive        2x20Header
+
+[00570] N17860
+        C41             1       1               Passive        33p
+        U4              128     XTAL2           Input          LAN91C111
+        Y3              2       2               Passive        25MHz
+
+[00571] PROTO5_IO26_230665
+        U28             17      A6              BiDirectional  PI5C3384
+        J16             36      36              Passive        2x20Header
+
+[00572] FSE_A0
+        U5              51      D15.A1          BiDirectional  AM29LV128M
+        U60             T2      IO.DIFFIO_RX63p BiDirectional  EP2S60_672FBGA
+        U3              1       IO              Passive        EPM7128
+
+[00573] PROTO5_IO15_230666
+        U29             14      A5              BiDirectional  PI5C3384
+        J16             18      18              Passive        2x20Header
+
+[00574] SDRAM_WE_N
+        R113            2       2               Passive        5K6
+        U57             17      WE_n            Passive        MT48LC4M32B2
+        U60             AE18    IO.DQS13B       BiDirectional  EP2S60_672FBGA
+
+[00575] VCCA
+        C29             1       1               Passive        0u001
+        RJ1             2       TCT             Input          RJ45INTLED
+        L2              1       1               Passive        47nH
+        C28             1       1               Passive        0u1
+
+[00576] CF_CS_N
+        U60             Y16     IO_H            BiDirectional  EP2S60_672FBGA
+        U25             20      B8              BiDirectional  PI5C3384
+
+[00577] ENET_LCLK
+        U4              42      LCLK            Input          LAN91C111
+        U60             W11     IO.DQ6B1        BiDirectional  EP2S60_672FBGA
+

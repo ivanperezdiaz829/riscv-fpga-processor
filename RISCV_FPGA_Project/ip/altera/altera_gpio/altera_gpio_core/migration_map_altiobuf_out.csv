@@ -1,0 +1,13 @@
+CONDITION,DO
+,"set_new_param PIN_TYPE ""output"""
+,set_new_param SIZE [get_old_param number_of_channels]
+,set_new_param gui_diff_buff [get_old_param use_differential_mode]
+,set_new_param gui_pseudo_diff [get_old_param pseudo_differential_mode]
+,set_new_param gui_bus_hold [get_old_param enable_bus_hold]
+,set_new_param gui_open_drain [get_old_param open_drain_output]
+,"set_new_param gui_io_reg_mode ""none"""
+,"set_new_param gui_hr_logic ""false"""
+,"set_new_param gui_separate_io_clks ""false"""
+,"set_new_param gui_areset_mode ""none"""
+,"set_new_param gui_sreset_mode ""none"""
+,set_new_param device_family [get_old_param INTENDED_DEVICE_FAMILY]

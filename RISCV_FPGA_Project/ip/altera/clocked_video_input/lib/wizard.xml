@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="clocked_video_input" version="13.1" sopc_builder="false" dsp_builder="false">
+<iptb core_dir="%wip_toolbench" flow_dir="%w../../common/ip_toolbench/v1.3.0/bin" lib_dir="%w" launch_params="-parameterization.megawizard2:1  -hide_splash -parameterization.activate_atstartup:1 -hide_iptb -parameterization.window_location:center -limitfiles" />
+</package>

@@ -1,0 +1,10 @@
+[Interfaces|External Memory|RLDRAM II]
+RLDRAM II Controller v13.1 = "%w../../common/ip_toolbench/v1.3.0/bin/ip_toolbench.exe" %f %o %h  -greybox.wrapper_suffix:_wrapper -lib_dir:"%w" -flow_dir:"%w../../common/ip_toolbench/v1.3.0/bin" -wizard:rldram_ii_controller
+<INFO>
+<QIP_FILE_ENABLED VALUE="ON"/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix II GX | Stratix II | HardCopy II"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<ALIAS>RLDRAM II Controller v13.1</ALIAS>
+<ALIAS>RLDRAM II Controller v13.0</ALIAS>
+</INFO>

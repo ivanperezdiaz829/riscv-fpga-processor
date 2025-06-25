@@ -1,0 +1,35 @@
+
+
+target_hold_over_setup_ratio_for_read_capture   =       1.0      -- Optimum setting would be when setup and hold margins are equal
+min_acceptable_read_margin                      =       50       -- This could be reduced if there was supporting system char data
+
+-- smaller for Stratix-II compared to Stratix
+pes_t_rise_to_vref                             =   500
+opt_t_rise_to_vref                             =   500       
+
+t_dll_phase_error                      =         0
+
+tJITTER_pll                                         = 150
+
+-- fbc mode only
+pll_normal_mode_phase_offset                        = 0         -- 10000         -- completely unknown for Normal mode at this time (but lets try the very preliminary figure 10ns figure for ZDB mode)
+pll_normal_mode_phase_error                         = 0         -- = 200           -- approx 400ps 'variation' for ZDB mode equates to an error of +/- 200ps
+
+
+-- Prelim. Data
+    -- All DTM extraction min times are scaled by this (ie. exclude DQS delay table)
+    pes_scale_min_timing_from_minus_40_to_0degc         =   1.10        -- ie 5%
+    opt_scale_min_timing_from_minus_40_to_0degc         =   1.10 
+ 
+    
+    -- All DTM extraction max times are scaled by this  (ie. exclude DQS delay table)
+    pes_scale_max_timing                                =  1.00
+    opt_scale_max_timing                                =  1.00
+
+    -- How FAST can a path be (compared to SLOW (MAX) delay) under SLOW (MAX) PVT conditions
+    pes_min_delay_scaling_under_MAX_conditions     =     0.97            -- ie. 5% faster
+    opt_min_delay_scaling_under_MAX_conditions     =     1.00
+    
+    -- How SLOW can a path be (compared to FAST (MIN) delay) under FAST (MIN) PVT conditions
+    pes_max_delay_scaling_under_MIN_conditions    =      1.03           -- ie. 5% slower
+    opt_max_delay_scaling_under_MIN_conditions    =      1.00

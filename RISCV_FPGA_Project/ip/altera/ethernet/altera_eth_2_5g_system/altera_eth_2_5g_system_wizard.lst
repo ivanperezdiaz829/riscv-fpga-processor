@@ -1,0 +1,11 @@
+[Interfaces|Ethernet]
+Altera Ethernet 2.5Gb Design Example v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_eth_2_5g_system_hw.tcl" --familyparameter:DEVICE_FAMILY --wizard:altera_eth_2_5g_system --cusp_ip:true --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix IV | Stratix V | Arria II GX | Arria V | Arria V GZ | Cyclone V"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<VISIBILITY FOR_CREATE="OFF"/>
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Altera Ethernet 2.5Gb Design Example v13.0</ALIAS>
+</INFO>

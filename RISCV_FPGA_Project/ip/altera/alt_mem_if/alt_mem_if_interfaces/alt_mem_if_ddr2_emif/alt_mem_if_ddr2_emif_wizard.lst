@@ -1,0 +1,13 @@
+[Interfaces|External Memory|DDR2 SDRAM]
+DDR2 SDRAM Controller with UniPHY v13.1= "%t" "%w/../../../common/lib/megawizard.pl" --wizard_file:"%w/alt_mem_if_ddr2_emif_hw.tcl" --wizard:altera_mem_if_ddr2_emif --familyParameter:SYS_INFO_DEVICE_FAMILY --unencrypted:Verilog --early_gen:on --example_variation_file:text --librarian-path:"%w/*_hw.tcl,$" %f %o %h 
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Stratix IV | Stratix III | Arria II GZ | Arria V | Cyclone V | Arria V GZ | MAX 10 FPGA"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>DDR2 SDRAM Controller with UniPHY v13.0</ALIAS>
+<ALIAS>DDR2 SDRAM Controller with UniPHY v12.1</ALIAS>
+<ALIAS>DDR2 SDRAM Controller with UniPHY v12.0</ALIAS>
+<ALIAS>DDR2 SDRAM Controller with UniPHY v11.1</ALIAS>
+</INFO>

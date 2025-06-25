@@ -1,0 +1,73 @@
+CLASS ddr_high_perf
+{
+      CALIFORNIA
+      {
+        Is_Hidden = "1"; 
+      }
+      ASSOCIATED_FILES
+      {
+         Generator_Program = "core_generate_program.pl";
+         Test_Generator_Program = "generate_ddr_sim_model.pl";
+      }
+      USER_INTERFACE
+      {
+         USER_LABELS
+         {
+            name="DDR SDRAM Controller with ALTMEMPHY - Altera Corporation";
+            technology = "Memories and Memory Controllers/External Memory Interfaces/Memory Interfaces/DDR";
+            license = "full";
+            provider="Altera Corporation";
+         }
+      }
+      MODULE_DEFAULTS
+      {
+         class = "ddr_high_perf";
+         class_version = "8.1";
+         iss_model_name = "altera_memory";
+         SYSTEM_BUILDER_INFO
+         {
+            Instantiate_In_System_Module = "1";
+            Is_Enabled = "1";
+            Default_Module_Name = "ddr_sdram";
+            Required_Device_Family = "STRATIXIIGXLITE,STRATIXIIGX,STRATIXII,STRATIXIII,CYCLONEIII,STINGRAY,STRATIXIV,ARRIAII,TARPON,HARDCOPYIII,HARDCOPYIV,CYCLONEIVE";
+            Pins_Assigned_Automatically = "1";
+         }         
+         SIMULATION
+         {
+           DISPLAY
+           {
+                SIGNAL a  { name = "pll_ref_clk";        radix = "hexadecimal"; format = "Logic";}
+                SIGNAL b  { name = "soft_reset_n";       radix = "hexadecimal"; format = "Logic";}
+                SIGNAL c  { name = "global_reset_n";     radix = "hexadecimal"; format = "Logic";}
+                          
+                SIGNAL d  { name = "reset_phy_clk_n";    radix = "hexadecimal"; format = "Logic";}
+                SIGNAL e  { name = "reset_request_n";    radix = "hexadecimal"; format = "Logic";}
+                SIGNAL f  { name = "phy_clk";            radix = "hexadecimal"; format = "Logic";}
+                          
+                SIGNAL g  { name = "local_address";      radix = "hexadecimal"; format = "Logic";}
+                SIGNAL h  { name = "local_size";         radix = "hexadecimal"; format = "Logic";}
+                SIGNAL i  { name = "local_burstbegin";   radix = "hexadecimal"; format = "Logic";}
+                SIGNAL j  { name = "local_read_req";     radix = "hexadecimal"; format = "Logic";}
+                SIGNAL k  { name = "local_write_req";    radix = "hexadecimal"; format = "Logic";}
+                SIGNAL l  { name = "local_ready";        radix = "hexadecimal"; format = "Logic";}
+                SIGNAL m  { name = "local_wdata";        radix = "hexadecimal"; format = "Logic";}
+                SIGNAL n  { name = "local_be";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL o  { name = "local_rdata_valid";  radix = "hexadecimal"; format = "Logic";}
+                SIGNAL p  { name = "local_rdata";        radix = "hexadecimal"; format = "Logic";}
+                          
+                SIGNAL q  { name = "mem_clk";            radix = "hexadecimal"; format = "Logic";}
+                SIGNAL r  { name = "mem_cs_n";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL s  { name = "mem_addr";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL t  { name = "mem_ba";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL u  { name = "mem_ras_n";          radix = "hexadecimal"; format = "Logic";}
+                SIGNAL v  { name = "mem_cas_n";          radix = "hexadecimal"; format = "Logic";}
+                SIGNAL w  { name = "mem_we_n";           radix = "hexadecimal"; format = "Logic";}
+                SIGNAL x  { name = "mem_dm";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL y  { name = "mem_dq";             radix = "hexadecimal"; format = "Logic";}
+                SIGNAL z  { name = "mem_dqs";            radix = "hexadecimal"; format = "Logic";}
+                SIGNAL aa { name = "mem_cke";            radix = "hexadecimal"; format = "Logic";}
+           }   
+         }
+      }
+}
+  

@@ -1,0 +1,13 @@
+[Interfaces|Ethernet]
+40G/100G Ethernet v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard:alt_e40_e100 --familyparameter:DEVICE_FAMILY --early_gen:on --wizard_file:"%w/alt_e40_e100_hw.tcl" %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE|Stratix V|Stratix IV|Arria V GZ|Arria 10"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>40G/100G Ethernet</ALIAS>
+<ALIAS>40G/100G Ethernet v12.1</ALIAS>
+<ALIAS>40G/100G Ethernet v13.0</ALIAS>
+<ALIAS>40G/100G Ethernet v13.1</ALIAS>
+</INFO>

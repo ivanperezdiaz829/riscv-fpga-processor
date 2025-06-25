@@ -1,0 +1,48 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains information for all supported device/packages
+-- It will describe:  
+--  - which package exist for which device  
+--  - number of row and columns for each device  
+-- It will be used by the constraint script to apply all constraints to each 
+-- pin and any logic related to that pin. 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+list 	one_point_eight_pin_list		=	clock_source_pin_name 
+list 	input_register_delay		    =	dq_pin_name
+list 	clk_output_iobank_list	        = 	clock_pos_pin_name clock_neg_pin_name
+list 	clk_output_block_list	        = 	clock_output_block_name
+list 	fedback_clk_output_cap_load_list	= 	clockfeedback_out_pin_name
+list 	fedback_clk_sstl_18_pin_list	=	clockfeedback_out_pin_name clockfeedback_in_pin_name
+
+list    sstl_18_pin_classi_list 		=  cs_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name ras_n_pin_name cas_n_pin_name write_enable_n_pin_name odt_pin_name dm_pin_name 
+list 	sstl_18_pin_classii_list 		=  dq_pin_name dqs_pin_name
+list  	io_max_current_pin_list			=  cs_n_pin_name clock_enable_pin_name address_pin_name bank_address_pin_name ras_n_pin_name cas_n_pin_name write_enable_n_pin_name odt_pin_name
+list 	termination_series_50ohms_sidebank_sstl_18_list = clock_pos_pin_name clock_neg_pin_name dm_pin_name dq_pin_name
+list 	termination_series_50ohms_list 	=  clock_pos_pin_name clock_neg_pin_name dm_pin_name
+list 	termination_series_25ohms_list 	=  dq_pin_name
+
+map_name clock_source_pin_name 		= 	clock_source
+
+

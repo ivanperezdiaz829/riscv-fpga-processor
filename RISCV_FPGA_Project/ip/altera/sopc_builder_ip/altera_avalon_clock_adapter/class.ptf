@@ -1,0 +1,60 @@
+#
+# altera_avalon_clock_adapter
+#
+CLASS altera_avalon_clock_adapter
+{
+	MODULE_DEFAULTS
+	{
+		class = "altera_avalon_clock_adapter";
+		class_version = "7.08131";
+		SYSTEM_BUILDER_INFO
+		{
+			Is_Adapter = 1;
+                        Rank_Order = "50";
+                        Has_Clock = "0";
+                        Is_Enabled = "1";
+                        Instantiate_In_System_Module = "1";
+                        Maximum_Pending_Read_Transactions_Multiplicand = "0";
+		}
+		SLAVE in
+		{
+			SYSTEM_BUILDER_INFO
+			{
+				Bus_Type = "avalon";
+				Clock_Source = "";
+                                Has_IRQ = "0";
+                                Read_Wait_States  = "peripheral_controlled";
+                                Write_Wait_States = "peripheral_controlled";
+			}
+		}
+		MASTER out
+		{
+			SYSTEM_BUILDER_INFO
+			{
+				Bus_Type = "avalon";
+				Clock_Source = "";
+			}
+		}
+        WIZARD_SCRIPT_ARGUMENTS {asp_debug = "0";}
+	}
+	USER_INTERFACE
+	{
+		USER_LABELS
+		{
+			name = "Avalon Clock-Domain Crossing Adapter";
+			description = "Allows slaves in one clock domain to be connected to masters in another clock domain.";
+			license = "full";
+			technology = "Special";	# TODO: put in e.g. Avalon Modules
+			Is_Visible = 0; 
+		}
+	}
+	ASSOCIATED_FILES
+	{
+		Add_Program = "";
+		Edit_Program = "";
+		Adapter_Program = "altera_avalon_clock_adapter.ClockAdapter";
+		Generator_Program = "mk_clock_crossing.pl";
+	}
+}
+
+

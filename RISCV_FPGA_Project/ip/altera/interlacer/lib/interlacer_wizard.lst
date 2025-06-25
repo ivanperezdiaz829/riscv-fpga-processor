@@ -1,0 +1,12 @@
+[DSP|Video and Image Processing]
+Interlacer v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/alt_vip_itl.cpp" --wizard:alt_vip_itl --cusp_ip:true %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V GZ | Stratix IV | Stratix III | Stratix II GX | Stratix II | Stratix GX | Stratix | HardCopy IV | HardCopy III | HardCopy II | Arria GX | Arria II GX | Arria II GZ | Arria V | Cyclone V | Cyclone IV E | Cyclone IV GX | Cyclone III LS | Cyclone III | Cyclone II"   SUPPORT_CHECK="ON" />
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Interlacer v13.0</ALIAS>
+
+</INFO>
+

@@ -1,0 +1,294 @@
+#set($no_of_inputs = $parameterMap.getInt("SWI_NO_OF_INPUTS"))
+#set($no_of_outputs = $parameterMap.getInt("SWI_NO_OF_OUTPUTS"))
+#set($alpha_enabled = $parameterMap.getBoolean("SWI_ALPHA_ENABLED"))
+#set($inputs_loop_limit = $no_of_inputs - 1)
+#set($outputs_loop_limit = $no_of_outputs - 1)
+#if($parameterMap.getBoolean("SWI_COLOUR_PLANES_ARE_IN_PARALLEL"))
+#set($data_width = $parameterMap.getInt("SWI_BPS") * $parameterMap.getInt("SWI_NUMBER_OF_COLOUR_PLANES"))
+#else
+#set($data_width = $parameterMap.getInt("SWI_BPS"))
+#end
+#set($alpha_bps = ${parameterMap.getInt("SWI_ALPHA_BPS")})
+#set($av_address_width = 5)
+#set($av_data_width = 32)
+
+module ${parameterMap.getString("SWI_NAME")}(
+    input wire clock,
+    input wire reset,
+    
+    // din
+#foreach($input in [0..$inputs_loop_limit])
+    output wire din_${input}_ready,
+    input wire din_${input}_valid,
+    input wire [${data_width}-1:0] din_${input}_data,
+    input wire din_${input}_startofpacket,
+    input wire din_${input}_endofpacket,
+#if($alpha_enabled)
+    output wire alpha_in_${input}_ready,
+    input wire alpha_in_${input}_valid,
+    input wire [${alpha_bps}-1:0] alpha_in_${input}_data,
+    input wire alpha_in_${input}_startofpacket,
+    input wire alpha_in_${input}_endofpacket,
+#end
+#end
+
+        // dout
+#foreach($output in [0..$outputs_loop_limit])
+    input wire dout_${output}_ready,
+    output wire dout_${output}_valid,
+    output wire [${data_width}-1:0] dout_${output}_data,
+    output wire dout_${output}_startofpacket,
+    output wire dout_${output}_endofpacket,
+#if($alpha_enabled)
+    input wire alpha_out_${output}_ready,
+    output wire alpha_out_${output}_valid,
+    output wire [${alpha_bps}-1:0] alpha_out_${output}_data,
+    output wire alpha_out_${output}_startofpacket,
+    output wire alpha_out_${output}_endofpacket,
+#end
+#end
+
+   // control
+   input wire [${av_address_width}-1:0] control_address,
+   input wire control_read,
+   output wire [${av_data_width}-1:0] control_readdata,
+   input wire control_write,
+   input wire [${av_data_width}-1:0] control_writedata);
+
+wire enable;
+#set($select_size = ($no_of_inputs*$no_of_outputs) - 1)
+wire [$select_size:0] select;
+#if($alpha_enabled)
+#set($outputs_plus_alpha = ($no_of_outputs*2))
+#else
+#set($outputs_plus_alpha = $no_of_outputs)
+#end
+#set($synced_size = $outputs_plus_alpha - 1)
+wire [$synced_size:0] synced;
+
+// control
+alt_vipswi131_switch_control #(
+        .AV_ADDRESS_WIDTH(${av_address_width}),
+        .AV_DATA_WIDTH(${av_data_width}),
+        .NO_INPUTS($no_of_inputs),
+        .NO_OUTPUTS($no_of_outputs),
+        .NO_SYNCS($outputs_plus_alpha)
+    )
+    control(
+        .rst(reset),
+        .clk(clock),
+        
+        // control
+        .av_address(control_address),
+        .av_read(control_read),
+        .av_readdata(control_readdata),
+        .av_write(control_write),
+        .av_writedata(control_writedata),
+        
+        // internal
+        .enable(enable),
+        .select(select),
+        .synced(synced));
+
+// inputs
+#foreach($input in [0..$inputs_loop_limit])
+reg [$outputs_loop_limit:0] input_int_ready$input;
+wire input_int_valid$input;
+wire [${data_width}-1:0] input_int_data$input;
+wire input_int_sop$input;
+wire input_int_eop$input;
+
+alt_vipswi131_common_stream_input #(
+        .DATA_WIDTH(${data_width})
+    )
+    input$input(
+        .rst(reset),
+        .clk(clock),
+        
+        // din
+        .din_ready(din_${input}_ready),
+        .din_valid(din_${input}_valid),
+        .din_data(din_${input}_data),
+        .din_sop(din_${input}_startofpacket),
+        .din_eop(din_${input}_endofpacket),
+        
+        // internal
+        .int_ready(|input_int_ready$input),
+        .int_valid(input_int_valid$input),
+        .int_data(input_int_data$input),
+        .int_sop(input_int_sop$input),
+        .int_eop(input_int_eop$input));
+
+#if($alpha_enabled)
+reg [$outputs_loop_limit:0] alpha_input_int_ready$input;
+wire alpha_input_int_valid$input;
+wire [${alpha_bps}-1:0] alpha_input_int_data$input;
+wire alpha_input_int_sop$input;
+wire alpha_input_int_eop$input;
+
+alt_vipswi131_common_stream_input #(
+        .DATA_WIDTH(${alpha_bps})
+    )
+    alpha_input$input(
+        .rst(reset),
+        .clk(clock),
+        
+        // din
+        .din_ready(alpha_in_${input}_ready),
+        .din_valid(alpha_in_${input}_valid),
+        .din_data(alpha_in_${input}_data),
+        .din_sop(alpha_in_${input}_startofpacket),
+        .din_eop(alpha_in_${input}_endofpacket),
+        
+        // internal
+        .int_ready(|alpha_input_int_ready$input),
+        .int_valid(alpha_input_int_valid$input),
+        .int_data(alpha_input_int_data$input),
+        .int_sop(alpha_input_int_sop$input),
+        .int_eop(alpha_input_int_eop$input));
+#end
+
+#end
+// muxes
+#foreach($output in [0..$outputs_loop_limit])
+wire output_int_ready$output;
+#end
+#foreach($output in [0..$outputs_loop_limit])
+reg output_int_valid$output;
+reg [${data_width}-1:0] output_int_data$output;
+reg output_int_sop$output;
+reg output_int_eop$output;
+reg alpha_output_int_valid$output;
+reg [${alpha_bps}-1:0] alpha_output_int_data$output;
+reg alpha_output_int_sop$output;
+reg alpha_output_int_eop$output;
+wire alpha_output_int_ready$output;
+
+#set($right_slice = $output*$parameterMap.getInt("SWI_NO_OF_INPUTS"))
+#set($left_slice = $right_slice + $parameterMap.getInt("SWI_NO_OF_INPUTS") - 1)
+always @ (select[${left_slice}:$right_slice]
+#foreach($input in [0..$inputs_loop_limit])
+          or input_int_valid$input or input_int_data$input
+          or input_int_sop$input or input_int_eop$input
+#if($alpha_enabled)
+          or alpha_input_int_valid$input or alpha_input_int_data$input
+          or alpha_input_int_sop$input or alpha_input_int_eop$input
+#end
+#end
+#foreach($output in [0..$outputs_loop_limit])
+          or output_int_ready$output
+#if($alpha_enabled)
+          or alpha_output_int_ready$output
+#end
+#end
+          ) begin
+    case(select[${left_slice}:$right_slice])
+#set($oneHotInput = 1)
+#foreach($input in [0..$inputs_loop_limit])
+        $parameterMap.getInt("SWI_NO_OF_INPUTS")'d$oneHotInput: begin
+                 output_int_valid$output = input_int_valid$input;
+                 output_int_data$output = input_int_data$input;
+                 output_int_sop$output = input_int_sop$input;
+                 output_int_eop$output = input_int_eop$input;
+#if($alpha_enabled)
+                 alpha_output_int_valid$output = alpha_input_int_valid$input;
+                 alpha_output_int_data$output = alpha_input_int_data$input;
+                 alpha_output_int_sop$output = alpha_input_int_sop$input;
+                 alpha_output_int_eop$output = alpha_input_int_eop$input;
+#end
+#foreach($innerInput in [0..$inputs_loop_limit])
+#if($innerInput == $input)             
+                 input_int_ready$innerInput[$output] = output_int_ready$output;
+#if($alpha_enabled)
+                 alpha_input_int_ready$innerInput[$output] = alpha_output_int_ready$output;
+#end
+#else
+                 input_int_ready$innerInput[$output] = 1'b0;
+#if($alpha_enabled)
+                 alpha_input_int_ready$innerInput[$output] = 1'b0;
+#end
+#end
+#end
+                 end
+#set($oneHotInput = $oneHotInput * 2)
+
+#end
+        default: begin
+                 output_int_valid$output = 1'b0;
+                 output_int_data$output = {${data_width}{1'b0}};
+                 output_int_sop$output = 1'b0;
+                 output_int_eop$output = 1'b0;
+#if($alpha_enabled)
+                 alpha_output_int_valid$output = 1'b0;
+                 alpha_output_int_data$output = {${alpha_bps}{1'b0}};
+                 alpha_output_int_sop$output = 1'b0;
+                 alpha_output_int_eop$output = 1'b0;
+#end
+#foreach($innerInput in [0..$inputs_loop_limit])
+                 input_int_ready$innerInput[$output] = 1'b0;
+#if($alpha_enabled)
+                 alpha_input_int_ready$innerInput[$output] = 1'b0;
+#end
+#end
+                 end
+    endcase
+end
+
+#end
+// outputs
+#foreach($output in [0..$outputs_loop_limit])
+alt_vipswi131_common_stream_output #(
+        .DATA_WIDTH(${data_width})
+    )
+    output$output(
+        .rst(reset),
+        .clk(clock),
+        
+        // dout
+        .dout_ready(dout_${output}_ready),
+        .dout_valid(dout_${output}_valid),
+        .dout_data(dout_${output}_data),
+        .dout_sop(dout_${output}_startofpacket),
+        .dout_eop(dout_${output}_endofpacket),
+        
+        // internal
+        .int_ready(output_int_ready$output),
+        .int_valid(output_int_valid$output),
+        .int_data(output_int_data$output),
+        .int_sop(output_int_sop$output),
+        .int_eop(output_int_eop$output),
+        
+        // control signals
+        .enable(enable),
+        .synced(synced[$output]));
+
+#if($alpha_enabled)
+alt_vipswi131_common_stream_output #(
+        .DATA_WIDTH(${alpha_bps})
+    )
+    alpha_output$output(
+        .rst(reset),
+        .clk(clock),
+        
+        // dout
+        .dout_ready(alpha_out_${output}_ready),
+        .dout_valid(alpha_out_${output}_valid),
+        .dout_data(alpha_out_${output}_data),
+        .dout_sop(alpha_out_${output}_startofpacket),
+        .dout_eop(alpha_out_${output}_endofpacket),
+        
+        // internal
+        .int_ready(alpha_output_int_ready$output),
+        .int_valid(alpha_output_int_valid$output),
+        .int_data(alpha_output_int_data$output),
+        .int_sop(alpha_output_int_sop$output),
+        .int_eop(alpha_output_int_eop$output),
+        
+        // control signals
+        .enable(enable),
+#set($output_index = $no_of_outputs + $output)
+        .synced(synced[$output_index]));
+#end
+
+#end
+endmodule

@@ -1,0 +1,752 @@
+ -- Copyright (C) 1991-2006 Altera Corporation
+ -- Your use of Altera Corporation's design tools, logic functions 
+ -- and other software and tools, and its AMPP partner logic 
+ -- functions, and any output files any of the foregoing 
+ -- (including device programming or simulation files), and any 
+ -- associated documentation or information are expressly subject 
+ -- to the terms and conditions of the Altera Program License 
+ -- Subscription Agreement, Altera MegaCore Function License 
+ -- Agreement, or other applicable license agreement, including, 
+ -- without limitation, that your use is for the sole purpose of 
+ -- programming logic devices manufactured by Altera and sold by 
+ -- Altera or its authorized distributors.  Please refer to the 
+ -- applicable agreement for further details.
+ -- 
+ -- This is a Quartus II output file. It is for reporting purposes only, and is
+ -- not intended for use as a Quartus II input file. This file cannot be used
+ -- to make Quartus II pin assignments - for instructions on how to make pin
+ -- assignments, please see Quartus II help.
+ ---------------------------------------------------------------------------------
+
+
+
+ ---------------------------------------------------------------------------------
+ -- NC            : No Connect. This pin has no internal connection to the device.
+ -- VCCINT        : Dedicated power pin, which MUST be connected to VCC  (1.5V).
+ -- VCCIO         : Dedicated power pin, which MUST be connected to VCC
+ --                 of its bank.
+ --					Bank 1:		3.3V
+ --					Bank 2:		3.3V
+ --					Bank 3:		3.3V
+ --					Bank 4:		3.3V
+ --					Bank 5:		3.3V
+ --					Bank 6:		3.3V
+ --					Bank 7:		3.3V
+ --					Bank 8:		3.3V
+ --					Bank 9:		3.3V
+ --					Bank 10:	3.3V
+ --					Bank 11:	3.3V
+ --					Bank 12:	3.3V
+ --					Bank 13:	3.3V
+ --					Bank 14:	3.3V
+ --					Bank 15:	3.3V
+ -- GND           : Dedicated ground pin. Dedicated GND pins MUST be connected to GND.
+ --					It can also be used to report unused dedicated pins. The connection
+ --					on the board for unused dedicated pins depends on whether this will
+ --					be used in a future design. One example is device migration. When
+ --					using device migration, refer to the device pin-tables. If it is a
+ --					GND pin in the pin table or if it will not be used in a future design
+ --					for another purpose the it MUST be connected to GND. If it is an unused
+ --					dedicated pin, then it can be connected to a valid signal on the board
+ --					(low, high, or toggling) if that signal is required for a different
+ --					revision of the design.
+ -- GND+          : Unused input pin. It can also be used to report unused dual-purpose pins.
+ --					This pin should be connected to GND. It may also be connected  to a
+ --					valid signal  on the board  (low, high, or toggling)  if that signal
+ --					is required for a different revision of the design.
+ -- GND*          : Unused  I/O  pin.   This pin can either be left unconnected or
+ --           	    connected to GND.  Connecting this pin to GND will improve the
+ --           	    device's immunity to noise.
+ -- RESERVED      : Unused I/O pin, which MUST be left unconnected.
+ -- RESERVED_INPUT    : Pin is tri-stated and should be connected to the board.
+ -- RESERVED_INPUT_WITH_WEAK_PULLUP    : Pin is tri-stated with internal weak pull-up resistor.
+ -- RESERVED_INPUT_WITH_BUS_HOLD       : Pin is tri-stated with bus-hold circuitry.
+ -- GXB_GND*      : Unused GXB Receiver, Transmitter or dedicated reference clock pin. This pin
+ --                 can be left unconnected or connected to GXB_GND through a 10Kohm resistor.
+ --                 Connecting this pin to GXB_GND through a 10Kohm resistor may improve the
+ --                 device's immunity to noise.
+ -- GXB_VCC*      : Unused GXB Receiver, Transmitter or dedicated reference clock pin. This pin
+ --                 can be left unconnected or connected to GXB_VCC through a 10Kohm resistor.
+ --                 Connecting this pin to GXB_VCC through a 10Kohm resistor may improve the
+ --                 device's immunity to noise.
+ -- GXB_RESERVED_IO    : Pin is reserved to avoid coupling noise into transceivers and should be
+ --                      left unconnected on the board.
+ ---------------------------------------------------------------------------------
+
+Quartus II Version 6.1 Internal Build 176 10/08/2006 SJ Full Version
+CHIP  "asi_rx"  ASSIGNED TO AN: EP1SGX10CF672C5
+
+Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
+-------------------------------------------------------------------------------------------------------------
+GND                          : A2        : gnd    :                   :         :           :                
+VCCIO4                       : A3        : power  :                   : 3.3V    : 4         :                
+GND*                         : A4        :        :                   :         : 4         :                
+GND*                         : A5        :        :                   :         : 4         :                
+GND*                         : A6        :        :                   :         : 4         :                
+GND*                         : A7        :        :                   :         : 4         :                
+GND*                         : A8        :        :                   :         : 4         :                
+GND*                         : A9        :        :                   :         : 4         :                
+GND*                         : A10       :        :                   :         : 4         :                
+GND                          : A11       : gnd    :                   :         :           :                
+VCCIO4                       : A12       : power  :                   : 3.3V    : 4         :                
+rx_ts_status[6]              : A13       : output : 3.3-V LVTTL       :         : 10        : N              
+rx_data[7]                   : A14       : output : 3.3-V LVTTL       :         : 3         : N              
+VCCIO3                       : A15       : power  :                   : 3.3V    : 3         :                
+GND                          : A16       : gnd    :                   :         :           :                
+GND*                         : A17       :        :                   :         : 3         :                
+GND*                         : A18       :        :                   :         : 3         :                
+GND*                         : A19       :        :                   :         : 3         :                
+GND*                         : A20       :        :                   :         : 3         :                
+GND*                         : A21       :        :                   :         : 3         :                
+GND*                         : A22       :        :                   :         : 3         :                
+GND*                         : A23       :        :                   :         : 3         :                
+VCCIO3                       : A24       : power  :                   : 3.3V    : 3         :                
+GND                          : A25       : gnd    :                   :         :           :                
+GXB_VCC*                     : AA1       :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : AA2       :        :                   :         : 15        :                
+GXB_GND                      : AA3       :        :                   :         :           :                
+GXB_VCC*                     : AA4       :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : AA5       :        :                   :         : 15        :                
+GND                          : AA6       : gnd    :                   :         :           :                
+GND*                         : AA7       :        :                   :         : 7         :                
+GND*                         : AA8       :        :                   :         : 7         :                
+NC                           : AA9       :        :                   :         :           :                
+NC                           : AA10      :        :                   :         :           :                
+GND*                         : AA11      :        :                   :         : 7         :                
+GND*                         : AA12      :        :                   :         : 7         :                
+GND*                         : AA13      :        :                   :         : 11        :                
+GND*                         : AA14      :        :                   :         : 12        :                
+NC                           : AA15      :        :                   :         :           :                
+GND*                         : AA16      :        :                   :         : 8         :                
+GND*                         : AA17      :        :                   :         : 8         :                
+GND*                         : AA18      :        :                   :         : 8         :                
+NC                           : AA19      :        :                   :         :           :                
+NC                           : AA20      :        :                   :         :           :                
+NC                           : AA21      :        :                   :         :           :                
+NC                           : AA22      :        :                   :         :           :                
+NC                           : AA23      :        :                   :         :           :                
+NC                           : AA24      :        :                   :         :           :                
+NC                           : AA25      :        :                   :         :           :                
+NC                           : AA26      :        :                   :         :           :                
+GXB_GND                      : AB1       :        :                   :         :           :                
+GXB_GND                      : AB2       :        :                   :         :           :                
+GXB_GND                      : AB3       :        :                   :         :           :                
+GXB_GND                      : AB4       :        :                   :         :           :                
+GXB_GND                      : AB5       :        :                   :         :           :                
+VCCINT                       : AB6       : power  :                   : 1.5V    :           :                
+GND*                         : AB7       :        :                   :         : 7         :                
+GND*                         : AB8       :        :                   :         : 7         :                
+GND*                         : AB9       :        :                   :         : 7         :                
+NC                           : AB10      :        :                   :         :           :                
+NC                           : AB11      :        :                   :         :           :                
+GND+                         : AB12      :        :                   :         : 7         :                
+GND*                         : AB13      :        :                   :         : 11        :                
+GND*                         : AB14      :        :                   :         : 12        :                
+NC                           : AB15      :        :                   :         :           :                
+GND*                         : AB16      :        :                   :         : 8         :                
+GND*                         : AB17      :        :                   :         : 8         :                
+GND*                         : AB18      :        :                   :         : 8         :                
+NC                           : AB19      :        :                   :         :           :                
+NC                           : AB20      :        :                   :         :           :                
+NC                           : AB21      :        :                   :         :           :                
+NC                           : AB22      :        :                   :         :           :                
+NC                           : AB23      :        :                   :         :           :                
+NC                           : AB24      :        :                   :         :           :                
+NC                           : AB25      :        :                   :         :           :                
+NC                           : AB26      :        :                   :         :           :                
+GXB_VCC*                     : AC1       :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : AC2       :        :                   :         : 15        :                
+GND                          : AC3       : gnd    :                   :         :           :                
+GND*                         : AC4       :        :                   :         : 7         :                
+GND*                         : AC5       :        :                   :         : 7         :                
+GND*                         : AC6       :        :                   :         : 7         :                
+GND*                         : AC7       :        :                   :         : 7         :                
+GND*                         : AC8       :        :                   :         : 7         :                
+GND*                         : AC9       :        :                   :         : 7         :                
+NC                           : AC10      :        :                   :         :           :                
+NC                           : AC11      :        :                   :         :           :                
+GND*                         : AC12      :        :                   :         : 7         :                
+GND*                         : AC13      :        :                   :         : 11        :                
+GND+                         : AC14      :        :                   :         : 8         :                
+GND*                         : AC15      :        :                   :         : 8         :                
+GND*                         : AC16      :        :                   :         : 8         :                
+GND*                         : AC17      :        :                   :         : 8         :                
+GND*                         : AC18      :        :                   :         : 8         :                
+NC                           : AC19      :        :                   :         :           :                
+NC                           : AC20      :        :                   :         :           :                
+NC                           : AC21      :        :                   :         :           :                
+NC                           : AC22      :        :                   :         :           :                
+NC                           : AC23      :        :                   :         :           :                
+NC                           : AC24      :        :                   :         :           :                
+NC                           : AC25      :        :                   :         :           :                
+NC                           : AC26      :        :                   :         :           :                
+GXB_GND                      : AD1       :        :                   :         :           :                
+GXB_GND                      : AD2       :        :                   :         :           :                
+GND                          : AD3       : gnd    :                   :         :           :                
+GND*                         : AD4       :        :                   :         : 7         :                
+GND*                         : AD5       :        :                   :         : 7         :                
+GND*                         : AD6       :        :                   :         : 7         :                
+GND*                         : AD7       :        :                   :         : 7         :                
+GND*                         : AD8       :        :                   :         : 7         :                
+GND*                         : AD9       :        :                   :         : 7         :                
+NC                           : AD10      :        :                   :         :           :                
+NC                           : AD11      :        :                   :         :           :                
+GND*                         : AD12      :        :                   :         : 11        :                
+GND*                         : AD13      :        :                   :         : 11        :                
+GND*                         : AD14      :        :                   :         : 8         :                
+GND*                         : AD15      :        :                   :         : 8         :                
+GND*                         : AD16      :        :                   :         : 8         :                
+GND*                         : AD17      :        :                   :         : 8         :                
+GND*                         : AD18      :        :                   :         : 8         :                
+GND*                         : AD19      :        :                   :         : 8         :                
+GND*                         : AD20      :        :                   :         : 8         :                
+GND*                         : AD21      :        :                   :         : 8         :                
+GND*                         : AD22      :        :                   :         : 8         :                
+NC                           : AD23      :        :                   :         :           :                
+NC                           : AD24      :        :                   :         :           :                
+NC                           : AD25      :        :                   :         :           :                
+VCCIO1                       : AD26      : power  :                   : 3.3V    : 1         :                
+GND                          : AE1       : gnd    :                   :         :           :                
+GND*                         : AE2       :        :                   :         : 7         :                
+GND*                         : AE3       :        :                   :         : 7         :                
+GND*                         : AE4       :        :                   :         : 7         :                
+GND*                         : AE5       :        :                   :         : 7         :                
+GND*                         : AE6       :        :                   :         : 7         :                
+GND*                         : AE7       :        :                   :         : 7         :                
+GND*                         : AE8       :        :                   :         : 7         :                
+GND*                         : AE9       :        :                   :         : 7         :                
+GND*                         : AE10      :        :                   :         : 7         :                
+GND*                         : AE11      :        :                   :         : 7         :                
+GND*                         : AE12      :        :                   :         : 11        :                
+GND*                         : AE13      :        :                   :         : 12        :                
+GND+                         : AE14      :        :                   :         : 8         :                
+GND*                         : AE15      :        :                   :         : 8         :                
+GND*                         : AE16      :        :                   :         : 8         :                
+GND*                         : AE17      :        :                   :         : 8         :                
+rx_data_clk                  : AE18      : output : 3.3-V LVTTL       :         : 8         : N              
+GND*                         : AE19      :        :                   :         : 8         :                
+GND*                         : AE20      :        :                   :         : 8         :                
+GND*                         : AE21      :        :                   :         : 8         :                
+GND*                         : AE22      :        :                   :         : 8         :                
+NC                           : AE23      :        :                   :         :           :                
+NC                           : AE24      :        :                   :         :           :                
+NC                           : AE25      :        :                   :         :           :                
+GND                          : AE26      : gnd    :                   :         :           :                
+GND                          : AF2       : gnd    :                   :         :           :                
+VCCIO7                       : AF3       : power  :                   : 3.3V    : 7         :                
+GND*                         : AF4       :        :                   :         : 7         :                
+GND*                         : AF5       :        :                   :         : 7         :                
+GND*                         : AF6       :        :                   :         : 7         :                
+GND*                         : AF7       :        :                   :         : 7         :                
+GND*                         : AF8       :        :                   :         : 7         :                
+GND*                         : AF9       :        :                   :         : 7         :                
+GND*                         : AF10      :        :                   :         : 7         :                
+GND                          : AF11      : gnd    :                   :         :           :                
+VCCIO7                       : AF12      : power  :                   : 3.3V    : 7         :                
+GND*                         : AF13      :        :                   :         : 12        :                
+GND*                         : AF14      :        :                   :         : 8         :                
+VCCIO8                       : AF15      : power  :                   : 3.3V    : 8         :                
+GND                          : AF16      : gnd    :                   :         :           :                
+GND*                         : AF17      :        :                   :         : 8         :                
+GND*                         : AF18      :        :                   :         : 8         :                
+GND*                         : AF19      :        :                   :         : 8         :                
+GND*                         : AF20      :        :                   :         : 8         :                
+GND*                         : AF21      :        :                   :         : 8         :                
+GND*                         : AF22      :        :                   :         : 8         :                
+GND*                         : AF23      :        :                   :         : 8         :                
+VCCIO8                       : AF24      : power  :                   : 3.3V    : 8         :                
+GND                          : AF25      : gnd    :                   :         :           :                
+GND                          : B1        : gnd    :                   :         :           :                
+GND*                         : B2        :        :                   :         : 4         :                
+GND*                         : B3        :        :                   :         : 4         :                
+GND*                         : B4        :        :                   :         : 4         :                
+GND*                         : B5        :        :                   :         : 4         :                
+GND*                         : B6        :        :                   :         : 4         :                
+GND*                         : B7        :        :                   :         : 4         :                
+GND*                         : B8        :        :                   :         : 4         :                
+GND*                         : B9        :        :                   :         : 4         :                
+NC                           : B10       :        :                   :         :           :                
+NC                           : B11       :        :                   :         :           :                
+rx_ts_status[3]              : B12       : output : 3.3-V LVTTL       :         : 9         : N              
+rx_data[0]                   : B13       : output : 3.3-V LVTTL       :         : 10        : N              
+rx_refclk                    : B14       : input  : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : B15       :        :                   :         : 3         :                
+GND*                         : B16       :        :                   :         : 3         :                
+GND*                         : B17       :        :                   :         : 3         :                
+GND*                         : B18       :        :                   :         : 3         :                
+GND*                         : B19       :        :                   :         : 3         :                
+GND*                         : B20       :        :                   :         : 3         :                
+GND*                         : B21       :        :                   :         : 3         :                
+GND*                         : B22       :        :                   :         : 3         :                
+GND*                         : B23       :        :                   :         : 3         :                
+GND*                         : B24       :        :                   :         : 3         :                
+NC                           : B25       :        :                   :         :           :                
+GND                          : B26       : gnd    :                   :         :           :                
+GND*                         : C1        :        :                   :         : 4         :                
+GND*                         : C2        :        :                   :         : 4         :                
+GND*                         : C3        :        :                   :         : 4         :                
+GND*                         : C4        :        :                   :         : 4         :                
+GND*                         : C5        :        :                   :         : 4         :                
+GND*                         : C6        :        :                   :         : 4         :                
+GND*                         : C7        :        :                   :         : 4         :                
+GND*                         : C8        :        :                   :         : 4         :                
+GND*                         : C9        :        :                   :         : 4         :                
+NC                           : C10       :        :                   :         :           :                
+NC                           : C11       :        :                   :         :           :                
+GND*                         : C12       :        :                   :         : 9         :                
+GND*                         : C13       :        :                   :         : 9         :                
+rx_data[6]                   : C14       : output : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : C15       :        :                   :         : 3         :                
+GND*                         : C16       :        :                   :         : 3         :                
+GND*                         : C17       :        :                   :         : 3         :                
+GND*                         : C18       :        :                   :         : 3         :                
+GND*                         : C19       :        :                   :         : 3         :                
+GND*                         : C20       :        :                   :         : 3         :                
+GND*                         : C21       :        :                   :         : 3         :                
+GND*                         : C22       :        :                   :         : 3         :                
+NC                           : C23       :        :                   :         :           :                
+NC                           : C24       :        :                   :         :           :                
+NC                           : C25       :        :                   :         :           :                
+VCCIO2                       : C26       : power  :                   : 3.3V    : 2         :                
+GXB_GND                      : D1        :        :                   :         :           :                
+GXB_GND                      : D2        :        :                   :         :           :                
+GND                          : D3        : gnd    :                   :         :           :                
+GND*                         : D4        :        :                   :         : 4         :                
+GND*                         : D5        :        :                   :         : 4         :                
+GND*                         : D6        :        :                   :         : 4         :                
+GND*                         : D7        :        :                   :         : 4         :                
+GND*                         : D8        :        :                   :         : 4         :                
+GND*                         : D9        :        :                   :         : 4         :                
+NC                           : D10       :        :                   :         :           :                
+NC                           : D11       :        :                   :         :           :                
+GND*                         : D12       :        :                   :         : 4         :                
+GND*                         : D13       :        :                   :         : 9         :                
+GND+                         : D14       :        :                   :         : 3         :                
+GND*                         : D15       :        :                   :         : 3         :                
+GND*                         : D16       :        :                   :         : 3         :                
+GND*                         : D17       :        :                   :         : 3         :                
+GND*                         : D18       :        :                   :         : 3         :                
+GND*                         : D19       :        :                   :         : 3         :                
+GND*                         : D20       :        :                   :         : 3         :                
+NC                           : D21       :        :                   :         :           :                
+NC                           : D22       :        :                   :         :           :                
+NC                           : D23       :        :                   :         :           :                
+NC                           : D24       :        :                   :         :           :                
+NC                           : D25       :        :                   :         :           :                
+NC                           : D26       :        :                   :         :           :                
+GND*                         : E1        :        :                   :         :           :                
+GND*                         : E2        :        :                   :         :           :                
+GXB_GND                      : E3        :        :                   :         :           :                
+GND*                         : E4        :        :                   :         : 4         :                
+GND*                         : E5        :        :                   :         : 4         :                
+GND*                         : E6        :        :                   :         : 4         :                
+GND*                         : E7        :        :                   :         : 4         :                
+GND*                         : E8        :        :                   :         : 4         :                
+NC                           : E9        :        :                   :         :           :                
+GND*                         : E10       :        :                   :         : 4         :                
+GND*                         : E11       :        :                   :         : 4         :                
+GND+                         : E12       :        :                   :         : 4         :                
+rx_ts_status[1]              : E13       : output : 3.3-V LVTTL       :         : 9         : N              
+rx_ts_status[2]              : E14       : output : 3.3-V LVTTL       :         : 10        : N              
+GND*                         : E15       :        :                   :         : 3         :                
+rx_data[5]                   : E16       : output : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : E17       :        :                   :         : 3         :                
+GND*                         : E18       :        :                   :         : 3         :                
+NC                           : E19       :        :                   :         :           :                
+NC                           : E20       :        :                   :         :           :                
+NC                           : E21       :        :                   :         :           :                
+NC                           : E22       :        :                   :         :           :                
+NC                           : E23       :        :                   :         :           :                
+NC                           : E24       :        :                   :         :           :                
+NC                           : E25       :        :                   :         :           :                
+NC                           : E26       :        :                   :         :           :                
+GXB_GND                      : F1        :        :                   :         :           :                
+GXB_GND                      : F2        :        :                   :         :           :                
+GXB_GND                      : F3        :        :                   :         :           :                
+GXB_GND                      : F4        :        :                   :         :           :                
+GXB_GND                      : F5        :        :                   :         :           :                
+VCCINT                       : F6        : power  :                   : 1.5V    :           :                
+GND*                         : F7        :        :                   :         : 4         :                
+GND*                         : F8        :        :                   :         : 4         :                
+TMS                          : F9        : input  :                   :         : 4         :                
+TDI                          : F10       : input  :                   :         : 4         :                
+TDO                          : F11       : output :                   :         : 4         :                
+GND*                         : F12       :        :                   :         : 4         :                
+rx_ts_status[0]              : F13       : output : 3.3-V LVTTL       :         : 9         : N              
+rx_data[4]                   : F14       : output : 3.3-V LVTTL       :         : 10        : N              
+GND*                         : F15       :        :                   :         : 3         :                
+NC                           : F16       :        :                   :         :           :                
+GND*                         : F17       :        :                   :         : 3         :                
+GND*                         : F18       :        :                   :         : 3         :                
+NC                           : F19       :        :                   :         :           :                
+NC                           : F20       :        :                   :         :           :                
+NC                           : F21       :        :                   :         :           :                
+NC                           : F22       :        :                   :         :           :                
+NC                           : F23       :        :                   :         :           :                
+NC                           : F24       :        :                   :         :           :                
+GND+                         : F25       :        :                   :         : 2         :                
+GND+                         : F26       :        :                   :         : 2         :                
+GND*                         : G1        :        :                   :         :           :                
+GND*                         : G2        :        :                   :         :           :                
+GXB_GND                      : G3        :        :                   :         :           :                
+GND*                         : G4        :        :                   :         :           :                
+GND*                         : G5        :        :                   :         :           :                
+GND                          : G6        : gnd    :                   :         :           :                
+GND*                         : G7        :        :                   :         : 4         :                
+GND*                         : G8        :        :                   :         : 4         :                
+GND*                         : G9        :        :                   :         : 4         :                
+GND*                         : G10       :        :                   :         : 4         :                
+GND*                         : G11       :        :                   :         : 4         :                
+GND+                         : G12       :        :                   :         : 4         :                
+GNDA_PLL5                    : G13       : gnd    :                   :         :           :                
+NC                           : G14       :        :                   :         :           :                
+NC                           : G15       :        :                   :         :           :                
+GND*                         : G16       :        :                   :         : 3         :                
+GND*                         : G17       :        :                   :         : 3         :                
+GND*                         : G18       :        :                   :         : 3         :                
+NC                           : G19       :        :                   :         :           :                
+NC                           : G20       :        :                   :         :           :                
+NC                           : G21       :        :                   :         :           :                
+NC                           : G22       :        :                   :         :           :                
+NC                           : G23       :        :                   :         :           :                
+NC                           : G24       :        :                   :         :           :                
+GND+                         : G25       :        :                   :         : 2         :                
+GND+                         : G26       :        :                   :         : 2         :                
+GXB_GND                      : H1        :        :                   :         :           :                
+GXB_GND                      : H2        :        :                   :         :           :                
+GXB_GND                      : H3        :        :                   :         :           :                
+GXB_GND                      : H4        :        :                   :         :           :                
+GXB_GND                      : H5        :        :                   :         :           :                
+VCCINT                       : H6        : power  :                   : 1.5V    :           :                
+GND*                         : H7        :        :                   :         : 4         :                
+GND*                         : H8        :        :                   :         : 4         :                
+TRST                         : H9        : input  :                   :         : 4         :                
+~DATA0~ / RESERVED_INPUT     : H10       : input  : 3.3-V LVTTL       :         : 4         : N              
+GND*                         : H11       :        :                   :         : 4         :                
+VCCG_PLL5                    : H12       : power  :                   : 1.5V    :           :                
+VCCA_PLL5                    : H13       : power  :                   : 1.5V    :           :                
+NC                           : H14       :        :                   :         :           :                
+NC                           : H15       :        :                   :         :           :                
+GND*                         : H16       :        :                   :         : 3         :                
+GND                          : H17       :        :                   :         :           :                
+GND*                         : H18       :        :                   :         : 3         :                
+GND*                         : H19       :        :                   :         : 2         :                
+GND*                         : H20       :        :                   :         : 2         :                
+NC                           : H21       :        :                   :         :           :                
+NC                           : H22       :        :                   :         :           :                
+GND+                         : H23       :        :                   :         : 2         :                
+asi_rx                       : H24       : input  : 3.3-V LVTTL       :         : 2         : N              
+GND+                         : H25       :        :                   :         : 2         :                
+GND+                         : H26       :        :                   :         : 2         :                
+GND*                         : J1        :        :                   :         :           :                
+GND*                         : J2        :        :                   :         :           :                
+GXB_GND                      : J3        :        :                   :         :           :                
+GND*                         : J4        :        :                   :         :           :                
+GND*                         : J5        :        :                   :         :           :                
+GND                          : J6        : gnd    :                   :         :           :                
+GND*                         : J7        :        :                   :         : 4         :                
+TCK                          : J8        : input  :                   :         : 4         :                
+GND*                         : J9        :        :                   :         : 4         :                
+TEMPDIODEn                   : J10       :        :                   :         :           :                
+TEMPDIODEp                   : J11       :        :                   :         :           :                
+GNDG_PLL5                    : J12       : gnd    :                   :         :           :                
+VCC_PLL5_OUTA                : J13       : power  :                   : 3.3V    : 9         :                
+NC                           : J14       :        :                   :         :           :                
+NC                           : J15       :        :                   :         :           :                
+GND                          : J16       : gnd    :                   :         :           :                
+GND                          : J17       : gnd    :                   :         :           :                
+NC                           : J18       :        :                   :         :           :                
+GND*                         : J19       :        :                   :         : 2         :                
+GND*                         : J20       :        :                   :         : 2         :                
+GND*                         : J21       :        :                   :         : 2         :                
+GND*                         : J22       :        :                   :         : 2         :                
+GND+                         : J23       :        :                   :         : 2         :                
+GND+                         : J24       :        :                   :         : 2         :                
+GND+                         : J25       :        :                   :         : 2         :                
+GND+                         : J26       :        :                   :         : 2         :                
+GXB_GND                      : K1        :        :                   :         :           :                
+GXB_GND                      : K2        :        :                   :         :           :                
+GXB_GND                      : K3        :        :                   :         :           :                
+GXB_GND                      : K4        :        :                   :         :           :                
+GXB_GND                      : K5        :        :                   :         :           :                
+VCCINT                       : K6        : power  :                   : 1.5V    :           :                
+RREFB15A                     : K7        :        :                   :         :           :                
+GND*                         : K8        :        :                   :         : 4         :                
+GND                          : K9        : gnd    :                   :         :           :                
+GND                          : K10       : gnd    :                   :         :           :                
+NC                           : K11       :        :                   :         :           :                
+VCC_PLL5_OUTB                : K12       : power  :                   : 3.3V    : 10        :                
+DCLK                         : K13       :        :                   :         : 3         :                
+nSTATUS                      : K14       :        :                   :         : 3         :                
+CONF_DONE                    : K15       :        :                   :         : 3         :                
+rx_data[3]                   : K16       : output : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : K17       :        :                   :         : 2         :                
+GND*                         : K18       :        :                   :         : 2         :                
+GND*                         : K19       :        :                   :         : 2         :                
+GND*                         : K20       :        :                   :         : 2         :                
+GND*                         : K21       :        :                   :         : 2         :                
+GND*                         : K22       :        :                   :         : 2         :                
+GND+                         : K23       :        :                   :         : 2         :                
+GND+                         : K24       :        :                   :         : 2         :                
+GND+                         : K25       :        :                   :         : 2         :                
+GND+                         : K26       :        :                   :         : 2         :                
+GND*                         : L1        :        :                   :         :           :                
+GND*                         : L2        :        :                   :         :           :                
+GXB_GND                      : L3        :        :                   :         :           :                
+GND*                         : L4        :        :                   :         :           :                
+GND*                         : L5        :        :                   :         :           :                
+VCCT_B15                     : L6        : power  :                   : 1.5V    : 15        :                
+VCCR_B15                     : L7        : power  :                   : 1.5V    : 15        :                
+VCCP_B15                     : L8        : power  :                   : 1.5V    : 15        :                
+VCCINT                       : L9        : power  :                   : 1.5V    :           :                
+VCCINT                       : L10       : power  :                   : 1.5V    :           :                
+VCCINT                       : L11       : power  :                   : 1.5V    :           :                
+VCCIO4                       : L12       : power  :                   : 3.3V    : 4         :                
+VCCIO3                       : L13       : power  :                   : 3.3V    : 3         :                
+nCONFIG                      : L14       :        :                   :         : 3         :                
+rx_data[1]                   : L15       : output : 3.3-V LVTTL       :         : 3         : N              
+rx_data[2]                   : L16       : output : 3.3-V LVTTL       :         : 3         : N              
+GND                          : L17       : gnd    :                   :         :           :                
+GND                          : L18       : gnd    :                   :         :           :                
+GND*                         : L19       :        :                   :         : 2         :                
+GND*                         : L20       :        :                   :         : 2         :                
+GND*                         : L21       :        :                   :         : 2         :                
+GND*                         : L22       :        :                   :         : 2         :                
+GND+                         : L23       :        :                   :         : 2         :                
+GND+                         : L24       :        :                   :         : 2         :                
+GND+                         : L25       :        :                   :         : 2         :                
+GND                          : L26       : gnd    :                   :         :           :                
+GXB_GND                      : M1        :        :                   :         :           :                
+GXB_GND                      : M2        :        :                   :         :           :                
+GXB_GND                      : M3        :        :                   :         :           :                
+GXB_GND                      : M4        :        :                   :         :           :                
+GXB_GND                      : M5        :        :                   :         :           :                
+VCCT_B15                     : M6        : power  :                   : 1.5V    : 15        :                
+VCCR_B15                     : M7        : power  :                   : 1.5V    : 15        :                
+VCCP_B15                     : M8        : power  :                   : 1.5V    : 15        :                
+VCCINT                       : M9        : power  :                   : 1.5V    :           :                
+VCCINT                       : M10       : power  :                   : 1.5V    :           :                
+GND                          : M11       : gnd    :                   :         :           :                
+GND                          : M12       : gnd    :                   :         :           :                
+GND                          : M13       : gnd    :                   :         :           :                
+VCCINT                       : M14       : power  :                   : 1.5V    :           :                
+rx_ts_status[4]              : M15       : output : 3.3-V LVTTL       :         : 3         : N              
+rx_ts_status[5]              : M16       : output : 3.3-V LVTTL       :         : 3         : N              
+GND*                         : M17       :        :                   :         : 2         :                
+GND*                         : M18       :        :                   :         : 2         :                
+GND*                         : M19       :        :                   :         : 2         :                
+GND*                         : M20       :        :                   :         : 2         :                
+GND*                         : M21       :        :                   :         : 2         :                
+GND*                         : M22       :        :                   :         : 2         :                
+GND+                         : M23       :        :                   :         : 2         :                
+GND+                         : M24       :        :                   :         : 2         :                
+GND+                         : M25       :        :                   :         : 2         :                
+VCCIO2                       : M26       : power  :                   : 3.3V    : 2         :                
+GND*                         : N1        :        :                   :         :           :                
+GND*                         : N2        :        :                   :         :           :                
+GXB_GND                      : N3        :        :                   :         :           :                
+GND*                         : N4        :        :                   :         :           :                
+GND*                         : N5        :        :                   :         :           :                
+GND                          : N6        : gnd    :                   :         :           :                
+VCCA_B15                     : N7        : power  :                   : 3.3V    : 15        :                
+VCCG_B15                     : N8        : power  :                   : 1.5V    : 15        :                
+VCCINT                       : N9        : power  :                   : 1.5V    :           :                
+GND                          : N10       : gnd    :                   :         :           :                
+VCCINT                       : N11       : power  :                   : 1.5V    :           :                
+GND                          : N12       : gnd    :                   :         :           :                
+VCCINT                       : N13       : power  :                   : 1.5V    :           :                
+GND                          : N14       : gnd    :                   :         :           :                
+VCCINT                       : N15       : power  :                   : 1.5V    :           :                
+VCCINT                       : N16       : power  :                   : 1.5V    :           :                
+GND                          : N17       : gnd    :                   :         :           :                
+VCCIO2                       : N18       : power  :                   : 3.3V    : 2         :                
+GNDG_PLL1                    : N19       : gnd    :                   :         :           :                
+VCCA_PLL1                    : N20       : power  :                   : 1.5V    :           :                
+VCCG_PLL1                    : N21       : power  :                   : 1.5V    :           :                
+GNDA_PLL1                    : N22       : gnd    :                   :         :           :                
+GND+                         : N23       :        :                   :         : 2         :                
+GND*                         : N24       :        :                   :         : 2         :                
+GND+                         : N25       :        :                   :         : 2         :                
+GND+                         : N26       :        :                   :         : 2         :                
+GXB_GND                      : P1        :        :                   :         :           :                
+GXB_GND                      : P2        :        :                   :         :           :                
+GXB_GND                      : P3        :        :                   :         :           :                
+GXB_GND                      : P4        :        :                   :         :           :                
+GXB_GND                      : P5        :        :                   :         :           :                
+GND                          : P6        : gnd    :                   :         :           :                
+VCCG_B15                     : P7        : power  :                   : 1.5V    : 15        :                
+VCCA_B15                     : P8        : power  :                   : 3.3V    : 15        :                
+nCE                          : P9        :        :                   :         : 7         :                
+VCCINT                       : P10       : power  :                   : 1.5V    :           :                
+GND                          : P11       : gnd    :                   :         :           :                
+VCCINT                       : P12       : power  :                   : 1.5V    :           :                
+GND                          : P13       : gnd    :                   :         :           :                
+VCCINT                       : P14       : power  :                   : 1.5V    :           :                
+GND                          : P15       : gnd    :                   :         :           :                
+VCCINT                       : P16       : power  :                   : 1.5V    :           :                
+GND                          : P17       : gnd    :                   :         :           :                
+VCCIO1                       : P18       : power  :                   : 3.3V    : 1         :                
+GNDG_PLL2                    : P19       : gnd    :                   :         :           :                
+VCCG_PLL2                    : P20       : power  :                   : 1.5V    :           :                
+VCCA_PLL2                    : P21       : power  :                   : 1.5V    :           :                
+GNDA_PLL2                    : P22       : gnd    :                   :         :           :                
+rst                          : P23       : input  : 3.3-V LVTTL       :         : 1         : N              
+GND*                         : P24       :        :                   :         : 1         :                
+GND+                         : P25       :        :                   :         : 1         :                
+GND+                         : P26       :        :                   :         : 1         :                
+GXB_VCC*                     : R1        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : R2        :        :                   :         : 15        :                
+GXB_GND                      : R3        :        :                   :         :           :                
+GXB_VCC*                     : R4        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : R5        :        :                   :         : 15        :                
+VCCT_B15                     : R6        : power  :                   : 1.5V    : 15        :                
+VCCR_B15                     : R7        : power  :                   : 1.5V    : 15        :                
+VCCP_B15                     : R8        : power  :                   : 1.5V    : 15        :                
+VCCSEL                       : R9        :        :                   :         : 7         :                
+GND*                         : R10       :        :                   :         : 7         :                
+VCC_PLL6_OUTB                : R11       : power  :                   : 3.3V    : 12        :                
+GND                          : R12       : gnd    :                   :         :           :                
+GND*                         : R13       :        :                   :         : 8         :                
+GND                          : R14       : gnd    :                   :         :           :                
+GND*                         : R15       :        :                   :         : 8         :                
+GND                          : R16       : gnd    :                   :         :           :                
+GND*                         : R17       :        :                   :         : 1         :                
+GND*                         : R18       :        :                   :         : 1         :                
+GND*                         : R19       :        :                   :         : 1         :                
+GND*                         : R20       :        :                   :         : 1         :                
+GND*                         : R21       :        :                   :         : 1         :                
+GND*                         : R22       :        :                   :         : 1         :                
+GND+                         : R23       :        :                   :         : 1         :                
+GND+                         : R24       :        :                   :         : 1         :                
+GND+                         : R25       :        :                   :         : 1         :                
+VCCIO1                       : R26       : power  :                   : 3.3V    : 1         :                
+GXB_GND                      : T1        :        :                   :         :           :                
+GXB_GND                      : T2        :        :                   :         :           :                
+GXB_GND                      : T3        :        :                   :         :           :                
+GXB_GND                      : T4        :        :                   :         :           :                
+GXB_GND                      : T5        :        :                   :         :           :                
+VCCT_B15                     : T6        : power  :                   : 1.5V    : 15        :                
+VCCR_B15                     : T7        : power  :                   : 1.5V    : 15        :                
+VCCP_B15                     : T8        : power  :                   : 1.5V    : 15        :                
+nCEO                         : T9        :        :                   :         : 7         :                
+nIO_PULLUP                   : T10       :        :                   :         : 7         :                
+VCCA_PLL6                    : T11       : power  :                   : 1.5V    :           :                
+VCCIO7                       : T12       : power  :                   : 3.3V    : 7         :                
+MSEL1                        : T13       :        :                   :         : 8         :                
+VCCIO8                       : T14       : power  :                   : 3.3V    : 8         :                
+GND*                         : T15       :        :                   :         : 8         :                
+GND*                         : T16       :        :                   :         : 8         :                
+NC                           : T17       :        :                   :         :           :                
+GND                          : T18       : gnd    :                   :         :           :                
+GND*                         : T19       :        :                   :         : 1         :                
+GND*                         : T20       :        :                   :         : 1         :                
+GND*                         : T21       :        :                   :         : 1         :                
+GND*                         : T22       :        :                   :         : 1         :                
+GND+                         : T23       :        :                   :         : 1         :                
+GND+                         : T24       :        :                   :         : 1         :                
+GND+                         : T25       :        :                   :         : 1         :                
+GND                          : T26       : gnd    :                   :         :           :                
+GXB_VCC*                     : U1        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : U2        :        :                   :         : 15        :                
+GXB_GND                      : U3        :        :                   :         :           :                
+GXB_VCC*                     : U4        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : U5        :        :                   :         : 15        :                
+GND                          : U6        : gnd    :                   :         :           :                
+RREFB15                      : U7        :        :                   :         :           :                
+GND*                         : U8        :        :                   :         : 7         :                
+GND*                         : U9        :        :                   :         : 7         :                
+PORSEL                       : U10       :        :                   :         : 7         :                
+GND*                         : U11       :        :                   :         : 7         :                
+GNDG_PLL6                    : U12       : gnd    :                   :         :           :                
+MSEL0                        : U13       :        :                   :         : 8         :                
+GND*                         : U14       :        :                   :         : 8         :                
+GND*                         : U15       :        :                   :         : 8         :                
+GND*                         : U16       :        :                   :         : 8         :                
+GND*                         : U17       :        :                   :         : 1         :                
+GND*                         : U18       :        :                   :         : 1         :                
+GND*                         : U19       :        :                   :         : 1         :                
+GND*                         : U20       :        :                   :         : 1         :                
+GND*                         : U21       :        :                   :         : 1         :                
+GND*                         : U22       :        :                   :         : 1         :                
+GND+                         : U23       :        :                   :         : 1         :                
+GND+                         : U24       :        :                   :         : 1         :                
+GND+                         : U25       :        :                   :         : 1         :                
+GND+                         : U26       :        :                   :         : 1         :                
+GXB_GND                      : V1        :        :                   :         :           :                
+GXB_GND                      : V2        :        :                   :         :           :                
+GXB_GND                      : V3        :        :                   :         :           :                
+GXB_GND                      : V4        :        :                   :         :           :                
+GXB_GND                      : V5        :        :                   :         :           :                
+VCCINT                       : V6        : power  :                   : 1.5V    :           :                
+GND*                         : V7        :        :                   :         : 7         :                
+GND*                         : V8        :        :                   :         : 7         :                
+NC                           : V9        :        :                   :         :           :                
+GND                          : V10       : gnd    :                   :         :           :                
+GND                          : V11       : gnd    :                   :         :           :                
+VCCG_PLL6                    : V12       : power  :                   : 1.5V    :           :                
+VCC_PLL6_OUTA                : V13       : power  :                   : 3.3V    : 11        :                
+MSEL2                        : V14       :        :                   :         : 8         :                
+NC                           : V15       :        :                   :         :           :                
+GND*                         : V16       :        :                   :         : 8         :                
+GND                          : V17       : gnd    :                   :         :           :                
+GND                          : V18       : gnd    :                   :         :           :                
+GND*                         : V19       :        :                   :         : 1         :                
+GND*                         : V20       :        :                   :         : 1         :                
+GND*                         : V21       :        :                   :         : 1         :                
+GND*                         : V22       :        :                   :         : 1         :                
+GND+                         : V23       :        :                   :         : 1         :                
+GND+                         : V24       :        :                   :         : 1         :                
+GND+                         : V25       :        :                   :         : 1         :                
+GND+                         : V26       :        :                   :         : 1         :                
+GXB_VCC*                     : W1        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : W2        :        :                   :         : 15        :                
+GXB_GND                      : W3        :        :                   :         :           :                
+GXB_VCC*                     : W4        :        :                   : 1.5V    : 15        :                
+GXB_GND*                     : W5        :        :                   :         : 15        :                
+GND                          : W6        : gnd    :                   :         :           :                
+GND*                         : W7        :        :                   :         : 7         :                
+GND*                         : W8        :        :                   :         : 7         :                
+GND*                         : W9        :        :                   :         : 7         :                
+GND*                         : W10       :        :                   :         : 7         :                
+GND*                         : W11       :        :                   :         : 7         :                
+GNDA_PLL6                    : W12       : gnd    :                   :         :           :                
+NC                           : W13       :        :                   :         :           :                
+NC                           : W14       :        :                   :         :           :                
+PLL_ENA                      : W15       :        :                   :         : 8         :                
+GND*                         : W16       :        :                   :         : 8         :                
+GND*                         : W17       :        :                   :         : 8         :                
+GND*                         : W18       :        :                   :         : 8         :                
+GND*                         : W19       :        :                   :         : 1         :                
+GND*                         : W20       :        :                   :         : 1         :                
+NC                           : W21       :        :                   :         :           :                
+NC                           : W22       :        :                   :         :           :                
+GND+                         : W23       :        :                   :         : 1         :                
+GND+                         : W24       :        :                   :         : 1         :                
+GND+                         : W25       :        :                   :         : 1         :                
+GND+                         : W26       :        :                   :         : 1         :                
+GXB_GND                      : Y1        :        :                   :         :           :                
+GXB_GND                      : Y2        :        :                   :         :           :                
+GXB_GND                      : Y3        :        :                   :         :           :                
+GXB_GND                      : Y4        :        :                   :         :           :                
+GXB_GND                      : Y5        :        :                   :         :           :                
+VCCINT                       : Y6        : power  :                   : 1.5V    :           :                
+GND*                         : Y7        :        :                   :         : 7         :                
+GND*                         : Y8        :        :                   :         : 7         :                
+GND*                         : Y9        :        :                   :         : 7         :                
+GND*                         : Y10       :        :                   :         : 7         :                
+GND*                         : Y11       :        :                   :         : 7         :                
+GND+                         : Y12       :        :                   :         : 7         :                
+NC                           : Y13       :        :                   :         :           :                
+NC                           : Y14       :        :                   :         :           :                
+GND*                         : Y15       :        :                   :         : 8         :                
+GND*                         : Y16       :        :                   :         : 8         :                
+GND*                         : Y17       :        :                   :         : 8         :                
+GND*                         : Y18       :        :                   :         : 8         :                
+NC                           : Y19       :        :                   :         :           :                
+NC                           : Y20       :        :                   :         :           :                
+NC                           : Y21       :        :                   :         :           :                
+NC                           : Y22       :        :                   :         :           :                
+GND+                         : Y23       :        :                   :         : 1         :                
+GND+                         : Y24       :        :                   :         : 1         :                
+GND+                         : Y25       :        :                   :         : 1         :                
+GND+                         : Y26       :        :                   :         : 1         :                

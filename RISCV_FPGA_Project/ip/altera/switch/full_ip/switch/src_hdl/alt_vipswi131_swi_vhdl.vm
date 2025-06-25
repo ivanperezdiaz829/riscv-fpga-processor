@@ -1,0 +1,149 @@
+#set($no_of_inputs = $parameterMap.getInt("SWI_NO_OF_INPUTS"))
+#set($no_of_outputs = $parameterMap.getInt("SWI_NO_OF_OUTPUTS"))
+#set($alpha_enabled = $parameterMap.getBoolean("SWI_ALPHA_ENABLED"))
+#set($inputs_loop_limit = $no_of_inputs - 1)
+#set($outputs_loop_limit = $no_of_outputs - 1)
+#if($parameterMap.getBoolean("SWI_COLOUR_PLANES_ARE_IN_PARALLEL"))
+#set($data_width = $parameterMap.getInt("SWI_BPS") * $parameterMap.getInt("SWI_NUMBER_OF_COLOUR_PLANES"))
+#else
+#set($data_width = $parameterMap.getInt("SWI_BPS"))
+#end
+#set($alpha_bps = ${parameterMap.getInt("SWI_ALPHA_BPS")})
+#set($av_address_width = 5)
+#set($av_data_width = 32)
+
+library IEEE;
+use IEEE.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+entity ${parameterMap.getString("SWI_NAME")} is
+	port (
+		clock                   : in  std_logic                      := '0';
+		reset                   : in  std_logic                      := '0';
+
+#foreach($input in [0..$inputs_loop_limit])		
+        din_${input}_data               : in std_logic_vector(${data_width}-1 downto 0)   := (others => '0'); 
+		din_${input}_valid              : in std_logic                       := '0';
+		din_${input}_ready              : out std_logic;
+		din_${input}_startofpacket      : in std_logic                       := '0';
+		din_${input}_endofpacket        : in std_logic                       := '0';
+#if($alpha_enabled)
+        alpha_in_${input}_data               : in std_logic_vector(${alpha_bps}-1 downto 0)   := (others => '0'); 
+		alpha_in_${input}_valid              : in std_logic                       := '0';
+		alpha_in_${input}_ready              : out std_logic;
+		alpha_in_${input}_startofpacket      : in std_logic                       := '0';
+		alpha_in_${input}_endofpacket        : in std_logic                       := '0';
+#end
+#end   
+    
+#foreach($output in [0..$outputs_loop_limit])
+		dout_${output}_data               : out std_logic_vector(${data_width}-1 downto 0);
+		dout_${output}_valid              : out std_logic;
+		dout_${output}_ready              : in  std_logic                     := '0';
+		dout_${output}_startofpacket      : out std_logic;
+		dout_${output}_endofpacket        : out std_logic;
+#if($alpha_enabled)
+        alpha_out_${output}_data               : out std_logic_vector(${alpha_bps}-1 downto 0);
+		alpha_out_${output}_valid              : out std_logic;
+		alpha_out_${output}_ready              : in  std_logic                     := '0';
+		alpha_out_${output}_startofpacket      : out std_logic;
+		alpha_out_${output}_endofpacket        : out std_logic;
+#end
+#end
+    
+        control_address      : in  std_logic_vector(${av_address_width}-1 downto 0)   := (others => '0'); 
+		control_write        : in  std_logic                      := '0';             
+		control_writedata    : in  std_logic_vector(${av_data_width}-1 downto 0)  := (others => '0'); 
+		control_read         : in  std_logic                      := '0';             
+		control_readdata     : out std_logic_vector(${av_data_width}-1 downto 0)                     
+	);
+end entity ${parameterMap.getString("SWI_NAME")};
+
+architecture rtl of ${parameterMap.getString("SWI_NAME")} is
+	component ${parameterMap.getString("SWI_NAME")}_verilog is
+		port (
+			clock                   : in  std_logic                      := '0';
+            reset                   : in  std_logic                      := '0';
+
+#foreach($input in [0..$inputs_loop_limit])		
+            din_${input}_data               : in std_logic_vector(${data_width}-1 downto 0)   := (others => '0'); 
+		    din_${input}_valid              : in std_logic                       := '0';
+		    din_${input}_ready              : out std_logic;
+		    din_${input}_startofpacket      : in std_logic                       := '0';
+		    din_${input}_endofpacket        : in std_logic                       := '0';
+#if($alpha_enabled)
+            alpha_in_${input}_data               : in std_logic_vector(${alpha_bps}-1 downto 0)   := (others => '0'); 
+		    alpha_in_${input}_valid              : in std_logic                       := '0';
+		    alpha_in_${input}_ready              : out std_logic;
+		    alpha_in_${input}_startofpacket      : in std_logic                       := '0';
+		    alpha_in_${input}_endofpacket        : in std_logic                       := '0';
+#end
+#end   
+    
+#foreach($output in [0..$outputs_loop_limit])
+		    dout_${output}_data               : out std_logic_vector(${data_width}-1 downto 0);
+		    dout_${output}_valid              : out std_logic;
+		    dout_${output}_ready              : in  std_logic                     := '0';
+		    dout_${output}_startofpacket      : out std_logic;
+		    dout_${output}_endofpacket        : out std_logic;
+#if($alpha_enabled)
+            alpha_out_${output}_data               : out std_logic_vector(${alpha_bps}-1 downto 0);
+		    alpha_out_${output}_valid              : out std_logic;
+		    alpha_out_${output}_ready              : in  std_logic                     := '0';
+		    alpha_out_${output}_startofpacket      : out std_logic;
+		    alpha_out_${output}_endofpacket        : out std_logic;
+#end
+#end
+    
+            control_address      : in  std_logic_vector(${av_address_width}-1 downto 0)   := (others => '0'); 
+		    control_write        : in  std_logic                      := '0';             
+		    control_writedata    : in  std_logic_vector(${av_data_width}-1 downto 0)  := (others => '0'); 
+		    control_read         : in  std_logic                      := '0';             
+		    control_readdata     : out std_logic_vector(${av_data_width}-1 downto 0)                     
+		);
+	end component ${parameterMap.getString("SWI_NAME")}_verilog;
+
+begin
+
+	switch_inst : component ${parameterMap.getString("SWI_NAME")}_verilog
+		port map (
+			clock                   => clock,                   
+			reset                   => reset,                   
+#foreach($input in [0..$inputs_loop_limit])		
+            din_${input}_data               => din_${input}_data          ,
+		    din_${input}_valid              => din_${input}_valid         ,
+		    din_${input}_ready              => din_${input}_ready         ,
+		    din_${input}_startofpacket      => din_${input}_startofpacket ,
+		    din_${input}_endofpacket        => din_${input}_endofpacket   ,
+#if($alpha_enabled)
+            alpha_in_${input}_data               => alpha_in_${input}_data           ,
+		    alpha_in_${input}_valid              => alpha_in_${input}_valid          ,
+		    alpha_in_${input}_ready              => alpha_in_${input}_ready          ,
+		    alpha_in_${input}_startofpacket      => alpha_in_${input}_startofpacket  ,
+		    alpha_in_${input}_endofpacket        => alpha_in_${input}_endofpacket    ,
+#end
+#end   
+    
+#foreach($output in [0..$outputs_loop_limit])
+		    dout_${output}_data               => dout_${output}_data          ,
+		    dout_${output}_valid              => dout_${output}_valid         ,
+		    dout_${output}_ready              => dout_${output}_ready         ,
+		    dout_${output}_startofpacket      => dout_${output}_startofpacket ,
+		    dout_${output}_endofpacket        => dout_${output}_endofpacket   ,
+#if($alpha_enabled)
+            alpha_out_${output}_data               => alpha_out_${output}_data         ,
+		    alpha_out_${output}_valid              => alpha_out_${output}_valid        ,
+		    alpha_out_${output}_ready              => alpha_out_${output}_ready        ,
+		    alpha_out_${output}_startofpacket      => alpha_out_${output}_startofpacket,
+		    alpha_out_${output}_endofpacket        => alpha_out_${output}_endofpacket  ,
+#end
+#end
+    
+            control_address      => control_address  ,
+		    control_write        => control_write    ,
+		    control_writedata    => control_writedata,
+		    control_read         => control_read     ,
+		    control_readdata     => control_readdata 
+		);
+
+end architecture rtl;

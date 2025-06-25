@@ -1,0 +1,126 @@
+CLASS altera_avalon_tri_state_bridge
+{
+   ASSOCIATED_FILES
+   {
+       Add_Program       = "default";
+       Edit_Program      = "default";
+       Generator_Program = "--none--";
+   }
+   MODULE_DEFAULTS
+   {
+      class         = "altera_avalon_tri_state_bridge";
+      class_version = "7.08131";
+
+      SLAVE avalon_slave
+      {
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "avalon";
+            Bridges_To = "tristate_master";
+            Base_Address = "N/A";
+            Has_IRQ      = "0";
+            IRQ          = "N/A";
+            Register_Outgoing_Signals = "1";
+            Register_Incoming_Signals = "1";
+         }
+      }
+
+      MASTER tristate_master
+      {
+         SYSTEM_BUILDER_INFO
+         {
+            Bus_Type = "avalon_tristate";
+            Bridges_To = "avalon_slave";
+         }
+      }
+      SYSTEM_BUILDER_INFO
+      {
+         Instantiate_In_System_Module = "1";
+         Is_Enabled                   = "1";
+         Is_Bridge                    = "1";
+         Top_Level_Ports_Are_Enumerated = "1";
+      }
+   }
+   USER_INTERFACE
+   {
+      USER_LABELS
+      {
+          name = "Avalon Tristate Bridge";
+          technology = "Bridge";
+      }
+      LINKS
+      {  
+          LINK Avalon
+          {
+             url = "http://www.altera.com/literature/manual/mnl_avalon_spec.pdf";
+             title = "Avalon Bus Spec";
+          }
+      }
+      WIZARD_UI default
+      {
+        title="Avalon Tristate Bridge - {{ $MOD }}";
+        CONTEXT
+        {
+            SBI="SLAVE/SYSTEM_BUILDER_INFO";
+        }
+        align = "left";
+        PAGE 1
+        {
+          indent="5";
+          REM
+          GROUP
+          {
+             height="5";
+             width="1";
+          }
+          GROUP reg_inputs
+          {
+             title="Incoming Signals";
+             RADIO
+             {
+                title="Registered";
+                DATA { $SBI/Register_Incoming_Signals = 1; }
+                GROUP
+                {
+                   indent="30";
+                   TEXT { title="Increases off-chip Fmax, but also increases latency."; }
+                }
+             }
+             RADIO
+             {
+                title="Not registered";
+                DATA { $SBI/Register_Incoming_Signals = 0; }
+                GROUP
+                {
+                   indent="30";
+                   TEXT { title="Reduces latency, but also reduces off-chip Fmax."; }
+                   TEXT { title="NOTE: Check the Input Setup Times analysis in the Quartus Compilation"; }
+                   TEXT { title="Report to be sure your bus inputs meet system-level timing requirements."; }
+                }
+             }
+          }
+          REM
+          CHECK
+          {
+            title = "Register Incoming Signals";
+            DATA { $SBI/Register_Incoming_Signals = $;}
+            message = "{{ if (!$) 'Check the <b>Input Setup Times</b> analysis in the Quartus <br>Compilation Report to be sure your bus inputs meet <br> system-level timing requirements.'; }}";
+          }
+          GROUP
+          {
+             height="5";
+             width="1";
+          }
+          GROUP
+          {
+             indent=5;
+             TEXT { title = "Outgoing address and control signals are always registered."; }
+          }
+        }
+        GROUP messages {  }
+      }
+   }
+}
+
+
+

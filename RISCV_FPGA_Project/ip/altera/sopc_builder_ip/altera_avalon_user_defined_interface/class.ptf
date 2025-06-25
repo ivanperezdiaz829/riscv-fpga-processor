@@ -1,0 +1,735 @@
+CLASS altera_avalon_user_defined_interface
+{
+    ASSOCIATED_FILES
+    {
+        Add_Program  = "hdl_import";
+        Edit_Program = "hdl_import";
+        Jar_File = "hdl_import_wizard.jar";
+        Generator_Program = "mk_usersocket.pl";
+    }
+    MODULE_DEFAULTS
+    {
+        class         = "altera_avalon_user_defined_interface";
+        class_version = "7.08131";
+        SYSTEM_BUILDER_INFO
+        {
+            Instantiate_In_System_Module = "1";
+            Is_Enabled                   = "1";
+            Date_Modified                = "--unknown--";
+        }
+        WIZARD_SCRIPT_ARGUMENTS
+        {
+            Imported_Wait = "0";
+            Nios_Gen_Waits = "1";
+            Simulate_Imported_HDL = "1";
+            Port_Type = "Avalon Slave";
+            HDL_Import = "1";
+            Timing_Units = "ns";
+            Unit_Multiplier = "1";
+            Setup_Value = 0;
+            Hold_Value = 0;
+            Wait_Value = 0;
+            Address_Width = "32";
+            Module_List = "";
+            Show_Streaming = 0;
+            Show_Latency = 0;
+            Technology = "User Logic";
+            File_Count = "0";
+            Port_Count = "0";
+        }
+        SLAVE avalonS
+        {
+            SYSTEM_BUILDER_INFO
+            {
+                Bus_Type                     = "avalon";
+                Address_Alignment            = "native";
+                Address_Width                = "0";
+                Data_Width                   = "32";
+                Has_IRQ                      = "0";
+                IRQ_Number                   = "N/A";
+                Base_Address                 = "";
+                Has_Base_Address             = "1";
+                Read_Wait_States             = "0ns";
+                Write_Wait_States            = "0ns";
+                Setup_Time                   = "0ns";
+                Hold_Time                    = "0ns";
+                Is_Memory_Device             = "0";
+                Uses_Tri_State_Data_Bus      = "0";
+                Is_Enabled                   = "0";
+            }
+        }
+        MASTER avalonM
+        {
+            SYSTEM_BUILDER_INFO
+            {
+                Bus_Type                  = "avalon";
+                Data_Width                = "32";
+                Address_Width             = "8";
+                Max_Address_Width         = "32";
+                Is_Enabled                   = "0";
+            }
+        }
+        SLAVE ahbS
+        {
+            SYSTEM_BUILDER_INFO
+            {
+                    Bus_Type                    = "AHB";
+                    Has_IRQ                      = "0";
+                    IRQ_Number                   = "N/A";
+                    Has_Base_Address             = "1";
+                    Address_Width                = "10";
+                    Data_Width                   = "32";
+                    Base_Address                 = "--unknown--";
+                    Address_Alignment            = "native";
+                    Read_Wait_States             = "0";
+                    Write_Wait_States            = "0";
+                    Is_Enabled                   = "0";
+            }
+        }
+        MASTER ahbM
+        {
+            SYSTEM_BUILDER_INFO
+            {
+               Bus_Type = "AHB";
+               Address_Width = "32";
+               Max_Address_Width = "32";
+               Data_Width = "32";
+               Interrupts_Enabled = "1";
+               Irq_Scheme = "Individual_requests";
+               Is_Enabled                   = "0";
+            }
+        }
+    }
+   USER_INTERFACE
+   {
+        USER_LABELS
+        {
+            name="Interface to User Logic";
+            description="Connect your design logic to the system.";
+            technology="Special";
+        }
+        LINKS
+        {
+            LINK avalon
+            {
+                title = "Avalon Bus Spec";
+                url = "http://www.altera.com/literature/manual/mnl_avalon_bus.pdf";                
+            }
+            LINK SOPC
+            {
+                title = "SOPC Builder Data Sheet";
+                url = "http://www.altera.com/literature/ds/ds_sopc.pdf";                
+            }
+        }
+        WIZARD_UI hdl_import
+        {
+            title = "Interface to User Logic - {{ $MOD }}";
+            java = "hdl_import_wizard.hdl_import_wizard";
+            CONTEXT
+            {
+                WSA="WIZARD_SCRIPT_ARGUMENTS";
+                A_SBI="SLAVE avalonS/SYSTEM_BUILDER_INFO";
+            }
+            PAGES main
+            {
+                PAGE 1
+                {
+                    title = "Ports";
+                    spacing = "5";
+                    COMBO
+                    {
+                        action = "port_change";
+                        title = "Bus Interface Type:";
+                        enable = "{{if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                        ITEM
+                        {
+                            title = "Custom Instruction";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {1} else {0}; }}";
+                            DATA {$WSA/Port_Type = "Custom Instruction";}
+                        }
+                        ITEM
+                        {
+                            title = "Avalon Register Slave";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                            DATA 
+                            {
+                                $A_SBI/Is_Memory_Device = 0;
+                                $A_SBI/Address_Alignment = "native";
+                                $WSA/Port_Type = "Avalon Slave";
+                            }
+                        }
+                        ITEM
+                        {
+                            title = "Avalon Memory Slave";
+                            DATA
+                            {
+                                $A_SBI/Is_Memory_Device = 1;
+                                $A_SBI/Address_Alignment = "dynamic";
+                                $WSA/Port_Type = "Avalon Slave";
+                            }
+                        }
+                        ITEM
+                        {
+                            title = "Avalon Master";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                            DATA {$WSA/Port_Type = "Avalon Master";}
+                        }
+                        ITEM
+                        {
+                            title = "AHB Slave";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                            DATA {$WSA/Port_Type = "AHB Slave";}
+                        }
+                        ITEM
+                        {
+                            title = "AHB Master";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                            DATA {$WSA/Port_Type = "AHB Master";}
+                        }
+                    }
+                    GROUP
+                    {
+                        layout = "vertical";
+                        GROUP
+                        {
+                            title = "Design Files";
+                            align = "left";
+                            indent = 13;
+                            CHECK
+                            {
+                                title = "Import Verilog, VHDL, EDIF, or Quartus Schematic File";
+                                enable = "{{if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                                action = "toggle_import";
+                                DATA
+                                {
+                                    $WSA/HDL_Import = $;
+                                    $$dummy = "{{ if ($ == 0) {$MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module = 0}; }}";
+                                    $$dummy = "{{ if ($ == 0) {$WSA/Simulate_Imported_HDL = 0}; }}";
+                                }
+                                error = "{{ if (($WSA/HDL_Import == 1) && ($WSA/File_Count == 0)) 'Design files must be specified, when <b>Import Verilog, VHDL, EDIF</b> box is checked'; }}"; 
+                            }
+                            GROUP
+                            {
+                                enable = "{{$WSA/HDL_Import;}}";
+                                layout = "horizontal";
+                                GROUP
+                                {
+                                    layout = "vertical";
+                                    spacing = 5;
+                                    BUTTON
+                                    {
+                                        title = "Add..."; key = "A";
+                                        action = "file_add";
+                                    }
+                                    BUTTON
+                                    {
+                                        title = "Delete";
+                                        action = "file_delete";
+                                    }
+                                }
+                                LIST_TABLE t1
+                                {
+                                    java = "hdl_import_wizard.sopc_file_list";
+                                    glue = "0";
+                                    width = 285;
+                                    height = 20;
+                                }
+                            }
+                            GROUP
+                            {
+                                indent = 23;
+                                enable = "{{$WSA/HDL_Import;}}";
+                                spacing = 5;
+                                EDIT
+                                {
+                                    title = "Top module:   ";
+                                    suffix = "    ";
+                                    indent = 10;
+                                    DATA { $WSA/Module_Name = $; }
+                                }
+                            }
+                        }
+                        GROUP
+                        {
+                            title = "Port Information";
+                            spacing = 5;
+                            PORT_TABLE
+                            {
+                                java = "hdl_import_wizard.sopc_port_table";
+                                glue = 1;
+                                MENU
+                                {
+                                    ITEM { title = "Add Port"; key = "A"; action = "add_port"; }
+                                    ITEM { title = "Delete Selected Ports"; key = "D"; action = "delete_port"; }
+                                    ITEM { title = "Export Selected Ports"; key = "E"; action = "export_selected_ports"; }
+                                    ITEM { title = "Export Unset Ports"; key = "U"; action = "export_unset_ports"; }
+                                }
+                            }
+                            error = "{{ if ($WSA/Port_Count == 0) 'No ports listed in Port Information table'; }}";
+                            GROUP
+                            {
+                                layout = "horizontal";
+                                spacing = 10;
+                                BUTTON scan
+                                {
+                                    title = "Populate Port Table";
+                                    title="{{ if ($WSA/HDL_Import) {'Read port-list from files'} 
+                                              else {'Add generic list of ports'}; 
+                                           }}";  
+                                    key = "P";
+                                    action = "scan_hdl";
+                                }
+
+                                BUTTON
+                                {
+                                    title = "Add Port"; key = "D";
+                                    visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                                    action = "add_port";
+                                }
+                                BUTTON
+                                {
+                                    title = "Delete Port";
+                                    visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                                    action = "delete_port";
+                                }
+                            }
+                            CHECK
+                            {
+                                title = "Hide Advanced Signal Types";
+                                visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                                tooltip = "Makes advanced signal types available in the role column of the Port Table";
+                                DATA { $WSA/Show_Streaming = "!$"; }
+                            }
+                        }
+                    }
+                    GROUP
+                    {
+                        layout = "horizontal";
+                        GROUP
+                        {
+                            indent = 5;
+                            title = "AHB Slave's Addressable Space";
+                            visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                            layout = "horizontal";
+                            enable = "{{ if (($WSA/Port_Type == 'AHB Slave')) {1} else {0}; }}";
+                            COMBO
+                            {
+                                title = "Address span:";
+                                ITEM { title = "0x2"; DATA { $WSA/Address_Width = "1"; } }
+                                ITEM { title = "0x4"; DATA { $WSA/Address_Width = "2"; } }
+                                ITEM { title = "0x8"; DATA { $WSA/Address_Width = "3"; } }
+                                ITEM { title = "0x10"; DATA { $WSA/Address_Width = "4"; } }
+                                ITEM { title = "0x20"; DATA { $WSA/Address_Width = "5"; } }
+                                ITEM { title = "0x40"; DATA { $WSA/Address_Width = "6"; } }
+                                ITEM { title = "0x80"; DATA { $WSA/Address_Width = "7"; } }
+                                ITEM { title = "0x100"; DATA { $WSA/Address_Width = "8"; } }
+                                ITEM { title = "0x200"; DATA { $WSA/Address_Width = "9"; } }
+                                ITEM { title = "0x400"; DATA { $WSA/Address_Width = "10"; } }
+                                ITEM { title = "0x800"; DATA { $WSA/Address_Width = "11"; } }
+                                ITEM { title = "0x1000"; DATA { $WSA/Address_Width = "12"; } }
+                                ITEM { title = "0x2000"; DATA { $WSA/Address_Width = "13"; } }
+                                ITEM { title = "0x4000"; DATA { $WSA/Address_Width = "14"; } }
+                                ITEM { title = "0x8000"; DATA { $WSA/Address_Width = "15"; } }
+                                ITEM { title = "0x10000"; DATA { $WSA/Address_Width = "16"; } }
+                                ITEM { title = "0x20000"; DATA { $WSA/Address_Width = "17"; } }
+                                ITEM { title = "0x40000"; DATA { $WSA/Address_Width = "18"; } }
+                                ITEM { title = "0x80000"; DATA { $WSA/Address_Width = "19"; } }
+                                ITEM { title = "0x100000"; DATA { $WSA/Address_Width = "20"; } }
+                                ITEM { title = "0x200000"; DATA { $WSA/Address_Width = "21"; } }
+                                ITEM { title = "0x400000"; DATA { $WSA/Address_Width = "22"; } }
+                                ITEM { title = "0x800000"; DATA { $WSA/Address_Width = "23"; } }
+                                ITEM { title = "0x1000000"; DATA { $WSA/Address_Width = "24"; } }
+                                ITEM { title = "0x2000000"; DATA { $WSA/Address_Width = "25"; } }
+                                ITEM { title = "0x4000000"; DATA { $WSA/Address_Width = "26"; } }
+                                ITEM { title = "0x8000000"; DATA { $WSA/Address_Width = "27"; } }
+                                ITEM { title = "0x10000000"; DATA { $WSA/Address_Width = "28"; } }
+                                ITEM { title = "0x20000000"; DATA { $WSA/Address_Width = "29"; } }
+                                ITEM { title = "0x40000000"; DATA { $WSA/Address_Width = "30"; } }
+                                ITEM { title = "0x80000000"; DATA { $WSA/Address_Width = "31"; } }
+                                ITEM { title = "0x100000000"; DATA { $WSA/Address_Width = "32"; } enable = 0;}
+                            }
+                            TEXT
+                            {
+                                title = "Bits: {{ $WSA/Address_Width; }}";
+                            }
+                        }
+                    }
+                    GROUP
+                    {
+                        visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {1} else {0}; }}";
+                        CHECK
+                        {
+                            title = "Simulate custom instruction logic with system";
+                            DATA
+                            {
+                                $WSA/Simulate_Imported_HDL = "$";
+                                $MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module = 1;
+                            }
+                        }
+                    }
+                }
+                PAGE 2
+                {
+                    title = "Instantiation";
+                    layout = "vertical";
+                    align = "left";
+                    visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                    RADIO
+                    {
+                        title = "Do not simulate user logic (An empty module will be inserted instead).";
+                        enable = "{{ $WSA/HDL_Import }}";
+                        DATA
+                        {
+                            $WSA/Simulate_Imported_HDL = 0;
+                            $MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module = 1;
+                        }
+                    }
+                    RADIO
+                    {
+                        title = "Simulate user logic (Imported HDL will be simulated with the system).";
+                        enable = "{{ $WSA/HDL_Import }}";
+                        DATA
+                        {
+                            $WSA/Simulate_Imported_HDL = 1;
+                            $MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module = 1;
+                        }
+                    }
+                    RADIO
+                    {
+                        title = "Export Bus Ports (You must manually connect every port correctly).";
+                        enable = "{{if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                        DATA
+                        {
+                            $MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module = 0;
+                            $WSA/Simulate_Imported_HDL = 0;
+                        }
+                    }
+                    $$Instantiated = "{{if ($WSA/Simulate_Imported_HDL) {'Instantiate.gif'} else {'BlackBox.gif'}; }}";
+                    GROUP
+                    {
+                        align = "center";
+                        IMAGE { file = "{{if ($MOD/SYSTEM_BUILDER_INFO/Instantiate_In_System_Module) {$$Instantiated} else {'WireUp.gif'}; }}"; }
+                    }
+                }
+                PAGE 3
+                {
+                    title="Timing";
+                    align = "left";
+                    visible = "{{ if ($WSA/Port_Type == 'Custom Instruction') {0} else {1}; }}";
+                    enable = "{{ if ($WSA/Port_Type == 'Avalon Slave') {1} else {0}; }}";
+                    $$user_logic_clock_freq = "{{ sopc_get_clock_freq($MOD) }}";
+                    $$ns_per_cycle = "{{ 1E9/$$user_logic_clock_freq; }}";
+                    GROUP
+                    {
+                        GROUP
+                        {
+                            GROUP
+                            {
+                                #just for spacing
+                                width = 10;
+                            }
+                            GROUP
+                            {
+                                layout = "horizontal";
+                                align = "left";
+                                enable = "{{ if ($WSA/Imported_Wait==1) {0} else {1}; }}";
+                                EDIT
+                                {
+                                    title="Setup:";
+                                    rows = 1;
+                                    width=3;
+                                    type="decimal";
+                                    DATA
+                                    {
+                                        $WSA/Setup_Value = $;
+                                    }
+                                    ACTION change
+                                    {
+                                        $$dummy = "{{ if ($WSA/Setup_Value == 0) {$WSA/Setup_Value = 0}; }}";
+                                    }
+                                    error = "{{ if (($ > 999999999) && ($ != '')) 'Setup time exceeded range'; }}";
+                                    error = "{{ if (($ < 0) && ($ != '')) 'Setup time must be >= 0'; }}";
+                                }
+                                EDIT
+                                {
+                                    rows = 1;
+                                    width=3;
+                                    title="Wait:";
+                                    type="decimal";
+                                    DATA
+                                    {
+                                        $WSA/Wait_Value = $;
+                                    }
+                                    ACTION change
+                                    {
+                                        $$dummy = "{{ if ($WSA/Wait_Value == 0) {$WSA/Wait_Value = 0}; }}";
+                                    }
+                                    error = "{{ if (($ > 999999999) && ($ != '')) 'Wait time exceeded range'; }}";
+                                    error = "{{ if (($ < 0) && ($ != '')) 'Wait time must be >= 0'; }}";
+                                }
+                                EDIT
+                                {
+                                    title="Hold:";
+                                    rows = 1;
+                                    width=3;
+                                    type="decimal";
+                                    DATA
+                                    {
+                                        $WSA/Hold_Value = $;
+                                    }
+                                    ACTION change
+                                    {
+                                        $$dummy = "{{ if ($WSA/Hold_Value == 0) {$WSA/Hold_Value = 0}; }}";
+                                    }
+                                    error = "{{ if (($ > 999999999) && ($ != '')) 'Hold time exceeded range'; }}";
+                                    error = "{{ if (($ < 0) && ($ != '')) 'Hold time must be >= 0'; }}";
+                                }
+                                $$dummy = "{{ if ($WSA/Timing_Units == 'ns') {$WSA/Unit_Multiplier = 1}
+                                              else { 
+                                                if ($WSA/Timing_Units == 'us') {$WSA/Unit_Multiplier = 1000}
+                                                    else { 
+                                                        if ($WSA/Timing_Units == 'ms') {$WSA/Unit_Multiplier = 1000000}
+                                                            else {$WSA/Unit_Multiplier = $$ns_per_cycle}
+                                                    }
+                                                }
+                                            }}";
+                                COMBO
+                                {
+                                    title = "Units:";
+                                    ITEM
+                                    {
+                                        title = "ns";
+                                        DATA 
+                                        { 
+                                            $WSA/Timing_Units = "ns"; 
+                                            $WSA/Unit_Multiplier = 1;
+                                        }
+                                    }
+                                    ITEM
+                                    {
+                                        title = "us";
+                                        DATA 
+                                        { 
+                                            $WSA/Timing_Units = "us"; 
+                                            $WSA/Unit_Multiplier = 1000;
+                                        }
+                                    }
+                                    ITEM
+                                    {
+                                        title = "ms";
+                                        DATA 
+                                        { 
+                                            $WSA/Timing_Units = "ms"; 
+                                            $WSA/Unit_Multiplier = 1000000;
+                                        }
+                                    }
+                                    ITEM
+                                    {
+                                        title = "cycles";
+                                        DATA 
+                                        { 
+                                            $WSA/Timing_Units = "cycles"; 
+                                            $WSA/Unit_Multiplier = "{{ $$ns_per_cycle; }}"; 
+                                        }
+                                    }
+                                }
+                                 $A_SBI/Write_Wait_States = "{{ if ($WSA/Imported_Wait == 0) 
+                                                            str($WSA/Wait_Value) + $WSA/Timing_Units;
+                                                      else  'peripheral_controlled'; }}";
+                                 $A_SBI/Read_Wait_States = "{{ if ($WSA/Imported_Wait == 0) 
+                                                            str($WSA/Wait_Value) + $WSA/Timing_Units;
+                                                      else  'peripheral_controlled'; }}";
+                                 $A_SBI/Setup_Time = "{{ if ($WSA/Imported_Wait == 0) 
+                                                            str($WSA/Setup_Value) + $WSA/Timing_Units;
+                                                      else  0; }}";
+                                 $A_SBI/Hold_Time = "{{ if ($WSA/Imported_Wait == 0) 
+                                                            str($WSA/Hold_Value) + $WSA/Timing_Units;
+                                                      else  0; }}";
+                            }
+                            GROUP
+                            {
+                                layout = "horizontal";
+                                TEXT { title = "System Clock {{$$user_logic_clock_freq / 1000000}} MHz"; }
+                                TEXT { title = "Timing granularity is System Clock cycles."; }
+                            }
+                            GROUP
+                            {
+                                layout = "vertical";
+                                GROUP
+                                {
+                                    title = "Read Waveforms";
+                                    WAVEFORM
+                                    {
+
+                                        $$Read_Wait_States = "{{ if ($WSA/Port_Type == 'Avalon Slave') 
+                                                                    {ceil (int($WSA/Wait_Value * $WSA/Unit_Multiplier) / $$ns_per_cycle)} 
+                                                                    else {0}; 
+                                                              }}";
+                                        $$Write_Wait_States= "{{ if ($WSA/Port_Type == 'Avalon Slave') 
+                                                                    {ceil (int($WSA/Wait_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle)} 
+                                                                    else {0}; 
+                                                              }}";
+                                        $$Setup_Time= "{{ if ($WSA/Port_Type == 'Avalon Slave') 
+                                                                    {ceil (int($WSA/Setup_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle)} 
+                                                                    else {0}; 
+                                                       }}";
+                                        $$Hold_Time= "{{ if ($WSA/Port_Type == 'Avalon Slave') 
+                                                                    {ceil (int($WSA/Hold_Value*$WSA/Unit_Multiplier) / $$ns_per_cycle)} 
+                                                                    else {0}; 
+                                                      }}";
+                                        
+                                        width=260;
+                                        height=80;
+                                        $$WIDTH = "30";
+                                        $$TOTAL="{{ $$Setup_Time + 1 + $$Read_Wait_States }}";
+                                        $$SETUPi="{{ int(($$WIDTH-1)*($$Setup_Time / $$TOTAL)); }}";
+                                        $$SETUP="{{ if (($$SETUPi == 0) && ($$Setup_Time != 0)) {$$SETUPi+1} else {$$SETUPi}; }}";
+                                        $$SETUPt="{{ if ($WSA/Timing_Units == '') 
+                                                        {$$Setup_Time} 
+                                                        else {int(1E9*($$Setup_Time / $$user_logic_clock_freq)) / $WSA/Unit_Multiplier}; 
+                                                  }}";
+                                        $$DispStime="{{ if ($$SETUP > 0) {1} else {0}; }}";
+                                        $$CENTER="{{ $$WIDTH - $$SETUP; }}";
+                                        $$DWIDTH="{{ $$WIDTH - 2; }}";
+                                        $$RWS="{{ if ($$Read_Wait_States == 0) { 1 } else { $$Read_Wait_States} }}";
+                                        $$CENTERt="{{ if ($WSA/Timing_Units == '')
+                                                        {$$RWS}
+                                                        else {int(($$RWS) * $$ns_per_cycle) / $WSA/Unit_Multiplier}; 
+                                                   }}";
+                                        ITEM { value="SSHdata,SSLaddr,3,BB,DD,DD,DT,TD,{{$$DWIDTH;}},DD,DT,TD,3,DD"; }
+                                        ITEM { value="SSMselect,3,BB,LL,LL,LL,VV,{{$$WIDTH;}},HH,VV,4,LL"; }
+                                        ITEM { value="SSMreadn,3,BB,3,HH,{{$$SETUP;}},HH,VV,CBLACK,{{$$CENTER;}},LL,VV,4,HH"; }
+                                        $$RPulseTextStart="{{ ((10*$$SETUP) + 65); }}";
+                                        ITEM { value="CBLUE,X{{$$RPulseTextStart;}},Y70,1,SC{{$$CENTERt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                                        ITEM { value="CBLUE,X50,Y70,{{$$DispStime;}},SC{{$$SETUPt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                                    }
+                                }
+                                GROUP
+                                {
+                                    title = "Write Waveforms";
+                                    WAVEFORM
+                                    {
+
+                                        width=260;
+                                        height=80;
+                                        $$wWIDTH = 30;
+                                        $$wTOTAL="{{ $$Setup_Time + 1 + $$Write_Wait_States + $$Hold_Time; }}";
+                                        $$wSETUPi="{{ int(($$wWIDTH-1)*($$Setup_Time / $$wTOTAL)); }}";
+                                        $$wSETUP="{{ if (($$wSETUPi == 0) && ($$Setup_Time != 0)) {$$wSETUPi+1} else {$$wSETUPi}; }}";
+                                        $$wSETUPt="{{ int(1E9*($$Setup_Time / $$user_logic_clock_freq)); }}";
+                                        $$wDispStime="{{ if ($$wSETUP > 0) {1} else {0}; }}";
+                                        $$wHOLDi="{{ int(($$wWIDTH-1)*($$Hold_Time / $$wTOTAL)); }}";
+                                        $$wHOLD="{{ if (($$wHOLDi == 0) && ($$Hold_Time != 0)) {$$wHOLDi+1} else {$$wHOLDi}; }}";
+                                        $$wHOLDt="{{ if ($WSA/Timing_Units == '')
+                                                        {$$Hold_Time}
+                                                        else {int(1E9*($$Hold_Time / $$user_logic_clock_freq)) / $WSA/Unit_Multiplier}; 
+                                                  }}";
+                                        $$wDispHtime="{{ if ($$wHOLD > 0) {1} else {0}; }}";
+                                        $$wCENTER="{{ $$wWIDTH-$$wSETUP-$$wHOLD; }}";
+                                        $$wDWIDTH="{{ $$WIDTH - 2; }}";
+                                        ITEM { value="SSHdata,SSLaddr,3,BB,DD,DD,DT,TD,{{$$wDWIDTH;}},DD,DT,TD,3,DD"; }
+                                        ITEM { value="SSMselect,3,BB,LL,LL,LL,VV,{{$$wWIDTH;}},HH,VV,4,LL"; }
+                                        ITEM { value="SSMwriten,3,BB,3,HH,{{$$wSETUP;}},HH,VV,CBLACK,{{$$wCENTER;}},LL,VV,{{$$wHOLD;}},HH,CBLACK,4,HH"; }
+                                        $$WPulseTextStart="{{ ((10*$$wSETUP) + 65); }}";
+                                        ITEM { value="CBLUE,X{{$$WPulseTextStart;}},Y70,1,SC{{$$CENTERt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                                        ITEM { value="CBLUE,X50,Y70,{{$$wDispStime;}},SC{{$$SETUPt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                                        ITEM { value="CBLUE,X330,Y70,{{$$wDispHtime;}},SC{{$$wHOLDt;}}{{$WSA/Timing_Units;}},CBLACK"; }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                PAGE 4
+                {
+                    title = "Publish";
+                    align = "top";
+                    spacing = 10;
+                    indent = 10;
+                    layout = "vertical";
+                    GROUP
+                    {
+                        align = "left";
+                        spacing = 10;
+                        TEXT { title = "<b>You can add your logic or interface to the SOPC Builder library.</b>";}
+                        GROUP
+                        {
+                            spacing = 0;
+                            glue = 0;
+                            align = "left";
+                            TEXT { title = "You must fill in the Component Name below.";}
+                            TEXT { title = "Then press the <b>Add to Library</b> button.";}
+                        }
+                        TEXT { title = "The new library component will be created as a subdirectory\nof your Quartus project."; }
+                    }
+                    GROUP
+                    {
+                        align = "left";
+                        glue = 0;
+                        spacing = 1;
+                        TEXT { title = "Component Name:"; }
+                        EDIT
+                        {
+                            tooltip = "The name that will appear in the SOPC Builder library.";
+                            DATA { $WSA/Component_Desc = $; }
+                        }
+                        TEXT { title = "New component directory name: {{ if ($WSA/Component_Desc != '') 'user_logic_'; }}{{ $WSA/Component_Desc; }}"; }
+                    }
+                    GROUP
+                    {
+                        align = "left";
+                        glue = 0;
+                        spacing = 1;
+                        TEXT { title = "Group:"; }
+                        EDIT
+                        {
+                            DATA { $WSA/Technology = $; }
+                        }
+                        TEXT { title = "The SOPC Builder category under which this component will appear.\n"; }
+                    }
+                }
+            }
+            GROUP nav
+            {
+                layout="horizontal";
+                spacing = "5";
+                BUTTON
+                { title="Cancel"; key="C"; action="wizard_cancel";   }
+                BUTTON
+                { title="< Prev"; key="P"; action="wizard_prev";   }
+                BUTTON
+                { title="Next >"; key="N"; action="wizard_next";   }
+                BUTTON
+                { 
+                    title="{{ if ($$edit == '1') {'Finish Editing'} 
+                               else {'Add to System'}; 
+                          }}";  
+                    key="S"; 
+                    action="wizard_finish"; 
+                }
+                BUTTON
+                {
+                    title="Add to Library";  key="L"; action="publish_component";
+                    enable = "{{ if (($WSA/Component_Desc == '')) {0} else {1}; }}";
+                }
+            }
+        }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

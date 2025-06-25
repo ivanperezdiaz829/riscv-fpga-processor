@@ -1,0 +1,17 @@
+[Interfaces|Interlaken]
+Interlaken PHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_xcvr_interlaken_hw.tcl" --wizard:altera_xcvr_interlaken  --familyparameter:device_family  --early_gen:on %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix V | Arria V GZ"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>Interlaken PHY</ALIAS>
+<ALIAS>Interlaken PCS v10.0</ALIAS>
+<ALIAS>Interlaken PHY v10.1</ALIAS>
+<ALIAS>Interlaken PHY v11.0</ALIAS>
+<ALIAS>Interlaken PHY v11.1</ALIAS>
+<ALIAS>Interlaken PHY v12.0</ALIAS>
+<ALIAS>Interlaken PHY v12.1</ALIAS>
+<ALIAS>Interlaken PHY v13.0</ALIAS>
+</INFO>

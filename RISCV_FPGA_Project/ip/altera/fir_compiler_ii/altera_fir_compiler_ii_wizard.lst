@@ -1,0 +1,10 @@
+[DSP|Filters]
+FIR Compiler II v13.1 = "%t" "%w/../common/lib/megawizard.pl" --wizard_file:"%w/src/HP_FIR_hw.tcl" --wizard:altera_fir_compiler_ii --cusp_ip:true --unencrypted:vhdl --early_gen:on --familyparameter:deviceFamily %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY SUPPORTED="NONE | Stratix III | Stratix IV | Stratix V | Arria II GX | Arria II GZ | Arria V | Arria V GZ | Arria 10 | Cyclone III | Cyclone III LS | Cyclone IV E | Cyclone IV GX | Cyclone V" SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" />
+<PINPLAN SUPPORTED="OFF"/>
+<ALIAS>FIR Compiler II v13.0</ALIAS>
+</INFO>

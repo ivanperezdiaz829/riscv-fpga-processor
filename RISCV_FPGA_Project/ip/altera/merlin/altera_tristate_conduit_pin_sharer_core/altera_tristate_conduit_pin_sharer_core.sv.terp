@@ -1,0 +1,526 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+@@ proc terp_write { hdl } {
+@@  global terp_out
+${hdl}
+@@ }
+@@
+@@ # Passed in variables
+@@ #   TRISTATECONDUIT_INFO
+@@ #   NUM_INTERFACES
+@@ #   OUTPUT_NAME
+@@ #   SLAVE_INPUT_INTERFACE_PREFIX
+@@ #   SHARED_SIGNAL_LIST
+@@
+@@ global OUTPUT_NAME_GLOBAL
+@@ set OUTPUT_NAME_GLOBAL ${OUTPUT_NAME}
+@@ #Setup Variables
+@@ set sys_info [decode_tristate_conduit_masters ${TRISTATECONDUIT_INFO}]
+@@
+@@ array set derived_lists [ create_derived_lists ${sys_info} ${HIERARCHY_LEVEL} ]
+@@  set slave_interface_list          $derived_lists(slave_interface_list)
+@@  set module_origin_list            $derived_lists(module_origin_list)
+@@  set signal_origin_list            $derived_lists(signal_origin_list)
+@@  set signal_origin_type            $derived_lists(signal_origin_type)
+@@  set signal_origin_width           $derived_lists(signal_origin_width)
+@@  set signal_output_names           $derived_lists(signal_output_names)
+@@  set signal_input_names            $derived_lists(signal_input_names)
+@@  set signal_output_enable_names    $derived_lists(signal_output_enable_names)
+@@  set shared_signal_list            ${SHARED_SIGNAL_LIST}
+@@  
+@@ array set split_lists [segregate_shared_from_unshared \
+@@			   $module_origin_list \
+@@			   $signal_origin_list \
+@@			   $signal_origin_type \
+@@			   $signal_origin_width \
+@@			   $signal_output_names \
+@@			   $signal_input_names \
+@@			   $signal_output_enable_names \
+@@			   $shared_signal_list\
+@@                         $slave_interface_list\
+@@                       ]
+@@  
+@@   set shared_module_origin_list             $split_lists(shared_module_origin_list)
+@@   set shared_signal_origin_list             $split_lists(shared_signal_origin_list)
+@@   set shared_signal_origin_type             $split_lists(shared_signal_origin_type)
+@@   set shared_signal_origin_width            $split_lists(shared_signal_origin_width)
+@@   set shared_signal_names                   $split_lists(shared_signal_names)
+@@   set shared_signal_output_names            $split_lists(shared_signal_output_names)
+@@   set shared_signal_output_enable_names     $split_lists(shared_signal_output_enable_names)
+@@   set shared_signal_input_names             $split_lists(shared_signal_input_names)
+@@   set shared_signal_slave_interface_names   $split_lists(shared_signal_slave_interface_names)
+@@
+@@   set unshared_module_origin_list           $split_lists(unshared_module_origin_list)
+@@   set unshared_signal_origin_list           $split_lists(unshared_signal_origin_list)
+@@   set unshared_signal_origin_type           $split_lists(unshared_signal_origin_type)
+@@   set unshared_signal_origin_width          $split_lists(unshared_signal_origin_width)
+@@   set unshared_signal_output_names          $split_lists(unshared_signal_output_names)
+@@   set unshared_signal_output_enable_names   $split_lists(unshared_signal_output_enable_names)
+@@   set unshared_signal_input_names           $split_lists(unshared_signal_input_names)
+@@   set unshared_signal_slave_interface_names $split_lists(unshared_signal_slave_interface_names)
+@@
+@@  
+@@ array set shared_details [ create_shared_specific_arrays \
+@@			      $shared_signal_slave_interface_names \
+@@			      $shared_signal_origin_list \
+@@			      $shared_signal_origin_type \
+@@			      $shared_signal_origin_width \
+@@			      $shared_signal_names\
+@@                            $shared_signal_input_names\
+@@                            $shared_signal_output_names\
+@@                            $shared_signal_output_enable_names\
+@@			      ]
+@@
+@@   array set shared_signal_widths_array                   $shared_details(shared_signal_widths_array)
+@@   array set shared_signal_count_array                    $shared_details(shared_signal_count_array)
+@@   array set shared_signal_types_array                    $shared_details(shared_signal_types_array)
+@@   array set shared_name_to_signal_name_and_widths_array  $shared_details(shared_name_to_signal_name_and_widths_array)
+@@   array set signal_name_to_interface_array               $shared_details(signal_name_to_interface_array)
+@@   array set signal_name_to_input_name_array              $shared_details(signal_name_to_input_name_array)
+@@   array set signal_name_to_output_name_array             $shared_details(signal_name_to_output_name_array)
+@@   array set signal_name_to_output_enable_name_array      $shared_details(signal_name_to_output_enable_name_array)  
+@@  
+@@   set shared_signal_widths $shared_details(shared_signal_widths)
+@@   set shared_signal_count  $shared_details(shared_signal_count)
+@@   set shared_signal_types  $shared_details(shared_signal_types)
+@@
+@@			  
+@@  # Perform actions for tcs signal port declaration			  
+@@
+@@ set output_action_tcs      { uplevel "terp_write {    ,input  logic\[ [expr $width - 1 ] :0 \] ${slave_interface_name}_${output_name}}" }
+@@ set input_action_tcs       { uplevel "terp_write {    ,output logic\[ [expr $width - 1 ] :0 \] ${slave_interface_name}_${input_name}}"  }
+@@ set bidir_action_tcs       { uplevel "terp_write {    ,output logic\[ [expr $width - 1] :0 \]  ${slave_interface_name}_${input_name}}"
+@@                              uplevel "terp_write {    ,input  logic\[ [expr $width - 1] :0 \]  ${slave_interface_name}_${output_name}}" 
+@@                              uplevel "terp_write {    ,input  logic ${slave_interface_name}_${output_enable_name}}"
+@@                            }
+@@ set tristatable_action_tcs { uplevel "terp_write {    ,input  logic\[ [expr $width - 1] :0 \]  ${slave_interface_name}_${output_name}}"
+@@                              uplevel "terp_write {    ,input  logic ${slave_interface_name}_${output_enable_name}}"
+@@                            }
+@@ set includes_tcs {
+@@		      output_action_tcs
+@@		      input_action_tcs
+@@		      bidir_action_tcs
+@@		      tristatable_action_tcs
+@@                    SLAVE_INPUT_INTERFACE_PREFIX
+@@                    NUM_INTERFACES
+@@                    comma
+@@                    i		     
+@@		    }
+@@
+@@
+@@  # Perform actions for tcm unshared signal port declaration			  
+@@
+@@ set output_action_tcm_us      { uplevel "terp_write {    ,output  logic\[ [expr $width - 1 ] :0 \] ${master_module_name}_${output_name}}" }
+@@ set input_action_tcm_us       { uplevel "terp_write {    ,input   logic\[ [expr $width - 1 ] :0 \] ${master_module_name}_${input_name}}"  }
+@@ set bidir_action_tcm_us       { uplevel "terp_write {    ,input   logic\[ [expr $width - 1] :0 \]  ${master_module_name}_${input_name}}"
+@@                                 uplevel "terp_write {    ,output  logic\[ [expr $width - 1] :0 \]  ${master_module_name}_${output_name}}" 
+@@                                 uplevel "terp_write {    ,output  logic ${master_module_name}_${output_enable_name}}"
+@@                               }
+@@ set tristatable_action_tcm_us { uplevel "terp_write {    ,output  logic\[ [expr $width - 1] :0 \]  ${master_module_name}_${output_name}}"
+@@                                 uplevel "terp_write {    ,output  logic ${master_module_name}_${output_enable_name}}"
+@@                               }
+@@ set includes_tcm_us {
+@@		         output_action_tcm_us
+@@		         input_action_tcm_us
+@@		         bidir_action_tcm_us
+@@		         tristatable_action_tcm_us
+@@		       }
+@@
+@@
+@@ # Perform actions for tcm shared signal port declarations
+@@
+@@ set output_action_tcm_s      { uplevel "terp_write {    ,output  logic\[ [expr $width - 1 ] :0 \] ${name}}" }
+@@ set input_action_tcm_s       { uplevel "terp_write {    ,input   logic\[ [expr $width - 1 ] :0 \] ${name}}"  }
+@@ set bidir_action_tcm_s       { uplevel "terp_write {    ,input   logic\[ [expr $width - 1]  :0 \]  ${name}_in}"
+@@                                uplevel "terp_write {    ,output  logic\[ [expr $width - 1]  :0 \]  ${name}}" 
+@@                                uplevel "terp_write {    ,output  logic ${name}_outen}"
+@@                              }
+@@ set tristatable_action_tcm_s { uplevel "terp_write {    ,output  logic\[ [expr $width - 1]  :0 \]  ${name}}"
+@@                                uplevel "terp_write {    ,output  logic ${name}_outen}"
+@@                              }
+@@ set includes_tcm_s {
+@@  		         name
+@@		         width
+@@		       }
+@@
+@@ 			  
+
+  
+`timescale 1 ns / 1 ns
+
+			 
+module ${OUTPUT_NAME} (
+ // ** Clock and Reset Connections
+    input  logic clk
+   ,input  logic reset
+
+ // ** Arbiter Connections
+
+ // *** Arbiter Grant Interface
+   ,output logic ack
+   ,input  logic [ ${NUM_INTERFACES} - 1 : 0 ] next_grant
+
+// *** Arbiter Request Interface
+
+@@  iterate_through_sysinfo ${sys_info} {} \
+@@  {
+@@    terp_write "    ,output logic arb_${master_module_name}_${master_interface_name} "
+@@  } {} {} ${HIERARCHY_LEVEL}
+		
+		     // ** Avalon TC Slave Interfaces
+
+@@ iterate_through_sysinfo ${sys_info}\
+@@ {
+@@   terp_write "\n\n\n  // Slave Interface ${slave_interface_name}\n"
+@@   terp_write "    ,input  logic ${slave_interface_name}_request "
+@@   terp_write "    ,output logic ${slave_interface_name}_grant   "
+@@ } \
+@@ {
+@@   terp_write "\n  //${master_module_name}.${master_interface_name} signals"
+@@ } \
+@@ {
+@@   set ta_includes {				
+@@     width
+@@     output_name
+@@     input_name
+@@     output_enable_name
+@@     slave_interface_name					
+@@   }
+@@   type_action ${type} ${output_action_tcs} ${input_action_tcs} ${bidir_action_tcs} ${tristatable_action_tcs} ${ta_includes}
+@@ } ${includes_tcs} ${HIERARCHY_LEVEL}
+		     
+		     // ** Avalon TC Master Interface
+    ,output logic request
+    ,input  logic grant
+
+		     // *** Passthrough Signals
+		     
+@@ iterate_through_listinfo $unshared_module_origin_list \
+@@                          {} \
+@@                          $unshared_signal_origin_type \
+@@                          $unshared_signal_origin_width \
+@@                          $unshared_signal_output_names \
+@@                          $unshared_signal_input_names \
+@@                          $unshared_signal_output_enable_names \
+@@ {} \
+@@ {
+@@   set ta_includes {				
+@@     width
+@@     output_name
+@@     input_name
+@@     output_enable_name
+@@     master_module_name					
+@@   }
+@@   type_action ${type} ${output_action_tcm_us} ${input_action_tcm_us} ${bidir_action_tcm_us} ${tristatable_action_tcm_us} ${ta_includes}
+@@ } ${includes_tcm_us}
+		     
+                     // *** Shared Signals
+		      	     
+@@ foreach name [array names shared_signal_types_array] {
+@@   set type  $shared_signal_types_array(${name})
+@@   set width $shared_signal_widths_array(${name})
+@@   type_action ${type} ${output_action_tcm_s} ${input_action_tcm_s} ${bidir_action_tcm_s} ${tristatable_action_tcm_s} ${includes_tcm_s}
+@@ }
+
+		     );
+
+   function [${NUM_INTERFACES}-1:0] getIndex;
+      
+      input [${NUM_INTERFACES}-1:0] select;
+      
+      getIndex = 'h0;
+      
+      for(int i=0; i < $NUM_INTERFACES; i = i + 1) begin
+	 if( select[i] == 1'b1 )
+           getIndex = i;
+      end
+      
+   endfunction // getIndex
+
+   logic[ ${NUM_INTERFACES} - 1 : 0 ] selected_grant;
+
+
+   // Request Assignments
+
+@@  iterate_through_sysinfo ${sys_info} {} \
+@@  {
+@@    terp_write "    assign arb_${master_module_name}_${master_interface_name} = ${slave_interface_name}_request;"
+@@  } {} {} ${HIERARCHY_LEVEL}
+   
+   logic [ ${NUM_INTERFACES} - 1 : 0 ] concated_incoming_requests;
+   
+   
+   assign 			      concated_incoming_requests = {						    
+@@ set i 0
+@@ set comma " "													    
+@@ iterate_through_sysinfo ${sys_info} {}\
+@@  {
+@@    terp_write "        ${comma}${SLAVE_INPUT_INTERFACE_PREFIX}[expr ${NUM_INTERFACES}-${i}-1]_request "
+@@    incr i	
+@@    set comma ","				    
+@@  } {} ${includes_tcs} ${HIERARCHY_LEVEL}
+				};
+   
+				       
+   assign 			      request = | concated_incoming_requests;
+@@ set i 0						
+@@ iterate_through_sysinfo ${sys_info} {}\
+@@  {
+@@    terp_write "  assign        ${SLAVE_INPUT_INTERFACE_PREFIX}${i}_grant = selected_grant\[${i}\];"
+@@    incr i
+@@  } {} ${includes_tcs} ${HIERARCHY_LEVEL}
+
+   
+    // Perform Grant Selection						  
+   always@(posedge clk, posedge reset) begin
+     if(reset) begin
+	selected_grant<=0;
+	ack <= 0;
+     end 
+     else begin
+       if(grant && (concated_incoming_requests[getIndex(selected_grant)] == 0 || selected_grant == 0 )) begin
+	  if(~request)
+	    selected_grant <= '0;
+	  else
+	    selected_grant <= next_grant;
+	  
+          ack<=1;
+       end
+       else begin
+         ack<=0;
+         selected_grant <= selected_grant;
+       end
+     end
+   end // always@ (posedge clk, posedge reset)
+
+// Passthrough Signals
+
+@@ set output_action_p      { uplevel "terp_write {    assign ${master_module_name}_${output_name} = ${slave_interface_name}_${output_name};}" }
+@@ set input_action_p       { uplevel "terp_write {    assign ${slave_interface_name}_${input_name} = ${master_module_name}_${input_name};}"  }
+@@ set bidir_action_p       { uplevel "terp_write {    assign ${slave_interface_name}_${input_name} = ${master_module_name}_${input_name};}"
+@@                              uplevel "terp_write {    assign ${master_module_name}_${output_name} =  ${slave_interface_name}_${output_name};}" 
+@@                              uplevel "terp_write {    assign ${master_module_name}_${output_enable_name} = ${slave_interface_name}_${output_enable_name};}"
+@@                            }
+@@ set tristatable_action_p { uplevel "terp_write {    assign ${master_module_name}_${output_name} = ${slave_interface_name}_${output_name};}"
+@@                              uplevel "terp_write {    assign ${master_module_name}_${output_enable_name} = ${slave_interface_name}_${output_enable_name};}"
+@@                            }
+@@ set includes_p {
+@@		      output_action_p
+@@		      input_action_p
+@@		      bidir_action_p
+@@		      tristatable_action_p
+@@		    }
+@@		 
+@@ iterate_through_listinfo \
+@@	$unshared_module_origin_list \
+@@	$unshared_signal_slave_interface_names \
+@@	$unshared_signal_origin_type \
+@@	$unshared_signal_origin_width \
+@@	$unshared_signal_output_names \
+@@	$unshared_signal_input_names \
+@@	$unshared_signal_output_enable_names \
+@@	{} \
+@@	{
+@@	  set slave_interface_name ${role}
+@@	  set ta_includes "slave_interface_name master_module_name output_name input_name output_enable_name width"
+@@        type_action ${type} ${output_action_p} ${input_action_p} ${bidir_action_p} ${tristatable_action_p} ${ta_includes}
+@@	} ${includes_p}
+  
+// Renamed Signals
+@@ set output_action_sr      { uplevel "terp_write {    assign ${shared_name} = ${slave_interface_name}_${output_name} ;}" }
+@@ set input_action_sr       { uplevel "terp_write {    assign ${slave_interface_name}_${input_name} = ${shared_name}\[[expr ${width}-1]:0\];}"  }
+@@ set bidir_action_sr       { uplevel "terp_write {    assign ${slave_interface_name}_${input_name} = ${shared_name}_in\[[expr ${width}-1]:0\];}"
+@@                             uplevel "terp_write {    assign ${shared_name} =  ${slave_interface_name}_${output_name};}" 
+@@                             uplevel "terp_write {    assign ${shared_name}_outen = ${slave_interface_name}_${output_enable_name};}"
+@@                            }
+@@ set tristatable_action_sr { uplevel "terp_write {    assign ${shared_name} = ${slave_interface_name}_${output_name};}"
+@@                             uplevel "terp_write {    assign ${shared_name}_outen = ${slave_interface_name}_${output_enable_name};}"
+@@                            }
+@@ set includes_sr {
+@@		      output_action_sr
+@@		      input_action_sr
+@@		      bidir_action_sr
+@@		      tristatable_action_sr
+@@		      shared_module_origin_list
+@@		      shared_signal_slave_interface_names
+@@		      shared_signal_origin_type
+@@		      shared_signal_origin_width
+@@		      shared_signal_output_names
+@@		      shared_signal_input_names
+@@		      shared_signal_output_enable_names
+@@		      shared_signal_names
+@@                    shared_signal_count
+@@                    shared_signal_widths
+@@                    shared_name_to_signal_name_and_widths_array
+@@                    signal_name_to_interface_array		    
+@@		    }
+@@					      
+@@		 
+@@ iterate_through {\
+@@      master_path          $shared_module_origin_list\
+@@	slave_interface_name $shared_signal_slave_interface_names\
+@@	type                 $shared_signal_origin_type\
+@@	width                $shared_signal_origin_width\
+@@	output_name          $shared_signal_output_names\
+@@	input_name           $shared_signal_input_names\
+@@	output_enable_name   $shared_signal_output_enable_names\
+@@	shared_name          $shared_signal_names\
+@@      shared_count         $shared_signal_count\
+@@      shared_width         $shared_signal_widths\
+@@	} \
+@@     {
+@@	  #Decode master path into master module and interface name, replace ../ with _
+@@	  regexp {(.*)\.(.*)} $master_path junk master_module_name master_interface_name
+@@        regsub -all -- {\.\./} ${master_module_name} "_" master_module_name
+@@	 
+@@	  set ta_includes "slave_interface_name master_module_name output_name input_name output_enable_name width shared_name shared_width"
+@@
+@@       if { $shared_count == 1 } {	 
+@@         type_action ${type} ${output_action_sr} ${input_action_sr} ${bidir_action_sr} ${tristatable_action_sr} ${ta_includes}
+@@       } \
+@@	} ${includes_sr}
+  
+// Shared Signals
+@@ if { [array exists multiplexor_list] } { array unset multiplexor_list }
+@@
+@@ proc create_shared_input { shared_name signal_names_and_widths signal_name_to_interface signal_name_to_input_name } {
+@@
+@@                             array set signal_names_and_widths_array   ${signal_names_and_widths}
+@@                             array set signal_name_to_interface_array  ${signal_name_to_interface}
+@@                             array set signal_name_to_input_name_array ${signal_name_to_input_name}
+@@			       
+@@                             foreach signal_name [array names signal_names_and_widths_array] {
+@@                               set slave_interface_name $signal_name_to_interface_array(${signal_name})
+@@                               set signal_width         $signal_names_and_widths_array(${signal_name})
+@@			         set input_name           $signal_name_to_input_name_array(${signal_name})
+@@												
+@@			         terp_write "  assign ${slave_interface_name}_${input_name} = ${shared_name}\[[expr ${signal_width}-1]:0\]; "
+@@                             }
+@@ }
+@@ 
+@@ proc instantiate_multiplexor {shared_name signal_names_and_widths signal_name_to_interface signal_name_to_real_name output_signal_name shared_count shared_width {width_override -1 } } {
+@@   global OUTPUT_NAME_GLOBAL
+@@   array set signal_names_and_widths_array ${signal_names_and_widths}
+@@   array set signal_name_to_interface_array ${signal_name_to_interface}
+@@   array set signal_name_to_real_name_array ${signal_name_to_real_name}
+@@
+@@  if { ${width_override} != -1 } { set shared_width ${width_override} }
+@@
+@@																	      
+@@   set comma " "
+@@																		    
+@@   terp_write   "  ${OUTPUT_NAME_GLOBAL}_multiplexor_${shared_count} #(.WIDTH(${shared_width}) )"
+@@   terp_write   "    ${output_signal_name}_mux ("
+@@   terp_write   "                              {"
+@@   foreach signal_name [ lsort -ascii -decreasing [array names signal_names_and_widths_array] ] {
+@@     terp_write "                               ${comma}$signal_name_to_interface_array(${signal_name})_grant"
+@@     set comma ","
+@@   }
+@@     terp_write "                              }"
+@@												    
+@@   foreach signal_name [ lsort -ascii -decreasing [ array names signal_names_and_widths_array ] ] {
+@@     set interface_name $signal_name_to_interface_array(${signal_name})
+@@     set signal_width   $signal_names_and_widths_array(${signal_name})								  
+@@     set real_name      $signal_name_to_real_name_array(${signal_name})
+@@
+@@     if { ${width_override} != -1 } { set signal_width ${width_override}  }
+@@
+@@     if { ${shared_width} == ${signal_width} } {
+@@     terp_write "                              ${comma}${interface_name}_${real_name}"
+@@     } else {						 
+@@     terp_write "                              ${comma}{[expr ${shared_width}-${signal_width}]'h0,${interface_name}_${real_name}}"
+@@     }
+@@   }      
+@@
+@@   terp_write   "                              , ${output_signal_name}"
+@@   terp_write   "                             );"
+@@ }
+@@ set output_action_s      {  
+@@                             instantiate_multiplexor ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_output_name} "${shared_name}"   ${shared_count} ${shared_width}
+@@                          }
+@@ set input_action_s       {  
+@@                             create_shared_input     ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_input_name}
+@@			    }											       
+@@ set bidir_action_s       {  
+@@                             create_shared_input     ${shared_name}_in ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_input_name}
+@@                             instantiate_multiplexor ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_output_enable_name} "${shared_name}_outen" ${shared_count} ${shared_width} 1
+@@                             instantiate_multiplexor ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_output_name} "${shared_name}"   ${shared_count} ${shared_width}
+@@                          }
+@@ set tristatable_action_s { 
+@@                             instantiate_multiplexor ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_output_enable_name} "${shared_name}_outen" ${shared_count} ${shared_width} 1
+@@                             instantiate_multiplexor ${shared_name} ${signal_names_and_widths} ${signal_name_to_interface} ${signal_name_to_output_name} "${shared_name}"   ${shared_count} ${shared_width}
+@@                            }
+@@		 
+@@ set signal_name_to_interface           [ array get signal_name_to_interface_array          ]
+@@ set signal_name_to_input_name          [ array get signal_name_to_input_name_array         ]
+@@ set signal_name_to_output_name         [ array get signal_name_to_output_name_array        ]
+@@ set signal_name_to_output_enable_name  [ array get signal_name_to_output_enable_name_array ]
+@@						       
+@@ foreach shared_name [array names shared_signal_types_array] { 
+@@   set ta_includes "signal_names_and_widths signal_name_to_interface \
+@@                    shared_width shared_name shared_count signal_name_to_input_name\
+@@                    signal_name_to_output_name signal_name_to_output_enable_name"
+@@   set shared_count $shared_signal_count_array(${shared_name})
+@@   set shared_type  $shared_signal_types_array(${shared_name})
+@@   set shared_width $shared_signal_widths_array(${shared_name})								 
+@@
+@@   if { $shared_count != 1 } {				
+@@     set multiplexor_list(${shared_count}) 0
+@@     set signal_names_and_widths $shared_name_to_signal_name_and_widths_array(${shared_name})			     
+@@     type_action ${shared_type} ${output_action_s} ${input_action_s} ${bidir_action_s} ${tristatable_action_s} ${ta_includes}
+@@   }
+@@ }				
+  
+endmodule   
+					    
+
+@@foreach num_inputs [lsort -integer -decreasing [array names multiplexor_list]] {
+  
+module ${OUTPUT_NAME}_multiplexor_${num_inputs}
+  #( parameter WIDTH      = 8
+    ) (
+    input logic  [ ${num_inputs} -1 : 0]                       SelectVector,
+@@for {set i 1} { ${i} <= ${num_inputs} } {incr i} {
+@@ set num [expr ${num_inputs} - ${i}]
+    input logic  [ WIDTH - 1 : 0 ]                Input_${num},
+@@}
+    output logic [ WIDTH - 1 : 0 ]                OutputSignal
+       );
+
+
+function [${num_inputs}-1:0] getIndex;
+      
+    input [${num_inputs}-1:0] select;
+   
+    getIndex = 'h0;
+    
+    for(int i=0; i < ${num_inputs}; i = i + 1) begin
+      if( select[i] == 1'b1 )
+        getIndex = i;
+    end
+			      				
+endfunction
+								 
+   always @* begin
+     case(getIndex(SelectVector))
+       default: OutputSignal = Input_0;
+@@ for {set i 0} { ${i} < ${num_inputs}} { incr i} {
+       ${i} : OutputSignal = Input_${i};									   
+@@}
+     endcase
+   end
+   
+endmodule
+
+@@}

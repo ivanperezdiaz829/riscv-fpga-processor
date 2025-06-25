@@ -1,0 +1,15 @@
+[I/O]
+Altera Adv SEU Detection v13.1= "%t" "%w/../../common/lib/megawizard.pl"  --familyparameter:intended_device_family --wizard_file:"%w/adv_seu_detection_hw.tcl" --wizard:altera_adv_seu_detection --early_gen:on  --librarian-path:"%w/*_hw.tcl,$" %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="OFF"/>
+<LICENSE_CHECK VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Stratix III | Stratix IV | Arria II GZ | Arria II GX | Stratix V | Arria V | Arria V GZ | Cyclone V"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF"   VHDL="OFF"/>
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Altera Adv SEU Detection</ALIAS>
+<ALIAS>Altera Adv SEU Detection v12.0</ALIAS>
+<ALIAS>Altera Adv SEU Detection v12.1</ALIAS>
+<ALIAS>Altera Adv SEU Detection v13.0</ALIAS>
+</INFO>

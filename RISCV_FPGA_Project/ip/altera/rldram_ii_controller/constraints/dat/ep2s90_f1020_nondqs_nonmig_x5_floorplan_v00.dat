@@ -1,0 +1,38 @@
+-- -------------------------------------------------------------------------
+-- This file was developed by Altera Corporation.  Any persons using this 
+-- file for any purpose do so at their own risk, and are responsible for 
+-- the results of such use.  Altera Corporation does not guarantee that 
+-- this file is complete, correct, or fit for any particular purpose. 
+-- NO WARRANTY OF ANY KIND IS EXPRESSED OR IMPLIED.  This notice must 
+-- accompany any copy of this file.
+-- -------------------------------------------------------------------------
+
+
+-- -------------------------------------------------------------------------
+-- This file contains floorplan information for a specific device/package  
+-- It will describe:  
+--  - which byte group exist  
+--  - the maximum width of the memory interface  
+--  - a default byte group location  
+--  - any non working configuration  
+-- It will be used by the MegaWizard in order to let the user select the 
+-- possible placement of the DQ groups 
+-- -------------------------------------------------------------------------
+
+
+-- *************************************************************************
+-- 
+--                             PLEASE DO NOT EDIT 
+-- 
+-- *************************************************************************
+
+
+
+
+-- $Revision: #1 $
+
+ 
+device EP2S90F1020
+	bytegroup_name 0T 1T 2T 3T 4T 5T 6T 7T 8T 9T 10T 11T 12T 13T 14T 15T 16T 17T 18T 19T 20T 21T 22T 23T 21R 3R 22R 4R 23R 5R 24R 6R 25R 7R 26R 8R 27R 9R 28R 10R 29R 11R 30R 12R 31R 13R 32R 14R 33R 15R 34R 24B 23B 22B 21B 20B 19B 18B 17B 16B 15B 14B 13B 12B 11B 10B 9B 8B 7B 6B 5B 4B 3B 2B 1B 0B 34L 15L 33L 14L 32L 13L 31L 12L 30L 11L 29L 10L 28L 9L 27L 8L 26L 7L 25L 6L 24L 5L 23L 4L 22L 3L 21L
+	default_placement 0T 1T 2T 3T 4T 5T 6T 7T 8T 9T 10T 11T 12T 13T 14T 15T 16T 17T 18T 19T 20T 21T 22T 23T 21R 3R 22R 4R 23R 5R 24R 6R 25R 7R 26R 8R 27R 9R 28R 10R 29R 11R 30R 12R 31R 13R 32R 14R 33R 15R 34R 24B 23B 22B 21B 20B 19B 18B 17B 16B 15B 14B 13B 12B 11B 10B 9B 8B 7B 6B 5B 4B 3B 2B 1B 0B 34L 15L 33L 14L 32L 13L 31L 12L 30L 11L 29L 10L 28L 9L 27L 8L 26L 7L 25L 6L 24L 5L 23L 4L 22L 3L 21L
+	maximum_width 515

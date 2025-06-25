@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="US-ASCII" standalone="no"?>
+<asm>
+<asm_assignments>
+	<bit_settings action="override">
+	<!--bit_settings action="read"-->
+	<!--debug_mode filename="temp.txt"/-->
+		<archgroups>
+			<element_name name="IPTCL_TOP_CRCERROR_PIN" dev_element="IO_PAD">
+				<select arch_type="MIO_SET_PULLUP_STRENGTH" arg="0B"/>
+				<select arch_type="MIO_SET_PULLDOWN_STRENGTH" arg="0E"/>
+			</element_name>
+		</archgroups>
+	</bit_settings>
+</asm_assignments>
+</asm>

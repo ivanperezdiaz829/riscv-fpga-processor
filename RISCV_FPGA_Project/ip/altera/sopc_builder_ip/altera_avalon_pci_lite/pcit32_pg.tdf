@@ -1,0 +1,64 @@
+-- File Name: pcit32_pg.tdf
+-- Function	:  	This is used to generate parity on the PCI Data/Command bus
+--			This uses carry chains for the Command/Byte Enable bits
+--			to meet setup time on cben[3..0]
+-- Author	: Ziad M. Abu-Lebdeh
+-- Rev History
+--	6/97	Initial Entry
+--
+DEFINE PCI_FAMILY_STRATIXII()		= (((DEVICE_FAMILY == "STRATIX II" ) OR (DEVICE_FAMILY == "HardCopy II" ) ) ? 1 : 0);     
+DEFINE PCI_FAMILY_CYCLONE()		= ((DEVICE_FAMILY == "CYCLONE")  ? 1 : 0);  
+-- 
+INCLUDE "maxplus2.inc";
+--INCLUDE "pcit32.inc";
+
+
+PARAMETERS
+(
+
+	
+
+	DEVICE_FAMILY		= "Stratix" -- This is needed to prevent Warnings
+	
+);
+SUBDESIGN pcit32_pg
+	(data[31..0]	: INPUT;
+	cbeN[3..0]		: INPUT;
+	parity		: OUTPUT;
+)
+
+VARIABLE
+	par[9..0]		: LCELL;
+ 		
+ 	  parity : NODE;
+ 	  parc_cascade : NODE;
+
+BEGIN
+
+  -- Parity generation equations
+  par0 = data0 $ data1 $ data2 $ data3;
+  par1 = data4 $ data5 $ data6 $ data7;
+  par2 = data8 $ data9 $ data10 $ data11;
+  par3 = data12 $ data13 $ data14 $ data15;
+  par4 = data16 $ data17 $ data18 $ data19;
+  par5 = data20 $ data21 $ data22 $ data23;
+  par6 = data24 $ data25 $ data26 $ data27;
+  par7 = data28 $ data29 $ data30 $ data31;
+  par8 = par0 $ par1 $ par2 $ par3;
+  par9 = par4 $ par5 $ par6 $ par7;
+  
+IF(PCI_FAMILY_STRATIXII()) GENERATE
+
+  parc_cascade = (par8 $par9 $ cbeN1 $ cbeN0);
+  parity = ( parc_cascade $ cbeN3 $ cbeN2 );
+
+
+ELSE GENERATE
+
+  parc_cascade = LCELL(par8 $par9 $ cbeN1 $ cbeN0);
+  parity = ( parc_cascade $ cbeN3 $ cbeN2 );
+
+
+END GENERATE;
+
+end ;

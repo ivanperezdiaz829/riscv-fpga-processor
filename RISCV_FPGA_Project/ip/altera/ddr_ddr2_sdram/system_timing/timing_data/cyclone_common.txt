@@ -1,0 +1,12 @@
+
+    target_hold_over_setup_ratio_for_read_capture       =       1.5       -- Due to lack of PVT compensation it is better to keep su smaller than hold
+    min_acceptable_read_margin                          =       -9999       -- This could be reduced if there was supporting system char data
+    
+
+    -- jitter char data is not speed grade dependant ???
+    tJITTER_pll_low                     = 200
+    tJITTER_pll_high                    = 300
+ 
+    cyclone_pll_g_count_odd                    =    0    
+    
+    pll_normal_mode_phase_error                         = 200           -- no number but is likely to be similar to PLL skew at least.

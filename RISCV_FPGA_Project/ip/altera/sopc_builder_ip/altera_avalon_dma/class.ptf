@@ -1,0 +1,325 @@
+# This file created by em_dma.pm.
+CLASS altera_avalon_dma
+{
+  SDK_GENERATION 
+  {
+    SDK_FILES 0
+    {
+      cpu_architecture = "always";
+      c_structure_type = "np_dma *";
+      short_type = "dma";
+      c_header_file = "sdk/dma_struct.h";
+      asm_header_file = "sdk/dma_struct.s";
+      sdk_files_dir = "sdk";
+    }
+  }
+  ASSOCIATED_FILES 
+  {
+    Add_Program       = "default";
+    Edit_Program      = "default";
+    Generator_Program = "em_dma.pl";
+    Bind_Program      = "bind";
+  }
+  MODULE_DEFAULTS
+  {
+    class      = "altera_avalon_dma";
+    class_version = "7.08131";
+    MASTER read_master
+    {
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type = "avalon";
+        Max_Address_Width = "32";
+        Data_Width        = "32";
+        Do_Stream_Reads   = "1";
+        Is_Readable       = "1";
+        Is_Writable       = "0";
+        Maximum_Burst_Size   = "1";
+        Is_Big_Endian    = "0";
+      }
+    }
+    MASTER write_master
+    {
+      SYSTEM_BUILDER_INFO 
+      {
+        Bus_Type = "avalon";
+        Max_Address_Width = "32";
+        Data_Width        = "32";
+        Do_Stream_Writes   = "1";
+        Is_Readable        = "0";
+        Is_Writable        = "1";
+        Maximum_Burst_Size   = "1";
+        Is_Big_Endian    = "0";
+      }
+    }
+    SLAVE control_port_slave
+    {
+      SYSTEM_BUILDER_INFO 
+      {
+        Bus_Type          = "avalon";
+        Address_Width     = "3";
+        Data_Width        = "16";
+        Has_IRQ           = "1";
+        Address_Alignment = "native";
+        Read_Wait_States  = "1";
+        Write_Wait_States = "1";
+      }
+    }
+    SYSTEM_BUILDER_INFO 
+    {
+      Is_Enabled= "1";
+      Instantiate_In_System_Module = "1";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      readaddress_reset_value    = "0x0";
+      writeaddress_reset_value   = "0x0";
+      length_reset_value         = "0x0";
+ 
+      # Note: control register reset values are specified
+      # on a per-bit basis.
+ 
+      # Individual specifications for control register bits:
+      control_byte_access_reset_value= "0";
+      control_hw_reset_value        = "0";
+      control_word_reset_value      = "1";
+      control_go_reset_value        = "0";
+      control_i_en_reset_value      = "0";
+      control_reen_reset_value      = "0";
+      control_ween_reset_value      = "0";
+      control_leen_reset_value      = "1";
+      control_rcon_reset_value      = "0";
+      control_wcon_reset_value      = "0";
+      control_doubleword_reset_value= "0";
+      control_quadword_reset_value  = "0";
+      control_softwarereset_reset_value= "0";
+ 
+      # A minimum for the width of the length register can be specified:
+      lengthwidth                    = "13";
+      burst_enable                   = "0";
+      # A minimum size for the fifo depth can be specified:
+      fifo_in_logic_elements         = "1";
+      allow_byte_transactions        = "1";
+      allow_hw_transactions          = "1";
+      allow_word_transactions        = "1";
+      allow_doubleword_transactions  = "1";
+      allow_quadword_transactions    = "1";
+      max_burst_size                 = "128";
+      big_endian                     = "0";
+      altera_show_unpublished_features = "0";
+    }
+  }
+
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+      name="DMA";
+      description="Direct Memory Access Controller";
+      license = "full";
+      technology="Other";
+    }
+     LINKS
+     {
+         LINK help
+         {
+            title="Data Sheet";
+            url="http://www.altera.com/literature/hb/nios2/n2cpu_nii51006.pdf";
+         }
+     }
+     WIZARD_UI bind
+     {
+        CONTEXT
+        {
+           MOD = "";
+           RMSBI="MASTER read_master/SYSTEM_BUILDER_INFO";
+           WMSBI="MASTER write_master/SYSTEM_BUILDER_INFO";
+        }
+        visible = "0";
+        # make sure the DMA master data widths track the DMA slaves
+        code = "{{
+            $RMSBI/Data_Width = sopc_max_data_width($MOD, 'read_master');
+            $WMSBI/Data_Width = sopc_max_data_width($MOD, 'write_master');
+        }}";
+     }
+     WIZARD_UI default
+     {
+      title="Avalon DMA Controller - {{ $MOD }}";
+      CONTEXT
+      {
+        WSA="WIZARD_SCRIPT_ARGUMENTS";
+        RMSBI="MASTER read_master/SYSTEM_BUILDER_INFO";
+        WMSBI="MASTER write_master/SYSTEM_BUILDER_INFO";
+      }
+      ACTION wizard_finish
+      {
+        $RMSBI/Maximum_Burst_Size = "{{ if ($WSA/burst_enable) { $WSA/max_burst_size; } else {1; } }}";
+        $WMSBI/Maximum_Burst_Size = "{{ if ($WSA/burst_enable) { $WSA/max_burst_size; } else {1; } }}";
+
+        # Set appropriate endianness
+        $RMSBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+        $WMSBI/Is_Big_Endian = "{{ $WSA/big_endian }}";
+      }
+      PAGES main
+      {
+        select=1;
+        PAGE 1
+        {
+          title = "DMA Parameters";
+          GROUP
+          {
+            GROUP
+            {
+              align = "left";
+              title = "Transfer Size";
+              spacing=8;
+              EDIT
+              {
+                id="width";
+                width=40;
+                title=" Width of the DMA length register (1-32):";
+                key="w";
+                suffix="bits";
+                type="decimal";
+                DATA { $WSA/lengthwidth = $; }
+                $$bad_width="{{ $WSA/lengthwidth > 32 || $WSA/lengthwidth < 1; }}";
+                error="{{ if ($$bad_width) 'Invalid DMA length register width.'; }}";
+                $$foo = "{{ 2 ^ $WSA/lengthwidth; }}";
+                $$max_val = "{{ ceil(-1 + ( ($$foo ) ) ); }}";
+                $$good_str="A minimum of {{$$max_val; }} bytes may be moved in a transaction.<br>The length may be automatically increased to encompass the slave span.";
+                $$title_str="{{ if ($$bad_width==0) {$$good_str} else {'Invalid DMA length register width.'}; }}";
+                warning="{{ if ($WSA/burst_enable && $WSA/fifo_in_logic_elements) {'Construct FIFO from embedded memory blocks to avoid excessive LE usage'; } }}";
+              }
+              TEXT
+              {
+                title="{{ $$title_str; }}";
+              }
+            }
+
+            GROUP
+            {
+              align = "left";
+              title = "Burst Transactions";
+              spacing=8;
+              CHECK
+              {
+                id ="burst_enable";
+                title="Enable Burst Transfers";
+                tooltip = "Enable Burst Transfers";
+                DATA {  $WSA/burst_enable = $; }
+              }
+              EDIT
+              {
+                id="width";
+                width=40;
+                title="Maximum Burst Size:";
+                key="w";
+                suffix="words";
+                type="decimal";
+                $$editable_max_burst = "{{ $WSA/burst_enable == 1 }}";
+                enable = "{{ $$editable_max_burst; }}";
+                DATA { $WSA/max_burst_size = $; }
+                $$bad_max = "{{ log2($WSA/max_burst_size) != int(log2($WSA/max_burst_size)) || ( $WSA/max_burst_size == '' ) ; }}";
+                error = "{{ if ($$bad_max && $$editable_max_burst) {'Burst size must be a power of 2.'} }}";
+              }
+            }
+            GROUP
+            {
+              align = "left";
+              title = "FIFO Implementation";
+              spacing=8;
+              align="left";
+              RADIO
+              {
+                id ="fifo_reg";
+                title = "Construct FIFO from Registers  ";
+                DATA { fifo_in_logic_elements = "1"; }
+              }
+              RADIO
+              {
+                id ="fifo_mem";
+                title = "Construct FIFO from Embedded Memory Blocks";
+                DATA on { fifo_in_logic_elements = "0"; }
+              }
+            }
+          }
+        }
+        PAGE 2
+        {
+          title = "Advanced";
+          GROUP
+          {
+            GROUP
+            {
+              align = "left";
+              title = "Allowed Transactions";
+              tooltip = "Decrease logic consumption by disabling unneeded transaction sizes";
+              spacing=8;
+              CHECK
+              {
+                id ="allow_byte";
+                title="byte";
+                tooltip = "Allow byte (8-bit) transactions";
+                DATA { $WSA/allow_byte_transactions = $; }
+              }
+              CHECK
+              {
+                id ="allow_halfword";
+                title="halfword";
+                tooltip = "Allow halfword (16-bit) transactions";
+                DATA { $WSA/allow_hw_transactions = $; }
+              }
+              CHECK
+              {
+                id ="allow_word";
+                title="word";
+                tooltip = "Allow word (32-bit) transactions";
+                DATA { $WSA/allow_word_transactions = $; }
+              }
+              CHECK
+              {
+                id ="allow_dword";
+                title="doubleword";
+                tooltip = "Allow doubleword (64-bit) transactions";
+                DATA { $WSA/allow_doubleword_transactions = $; }
+              }
+              CHECK
+              {
+                id ="allow_quadword";
+                title="quadword";
+                tooltip = "Allow quadword (128-bit) transactions";
+                DATA { $WSA/allow_quadword_transactions = $; }
+              }
+            }
+            CHECK 
+            {
+                visible = "{{ $WSA/altera_show_unpublished_features; }}";
+                align = "left";
+                id = "big_endian";
+                title = "Big Endian";
+                TEXT
+                {
+                    title = "{{ if ($WSA/altera_show_unpublished_features) 'DMA operates in big-endian mode instead of little-endian mode.'; else ''; }}";
+                }
+                DATA { $WSA/big_endian = $; }
+            }
+            error = "{{ if (!$WSA/allow_quadword_transactions &&
+                            !$WSA/allow_doubleword_transactions &&
+                            !$WSA/allow_word_transactions &&
+                            !$WSA/allow_hw_transactions &&
+                            !$WSA/allow_byte_transactions)
+                        'At least one type of transaction must be allowed.'; }}";
+            error = "{{ if ($WSA/big_endian && (
+                              $WSA/allow_quadword_transactions ||
+                              $WSA/allow_doubleword_transactions ||
+                              $WSA/allow_word_transactions ||
+                              $WSA/allow_hw_transactions))
+                        'Big-endian mode only supports byte transactions.'; }}";
+          }
+        }
+      }
+    }
+  }
+
+}

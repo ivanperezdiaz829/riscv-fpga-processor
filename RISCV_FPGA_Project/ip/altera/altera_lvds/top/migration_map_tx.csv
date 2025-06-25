@@ -1,0 +1,17 @@
+CONDITION,DO
+,"set_new_param MODE ""TX"""
+,set_new_param USE_EXTERNAL_PLL [get_old_param USE_EXTERNAL_PLL]
+,set_new_param NUM_CHANNELS [get_old_param NUMBER_OF_CHANNELS]
+,set_new_param J_FACTOR [get_old_param DESERIALIZATION_FACTOR]
+,set_new_param DATA_RATE [get_old_param DATA_RATE]
+,set_new_param INCLOCK_FREQUENCY [get_old_param CNX_PLL_FREQ]
+"[get_old_param CORECLK_SRC_COMBO] == ""Dual-Regional clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Auto"""
+"[get_old_param CORECLK_SRC_COMBO] == ""Global clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Global"""
+"[get_old_param CORECLK_SRC_COMBO] == ""Regional clock""","set_new_param PLL_CORECLOCK_RESOURCE ""Regional"""
+"[get_old_param CORECLK_SRC_COMBO] == ""Auto selection""","set_new_param PLL_CORECLOCK_RESOURCE ""Auto"""
+,set_new_param PLL_SPEED_GRADE 4
+,set_new_param PLL_EXPORT_LOCK [get_old_param USE_TX_LOCKED_MODE]
+,set_new_param PLL_USE_RESET [get_old_param USE_PLL_RESET_MODE]
+,set_new_param TX_OUTCLOCK_DIVISION [get_old_param OUTCLOCK_DIVIDE_BY]
+,set_new_param TX_EXPORT_CORECLOCK [get_old_param CNX_TX_CORECLOCK]
+,set_new_param TX_OUTCLOCK_PHASE_SHIFT [get_old_param OUTCLOCK_PHASE_SHIFT]

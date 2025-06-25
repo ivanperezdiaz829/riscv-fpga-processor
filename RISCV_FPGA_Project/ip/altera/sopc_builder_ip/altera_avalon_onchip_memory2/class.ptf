@@ -1,0 +1,595 @@
+CLASS altera_avalon_onchip_memory2
+{
+  ASSOCIATED_FILES
+  {
+    Add_Program       = "default";
+    Edit_Program      = "default";
+    Bind_Program      = "bind";
+    Generator_Program = "altera_avalon_onchip_memory2.pl";
+  }
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_onchip_memory2";
+    class_version = "7.08131";
+    iss_model_name = "altera_memory";
+
+    HDL_INFO
+    {
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+      allow_mram_sim_contents_only_file = "0";
+      ram_block_type = "";
+      init_contents_file = "";
+      non_default_init_file_enabled = "0";
+      gui_ram_block_type = "Automatic";
+      Writeable    = "1";
+      dual_port    = "0";
+      Size_Value = "4";
+      Size_Multiple = "1024";
+      
+      #SPR367105, omit ../ in meminit filepath, default to false
+      sim_meminit_only_filename = "0";
+      
+      #set this parameter to a incorrect default value (as indicator),
+      #that will be fixed in generator or preview mode
+      init_mem_content = "2";
+      
+      read_during_write_mode = "DONT_CARE";
+      #ask generator to change ramBlockType value to AUTO for Automatic if this value is true
+      ignore_auto_block_type_assignment = "0";
+    }
+    SYSTEM_BUILDER_INFO
+    {
+      # Maintain this list in parallel with the $$is_prohibited_device, below.
+      Prohibited_Device_Family = "MERCURY, APEX20K, APEX20KE, APEX20KC, APEXII, ACEX1K, FLEX10KE, EXCALIBUR_ARM, MAXII";
+      Instantiate_In_System_Module = "1";
+      Is_Enabled             = "1";
+      Default_Module_Name = "onchip_memory";
+      Top_Level_Ports_Are_Enumerated = "1";
+    }
+    SLAVE s1
+    {
+      PORT_WIRING
+      {
+      }
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type          = "avalon";
+        Is_Memory_Device  = "1";
+        Address_Group     = "0";
+        Address_Alignment = "dynamic";
+        Address_Width     = "8";
+        Data_Width        = "32";
+        Has_IRQ           = "0";
+        Read_Wait_States  = "0";
+        Write_Wait_States = "0";
+        Address_Span      = "1024";
+        Read_Latency      = "1";
+        Is_Channel        = "1";
+        Is_Writable       = "1";
+      }
+    }
+    SLAVE s2
+    {
+      PORT_WIRING
+      {
+      }
+      SYSTEM_BUILDER_INFO
+      {
+        Bus_Type          = "avalon";
+        Is_Memory_Device  = "1";
+        Address_Group     = "0";
+        Address_Alignment = "dynamic";
+        Address_Width     = "8";
+        Data_Width        = "32";
+        Has_IRQ           = "0";
+        Read_Wait_States  = "0";
+        Write_Wait_States = "0";
+        Address_Span      = "1024";
+        Read_Latency      = "1";
+        Is_Channel        = "1";
+        Is_Enabled        = "0";
+        Is_Writable       = "1";
+      }
+    }
+
+    SIMULATION
+    {
+      DISPLAY
+      {
+       SIGNAL a { name = "chipselect"; conditional = "1"; }
+       SIGNAL b { name = "write"; conditional = "1"; }
+       SIGNAL c { name = "address"; radix  = "hexadecimal"; }
+       SIGNAL d { name = "byteenable"; radix = "binary"; conditional = "1"; }
+       SIGNAL e { name = "readdata"; radix  = "hexadecimal"; }
+       SIGNAL f { name = "writedata"; radix  = "hexadecimal"; conditional = "1"; }
+      }
+    }
+  }
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+      name="On-Chip Memory (RAM or ROM)";
+      technology = "Memory";
+    }
+    LINKS
+    {
+    }
+
+    WIZARD_UI default
+    {
+      title="On-chip Memory - {{ $MOD }}";
+      align = "left";
+      CONTEXT
+      {
+        WSA="WIZARD_SCRIPT_ARGUMENTS";
+        SBI="SLAVE s1/SYSTEM_BUILDER_INFO";
+        SBI2="SLAVE s2/SYSTEM_BUILDER_INFO";
+      }
+      
+      ACTION wizard_finish
+      {
+         $SBI/Is_Writable = "{{ $WSA/Writeable }}";
+         $SBI2/Is_Writable = "{{ $WSA/Writeable }}";
+      }
+      
+      # ensure consistent settings when wizard is brought up
+      ACTION initialize
+      {
+        # If an intialization file was specified, set it.
+        # Otherwise use the default (i.e. the module name)
+#       $WSA/init_contents_file = "{{
+#         if($WSA/init_contents_file == '')
+#           $MOD;
+#         else
+#           $WSA/init_contents_file;
+#         }}";
+        $$has_M512 = "{{ device_info('has_M512') }}";
+        $$has_M4K  = "{{ device_info('has_M4K') }}";
+        $$has_MRAM = "{{ device_info('has_MRAM') }}";
+
+	# adding in new block types
+        $$has_M9K = "{{ device_info('has_M9K') }}";
+        $$has_M144K = "{{ device_info('has_M144K') }}";
+        $$has_MLAB = "{{ device_info('has_MLAB') }}";
+        $$is_prohibited_device = "{{ !$$has_M4K && !$$has_M9K; }}"; 
+
+        $$has_more_than_one_block_type = "{{ (($$has_M512 + $$has_M4K + $$has_MRAM + $$has_M9K + $$has_M144K + $$has_MLAB) > 1) }}";
+        # one-time "the tool changed your setting" message
+        $$init_message = "{{ 
+          if (!$$has_more_than_one_block_type && $WSA/gui_ram_block_type != 'Automatic')
+            'Device family change disabled device-specific features.';
+          else
+            '';
+          }}";
+
+        # Enforce device-family dependencies:
+        #  non-Stratix: clear Stratix settings
+        #    Stratix: make sure valid block type is set
+        code = "{{ if (($WSA/gui_ram_block_type == '') || 
+			(str($$has_more_than_one_block_type) != '' && $$has_more_than_one_block_type == 0))
+          $WSA/gui_ram_block_type = 'Automatic';
+        }}";
+      }
+      error = "{{
+          if ($$is_prohibited_device)
+            'Component not compatible with device <B>'+$SYS/device_family+'</B>';
+          else
+            '';
+        }}";
+
+      # perform some computations used throughout the wizard.
+      byte_size = "{{ $WSA/Size_Value * $WSA/Size_Multiple }}";
+      $$bytes_per_word = "{{ $SBI/Data_Width / 8 }}";
+      word_size = "{{ $byte_size / $$bytes_per_word }}";
+      raw_address_bits = "{{ ceil(log2($word_size)) }}";
+      address_bits = "{{ if ($word_size < 2)
+                    1;
+                  else
+                    $raw_address_bits;
+                }}";
+      $SBI/Address_Width = "{{ $address_bits }}";
+      $SBI/Address_Span  = "{{ $byte_size }}";
+      $SBI2/Address_Width = "{{ $address_bits }}";
+      $SBI2/Address_Span  = "{{ $byte_size }}";
+
+      $$is_rom = "{{ $WSA/Writeable == 0 }}";
+      
+      message = "{{
+        if (!$$is_rom && $SYSTEM/WIZARD_SCRIPT_ARGUMENTS/hardcopy_compatible)
+        {
+          'RAM memory will not be initialized';
+        }
+        else 
+        {
+          if ($WSA/ram_block_type == 'M512' && str($$bytes_per_word-1) > 0)
+          {
+            'Memory will be initialized from multiple byte-lane files <B>'+$WSA/init_contents_file+'_lane[0-'+str($$bytes_per_word-1)+'].hex</B>';
+          }
+          else
+          {
+            if ($WSA/ram_block_type == 'M4K' || $WSA/ram_block_type == 'M512')
+            {
+              'Memory will be initialized from <B>'+$WSA/init_contents_file+'.hex</B>';
+            }
+          }
+        }
+      }}";
+
+      # update auto-selection block type
+      test_1 = "{{ if ($$has_M4K && ($byte_size < 20480 || $$is_rom || !$$has_MRAM)) { $$auto_type = 'M4K' }; else { $$auto_type='M-RAM'; } }}";
+      test_2 = "{{ if ($$has_M512 && !$WSA/dual_port && $byte_size <= 256) { $$auto_type = 'M512'; } }}";
+
+      # for Stratix III, update auto-selection
+      test_3 = "{{ if ($$has_M9K) { $$auto_type = 'AUTO'; } }}";
+      
+      $WSA/ram_block_type = 
+      "{{
+        if ($WSA/gui_ram_block_type == 'Automatic') $$auto_type; 
+        else $WSA/gui_ram_block_type;
+      }}";
+      
+      message=
+      "{{ 
+        if ($WSA/gui_ram_block_type == 'Automatic')
+        {
+          if ($$has_more_than_one_block_type)
+            'Automatically choosing '+$WSA/ram_block_type+' blocks';
+          else
+            'Automatically choosing '+$WSA/ram_block_type+' blocks (the only available block type)';
+        }
+        else
+            '';
+      }}";
+      message = "{{ $$init_message }}";
+      
+          GROUP type
+          {
+            title = "Memory Type";
+            align = "center";
+            spacing = 4;
+            GROUP
+            {
+              layout = "horizontal";
+              RADIO 
+              { 
+                id = "ram";
+                title = "RAM (writeable)"; 
+                DATA {Writeable = "1";}
+              }
+              RADIO 
+              { 
+                id = "rom";
+                title = "ROM (read-only)"; 
+                DATA {Writeable = "0";}
+              }
+            }
+            CHECK
+            {
+              id = "dp";
+              title = "Dual-Port Access";
+              DATA {
+                dual_port = $;
+                $SBI2/Is_Enabled = $;
+              }
+              
+              # JRK 2004-October-19: For SPR 159148: Warn the user that simultaneous
+              #                      operations can produce undefined results. 
+              #                      Simultaneous reads and writes behave differently
+              #                      in Stratix & Stratix II, while simultaneous
+              #                      writes are bad in all DP memories (not just 
+              #                      M-RAMs). Hence, the warning is pretty generic.
+              warning = "{{ 
+                 if (($WSA/dual_port == 1) && ($WSA/Writeable == 1)) 
+                    'Simultaneous access to the same address can produce undefined output.';
+              }}";
+              
+             tooltip = 
+              "<b>Dual-Port memory warning:</b> Simultaneous access to the same<br>
+              address on both ports can produce undefined output. Behavior varies<br>
+              with memory block type. Refer to the memory chapter of the <br>
+              appropriate Altera device handbook for details.";
+            }
+            COMBO
+            {
+              id = "block_type";
+              title = "Block Type:";
+              enable = "{{ $$has_more_than_one_block_type }}";
+              DATA { gui_ram_block_type = "$"; }; 
+              ITEM
+              {
+                title="Automatic";
+              }
+              ITEM
+              {
+                title="M512";
+                visible="{{ $$has_M512 && $$has_more_than_one_block_type }}";
+              }
+              ITEM
+              {
+                title="M4K";
+                visible="{{ $$has_M4K && $$has_more_than_one_block_type }}";
+              }
+              ITEM
+              {
+                title="M-RAM";
+                visible="{{ $$has_MRAM && $$has_more_than_one_block_type }}";
+              }
+              ITEM
+              {
+                title="M9K";
+                visible="{{ $$has_M9K && $$has_more_than_one_block_type }}";
+              }
+              ITEM
+              {
+                title="M144K";
+                visible="{{ $$has_M144K && $$has_more_than_one_block_type }}";
+              }
+              ITEM
+              {
+                title="MLAB";
+                visible="{{ $$has_MLAB && $$has_more_than_one_block_type }}";
+              }
+              error =
+                "{{ if (($WSA/dual_port == 1) && 
+                  ($WSA/gui_ram_block_type == 'M512'))
+                'You must have M-RAM or M4K selected for dual port memories';
+                }}";
+
+            }
+          }
+
+        # error if M-RAM ROMs attempted
+        error=
+        "{{
+          if ($WSA/gui_ram_block_type == 'M-RAM' && $$is_rom)
+              'M-RAM blocks cannot be read-only'; 
+        }}";
+
+		GROUP size
+		{
+			layout = "grid";
+			title = "Size";
+			spacing = 10;
+			rows = 2;
+			columns = 2;
+			TEXT 
+			{ 
+				align="right"; 
+				title = "Memory Width:";
+			}
+			COMBO
+			{
+				align="left"; 
+				id = "width";
+				title = " ";
+				suffix = "bits";
+				values = "1024,512,256,128,64,32,16,8";
+				DATA 
+				{ 
+                    $SBI/Data_Width = $;
+                    $SBI2/Data_Width = $;
+                }
+          	}
+		  TEXT 
+		  {
+		    align = "right";
+		  	title = "Total Memory Size:"; 
+		  }
+		  GROUP
+		  {
+		  	align = "left";
+		  	layout = "flow";
+			  EDIT
+			  {
+			    glue = 0; 
+			    align = "left";
+			    columns  = "6";
+			    justify  = "right";
+			    type    = "decimal";
+			    id = "size";
+			    DATA { Size_Value = $; }
+			  }
+			  COMBO
+			  {
+			    glue = 0;
+			    align = "left";
+			    id = "units";
+			    ITEM { title="Kbytes"; DATA { Size_Multiple = 1024; }}
+			    ITEM { title="bytes";  DATA { Size_Multiple =    1; }}
+			  }
+		  }
+		}
+
+        REM GROUP_size
+        {
+          title = "Size";
+          spacing = 10;
+          GROUP
+          {
+              layout = "horizontal";
+              align = "left";
+              glue = "0";
+              indent = "20";
+              TEXT { title = "Data Width: "; }
+              COMBO
+              {
+                id = "width";
+                suffix = "bits";
+                values = "128,64,32,16,8";
+                DATA 
+                { 
+                    $SBI/Data_Width = $;
+                    $SBI2/Data_Width = $;
+                }
+              }
+          }
+          GROUP
+          {
+              layout = "horizontal";
+              align = "left";
+              glue = "0";
+              indent = "20";
+              TEXT {title = "Total Memory Size:      "; }
+              EDIT
+              {
+                columns  = "5";
+                justify  = "right";
+                type    = "decimal";
+                id = "size";
+                DATA { Size_Value = $; }
+              }
+              COMBO
+              {
+                id = "units";
+                ITEM { title="Kbytes"; DATA { Size_Multiple = 1024; }}
+                ITEM { title="bytes";  DATA { Size_Multiple =    1; }}
+              }
+          }
+      }
+           GROUP
+           {
+             title = "Read Latency";
+             layout = "horizontal";
+             tooltip = 
+              "A larger read latency tends to improve Fmax but may take more cycles.";
+
+             COMBO read_latency_s1
+             {
+               id = "read_latency_s1";
+               title = "Slave s1";
+               ITEM
+               {
+                 title="1";
+                 DATA { $SBI/Read_Latency = "1"; }; 
+               }
+               ITEM
+               {
+                 title="2";
+                 DATA { $SBI/Read_Latency = "2"; }
+               }
+             }
+
+             COMBO read_latency_s2
+             {
+               id = "read_latency_s2";
+               title = "Slave s2";
+               enable = "{{ $WSA/dual_port }}";
+               ITEM
+               {
+                 title="1";
+                 DATA { $SBI2/Read_Latency = "1"; }; 
+               }
+               ITEM
+               {
+                 title="2";
+                 DATA { $SBI2/Read_Latency = "2"; }
+               }
+             }
+           }
+           GROUP 
+           {
+             title = "Non-Default Memory Initialization";
+             layout = "vertical";
+             tooltip = "";
+             align = "left";
+             CHECK
+             {
+               layout = "horizontal";
+               id="init_file_editable";
+               tooltip = "The majority of users should not enable this option as it <br>requires manual management of memory initialization files";
+               title = "Enable Non-Default Intialization File";
+               
+               # No intialization for either M-RAM or if Auto is defaulting to M-RAM
+               enable = "{{ ($WSA/ram_block_type != 'M-RAM') }}";
+               
+               DATA { $WSA/non_default_init_file_enabled = $; }
+               
+               warning = "{{ 
+                 if ($WSA/non_default_init_file_enabled == 1)  
+                   'Manually created SOF and simulation initialization files <br>are required for memory '+$MOD;
+               }}";
+             }
+             EDIT
+             {
+               layout = "horizontal";
+               id="init_contents_file";
+               width=100;
+               glue = "0";
+               align = "right";
+               title="User-created initialization file:";
+               key="i";
+               tooltip = "When use of this file is enabled, the memory will be initialized with the file name you specify.<br>The default automatically generated initialization files will not be used to initialize memory";
+               suffix=".hex";
+               type="string";
+               
+               enable = "{{ $WSA/non_default_init_file_enabled }}";
+               
+               DATA { $WSA/init_contents_file = $; }
+               
+               # If the user de-selects non-default intialization, reset it to the module (default) name 
+#              $WSA/init_contents_file = "{{
+#                if($WSA/non_default_init_file_enabled == 0)
+#                  $MOD;
+#                else
+#                  $WSA/init_contents_file;
+#              }}";
+             }
+           }
+        }
+     # JRK 2004-October-19: For SPR 159148: Add a dual-port warning; we will
+     #                      need more room for it to fit.
+      GROUP messages
+      {
+        LIST
+        {
+          rows = "8";
+          glue = "0";
+          background = "lightGray";
+        }
+      }
+    WIZARD_UI bind
+    {
+      visible = "0";
+      CONTEXT 
+      {
+        WSA = "WIZARD_SCRIPT_ARGUMENTS";
+        MOD = "";
+        SBI="SLAVE s1/SYSTEM_BUILDER_INFO";
+      }
+
+      # Issue a warning on Stratix II M-RAM issues when:
+      # - 2S60ES dev board selected
+      # - Stratix II selected but NOT a known good (2s60) board
+      warning = "{{
+         if ( ($SYS/device_family == 'STRATIXII') && (endswith($SYS/board_class, '2s60_es') )
+            && $WSA/ram_block_type == 'M-RAM' && $SBI/Data_Width != 8)
+               '<b> '+$MOD+':</b> EP2S60 ES (engineering sample) devices do not support M-RAM blocks with byte enables.'+
+               ' Set Block Type to M4K, or set Data Width to 8.'; 
+      }}";
+
+      # update auto block-type to reflect current device selection
+      code = "{{
+	      if ($WSA/gui_ram_block_type == 'Automatic')
+	      {
+             $$byte_size = $WSA/Size_Value * $WSA/Size_Multiple;
+             $$is_rom = $WSA/Writeable == 0;
+	         if (device_info('has_M4K') && ($$byte_size < 20480 || $$is_rom || !device_info('has_MRAM'))) 
+	         { $$auto_type = 'M4K' }; else { $$auto_type='M-RAM'; }
+	         if (device_info('has_M512') && !$WSA/dual_port && $$byte_size <= 256) 
+	         { $$auto_type = 'M512'; }
+                 if (device_info('has_M9K')) { $$auto_type = 'AUTO'; } 
+	         $WSA/ram_block_type = $$auto_type;
+	      }
+#             jy11 stop ptf logic from interfering with the model
+#             if($WSA/non_default_init_file_enabled==0)
+#             {
+#               $WSA/init_contents_file = $MOD;
+#             }
+      }}";
+    } # WIZARD_UI bind
+  } # USER_INTERFACE
+} # CLASS
+

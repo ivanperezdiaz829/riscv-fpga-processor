@@ -1,0 +1,41 @@
+CLASS altera_avalon_sgdma
+{
+  CALIFORNIA
+  {
+    Is_Hidden         = "1";
+  }
+  ASSOCIATED_FILES
+  {
+    Generator_Program = "sgdma.pl";
+  }
+  MODULE_DEFAULTS
+  {
+    class         = "altera_avalon_sgdma";
+    class_version = "7.08131";
+    iss_model_name = "sgdma";
+
+    HDL_INFO
+    {
+    }
+    WIZARD_SCRIPT_ARGUMENTS
+    {
+    }
+    SYSTEM_BUILDER_INFO
+    {
+    }
+    SIMULATION
+    {
+      DISPLAY
+      {
+      }
+    }
+  }
+  USER_INTERFACE
+  {
+    USER_LABELS
+    {
+      Is_Visible = "0";
+    }
+  } # USER_INTERFACE
+} # CLASS
+

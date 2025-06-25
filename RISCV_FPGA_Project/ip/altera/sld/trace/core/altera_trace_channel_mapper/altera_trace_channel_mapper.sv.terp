@@ -1,0 +1,84 @@
+// (C) 2001-2013 Altera Corporation. All rights reserved.
+// Your use of Altera Corporation's design tools, logic functions and other 
+// software and tools, and its AMPP partner logic functions, and any output 
+// files any of the foregoing (including device programming or simulation 
+// files), and any associated documentation or information are expressly subject 
+// to the terms and conditions of the Altera Program License Subscription 
+// Agreement, Altera MegaCore Function License Agreement, or other applicable 
+// license agreement, including, without limitation, that your use is for the 
+// sole purpose of programming logic devices manufactured by Altera and sold by 
+// Altera or its authorized distributors.  Please refer to the applicable 
+// agreement for further details.
+
+
+// \$Id: //acds/main/ip/altera_trace_channel_mapper/altera_trace_channel_mapper.sv.terp#1 $
+// \$Revision: #1 $
+// \$Date: 2009/06/08 $
+// \$Author: adraper $
+
+// -------------------------------------------------------
+// Altera Trace Channel Mapper
+//
+// Parameters
+//   DATA_WIDTH    : $data_width
+//   EMPTY_WIDTH   : $empty_width
+//   IN_CHANNEL    : $in_channel
+//   OUT_CHANNEL   : $out_channel
+//   MAPPING       : $mapping
+//
+// -------------------------------------------------------
+
+`timescale 1 ns / 1 ns
+
+module $output_name
+(
+    // -------------------
+    // Clock & Reset
+    // -------------------
+    input clk,
+    input reset,
+
+    // -------------------
+    // Input
+    // -------------------
+    output in_ready,
+    input in_valid,
+    input [$data_width-1:0] in_data,
+    input in_startofpacket,
+    input in_endofpacket,
+    input [$empty_width-1:0] in_empty,
+    input [$in_channel-1:0] in_channel,
+
+    // -------------------
+    // Output
+    // -------------------
+    input out_ready,
+    output out_valid,
+    output reg [$data_width-1:0] out_data,
+    output reg out_startofpacket,
+    output reg out_endofpacket,
+    output [$empty_width-1:0] out_empty,
+    output [$out_channel-1:0] out_channel
+);
+
+assign in_ready = out_ready;
+
+assign out_valid = in_valid;
+assign out_data = in_data;
+assign out_startofpacket = in_startofpacket;
+assign out_endofpacket = in_endofpacket;
+assign out_empty = in_empty;
+
+always @(in_channel) begin
+
+    case (in_channel)
+@@ for {set i 0} {$i < [llength $mapping]} {incr i} {
+@@    set value [lindex $mapping $i]
+        $value: out_channel <= $out_channel'd$i;    
+@@ }
+        default: out_channel <= $out_channel'd0;
+    endcase
+
+end
+
+endmodule

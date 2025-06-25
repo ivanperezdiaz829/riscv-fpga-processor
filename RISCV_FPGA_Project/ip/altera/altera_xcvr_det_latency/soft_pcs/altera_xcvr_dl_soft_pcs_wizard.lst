@@ -1,0 +1,11 @@
+[Interfaces|Transceiver PHY]
+Deterministic Latency Soft PCS PHY v13.1 = "%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_xcvr_dl_soft_pcs_hw.tcl" --wizard:altera_xcvr_dl_soft_pcs --familyparameter:DEVICE_FAMILY --cusp_ip:true --early_gen:on  %f %o %h
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<VISIBILITY FOR_CREATE="OFF"/>
+<DEVICE_FAMILY   SUPPORTED="NONE | Arria V"   SUPPORT_CHECK="ON" /> 
+<LANGUAGES   AHDL="OFF" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>Deterministic Latency Soft PCS PHY v12.1</ALIAS>
+</INFO>

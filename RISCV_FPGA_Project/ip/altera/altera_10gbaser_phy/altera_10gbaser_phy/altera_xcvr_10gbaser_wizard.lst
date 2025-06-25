@@ -1,0 +1,17 @@
+[Interfaces|Ethernet]
+10GBASE-R PHY v13.1="%t" "%w/../../common/lib/megawizard.pl" --wizard_file:"%w/altera_xcvr_10gbaser_hw.tcl" --wizard:altera_xcvr_10gbaser  --familyparameter:device_family --early_gen:on %f %o %h 
+<INFO>
+<QIP_FILE_ENABLED/>
+<ACCEPT_OTHER_CNX VALUE="ON"/>
+<DEVICE_FAMILY   SUPPORTED="NONE |  family_stratixv | Arria V | Stratixiv | Arria V GZ"   SUPPORT_CHECK="ON" />
+<LANGUAGES AHDL="OFF" VHDL="ON" />
+<PINPLAN SUPPORTED="ON"/>
+<ALIAS>10GBASE-R PHY v10.0</ALIAS>
+<ALIAS>10GBASE-R PHY v10.1</ALIAS>
+<ALIAS>10GBASE-R PHY v11.0</ALIAS>
+<ALIAS>10GBase-R PHY v11.1</ALIAS>
+<ALIAS>10GBase-R PHY v12.0</ALIAS>
+<ALIAS>10GBase-R PHY v12.1</ALIAS>
+<ALIAS>10GBase-R PHY v13.0</ALIAS>
+</INFO>
+

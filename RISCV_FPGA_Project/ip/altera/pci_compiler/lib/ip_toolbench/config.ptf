@@ -1,0 +1,33 @@
+MEGACORE 
+{
+   
+   PLUGIN_SECTION 
+   {
+      PLUGIN documentation
+      {
+         DOCUMENTS 
+         {
+            
+            CATEGORY Functional Specification
+            {
+            	ENTRY pci_mt32 MegaCore Function Reference Design
+            	{
+            		version = "1.1";
+            		release_date = "September, 2002";
+            	}
+            }
+            CATEGORY White Paper
+            {
+            	ENTRY SDR SDRAM Controller White Paper
+            	{
+            		version = "1.0";
+            		release_date = "May, 2000";
+            	}
+            }
+            
+         }
+      }
+     
+   }
+   
+}
