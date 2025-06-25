@@ -1,4 +1,5 @@
 vendor_name = ModelSim
+source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_FPGA_Project/test/uart.v
 source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/program.mem
 source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/data.mem
 source_file = 1, C:/Users/ivanp/riscv-fpga-processor/RISCV_Architecture/test/cpu_testbench.v
