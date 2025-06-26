@@ -20,7 +20,7 @@
 
 <p style="text-indent: 2em;">La estructura de los ficheros del proyecto que define la arquitectura del procesador y que se encuentran dentro de la carpeta ubicada en ./RISCV_Architecture/ es la siguiente:
 
-```c
+```
                         >/.RISCV_Architecture
                             >/src
                                 >alu.v
@@ -40,9 +40,9 @@
 
 ## **Fichero alu.v**
 
-<p style="text-indent: 2em;">Los ficheros con formato .v que se encuentran dentro de la carpeta /scr (source) son los encargados del funcionamiento y arquitectura propia del procesador RISC-V. En alu.v (la ALU del procesador) se han definido las entradas por el cana A y B, además del control que determina la operación a realizar y el resultado a devolver, adicionalmente, se ha determinado el funcionamiento de la ALU para las instrucciones: add, sub, and, or, xor, sll y srl (en caso de no ser ninguna de las anteriores la ALU devuelve 0).
+<p style="text-indent: 2em;">Los ficheros con formato .v que se encuentran dentro de la carpeta /scr (source) son los encargados del funcionamiento y arquitectura propia del procesador RISC-V. En alu.v (la ALU del procesador) se han definido las entradas por el canal A y B, además del control que determina la operación a realizar y el resultado a devolver, adicionalmente, se ha determinado el funcionamiento de la ALU para las instrucciones: add, sub, and, or, xor, sll y srl (en caso de no ser ninguna de las anteriores la ALU devuelve 0).
 
-alu.v:
+**alu.v:**
 ```verilog
 module alu (
     input [31:0] a,             // Operando A
@@ -50,7 +50,6 @@ module alu (
     input [3:0] alu_ctrl,       // Control para operacion
     output reg [31:0] result    // Resultado
 );
-
     always @(*) begin
         case (alu_ctrl)
             4'b0000: result = a + b;        // add
@@ -67,11 +66,12 @@ endmodule
 ```
 
 ## **Fichero control_unit.v**
-<p style="text-indent: 2em;">En la control_unit.v (Unidad de control) se ha definido el código de operación, la función de 3 bits y la de 7 bits (por los diferentes formatos de instrucción), la selección del operando B de la entrada a la ALU y las señales de habilitación de lectura y escritura en memoria, la escritura en registro y la selección del dato a desplazar en la etapa WB (Write Back) además del control de operación de la ALU.
+
+<p style="text-indent: 2em;">En la control_unit.v (Unidad de control) se ha definido el código de operación, la función de 3 bits y la de 7 bits (por los diferentes formatos de instrucción), la selección del operando B de la entrada a la ALU y las señales de habilitación de lectura y escritura en memoria, la escritura en registro y la selección del dato a desplazar en la etapa WB (Write Back), además del control de operación de la ALU.
 
 <p style="text-indent: 2em;">Cómo instrucciones se ha optado por la creación de las que vienen dada por el repertorio RISC-V32I (instrucciones básicas), entre las que se encuentran: addi, lw, sw, beq y jal (el resto de las operaciónes son mandadas a la ALU para su resolución).
 
-control_unit.v:
+**control_unit.v:**
 ```verilog
 module control_unit (
     input [6:0] opcode,         // Código de operación
@@ -91,7 +91,6 @@ module control_unit (
         reg_write = 0;
         mem_to_reg = 0;
         alu_ctrl = 4'b0000;
-
         case (opcode)
             7'b0110011: begin       // Tipo R
                 alu_src = 0;
@@ -146,19 +145,19 @@ endmodule
 <img src="design/RISC-V_Instruction_set.jpg" alt="Instruction_set">
 
 ## **Fichero cpu.v**
-<p style="text-indent: 2em;">La cpu.v (Central Unit Process) especifica las etapas que se desarrollan al realizar cada instrucción además del clk (señal de reloj) y del reset (señal de reinicio). El diseño de la arquitectura del procesador creado es la de un procesador segmentado de 5 etapas (IF, ID, EX, MEM, WB) que busca 1 instrucción por ciclo.
+<p style="text-indent: 2em;">La cpu.v (Central Unit Process) especifica las etapas que se desarrollan al realizar cada instrucción, además del clk (señal de reloj) y del reset (señal de reinicio). El diseño de la arquitectura del procesador creado es la de un procesador segmentado de 5 etapas (IF, ID, EX, MEM, WB) que busca 1 instrucción/ciclo.
 
-cpu.v -> Definición del módulo:
+**cpu.v -> Definición del módulo:**
 ```verilog
 module cpu (
     input clk,      // Señal de reloj
     input reset     // Señal de reinicio
-);
+    );  
 ```
 
-<p style="text-indent: 2em;">La etapa de IF (Instruction Fetch) "lee" la instrucción basandose en el Contador del programa PC (registro de 32 bits inicializado a 0), así como la dirección de la instrucción, tras esto, se realiza el registro del pipeline entre la etapa de IF y la ID (Instrucion Decode) para pasar a dicha etapa.
+<p style="text-indent: 2em;">La etapa de IF (Instruction Fetch) "lee" la instrucción basándose en el contador del programa PC (registro de 32 bits inicializado a 0), así como la dirección de la instrucción, tras esto, se realiza el registro del pipeline entre la etapa de IF y la ID (Instrucion Decode) para pasar a dicha etapa.
 
-cpu.v -> IF STAGE:
+**cpu.v -> IF STAGE:**
 ```verilog
     // ============================================================
     // IF (Instruction Fetch) stage
@@ -176,9 +175,9 @@ cpu.v -> IF STAGE:
     reg [31:0] ifid_pc, ifid_instr;
 ```
 
-<p style="text-indent: 2em;">En la etapa de ID (Instruction Decode) se definen los capos para obtener el tipo de instrucción de la que se trata mediante el código de operación, los registros a utilizar y la función de 3 y 7 bits respectivamente además de definir la salida del banco de registros por las dos vías. Adicionalmente, la etapa hace una llamada al fichero reg_file.v cómo rf en donde se le pasan los parámetros necesarios para el correcto funcionamiento del banco de registros (véase en la explicación del fichero reg_file.v).
+<p style="text-indent: 2em;">En la etapa de ID (Instruction Decode) se definen los campos para obtener el tipo de instrucción de la que se trata mediante el código de operación, los registros a utilizar y la función de 3 y 7 bits respectivamente, además de definir la salida del banco de registros por las dos vías. Adicionalmente, la etapa hace una llamada al fichero reg_file.v cómo rf en donde se le pasan los parámetros necesarios para el correcto funcionamiento del banco de registros (véase en la explicación del fichero reg_file.v).
 
-cpu.v -> ID STAGE (Primera Parte):
+**cpu.v -> ID STAGE (Primera Parte):**
 ```verilog
     // ============================================================
     // ID (Instruction Decode) stage
@@ -187,6 +186,7 @@ cpu.v -> ID STAGE (Primera Parte):
     wire [4:0] rs1 = ifid_instr[19:15];
     wire [4:0] rs2 = ifid_instr[24:20];
     wire [4:0] rd  = ifid_instr[11:7];
+
     wire [2:0] funct3 = ifid_instr[14:12];
     wire [6:0] funct7 = ifid_instr[31:25];
 
@@ -207,18 +207,21 @@ cpu.v -> ID STAGE (Primera Parte):
 
 <p style="text-indent: 2em;">En esta etapa se ha de verificar la lógica del salto dado que el salto dado por una instrución branch, no es el mismo que el dado por la instrucción jal, además, hay que verificar si el salto es o no tomado por el procesador, para ello, se ha implementado un sistema de burbujas para tener un sistema de esperas activas y que el procesador no se quede bloqueado ni se salte instrucciones.
 
-cpu.v -> ID STAGE (Segunda Parte):
+**cpu.v -> ID STAGE (Segunda Parte):**
 ```verilog
     // Lógica de saltos
     wire is_branch = (opcode == 7'b1100011);
+
     wire is_jump   = (opcode == 7'b1101111);
 
     // Comprobar si el salto es o no tomado
     wire branch_taken = (is_branch && reg_data1 == reg_data2);
+
     wire insert_bubble = (branch_taken || is_jump);
 
     // Registro de IF/ID con burbujas de salto
     always @(posedge clk or posedge reset) begin
+    
         if (reset) begin
             pc <= 0;
             ifid_pc <= 0;
@@ -243,7 +246,7 @@ cpu.v -> ID STAGE (Segunda Parte):
 
 <p style="text-indent: 2em;">En cuanto a las instrucciones que usan inmediatos (p.ej.: addi), se llama al fichero immediate_generator.v cómo imm_gen al que se le pasa el id de la isntrucción y el inmediato en cuestión (para más información véase la explicación del fichero immediate_generator.v) y se crean los offsets para los saltos y ramas con el mismo inmediato (ya dado por imm_gen).
 
-cpu.v -> ID STAGE (Tercera Parte):
+**cpu.v -> ID STAGE (Tercera Parte):**
 ```verilog
     // Inmediato decodificado
     wire [31:0] imm;
@@ -259,7 +262,7 @@ cpu.v -> ID STAGE (Tercera Parte):
 
 <p style="text-indent: 2em;">Cómo última parte de esta etapa, se llama a control_unit.v cómo ctrl para pasarle la instrucción decodificada y que ésta se encargue de que se ejecute correctamente, tras esto, se realizan los registros del pipeline entre las etapas ID y EX (EXecute) para continuar con la misma.
 
-cpu.v -> ID STAGE (Última Parte):
+**cpu.v -> ID STAGE (Última Parte):**
 ```verilog
     // Unidad de control: genera señales de control a partir de la instrucción
     wire alu_src, mem_read, mem_write, reg_write, mem_to_reg;
@@ -301,9 +304,9 @@ cpu.v -> ID STAGE (Última Parte):
     end
 ```
 
-<p style="text-indent: 2em;">En la etapa de EX (EXecute) se selecciona el segundo opreando de la ALU dependiendo si es un registro o un inmediato y se define el resultado de 32 bits de dicha operación, tras esto, se llama al fichero alu.v (ALU del procesador) para pasarle por parámetro los registros (o inmediato) a utilizar para los cálculos de la unidad, por último se realiza el registro de pipeline entre las etapas EX y MEM (MEMory) para pasar a la misma. De manera adicional, se ha implementado un sistema de forwarding (anticipación), para poder usar los resultados de las operaciones anteriores que generen dependencias.
+<p style="text-indent: 2em;">En la etapa de EX (EXecute) se selecciona el segundo operando de la ALU dependiendo si es un registro o un inmediato y se define el resultado de 32 bits de dicha operación, tras esto, se llama al fichero alu.v (ALU del procesador) para pasarle por parámetro los registros (o inmediato) a utilizar para los cálculos de la unidad, por último, se realiza el registro de pipeline entre las etapas EX y MEM (MEMory) para pasar a la misma. De manera adicional, se ha implementado un sistema de forwarding (anticipación), para poder usar los resultados de las operaciones anteriores que generen dependencias RAW (Read After Write).
 
-cpu.v -> EX STAGE:
+**cpu.v -> EX STAGE:**
 ```verilog
     // ============================================================
     // EX (Execute) stage con FORWARDING
@@ -351,9 +354,9 @@ cpu.v -> EX STAGE:
     end
 ```
 
-<p style="text-indent: 2em;">La etapa de MEM (MEMory) consiste en definir el dato que se obtiene de memoria a través del fichero data_memory, al que se le pasa por parámetro el reloj, la dirección de memoria calculada por la ALU (en la etapa EX), el dato a escribir en memoria, la habilitación de la señal de lectura y escritura en memorai y la salida de dicho dato de memoria (para más información véase la explicación del fichero data_memory.v). Una vez realizado lo anterior, se realiza el registro del pipeline entre las etapas EX y WB (Write Back) para terminar con esta. En este caso, al hacerse en el post-pipeline el guardado de datos en memoria, se realiza a su vez la etapa de WB.
+<p style="text-indent: 2em;">La etapa de MEM (MEMory) consiste en definir el dato que se obtiene de memoria a través del fichero data_memory.v, al que se le pasa por parámetro el reloj, la dirección de memoria calculada por la ALU (en la etapa EX), el dato a escribir en memoria, la habilitación de la señal de lectura y escritura en memoria y la salida de dicho dato de memoria (para más información véase la explicación del fichero data_memory.v). Una vez realizado lo anterior, se realiza el registro del pipeline entre las etapas EX y WB (Write Back) para terminar con esta. En este caso, al hacerse en el post-pipeline el guardado de datos en memoria, se realiza a su vez la etapa de WB.
 
-cpu.v -> EX y WB STAGE:
+**cpu.v -> EX y WB STAGE:**
 ```verilog
     // ============================================================
     // MEM y WB
@@ -384,11 +387,12 @@ endmodule
 ```
 
 ## **Fichero data_memory.v**
-<p style="text-indent: 2em;">La data_memory.v (memoria de datos) es un fichero que define la cantidad de palabras que almacena la memoria de datos, en este caso, se ha optado por una memoria de 1KB total, es decir, 256 palabras. Para usar el módulo, es necesaria la señal de reloj, así cómo la dirección, el dato a escribir, la señal de escritura y lectura en memoria y una variable en donde almacenar el dato leído. Los datos de memoria vienen dados por un archivo exadecimal (test/data.mem) que contiene 1KB de palabras a 0.
 
-<p style="text-indent: 2em;">En el caso de que la señal de escritura en memoria esté activa, se escribe el dato en cuestión y en caso de que la señal de lecutar esté activa, se lee el dato que ocupa la dirección de memoria dada y si hay información, devuelve la lectura de todo 0. Cómo última adición a este fichero, hay una tarea que se encarga de mostrar las primeras 16 palabras (64 bytes), esto con el objetivo de mostrar los resultados en pruebas futuras.
+<p style="text-indent: 2em;">La data_memory.v (memoria de datos) es un fichero que define la cantidad de palabras que almacena la memoria de datos, en este caso, se ha optado por una memoria de 1KB total, es decir, 256 palabras. Para usar el módulo, es necesaria la señal de reloj, así cómo la dirección, el dato a escribir, la señal de escritura y lectura en memoria y una variable en donde almacenar el dato leído. Los datos de memoria vienen dados por un archivo hexadecimal (test/data.mem) que contiene 1KB de palabras a 0.
 
-data_memory.v:
+<p style="text-indent: 2em;">En el caso de que la señal de escritura en memoria esté activa, se escribe el dato en cuestión y en caso de que la señal de lectura esté activa, se lee el dato que ocupa la dirección de memoria dada y si no hay información, devuelve la lectura de todo 0. Cómo última adición a este fichero, hay una tarea que se encarga de mostrar las primeras 16 palabras (64 bytes), esto con el objetivo de mostrar los resultados en pruebas futuras.
+
+**data_memory.v:**
 ```verilog
 module data_memory (
     input clk,
@@ -436,9 +440,10 @@ endmodule
 ```
 
 ## **Fichero immediate_generator.v**
+
 <p style="text-indent: 2em;">El fichero immediate_generator (generador de inmediatos) contiene un módulo al que se le pasa una instrucción de 32 bits, se extrae el código de operación y dependiendo del mismo, se clasifica por tipo de instrucción (I, S, B, J).
 
-immediate_generator.v:
+**immediate_generator.v:**
 ```verilog
 module immediate_generator (
     input [31:0] instr,     // Instrucción de 32 bits
@@ -468,9 +473,10 @@ endmodule
 ```
 
 ## **Fichero instruction_memory.v**
+
 <p style="text-indent: 2em;">Este fichero contiene la memoria de instrucciones, para el uso de su módulo es necesaria la dirección de la instrucción a leer y una variable para almacenar dicha instrucción una vez se obtenga. El tamaño de la memoria de instrucciones, de manera similar a la memoria de datos, es de 1KB, es decir, 256 palabras, las instrucciones vienen dadas por el fichero con nombre (test/program.mem) en donde las primeras líneas tienen lo siguiente:
 
-program.mem:
+**program.mem:**
 ```bash
 00a00093    // addi x1, x0, 10     ; x1 = 10
 01400113    // addi x2, x0, 20     ; x2 = 20
@@ -485,7 +491,7 @@ program.mem:
 
 <p style="text-indent: 2em;">Una vez obtenida la instrucción, se muestran por orden las 3 primeras instrucciones cómo depuración de que el procesador lee correctamente las mismas. Por último se alinea a 4 bytes la memoria.
 
-instruction_memory.v:
+**instruction_memory.v:**
 ```verilog
 module instruction_memory (
     input  [31:0] addr,         // Dirección de la instrucción
@@ -513,9 +519,10 @@ endmodule
 ```
 
 ## **Fichero reg_file.v**
-<p style="text-indent: 2em;">El fichero reg_file.v se encarga de obtener las salidas registros pertenecientes a la fuente 1 y 2 del banco de registros, para ello es necesario pasarle dos parámetros para guardar la salida de los registros, así cómo los registros fuentes (dirección) y el destino y una señal de activación de escritura en registro. Por último, se realiza una tarea para imprimir los primero registros de la simulación a método de depuración del correcto funcionamiento del procesador.
 
-reg_file.v:
+<p style="text-indent: 2em;">El fichero reg_file.v se encarga de obtener las salidas de los registros pertenecientes a la fuente 1 y 2 del banco de registros, para ello es necesario pasarle dos parámetros para guardar la salida de los registros, así cómo los registros fuentes (dirección) y el destino y una señal de activación de escritura en registro. Por último, se realiza una tarea para imprimir los primero registros de la simulación a método de depuración del correcto funcionamiento del procesador.
+
+**reg_file.v:**
 ```verilog
 module reg_file (
     input clk,              // Reloj del sistema
@@ -560,9 +567,10 @@ endmodule
 ```
 
 ## **Fichero cpu_testbench.v**
+
 <p style="text-indent: 2em;">Este fichero ejecuta una prueba del procesador, para ello, se define una escala de tiempo de 1ns/1ps además de instanciar el DUT (Device Under Test) con su propio clk y su reset, el reloj se inicializa con un periodo de 10ns y el proceso principal de prueba consiste en ejecutar el programa y tras esperar a que acaben de ejecutarse las instrucciones, el programa imprime un mensaje de estado final del procesador y llama a las tareas creadas en instruction_memory.v y data_memory.v para mostrar su estado.
 
-cpu_testbench.v:
+**cpu_testbench.v:**
 ```verilog
 `timescale 1ns / 1ps
 
@@ -691,7 +699,7 @@ mem[0x3c] = 0 (0x00000000)
 test/cpu_testbench.v:39: $finish called at 5000020000 (1ps)
 ```
 
-# Implementación y emulación de una FPGA del procesador RISC-V
+# Implementación y emulación en una FPGA del procesador RISC-V
 
 <p style="text-indent: 2em;">Se va a implementar la arquitectura del procesador creado anteriormente (arquitectura simplificada del RISC-V, segmentado y con 5 etapas de ejecución), dentro de la FPGA de Terasic llamada DE0-Nano, que utiliza la familia Cyclone IV de Altera (ahora Intel). Para dicha implementación se va a utilizar el software proporcionado por Intel llamado Quartus II, en la versión 13.1 Web edition (última versión con soporte para la FPGA mencionada).
 
@@ -699,7 +707,7 @@ test/cpu_testbench.v:39: $finish called at 5000020000 (1ps)
 
 <img src="design/DE0-Nano.jpg" alt="De0-nano">
 
-<p style="text-indent: 2em;">Para llevar a cabo el proyecto es de necesario conocimiento saber el código de la FPGA a utilizar, en el caso de la DE0-Nano con el Altera Cyclone IV, se va a utilizar el EP4CE22F17C6, cuyo único cambio respecto a la FPGA física es que no posee el sufijo N, dado sufijo indica que es sin plomo, así que no afecta al flujo normal de trabajo que se va a realizar para cargar el programa en la FPGA ni cambia sun funcionamiento.
+<p style="text-indent: 2em;">Para llevar a cabo el proyecto es de necesario conocimiento saber el código de la FPGA a utilizar, en el caso de la DE0-Nano con el Altera Cyclone IV, se va a utilizar el EP4CE22F17C6, cuyo único cambio respecto a la FPGA física es que no posee el sufijo N, dado sufijo indica que es sin plomo, así que no afecta al flujo normal de trabajo que se va a realizar para cargar el programa en la FPGA ni cambia su funcionamiento.
 
 El dispositivo en cuestión posee las siguientes características:
 
@@ -714,9 +722,9 @@ El dispositivo en cuestión posee las siguientes características:
 
 - **Señal de Reloj:** Se ha asignado al pin físico "R8" cuyo nombre en la placa es "CLOCK_50", posee una entrada de reloj principal a 50MHz y una señal digital de entrada con tolerancia de 3.3V LVCMOS.
 
-- **Señal de Reset:** Se ha asignado al pin físico "P15" cuyo nombre en la placa es "KEY[0]", posee una seña activa baja, es decir, sin pulsar está a 1 y al pulsarlo, su nivel lógico pasa a 0. Su uso reinicio el sistema o los módulos lógicos cómo FSMs y/o contadores.
+- **Señal de Reset:** Se ha asignado al pin físico "P15" cuyo nombre en la placa es "KEY[0]", posee una seña activa baja, es decir, sin pulsar está a 1 y al pulsarlo, su nivel lógico pasa a 0. Su uso reinicia el sistema o los módulos lógicos cómo FSMs y/o contadores.
 
-<p style="text-indent: 2em;">Para la modificación de los pines de manera manual dentro de al FPGA, y utilizando el software de Intel anteriormente mencionado, se ha accedido a la ventana del "PinPlanner" proporcionada por el programa, eliginedo las señales definidas en el proyecto creado (clk y reset, respectivamente) y buscando en la lista los pines en cuestión (alternativamente, se puede pinchar sobre los pines mirando el esquema lógico de la placa).
+<p style="text-indent: 2em;">Para la modificación de los pines de manera manual dentro de la FPGA, y utilizando el software de Intel anteriormente mencionado, se ha accedido a la ventana del "PinPlanner" proporcionada por el programa, eliginedo las señales definidas en el proyecto creado (clk y reset, respectivamente) y buscando en la lista los pines en cuestión (alternativamente, se puede pinchar sobre los pines mirando el esquema lógico de la placa).
 
 ### **Utilidad "PinPlanner" tras la asignación de pines:**
 
@@ -781,7 +789,7 @@ El dispositivo en cuestión posee las siguientes características:
 
 <img src="design/PinPlanner_Nuevo.jpg" alt="PinPlanner">
 
-<p style="text-indent: 2em;">Ya asignados los pines para la entrada y salida de datos mediante el UART, se ha de volver a compilar y cargar el programa dentro de la FPGA (véase apartado anterior). Ya cargada la nueva arquitectura en la FPGA y con el objetivo de organizar los códigos de ejecución, se ha creado una carpeta Resources dentro del proyecto en la que se encontrará el código base en C y en otros formatos que se explicarán mñás adelante.
+<p style="text-indent: 2em;">Ya asignados los pines para la entrada y salida de datos mediante el UART, se ha de volver a compilar y cargar el programa dentro de la FPGA (véase apartado anterior). Ya cargada la nueva arquitectura en la FPGA y con el objetivo de organizar los códigos de ejecución, se ha creado una carpeta Resources dentro del proyecto en la que se encontrará el código base en C y en otros formatos que se explicarán más adelante.
 
 **Código de prueba en C, test.c:**
 ```c
@@ -814,9 +822,9 @@ void _start(void)
 
 <p style="text-indent: 2em;">Para compilar el código creado, se ha de acceder a un terminal, siturase en la carpeta donde está el proyecto y tras lo anterior, se debe ejecutar el fichero en donde se encuentra el compilador de C para RISC-V con los ficheros a utilizar (el linker para las pruebas no es obligatorio), el código C y el .elf del programa.
 
-<p style="text-indent: 2em;">Pese a no ser necesario poara el código del test, se va a crear el link.ld ya que va a ser necesario posteriormente para el correcto funcionamiento en los códigos representativos de la automoción y de la IA.
+<p style="text-indent: 2em;">Pese a no ser necesario para el código del test, se va a crear el link.ld ya que va a ser necesario posteriormente para el correcto funcionamiento en los códigos representativos de la automoción y de la IA.
 
-Info del fichero link.ld:
+**Info del fichero link.ld:**
 ```ld
 ENTRY(_start)
 
@@ -832,11 +840,12 @@ SECTIONS
   .data : { *(.data*) }             > RAM
   .bss  : { *(.bss*)  *(COMMON) }   > RAM
 }
+
 ```
 
-<p style="text-indent: 2em;">El link.ld (linker script) sirve para que el enlazador de GCC dónde y cómo ubicar cada sección del programa en la memoria del sistema embebido cargado en la FPGA.
+<p style="text-indent: 2em;">El link.ld (linker script) sirve para que el enlazador de GCC sepa dónde y cómo ubicar cada sección del programa en la memoria del sistema embebido cargado en la FPGA.
 
-<p style="text-indent: 2em;">Para cargar el código en la arquitectura que se ha llevado a cabo, se ha ce compilar primero mediante el riscv64-gcc que viene con la instalación del software de Intel Quartus II, para ello hacer lo siguiente
+<p style="text-indent: 2em;">Para cargar el código en la arquitectura que se ha llevado a cabo, se ha de compilar primero mediante el riscv64-gcc que viene con la instalación del software de Intel Quartus II, para ello hacer lo siguiente:
 
 **Compilar programa en C:**
 ```bash
@@ -874,8 +883,7 @@ python Convert_bin_to_mem.py
 with open('test.bin', 'rb') as f:
     data = f.read()
 
-# Escribir el nuevo fichero .mem
-with open('test.mem', 'w') as f:
+with open('test.mem', 'w') as f: # Escribir el nuevo fichero .mem
     for i in range(0, len(data), 4):
         word = data[i:i+4]
         # Little endian to int
@@ -896,7 +904,7 @@ with open('test.mem', 'w') as f:
                             >test.asm
 ```
 
-<p style="text-indent: 2em;">Para ver la ejecución del código, se puede hacer uso de la utilidad dada por el software de Intel y que viene con la instalación completa del mismo, ésta se llama "ModelSim", adicionalmente, se puede observar la ejecución mediante softwares externos que puedan leer el UART mediante el JTAG cómo el software PuTTY o RealTerm. En el test se han puesto comentarios extra respecto a las instrucciones cargadas en memoria cómo depurtación del correcto funcionamiento, además de mostrar la zona que imprime el menaje transmitido por el UART.
+<p style="text-indent: 2em;">Para ver la ejecución del código, se puede hacer uso de la utilidad dada por el software de Intel y que viene con la instalación completa del mismo, ésta se llama "ModelSim", adicionalmente, se puede observar la ejecución mediante softwares externos que puedan leer el UART mediante el JTAG cómo el software PuTTY o RealTerm. En el test se han puesto comentarios extra respecto a las instrucciones cargadas en memoria cómo depuración del correcto funcionamiento, además de mostrar la zona que imprime el menaje transmitido por el UART.
 
 **Resultado de la ejecución del test:**
 
@@ -1081,11 +1089,11 @@ RPM: 2700  |  Speed: 45 km/h  |  Temp: 95 C  |  Throttle: 5 %
 RPM: 2500  |  Speed: 40 km/h  |  Temp: 95 C  |  Throttle: 5 %
 ```
 
-<p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la automoción se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA. Mecionar adicionalmente, que se han realizado una cantidad de iteraciones suficiente cómo para que suba al máximo y empiece a decrecer.
+<p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la automoción se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA. Mencionar adicionalmente, que se han realizado una cantidad de iteraciones suficiente cómo para que suba al máximo y empiece a decrecer.
 
 ## **Código del campo de la Inteligencia Artificial**
 
-<p style="text-indent: 2em;">El código de inteligencia artifical creado consiste en la creación de un perceptrón de dos entradas, es decir, un modelo más simple de una neurona artificial de las utilizadas en las redes neuronales actuales (ChatGPT, DeepSeek, etc).
+<p style="text-indent: 2em;">El código de inteligencia artificial creado consiste en la creación de un perceptrón de dos entradas, es decir, un modelo más simple de una neurona artificial de las utilizadas en las redes neuronales actuales (ChatGPT, DeepSeek, etc).
 
 <p style="text-indent: 2em;">El funcionamiento del perceptrón consiste en la toma de varias entradas, multiplicarlas por pesos, sumarle unas bias (sesgo) y tras esto, pasar el resultado por una función de activación.
 
@@ -1095,7 +1103,7 @@ RPM: 2500  |  Speed: 40 km/h  |  Temp: 95 C  |  Throttle: 5 %
 
 Con pesos w1 = 2, w2 = -3 y sesgo b = 1.
 
-**Código representativo del campo de la automoción, automotive.c:**
+**Código representativo del campo de la Inteligencia Artificial, ia.c:**
 
 ```c
 // ==========================================================
@@ -1183,9 +1191,11 @@ x1 x2 | weighted_sum | output
 1  1  |      1       |   1
 ```
 
+<p style="text-indent: 2em;">El código creado (ia.c) se situa dentro de la misma carpeta Resources utilizada para el test, y para la compilación y carga del código dentro de la FPGA se han de seguir los mismos pasos que se han explicado en el apartado anterior, es decir, se ha de compilar el archivo.c para obtener el archivo.elf, y a partir del mismo, obtener los archivos .asm y .bin, y después, utilizando el script de python, obtener el .mem a cargar dentro de la placa.
+
 <p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la inteligencia artificial se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA.
 
-<p style="text-indent: 2em;">Cómo conclusión se obtiene que la arquitectura RISC-V creada y cargada dentro de la FPGA de la placa DE0-Nano es capaz de ejecutar de manera exitosa simulaciones del campo de la automoción y del campo de la inteligencia artificial.
+<p style="text-indent: 2em;">Cómo conclusión se obtiene que la arquitectura RISC-V creada y cargada dentro de la FPGA DE0-Nano es capaz de ejecutar de manera exitosa simulaciones del campo de la automoción y del campo de la inteligencia artificial.
 
 <img src="design/whitespace.jpg">
 
