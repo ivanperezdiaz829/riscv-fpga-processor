@@ -770,26 +770,166 @@ El dispositivo en cuestión posee las siguientes características:
 
 # Carga y validación de un código C en la FPGA
 
-<p style="text-indent: 2em;">Cómo comprobación del correcto funcionamiento y carga de la arquitectura RISC-V creada en anteriores puntos, se va a hacer uso de un programa simple escrito en C cuyo funcionamiento y estructura es idéntica al cargado por la placa en el testbench de prueba creado con anterioridad. El código consiste en una asignación de dos valores a dos variables diferentes, y tras esto, sumar dichos valores y almacenar el resultado en otra variable, por último, se deja un bucle infinito del tipo while 1.
+<p style="text-indent: 2em;">Cómo comprobación de que se ha cargado correctamente la arquitectura RISC-V creada, se realiza la carga y posterior ejecución de un código en C cuyo trabajo es mandar una cadena de texto por el UART (Universal Asynchrous Receiver-Transmitter), que convierte los datos paralelos con los que trabaja la CPU en datos serie para transmitir mediante un único cable TX y recibir datos por un único cable RX, ambos hay que asignarlos a un Pin, para ello, haciendo uso de la utilidad "PinPlanner" del Quartus II, se asignan tal que: 
 
-<p style="text-indent: 2em;">Para compilar el código creado, se ha de acceder a un terminal, siturase en la carpeta donde está el proyecto y tras lo anterior, se debe ejecutar el fichero en donde se encuentra el compilador de C para risc-v con los ficheros a utilizar (el linker para las pruebas no es obligatorio), el código C y el .elf del programa.
+- **TX:** Se conecta al pin D12 del conector GPIO de la DE0-Nano, que es un pin de propósito general que se puede programar cómo salida o entrada digital, en este caso, se usa cómo salida digital para transmitir datos por el canal UART.
 
-```bash
-riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -nostdlib -T linker.ld -o program.elf ./riscv-fpga-processor/test.c
-```
+- **RX:** Se conecta al pin F13 del conenctor GPIO de la DE0-Nano, que, de igual manera que el D12, es un pin de propósito general, en este caso, programado cómo entrada de datos por el canal UART.
 
-El resultado de la ejecución se puede ver dentro del ModelSim incorporado en Quartus II ======== CAMBIAR ========.
+### **Nuevos Pines para el uso del canal UART:**
 
-**Código de test.c:**
+<img src="design/PinPlanner_Nuevo.jpg" alt="PinPlanner">
+
+<p style="text-indent: 2em;">Ya asignados los pines para la entrada y salida de datos mediante el UART, se ha de volver a compilar y cargar el programa dentro de la FPGA (véase apartado anterior). Ya cargada la nueva arquitectura en la FPGA y con el objetivo de organizar los códigos de ejecución, se ha creado una carpeta Resources dentro del proyecto en la que se encontrará el código base en C y en otros formatos que se explicarán mñás adelante.
+
+**Código de prueba en C, test.c:**
 ```c
-/// Inicio del programa (no devuelve nada)
-void _start() {
-    int a = 5;      // Asignar a una variable el valor 5
-    int b = 7;      // Asignar a una variable el valor 7
-    int c = a + b;  // Almacenar suma en otra variable
-    while (1);      // Bucle infinito para que el programa no termine
+// =========================================================
+// UART mapeada a 0x2000_0000. 8N1, 115200 Bd.
+// Se asume que basta escribir un byte para transmitirlo.
+// ==========================================================
+
+#define UART_ADDR  ((volatile unsigned char *)0x20000000u)
+
+// Enviar un carácter
+static void uart_write_char(char c)
+{
+    *UART_ADDR = c;
+}
+
+// Enviar un string C
+static void uart_write_str(const char *p)
+{
+    while (*p) uart_write_char(*p++);
+}
+
+// Punto de entrada que el linker usará con -Wl,-e,_start
+void _start(void)
+{
+    uart_write_str("\r\n*** Hola desde mi CPU RISC-V! ***\r\n");
+    while (1);                 // loop infinito 
 }
 ```
+
+<p style="text-indent: 2em;">Para compilar el código creado, se ha de acceder a un terminal, siturase en la carpeta donde está el proyecto y tras lo anterior, se debe ejecutar el fichero en donde se encuentra el compilador de C para RISC-V con los ficheros a utilizar (el linker para las pruebas no es obligatorio), el código C y el .elf del programa.
+
+<p style="text-indent: 2em;">Pese a no ser necesario poara el código del test, se va a crear el link.ld ya que va a ser necesario posteriormente para el correcto funcionamiento en los códigos representativos de la automoción y de la IA.
+
+Info del fichero link.ld:
+```ld
+ENTRY(_start)
+
+MEMORY
+{
+  ROM (rx) : ORIGIN = 0x00000000, LENGTH = 4K   // Memoria de instrucciones
+  RAM (rw) : ORIGIN = 0x00000080, LENGTH = 1K   // Dentro de data_memory
+}
+
+SECTIONS
+{
+  .text : { *(.text*) *(.rodata*) } > ROM
+  .data : { *(.data*) }             > RAM
+  .bss  : { *(.bss*)  *(COMMON) }   > RAM
+}
+```
+
+<p style="text-indent: 2em;">El link.ld (linker script) sirve para que el enlazador de GCC dónde y cómo ubicar cada sección del programa en la memoria del sistema embebido cargado en la FPGA.
+
+<p style="text-indent: 2em;">Para cargar el código en la arquitectura que se ha llevado a cabo, se ha ce compilar primero mediante el riscv64-gcc que viene con la instalación del software de Intel Quartus II, para ello hacer lo siguiente
+
+**Compilar programa en C:**
+```bash
+riscv64-unknown-elf-gcc -march=rv32i -mabi=ilp32 -Os -nostdlib -ffreestanding "-Wl,-e,_start" -T link.ld -o test.elf test.c
+```
+
+<p style="text-indent: 2em;">Ya compilado el código y obtenido su formato .elf, se va a obtener su fichero .asm (ensamblador), en el caso del estudio, no se va a usar en sí, pero es necesario si se quiere ver la conversión del código C a ensamblador.
+
+**Obtener el Assembly del test.elf:**
+
+```bash
+riscv64-unknown-elf-objdump -d test-elf > test.asm
+```
+
+<p style="text-indent: 2em;">Por último, se va a obtener el binario del test.elf para después, mediante un script de python llamado "Convert_bin_to_mem.py" convertirtlo a un fichero .mem y cargarlo directamente en la memoria de la FPGA y ejecutarlo desde ahí.
+
+**Obtener los binarios del test.elf:**
+
+```bash
+riscv64-unknown-elf-objcopy -O binary -j .text test.elf test.bin
+```
+
+<p style="text-indent: 2em;">Para convertirlo mediante el script creado en python, es necesario, primeramente, tener python instalado, y posteriormente, por terminal hacer lo siguiente:
+
+**Pasar el binario a .mem:**
+
+```bash
+python Convert_bin_to_mem.py
+```
+
+**Convert_bin_to_mem.py:**
+
+```python
+# Abrir el fichero de binarios cómo lectura
+with open('test.bin', 'rb') as f:
+    data = f.read()
+
+# Escribir el nuevo fichero .mem
+with open('test.mem', 'w') as f:
+    for i in range(0, len(data), 4):
+        word = data[i:i+4]
+        # Little endian to int
+        val = int.from_bytes(word, 'little')
+        f.write(f"{val:08x}\n")
+```
+
+<p style="test-indent: 2em;">Una vez realizados todos los pasos anteriores, la carpeta "Resources" debe quedar de la siguiente manera:
+
+```
+                        >/.Resources
+                            >Convert_bin_to_mem.py
+                            >link.ld
+                            >test.c
+                            >test.elf
+                            >test.hex
+                            >test.mem
+                            >test.asm
+```
+
+<p style="text-indent: 2em;">Para ver la ejecución del código, se puede hacer uso de la utilidad dada por el software de Intel y que viene con la instalación completa del mismo, ésta se llama "ModelSim", adicionalmente, se puede observar la ejecución mediante softwares externos que puedan leer el UART mediante el JTAG cómo el software PuTTY o RealTerm. En el test se han puesto comentarios extra respecto a las instrucciones cargadas en memoria cómo depurtación del correcto funcionamiento, además de mostrar la zona que imprime el menaje transmitido por el UART.
+
+**Resultado de la ejecución del test:**
+
+```bash
+==== INSTRUCCIONES CARGADAS ====
+0: 03c00793 -> aadi a5, x0, 60
+1: 200006b7 -> lui a3, 0x20000
+2: 0007c703 -> lbu a4, 0(a5)
+3: 00071c63 -> bne a4, x0, +24
+4: 06400793 -> addi a5, x0, 100
+5: 200006b7 -> lui a3, 0x20000
+6: 0007c703 -> lbu a4, 0(a5)
+7: 00071a63 -> bne a0, x0, +20
+8: 0000006f -> jal x0, 0
+9: 00178793 -> addi a5, a5, 1
+10: 00e68023 -> sb a4, 0(a3)
+11: fddff06f -> jal x0, -36
+12: 00178793 -> addi a5, a5, 1
+13: 00e68023 -> sb a4, 0(a3)
+14: fe1ff06f -> jal x0, -32
+15..27 -> Bytes de texto
+
+==== MENSAJES DE CODIGO (UART) ====
+Hola desde mi CPU RISC-V!
+```
+
+# Evaluación del rendimiento del procesador para tareas representativas de diferentes campos
+
+<p style="text-indent: 2em;">En este último punto se van a realizar dos códigos para compilar y ejecutar dentro del procesador RISC-V creado. El primero es un código representativo del campo de la automoción, y el segundo es un código representativo del campo de la IA (Inteligencia Artificial).
+
+## **Código del campo de la automoción**
+
+<p style="text-indent: 2em;">El código de automoción creado consiste
+
 
 <img src="design/whitespace.jpg">
 
