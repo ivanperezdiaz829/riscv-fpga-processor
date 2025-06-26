@@ -4,15 +4,15 @@
 
 # Introducción
 
-<p style="text-indent: 2em;">El presente trabajo de investigación consiste en al creación de un procesador escalar y segmentado con una microarquitectura RISC-V, dicha creación será propuesta y representada en el documento desde el punto de vista teórico. El principal objetico del presente trabajo de investigación consiste en la evaluación del funcionamiento y comportamiento del procesador creado en tareas representativas en el campo de la automoción y la inteligencia artificial.</p>
+<p style="text-indent: 2em;">El presente trabajo de investigación consiste en al creación de un procesador escalar y segmentado con una microarquitectura RISC-V, dicha creación será propuesta y representada en el documento desde el punto de vista teórico. El principal objetivo del presente trabajo de investigación consiste en la evaluación del funcionamiento y comportamiento del procesador creado en tareas representativas en el campo de la automoción y la inteligencia artificial.</p>
 
 # Objetivos
 
 - Diseñar la microarquitectura de un procesador RISC-V
 - Simular el funcionamiento del procesador con diferentes programas (testbench).
-- Sintetizar e implementar en el procesador una FPGA para emular RISC-V
+- Sintetizar e implementar en el procesador una FPGA para emular RISC-V.
 - Cargar y validar el funcionamiento de un programa en código C sobre la FPGA.
-- Evaluar el rendimiento del procesador en programas representativos de varios sectores.
+- Evaluar el funcionamiento del procesador en programas representativos de varios sectores.
 
 # Diseño de la microarquitectura del procesador RISC-V
 
@@ -39,6 +39,7 @@
 ```
 
 ## **Fichero alu.v**
+
 <p style="text-indent: 2em;">Los ficheros con formato .v que se encuentran dentro de la carpeta /scr (source) son los encargados del funcionamiento y arquitectura propia del procesador RISC-V. En alu.v (la ALU del procesador) se han definido las entradas por el cana A y B, además del control que determina la operación a realizar y el resultado a devolver, adicionalmente, se ha determinado el funcionamiento de la ALU para las instrucciones: add, sub, and, or, xor, sll y srl (en caso de no ser ninguna de las anteriores la ALU devuelve 0).
 
 alu.v:
@@ -784,7 +785,7 @@ El dispositivo en cuestión posee las siguientes características:
 
 **Código de prueba en C, test.c:**
 ```c
-// =========================================================
+// ==========================================================
 // UART mapeada a 0x2000_0000. 8N1, 115200 Bd.
 // Se asume que basta escribir un byte para transmitirlo.
 // ==========================================================
@@ -922,14 +923,269 @@ with open('test.mem', 'w') as f:
 Hola desde mi CPU RISC-V!
 ```
 
-# Evaluación del rendimiento del procesador para tareas representativas de diferentes campos
+# Evaluación del funcionamiento del procesador para tareas representativas de diferentes campos
 
 <p style="text-indent: 2em;">En este último punto se van a realizar dos códigos para compilar y ejecutar dentro del procesador RISC-V creado. El primero es un código representativo del campo de la automoción, y el segundo es un código representativo del campo de la IA (Inteligencia Artificial).
 
 ## **Código del campo de la automoción**
 
-<p style="text-indent: 2em;">El código de automoción creado consiste
+<p style="text-indent: 2em;">El código de automoción creado consiste en una simulación del funcionamiento de un vehículo, con el control de 4 valores que se van actualizando por iteración. Los valores se actualizan dinámicamente y son:
 
+- **RPM:** Revoluciones por minuto, empieza en 900 y va subiendo hasta que la velocidad llega al máximo, tras esto, empieza a disminuir.
+
+- **Speed:** Se mide en km/h, empieza en 0 y llega hasta 120km/h, momento en el que empieza a disminuir.
+
+- **Temp:** Se mide en grados centígrados, empieza en 70 y llega hasta un máximo de 95.
+
+- **Throttle:** Es el porcentaje de la posición del acelerador.
+
+<p style="text-indent: 2em;">El código creado (automotive.c) se situa dentro de la misma carpeta Resources utilizada para el test, y para la compilación y carga del código dentro de la FPGA se han de seguir los mismos pasos que se han explicado en el apartado anterior, es decir, se ha de compilar el archivo.c para obtener el archivo.elf, y a partir del mismo, obtener los archivos .asm y .bin, y después, utilizando el script de python, obtener el .mem a cargar dentro de la placa.
+
+**Código representativo del campo de la automoción, automotive.c:**
+
+```c
+// ==========================================================
+// RISC-V UART
+// UART:  MMIO 0x2000_0000 (write-only para TX)
+// Board: DE0-Nano RISC-V soft-core @ 50 MHz (para delay en loop)
+// ==========================================================
+#define UART_ADDR  ((volatile unsigned char *)0x20000000u)
+static inline void uart_tx(char c) { *UART_ADDR = c; }
+
+static void uart_puts(const char *s) { 
+    while (*s) uart_tx(*s++); 
+}
+
+static unsigned udiv(unsigned n, unsigned d) {
+    unsigned q = 0;
+    while (n >= d) {
+        n -= d;
+        q++;
+    }
+    return q;
+}
+
+static unsigned umod(unsigned n, unsigned d) {
+    while (n >= d) {
+        n -= d;
+    }
+    return n;
+}
+
+// Transmite un entero sin signo
+static void uart_putu(unsigned v) {
+    char buf[10];
+    int  i = 0;
+    if (v == 0) { uart_tx('0'); return; }
+    while (v) { 
+        buf[i++] = '0' + umod(v, 10); 
+        v = udiv(v, 10); 
+    }
+    while (i--) uart_tx(buf[i]);
+}
+
+static void delay_ms(unsigned ms) {
+    volatile unsigned long cycles = ms * 50000UL;
+    while (cycles--) __asm__ volatile("nop");
+}
+
+void _start (void) {
+    uart_puts("\r\n*** RISC-V automotive dashboard demo ***\r\n");
+
+    unsigned rpm   = 900;   // idle
+    unsigned speed = 0;     // km/h
+    unsigned temp  = 70;    // °C
+    unsigned thr   = 2;     // % throttle
+
+    for (;;) {
+        // -------- Actualizacion de pantalla --------
+        uart_puts("RPM: ");   uart_putu(rpm);   uart_puts("  |  ");
+        uart_puts("Speed: "); uart_putu(speed); uart_puts(" km/h  |  ");
+        uart_puts("Temp: ");  uart_putu(temp);  uart_puts(" C  |  ");
+        uart_puts("Throttle: "); uart_putu(thr); uart_puts(" %\r\n");
+
+        // -------- Dinamicas simples --------
+        if (speed < 120) { speed += 3; rpm += 120; thr = 30; }
+        else             { speed -= 5; rpm -= 200; thr = 5;  }
+
+        if (rpm < 800) rpm = 800;
+        if (temp < 95) temp += 1;
+
+        delay_ms(500);
+    }
+}
+```
+
+<p style="text-indent: 2em;">Cómo información adicional sobre el código, mencionar que se manda y recibe de la misma forma que la del test realizado en el punto anterior, adicionalmente, este código no acaba nunca, genera un bucle infinito en el que van aumentando los parámetros y al llegar a un máximo empiezan a bajar, de igual manera, cuando se alcanza un mínimo, se empiezan a aumentar de nuevo. Para terminar la ejecución del programa, si se hace por consola, se puede utilizar la combinación de teclado "Ctrl. + C".
+
+**Ejecución del programa automotive.c:**
+
+```bash
+*** RISC-V automotive dashboard demo ***
+RPM: 900  |  Speed: 0 km/h  |  Temp: 70 C  |  Throttle: 2 %
+RPM: 1020  |  Speed: 3 km/h  |  Temp: 71 C  |  Throttle: 30 %
+RPM: 1140  |  Speed: 6 km/h  |  Temp: 72 C  |  Throttle: 30 %
+RPM: 1260  |  Speed: 9 km/h  |  Temp: 73 C  |  Throttle: 30 %
+RPM: 1380  |  Speed: 12 km/h  |  Temp: 74 C  |  Throttle: 30 %
+RPM: 1500  |  Speed: 15 km/h  |  Temp: 75 C  |  Throttle: 30 %
+RPM: 1620  |  Speed: 18 km/h  |  Temp: 76 C  |  Throttle: 30 %
+RPM: 1740  |  Speed: 21 km/h  |  Temp: 77 C  |  Throttle: 30 %
+RPM: 1860  |  Speed: 24 km/h  |  Temp: 78 C  |  Throttle: 30 %
+RPM: 1980  |  Speed: 27 km/h  |  Temp: 79 C  |  Throttle: 30 %
+RPM: 2100  |  Speed: 30 km/h  |  Temp: 80 C  |  Throttle: 30 %
+RPM: 2220  |  Speed: 33 km/h  |  Temp: 81 C  |  Throttle: 30 %
+RPM: 2340  |  Speed: 36 km/h  |  Temp: 82 C  |  Throttle: 30 %
+RPM: 2460  |  Speed: 39 km/h  |  Temp: 83 C  |  Throttle: 30 %
+RPM: 2580  |  Speed: 42 km/h  |  Temp: 84 C  |  Throttle: 30 %
+RPM: 2700  |  Speed: 45 km/h  |  Temp: 85 C  |  Throttle: 30 %
+RPM: 2820  |  Speed: 48 km/h  |  Temp: 86 C  |  Throttle: 30 %
+RPM: 2940  |  Speed: 51 km/h  |  Temp: 87 C  |  Throttle: 30 %
+RPM: 3060  |  Speed: 54 km/h  |  Temp: 88 C  |  Throttle: 30 %
+RPM: 3180  |  Speed: 57 km/h  |  Temp: 89 C  |  Throttle: 30 %
+RPM: 3300  |  Speed: 60 km/h  |  Temp: 90 C  |  Throttle: 30 %
+RPM: 3420  |  Speed: 63 km/h  |  Temp: 91 C  |  Throttle: 30 %
+RPM: 3540  |  Speed: 66 km/h  |  Temp: 92 C  |  Throttle: 30 %
+RPM: 3660  |  Speed: 69 km/h  |  Temp: 93 C  |  Throttle: 30 %
+RPM: 3780  |  Speed: 72 km/h  |  Temp: 94 C  |  Throttle: 30 %
+RPM: 3900  |  Speed: 75 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4020  |  Speed: 78 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4140  |  Speed: 81 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4260  |  Speed: 84 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4380  |  Speed: 87 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4500  |  Speed: 90 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4620  |  Speed: 93 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4740  |  Speed: 96 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4860  |  Speed: 99 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 4980  |  Speed: 102 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5100  |  Speed: 105 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5220  |  Speed: 108 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5340  |  Speed: 111 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5460  |  Speed: 114 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5580  |  Speed: 117 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5700  |  Speed: 120 km/h  |  Temp: 95 C  |  Throttle: 30 %
+RPM: 5500  |  Speed: 115 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 5300  |  Speed: 110 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 5100  |  Speed: 105 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 4900  |  Speed: 100 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 4700  |  Speed: 95 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 4500  |  Speed: 90 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 4300  |  Speed: 85 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 4100  |  Speed: 80 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 3900  |  Speed: 75 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 3700  |  Speed: 70 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 3500  |  Speed: 65 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 3300  |  Speed: 60 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 3100  |  Speed: 55 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 2900  |  Speed: 50 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 2700  |  Speed: 45 km/h  |  Temp: 95 C  |  Throttle: 5 %
+RPM: 2500  |  Speed: 40 km/h  |  Temp: 95 C  |  Throttle: 5 %
+```
+
+<p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la automoción se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA. Mecionar adicionalmente, que se han realizado una cantidad de iteraciones suficiente cómo para que suba al máximo y empiece a decrecer.
+
+## **Código del campo de la Inteligencia Artificial**
+
+<p style="text-indent: 2em;">El código de inteligencia artifical creado consiste en la creación de un perceptrón de dos entradas, es decir, un modelo más simple de una neurona artificial de las utilizadas en las redes neuronales actuales (ChatGPT, DeepSeek, etc).
+
+<p style="text-indent: 2em;">El funcionamiento del perceptrón consiste en la toma de varias entradas, multiplicarlas por pesos, sumarle unas bias (sesgo) y tras esto, pasar el resultado por una función de activación.
+
+### **Funcionamiento del perceptrón**
+
+<img src="design/perceptron.jpg" alt="perceptron">
+
+Con pesos w1 = 2, w2 = -3 y sesgo b = 1.
+
+**Código representativo del campo de la automoción, automotive.c:**
+
+```c
+// ==========================================================
+// RISC-V UART
+// UART:  MMIO 0x2000_0000 (write-only para TX)
+// Board: DE0-Nano RISC-V soft-core @ 50 MHz (para delay en loop)
+// ==========================================================
+#define UART_ADDR  ((volatile unsigned char *)0x20000000u)
+static inline void uart_tx(char c) { *UART_ADDR = c; }
+
+static void uart_puts(const char *s) {
+    while (*s) uart_tx(*s++);
+}
+
+static unsigned udiv(unsigned n, unsigned d) {
+    unsigned q = 0;
+    while (n >= d) {
+        n -= d;
+        q++;
+    }
+    return q;
+}
+
+static unsigned umod(unsigned n, unsigned d) {
+    while (n >= d) {
+        n -= d;
+    }
+    return n;
+}
+
+// Transmite un entero sin signo
+static void uart_putu(unsigned v) {
+    char buf[10];
+    int  i = 0;
+    if (v == 0) { uart_tx('0'); return; }
+    while (v) { 
+        buf[i++] = '0' + umod(v, 10); 
+        v = udiv(v, 10); 
+    }
+    while (i--) uart_tx(buf[i]);
+}
+
+static void delay_ms(unsigned ms) {
+    volatile unsigned long cycles = ms * 50000UL;
+    while (cycles--) __asm__ volatile("nop");
+}
+
+// Perceptrón (neurona) simple con 2 entradas binarias y pesos fijos
+static int perceptron(int x1, int x2) {
+    // pesos (w1=2, w2=-3), bias=1
+    int sum = 2 * x1 + (-3) * x2 + 1;
+    return (sum > 0) ? 1 : 0;
+}
+
+void _start (void) {
+    uart_puts("\r\n*** RISC-V simple perceptron demo ***\r\n");
+    uart_puts("x1 x2 | weighted_sum | output\r\n");
+
+    for (int x1 = 0; x1 <= 1; x1++) {
+        for (int x2 = 0; x2 <= 1; x2++) {
+            int sum = 2 * x1 + (-3) * x2 + 1;
+            int out = perceptron(x1, x2);
+
+            // Mostrar valores
+            uart_putu(x1); uart_puts("  ");
+            uart_putu(x2); uart_puts("  |      ");
+            uart_putu(sum < 0 ? 0 : sum); uart_puts("       |   ");
+            uart_putu(out);
+            uart_puts("\r\n");
+            delay_ms(500);
+        }
+    }
+    while(1) __asm__ volatile("wfi");  // Wait for interrupt (sleep)
+}
+```
+
+**Ejecución del programa ia.c:**
+
+```bash
+*** RISC-V simple perceptron demo ***
+x1 x2 | weighted_sum | output
+0  0  |      1       |   1
+0  1  |      0       |   0
+1  0  |      3       |   1
+1  1  |      1       |   1
+```
+
+<p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la inteligencia artificial se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA.
+
+<p style="text-indent: 2em;">Cómo conclusión se obtiene que la arquitectura RISC-V creada y cargada dentro de la FPGA de la placa DE0-Nano es capaz de ejecutar de manera exitosa simulaciones del campo de la automoción y del campo de la inteligencia artificial.
 
 <img src="design/whitespace.jpg">
 
