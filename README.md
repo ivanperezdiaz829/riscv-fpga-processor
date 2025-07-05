@@ -8,12 +8,12 @@
   - Simulate the operation of the processor in differents C-programs tests.
   - Synthetize and implement the processor on a DE0-Nano FPGA using Quartus Prime.
   - Load and validate the operation of the processor in the FPGA.
-  - Evaluate processor performance in representative programs from the automotive and artificially inteligence sectors.
+  - Evaluate processor usability in representative programs from the automotive and artificially inteligence sectors.
 
 ## Tools and technologies
 
-- Intel Quartus Prime.
+- Intel Quartus II.
 - DE0-Nano.
-- Visual Studio Code IDE.
+- Visual Studio Code IDE (Verilog).
 
   
