@@ -1195,7 +1195,7 @@ x1 x2 | weighted_sum | output
 
 <p style="text-indent: 2em;">En el resultado obtenido por el código representativo del campo de la inteligencia artificial se puede apreciar que funciona correctamente sobre la arquitectura RISC-V que se ha creado y cargado dentro de la FPGA.
 
-<p style="text-indent: 2em;">Como conclusión se obtiene que la arquitectura RISC-V creada y cargada dentro de la FPGA DE0-Nano es capaz de ejecutar de manera exitosa simulaciones del campo de la automoción y del campo de la inteligencia artificial.
+<p style="text-indent: 2em;">Como conclusión se obtiene que la arquitectura RISC-V creada y cargada dentro de la FPGA DE0-Nano es capaz de ejecutar de manera exitosa simulaciones del campo de la automoción y del campo de la inteligencia artificial sólo haciendo uso de las instrucciones básicas dadas por el repertorio de instrucciones RISCV-32I.
 
 <img src="design/whitespace.jpg">
 
