@@ -30,4 +30,7 @@ y de los campos de estudio requeridos, además del script de Python para convert
 - La carpeta design es la que contiene todas las imágenes en formato .jpg que se cargan en el fichero Markdown y que posteriormente 
 se cargan a la hora de crear el PDF, adicionalmente, contiene el fichero .css que se ha utilizado para el estilo visual de algunos 
 párrafos del proyecto en html, cómo la sangría de los párrafos que no es soportada directamente por Markdown.
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1dc6e0164f7000742c1f38bc666dec8e3e99cf7d
