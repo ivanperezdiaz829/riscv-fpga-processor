@@ -910,7 +910,7 @@ with open('test.mem', 'w') as f: # Escribir el nuevo fichero .mem
 
 ```bash
 ==== INSTRUCCIONES CARGADAS ====
-0: 03c00793 -> aadi a5, x0, 60
+0: 03c00793 -> addi a5, x0, 60
 1: 200006b7 -> lui a3, 0x20000
 2: 0007c703 -> lbu a4, 0(a5)
 3: 00071c63 -> bne a4, x0, +24
@@ -1188,7 +1188,7 @@ x1 x2 | weighted_sum | output
 0  0  |      1       |   1
 0  1  |      0       |   0
 1  0  |      3       |   1
-1  1  |      1       |   1
+1  1  |      0       |   0
 ```
 
 <p style="text-indent: 2em;">El código creado (ia.c) se sitúa dentro de la misma carpeta Resources utilizada para el test, y para la compilación y carga del código dentro de la FPGA se han de seguir los mismos pasos que se han explicado en el apartado anterior, es decir, se ha de compilar el archivo.c para obtener el archivo.elf, y a partir del mismo, obtener los archivos .asm y .bin, y después, utilizando el script de python, obtener el .mem a cargar dentro de la placa.
