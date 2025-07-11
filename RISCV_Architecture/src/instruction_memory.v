@@ -15,7 +15,7 @@ module instruction_memory (
     task print_test; 
         begin
             $display("\n==== INSTRUCCIONES CARGADAS ====");
-            $display("0: %h", memory[0], " -> aadi a5, x0, 60");
+            $display("0: %h", memory[0], " -> addi a5, x0, 60");
             $display("1: %h", memory[1], " -> lui a3, 0x20000");
             $display("2: %h", memory[2], " -> lbu a4, 0(a5)");
             $display("3: %h", memory[3], " -> bne a4, x0, +24");
