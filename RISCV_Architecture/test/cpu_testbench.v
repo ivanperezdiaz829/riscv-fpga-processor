@@ -32,6 +32,7 @@ module cpu_testbench;
 
         // Imprime registros y memoria
         uut.imem.print_test();
+        // uut.rf.print_registers();
         $display("\n==== MENSAJES DE CODIGO (UART) ====");
         $display("Hola desde mi CPU RISC-V!");
         // Finaliza la simulación
